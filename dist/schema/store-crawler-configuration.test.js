@@ -51,7 +51,9 @@ describe('public methods', function () {
   });
 
   test('getConfig should return provided config', function () {
-    var expectedValue = (0, _v2.default)();
+    var expectedValue = {
+      val: (0, _v2.default)()
+    };
     var object = _storeCrawlerConfiguration2.default.spawn('key', expectedValue);
 
     expect(new _storeCrawlerConfiguration2.default(object).getConfig()).toBe(expectedValue);

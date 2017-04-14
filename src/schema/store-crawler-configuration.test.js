@@ -54,7 +54,9 @@ describe('public methods', () => {
   });
 
   test('getConfig should return provided config', () => {
-    const expectedValue = uuid();
+    const expectedValue = {
+      val: uuid(),
+    };
     const object = StoreCrawlerConfiguration.spawn('key', expectedValue);
 
     expect(new StoreCrawlerConfiguration(object)

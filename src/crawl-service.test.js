@@ -1,0 +1,53 @@
+import uuid from 'uuid/v4';
+import '../bootstrap';
+import CrawlService from './crawl-service';
+import StoreCrawlerConfiguration from './schema/store-crawler-configuration';
+
+describe('getStoreCrawlerConfig', () => {
+  test('should return config for the provided key', (done) => {
+    const key = uuid();
+    const expectedValue = {
+      val: uuid(),
+    };
+
+    return StoreCrawlerConfiguration.spawn(key, expectedValue)
+      .save()
+      .then(() => {
+        CrawlService.getStoreCrawlerConfig(key)
+          .then(result => {
+            expect(result)
+              .toEqual(expectedValue);
+            done();
+          });
+      })
+  });
+
+  test('should reject if key does not exists', () => {
+    const key = uuid();
+
+    return CrawlService.getStoreCrawlerConfig(key)
+      .catch((error) => {
+        expect(error)
+          .toBe(`No store crawler config found for key: ${key}`);
+      });
+  });
+
+  test('should reject if multiple key exist', (done) => {
+    const key = uuid();
+
+    return Promise.all(
+        [StoreCrawlerConfiguration.spawn(key, {})
+          .save(),
+          StoreCrawlerConfiguration.spawn(key, {})
+          .save()
+        ])
+      .then(() => {
+        CrawlService.getStoreCrawlerConfig(key)
+          .catch((error) => {
+            expect(error)
+              .toBe(`Multiple store crawler config found for key: ${key}`);
+            done();
+          });
+      });
+  });
+});
