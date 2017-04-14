@@ -51,3 +51,35 @@ describe('getStoreCrawlerConfig', () => {
       });
   });
 });
+
+describe('createNewCrawlSession', () => {
+  test('should return the Id of the created session', () =>
+    CrawlService.createNewCrawlSession(uuid(), new Date())
+    .then(result => expect(result)
+      .toBeDefined())
+  );
+
+  test('should return the Id of the created session', (done) => {
+    const expectedSessionKey = uuid();
+    const expectedStartDateTime = new Date();
+
+    return CrawlService.createNewCrawlSession(expectedSessionKey, expectedStartDateTime)
+      .then(id => {
+        CrawlService.getExistingCrawlSessionInfo(id)
+          .then(({
+            sessionKey,
+            startDateTime,
+            endDateTime,
+          }) => {
+            expect(sessionKey)
+              .toEqual(expectedSessionKey);
+            expect(startDateTime)
+              .toEqual(expectedStartDateTime);
+            expect(endDateTime.isNone())
+              .toBeTruthy();
+
+            done();
+          })
+      });
+  });
+});

@@ -43,6 +43,11 @@ var BaseObject = function (_Parse$Object) {
     value: function getId() {
       return this.getObject().id;
     }
+  }, {
+    key: 'saveObject',
+    value: function saveObject() {
+      return this.getObject().save();
+    }
   }]);
 
   return BaseObject;

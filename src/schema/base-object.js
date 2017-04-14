@@ -18,6 +18,11 @@ class BaseObject extends Parse.Object {
     return this.getObject()
       .id;
   }
+
+  saveObject() {
+    return this.getObject()
+      .save();
+  }
 }
 
 export default BaseObject;

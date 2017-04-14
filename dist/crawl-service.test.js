@@ -50,3 +50,30 @@ describe('getStoreCrawlerConfig', function () {
     });
   });
 });
+
+describe('createNewCrawlSession', function () {
+  test('should return the Id of the created session', function () {
+    return _crawlService2.default.createNewCrawlSession((0, _v2.default)(), new Date()).then(function (result) {
+      return expect(result).toBeDefined();
+    });
+  });
+
+  test('should return the Id of the created session', function (done) {
+    var expectedSessionKey = (0, _v2.default)();
+    var expectedStartDateTime = new Date();
+
+    return _crawlService2.default.createNewCrawlSession(expectedSessionKey, expectedStartDateTime).then(function (id) {
+      _crawlService2.default.getExistingCrawlSessionInfo(id).then(function (_ref) {
+        var sessionKey = _ref.sessionKey,
+            startDateTime = _ref.startDateTime,
+            endDateTime = _ref.endDateTime;
+
+        expect(sessionKey).toEqual(expectedSessionKey);
+        expect(startDateTime).toEqual(expectedStartDateTime);
+        expect(endDateTime.isNone()).toBeTruthy();
+
+        done();
+      });
+    });
+  });
+});

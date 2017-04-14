@@ -2,9 +2,13 @@ import uuid from 'uuid/v4';
 import CrawlSession from './crawl-session';
 import CrawlResult from './crawl-result';
 
+function createCrawlSession() {
+  return CrawlSession.spawn('sessionKey', new Date());
+}
+
 describe('constructor', () => {
   test('should set class name', () => {
-    const crawlSession = CrawlSession.spawn();
+    const crawlSession = createCrawlSession();
 
     expect(CrawlResult.spawn(crawlSession, {})
         .className)
@@ -14,7 +18,7 @@ describe('constructor', () => {
 
 describe('public methods', () => {
   test('getObject should return provided object', () => {
-    const crawlSession = CrawlSession.spawn();
+    const crawlSession = createCrawlSession();
     const object = CrawlResult.spawn(crawlSession, {});
 
     expect(new CrawlSession(object)
@@ -23,7 +27,7 @@ describe('public methods', () => {
   });
 
   test('getId should return provided object Id', () => {
-    const crawlSession = CrawlSession.spawn();
+    const crawlSession = createCrawlSession();
     const object = CrawlResult.spawn(crawlSession, {});
 
     expect(new CrawlSession(object)
@@ -32,7 +36,7 @@ describe('public methods', () => {
   });
 
   test('getCrawlSession should return provided crawl session', () => {
-    const crawlSession = CrawlSession.spawn();
+    const crawlSession = createCrawlSession();
     const object = CrawlResult.spawn(crawlSession, {});
 
     expect(new CrawlResult(object)
@@ -45,7 +49,7 @@ describe('public methods', () => {
     const expectedValue = {
       val: uuid(),
     };
-    const crawlSession = CrawlSession.spawn();
+    const crawlSession = createCrawlSession();
     const object = CrawlResult.spawn(crawlSession, expectedValue);
 
     expect(new CrawlResult(object)

@@ -52,16 +52,15 @@ var CrawlSession = function (_BaseObject) {
   }, {
     key: 'setEndDateTime',
     value: function setEndDateTime(endDateTime) {
-      return this.getObject().set('endDateTime', endDateTime);
+      this.getObject().set('endDateTime', endDateTime);
     }
   }], [{
     key: 'spawn',
-    value: function spawn(sessionKey, startDateTime, endDateTime) {
+    value: function spawn(sessionKey, startDateTime) {
       var object = new CrawlSession();
 
       object.set('sessionKey', sessionKey);
       object.set('startDateTime', startDateTime);
-      object.set('endDateTime', endDateTime);
 
       return object;
     }
