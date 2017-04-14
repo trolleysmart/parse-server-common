@@ -6,17 +6,17 @@ class CrawlResult extends BaseObject {
     super(object, 'CrawlResult');
 
     this.getCrawlSession = this.getCrawlSession.bind(this);
-    this.getResult = this.getResult.bind(this);
+    this.getResultSet = this.getResultSet.bind(this);
   }
 
   static spawn(
-    crawlSession,
-    result,
+    sessionId,
+    resultSet,
   ) {
     const object = new CrawlResult();
 
-    object.set('crawlSession', CrawlSession.createWithoutData(crawlSession.getId()));
-    object.set('result', result);
+    object.set('crawlSession', CrawlSession.createWithoutData(sessionId));
+    object.set('resultSet', resultSet);
 
     return object;
   }
@@ -26,9 +26,9 @@ class CrawlResult extends BaseObject {
       .get('crawlSession'));
   }
 
-  getResult() {
+  getResultSet() {
     return this.getObject()
-      .get('result');
+      .get('resultSet');
   }
 }
 

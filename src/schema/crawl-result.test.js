@@ -10,7 +10,7 @@ describe('constructor', () => {
   test('should set class name', () => {
     const crawlSession = createCrawlSession();
 
-    expect(CrawlResult.spawn(crawlSession, {})
+    expect(CrawlResult.spawn(crawlSession.getId(), {})
         .className)
       .toBe('CrawlResult');
   });
@@ -19,7 +19,7 @@ describe('constructor', () => {
 describe('public methods', () => {
   test('getObject should return provided object', () => {
     const crawlSession = createCrawlSession();
-    const object = CrawlResult.spawn(crawlSession, {});
+    const object = CrawlResult.spawn(crawlSession.getId(), {});
 
     expect(new CrawlSession(object)
         .getObject())
@@ -28,7 +28,7 @@ describe('public methods', () => {
 
   test('getId should return provided object Id', () => {
     const crawlSession = createCrawlSession();
-    const object = CrawlResult.spawn(crawlSession, {});
+    const object = CrawlResult.spawn(crawlSession.getId(), {});
 
     expect(new CrawlSession(object)
         .getId())
@@ -37,7 +37,7 @@ describe('public methods', () => {
 
   test('getCrawlSession should return provided crawl session', () => {
     const crawlSession = createCrawlSession();
-    const object = CrawlResult.spawn(crawlSession, {});
+    const object = CrawlResult.spawn(crawlSession.getId(), {});
 
     expect(new CrawlResult(object)
         .getCrawlSession()
@@ -45,15 +45,13 @@ describe('public methods', () => {
       .toBe(crawlSession.getId());
   });
 
-  test('getResult should return provided result', () => {
-    const expectedValue = {
-      val: uuid(),
-    };
+  test('getResultSet should return provided result', () => {
+    const expectedValue = [uuid(), uuid()];
     const crawlSession = createCrawlSession();
-    const object = CrawlResult.spawn(crawlSession, expectedValue);
+    const object = CrawlResult.spawn(crawlSession.getId(), expectedValue);
 
     expect(new CrawlResult(object)
-        .getResult())
+        .getResultSet())
       .toBe(expectedValue);
   });
 });
