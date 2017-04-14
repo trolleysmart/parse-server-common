@@ -8,9 +8,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _monet = require('monet');
 
-var _baseObject = require('./base-object');
+var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-var _baseObject2 = _interopRequireDefault(_baseObject);
+var _microBusinessParseServerCommon2 = _interopRequireDefault(_microBusinessParseServerCommon);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,8 +20,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CrawlSession = function (_BaseObject) {
-  _inherits(CrawlSession, _BaseObject);
+var CrawlSession = function (_Common$BaseObject) {
+  _inherits(CrawlSession, _Common$BaseObject);
 
   function CrawlSession(object) {
     _classCallCheck(this, CrawlSession);
@@ -67,6 +67,6 @@ var CrawlSession = function (_BaseObject) {
   }]);
 
   return CrawlSession;
-}(_baseObject2.default);
+}(_microBusinessParseServerCommon2.default.BaseObject);
 
 exports.default = CrawlSession;

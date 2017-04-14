@@ -1,5 +1,7 @@
 import Immutable from 'immutable';
-import ParseWrapperService from './parse-wrapper-service';
+import {
+  ParseWrapperService,
+} from 'micro-business-parse-server-common';
 import CrawlResult from './schema/crawl-result';
 
 class CountdownCrawlService {
@@ -21,9 +23,9 @@ class CountdownCrawlService {
 
       query.find()
         .then(results => Immutable.fromJS(results)
-            .map(_ => new CrawlResult(_)
-              .getResultSet())
-            .flatMap(_ => _))
+          .map(_ => new CrawlResult(_)
+            .getResultSet())
+          .flatMap(_ => _))
         .catch(error => reject(error));
     });
   }

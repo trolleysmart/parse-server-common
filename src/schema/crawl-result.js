@@ -1,7 +1,7 @@
-import BaseObject from './base-object';
+import Common from 'micro-business-parse-server-common';
 import CrawlSession from './crawl-session';
 
-class CrawlResult extends BaseObject {
+class CrawlResult extends Common.BaseObject {
   constructor(object) {
     super(object, 'CrawlResult');
 

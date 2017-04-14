@@ -1,5 +1,8 @@
 import uuid from 'uuid/v4';
 import CrawlSession from './crawl-session';
+import {
+  BaseObject,
+} from 'micro-business-parse-server-common';
 
 describe('constructor', () => {
   test('should set class name', () => {

@@ -10,9 +10,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _parseWrapperService = require('./parse-wrapper-service');
-
-var _parseWrapperService2 = _interopRequireDefault(_parseWrapperService);
+var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _crawlResult = require('./schema/crawl-result');
 
@@ -42,7 +40,7 @@ var CountdownCrawlService = function () {
     key: 'getResultSets',
     value: function getResultSets(sessionId) {
       return new Promise(function (resolve, reject) {
-        var query = _parseWrapperService2.default.createQuery(_crawlResult2.default);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_crawlResult2.default);
 
         query.equalTo('crawlSession', sessionId);
 

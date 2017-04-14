@@ -1,6 +1,6 @@
-import BaseObject from './base-object';
+import Common from 'micro-business-parse-server-common';
 
-class StoreCrawlerConfiguration extends BaseObject {
+class StoreCrawlerConfiguration extends Common.BaseObject {
   constructor(object) {
     super(object, 'StoreCrawlerConfiguration');
 

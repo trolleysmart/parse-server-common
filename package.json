@@ -1,6 +1,6 @@
 {
   "name": "smart-grocery-parse-server-common",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "description": "Smart Grocery Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -20,8 +20,8 @@
   "homepage": "https://bitbucket.org/microbusiness/smart-grocery-parse-server-common#readme",
   "dependencies": {
     "immutable": "^3.8.1",
-    "monet": "^0.8.10",
-    "parse": "^1.9.2"
+    "micro-business-parse-server-common": "^0.1.4",
+    "monet": "^0.8.10"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

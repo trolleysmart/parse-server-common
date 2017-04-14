@@ -1,9 +1,9 @@
 import {
   Maybe,
 } from 'monet';
-import BaseObject from './base-object';
+import Common from 'micro-business-parse-server-common';
 
-class CrawlSession extends BaseObject {
+class CrawlSession extends Common.BaseObject {
   constructor(object) {
     super(object, 'CrawlSession');
 

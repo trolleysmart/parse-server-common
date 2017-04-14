@@ -1,11 +1,11 @@
-import ParseWrapperService from './parse-wrapper-service';
+import Common from 'micro-business-parse-server-common';
 import CrawlSession from './schema/crawl-session';
 import StoreCrawlerConfiguration from './schema/store-crawler-configuration';
 
 class CrawlService {
   static getStoreCrawlerConfig(key) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(StoreCrawlerConfiguration);
+      const query = Common.ParseWrapperService.createQuery(StoreCrawlerConfiguration);
 
       query.equalTo('key', key);
 
@@ -64,7 +64,7 @@ class CrawlService {
 
   static getExistingCrawlSession(id) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(CrawlSession);
+      const query = Common.ParseWrapperService.createQuery(CrawlSession);
 
       query.equalTo('objectId', id);
 

@@ -8,6 +8,8 @@ var _crawlSession = require('./crawl-session');
 
 var _crawlSession2 = _interopRequireDefault(_crawlSession);
 
+var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 describe('constructor', function () {
