@@ -22,39 +22,37 @@ describe('constructor', function () {
   test('should set class name', function () {
     var crawlSession = createCrawlSession();
 
-    expect(_crawlResult2.default.spawn(crawlSession, {}).className).toBe('CrawlResult');
+    expect(_crawlResult2.default.spawn(crawlSession.getId(), {}).className).toBe('CrawlResult');
   });
 });
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
     var crawlSession = createCrawlSession();
-    var object = _crawlResult2.default.spawn(crawlSession, {});
+    var object = _crawlResult2.default.spawn(crawlSession.getId(), {});
 
     expect(new _crawlSession2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var crawlSession = createCrawlSession();
-    var object = _crawlResult2.default.spawn(crawlSession, {});
+    var object = _crawlResult2.default.spawn(crawlSession.getId(), {});
 
     expect(new _crawlSession2.default(object).getId()).toBe(object.id);
   });
 
   test('getCrawlSession should return provided crawl session', function () {
     var crawlSession = createCrawlSession();
-    var object = _crawlResult2.default.spawn(crawlSession, {});
+    var object = _crawlResult2.default.spawn(crawlSession.getId(), {});
 
     expect(new _crawlResult2.default(object).getCrawlSession().getId()).toBe(crawlSession.getId());
   });
 
-  test('getResult should return provided result', function () {
-    var expectedValue = {
-      val: (0, _v2.default)()
-    };
+  test('getResultSet should return provided result', function () {
+    var expectedValue = [(0, _v2.default)(), (0, _v2.default)()];
     var crawlSession = createCrawlSession();
-    var object = _crawlResult2.default.spawn(crawlSession, expectedValue);
+    var object = _crawlResult2.default.spawn(crawlSession.getId(), expectedValue);
 
-    expect(new _crawlResult2.default(object).getResult()).toBe(expectedValue);
+    expect(new _crawlResult2.default(object).getResultSet()).toBe(expectedValue);
   });
 });

@@ -31,7 +31,7 @@ var CrawlResult = function (_BaseObject) {
     var _this = _possibleConstructorReturn(this, (CrawlResult.__proto__ || Object.getPrototypeOf(CrawlResult)).call(this, object, 'CrawlResult'));
 
     _this.getCrawlSession = _this.getCrawlSession.bind(_this);
-    _this.getResult = _this.getResult.bind(_this);
+    _this.getResultSet = _this.getResultSet.bind(_this);
     return _this;
   }
 
@@ -41,17 +41,17 @@ var CrawlResult = function (_BaseObject) {
       return new _crawlSession2.default(this.getObject().get('crawlSession'));
     }
   }, {
-    key: 'getResult',
-    value: function getResult() {
-      return this.getObject().get('result');
+    key: 'getResultSet',
+    value: function getResultSet() {
+      return this.getObject().get('resultSet');
     }
   }], [{
     key: 'spawn',
-    value: function spawn(crawlSession, result) {
+    value: function spawn(sessionId, resultSet) {
       var object = new CrawlResult();
 
-      object.set('crawlSession', _crawlSession2.default.createWithoutData(crawlSession.getId()));
-      object.set('result', result);
+      object.set('crawlSession', _crawlSession2.default.createWithoutData(sessionId));
+      object.set('resultSet', resultSet);
 
       return object;
     }
