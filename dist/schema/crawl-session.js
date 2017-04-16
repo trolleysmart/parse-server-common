@@ -54,13 +54,24 @@ var CrawlSession = function (_Common$BaseObject) {
     value: function setEndDateTime(endDateTime) {
       this.getObject().set('endDateTime', endDateTime);
     }
+  }, {
+    key: 'getAdditionalInfo',
+    value: function getAdditionalInfo() {
+      return _monet.Maybe.fromNull(this.getObject().get('additionalInfo'));
+    }
+  }, {
+    key: 'setAdditionalInfo',
+    value: function setAdditionalInfo(additionalInfo) {
+      this.getObject().set('additionalInfo', additionalInfo);
+    }
   }], [{
     key: 'spawn',
-    value: function spawn(sessionKey, startDateTime) {
+    value: function spawn(sessionKey, startDateTime, additionalInfo) {
       var object = new CrawlSession();
 
       object.set('sessionKey', sessionKey);
       object.set('startDateTime', startDateTime);
+      object.set('additionalInfo', additionalInfo);
 
       return object;
     }

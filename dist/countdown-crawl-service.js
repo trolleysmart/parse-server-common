@@ -47,8 +47,6 @@ var CountdownCrawlService = function () {
         query.find().then(function (results) {
           return _immutable2.default.fromJS(results).map(function (_) {
             return new _crawlResult2.default(_).getResultSet();
-          }).flatMap(function (_) {
-            return _;
           });
         }).catch(function (error) {
           return reject(error);

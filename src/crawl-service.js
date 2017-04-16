@@ -35,15 +35,17 @@ class CrawlService {
     });
   }
 
-  static updateCrawlSessionEndDateTime(id, endDateTime) {
+  static updateCrawlSession(id, endDateTime, additionalInfo) {
     return new Promise((resolve, reject) => {
       CrawlService.getExistingCrawlSession(id)
         .then((crawlSession) => {
           crawlSession.setEndDateTime(endDateTime);
+          crawlSession.setAdditionalInfo(additionalInfo);
 
           return crawlSession.saveObject();
         })
-        .then(crawSession => resolve(new CrawlSession(crawSession).getId()))
+        .then(crawSession => resolve(new CrawlSession(crawSession)
+          .getId()))
         .catch(error => reject(error));
     });
   }

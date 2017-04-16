@@ -12,11 +12,12 @@ class CrawlSession extends Common.BaseObject {
     this.getEndDateTime = this.getEndDateTime.bind(this);
   }
 
-  static spawn(sessionKey, startDateTime) {
+  static spawn(sessionKey, startDateTime, additionalInfo) {
     const object = new CrawlSession();
 
     object.set('sessionKey', sessionKey);
     object.set('startDateTime', startDateTime);
+    object.set('additionalInfo', additionalInfo);
 
     return object;
   }
@@ -39,6 +40,16 @@ class CrawlSession extends Common.BaseObject {
   setEndDateTime(endDateTime) {
     this.getObject()
       .set('endDateTime', endDateTime);
+  }
+
+  getAdditionalInfo() {
+    return Maybe.fromNull(this.getObject()
+      .get('additionalInfo'));
+  }
+
+  setAdditionalInfo(additionalInfo) {
+    this.getObject()
+      .set('additionalInfo', additionalInfo);
   }
 }
 

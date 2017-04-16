@@ -24,8 +24,7 @@ class CountdownCrawlService {
       query.find()
         .then(results => Immutable.fromJS(results)
           .map(_ => new CrawlResult(_)
-            .getResultSet())
-          .flatMap(_ => _))
+            .getResultSet()))
         .catch(error => reject(error));
     });
   }

@@ -60,11 +60,12 @@ var CrawlService = function () {
       });
     }
   }, {
-    key: 'updateCrawlSessionEndDateTime',
-    value: function updateCrawlSessionEndDateTime(id, endDateTime) {
+    key: 'updateCrawlSession',
+    value: function updateCrawlSession(id, endDateTime, additionalInfo) {
       return new Promise(function (resolve, reject) {
         CrawlService.getExistingCrawlSession(id).then(function (crawlSession) {
           crawlSession.setEndDateTime(endDateTime);
+          crawlSession.setAdditionalInfo(additionalInfo);
 
           return crawlSession.saveObject();
         }).then(function (crawSession) {
