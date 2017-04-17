@@ -8,9 +8,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _immutable = require('immutable');
 
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _microBusinessParseServerCommon2 = _interopRequireDefault(_microBusinessParseServerCommon);
+
+var _crawlResult = require('./schema/crawl-result');
+
+var _crawlResult2 = _interopRequireDefault(_crawlResult);
 
 var _crawlSession = require('./schema/crawl-session');
 
@@ -94,6 +100,34 @@ var CrawlService = function () {
       return new Promise(function (resolve, reject) {
         CrawlService.getMostRecentCrawlSession(sessionKey).then(function (crawlSession) {
           resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'addResultSet',
+    value: function addResultSet(sessionId, resultSet) {
+      return new Promise(function (resolve, reject) {
+        _crawlResult2.default.spawn(sessionId, resultSet).save().then(function (object) {
+          return resolve(new _crawlResult2.default(object).getId());
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'getResultSets',
+    value: function getResultSets(sessionId) {
+      return new Promise(function (resolve, reject) {
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_crawlResult2.default);
+
+        query.equalTo('crawlSession', sessionId);
+
+        query.find().then(function (results) {
+          return _immutable2.default.fromJS(results).map(function (_) {
+            return new _crawlResult2.default(_).getResultSet();
+          });
         }).catch(function (error) {
           return reject(error);
         });
