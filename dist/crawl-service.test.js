@@ -42,17 +42,6 @@ describe('getStoreCrawlerConfig', function () {
       expect(error).toBe('No store crawler config found for key: ' + key);
     });
   });
-
-  test('should reject if multiple key exist', function (done) {
-    var key = (0, _v2.default)();
-
-    return Promise.all([_storeCrawlerConfiguration2.default.spawn(key, {}).save(), _storeCrawlerConfiguration2.default.spawn(key, {}).save()]).then(function () {
-      _crawlService2.default.getStoreCrawlerConfig(key).catch(function (error) {
-        expect(error).toBe('Multiple store crawler config found for key: ' + key);
-        done();
-      });
-    });
-  });
 });
 
 describe('createNewCrawlSession', function () {

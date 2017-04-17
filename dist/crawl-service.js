@@ -42,17 +42,28 @@ var CrawlService = function () {
         var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_storeCrawlerConfiguration2.default);
 
         query.equalTo('key', key);
+        query.descending('createdAt');
+        query.limit(1);
 
         return query.find().then(function (results) {
           if (results.length === 0) {
             reject('No store crawler config found for key: ' + key);
-          } else if (results.length !== 1) {
-            reject('Multiple store crawler config found for key: ' + key);
           } else {
             resolve(new _storeCrawlerConfiguration2.default(results[0]).getConfig());
           }
         }).catch(function (error) {
           reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'setStoreCrawlerConfig',
+    value: function setStoreCrawlerConfig(key, config) {
+      return new Promise(function (resolve, reject) {
+        _storeCrawlerConfiguration2.default.spawn(key, config).save().then(function (result) {
+          return resolve(result.id);
+        }).catch(function (error) {
+          return reject(error);
         });
       });
     }

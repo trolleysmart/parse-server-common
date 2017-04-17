@@ -32,25 +32,6 @@ describe('getStoreCrawlerConfig', () => {
           .toBe(`No store crawler config found for key: ${key}`);
       });
   });
-
-  test('should reject if multiple key exist', (done) => {
-    const key = uuid();
-
-    return Promise.all(
-        [StoreCrawlerConfiguration.spawn(key, {})
-          .save(),
-          StoreCrawlerConfiguration.spawn(key, {})
-          .save()
-        ])
-      .then(() => {
-        CrawlService.getStoreCrawlerConfig(key)
-          .catch((error) => {
-            expect(error)
-              .toBe(`Multiple store crawler config found for key: ${key}`);
-            done();
-          });
-      });
-  });
 });
 
 describe('createNewCrawlSession', () => {

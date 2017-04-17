@@ -12,21 +12,29 @@ class CrawlService {
       const query = Common.ParseWrapperService.createQuery(StoreCrawlerConfiguration);
 
       query.equalTo('key', key);
+      query.descending('createdAt');
+      query.limit(1);
 
       return query.find()
         .then((results) => {
           if (results.length === 0) {
             reject(`No store crawler config found for key: ${key}`);
-          } else if (results.length !== 1) {
-            reject(`Multiple store crawler config found for key: ${key}`);
           } else {
-            resolve(new StoreCrawlerConfiguration(results[0])
-              .getConfig());
+            resolve(new StoreCrawlerConfiguration(results[0]).getConfig());
           }
         })
         .catch((error) => {
           reject(error);
         });
+    });
+  }
+
+  static setStoreCrawlerConfig(key, config) {
+    return new Promise((resolve, reject) => {
+      StoreCrawlerConfiguration.spawn(key, config)
+        .save()
+        .then(result => resolve(result.id))
+        .catch(error => reject(error));
     });
   }
 
