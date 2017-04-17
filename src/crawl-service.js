@@ -88,7 +88,7 @@ class CrawlService {
     return new Promise((resolve, reject) => {
       const query = Common.ParseWrapperService.createQuery(CrawlResult);
 
-      query.equalTo('crawlSession', sessionId);
+      query.equalTo('crawlSession', CrawlSession.createWithoutData(sessionId));
 
       query.find()
         .then(results => Immutable.fromJS(results)

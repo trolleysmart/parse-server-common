@@ -122,7 +122,7 @@ var CrawlService = function () {
       return new Promise(function (resolve, reject) {
         var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_crawlResult2.default);
 
-        query.equalTo('crawlSession', sessionId);
+        query.equalTo('crawlSession', _crawlSession2.default.createWithoutData(sessionId));
 
         query.find().then(function (results) {
           return _immutable2.default.fromJS(results).map(function (_) {
