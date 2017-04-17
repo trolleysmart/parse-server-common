@@ -1,3 +1,6 @@
+import {
+  Map,
+} from 'immutable';
 import Common from 'micro-business-parse-server-common';
 import CrawlSession from './schema/crawl-session';
 import StoreCrawlerConfiguration from './schema/store-crawler-configuration';
@@ -54,11 +57,17 @@ class CrawlService {
     return new Promise((resolve, reject) => {
       CrawlService.getExistingCrawlSession(id)
         .then((crawlSession) => {
-          resolve({
-            sessionKey: crawlSession.getSessionKey(),
-            startDateTime: crawlSession.getStartDateTime(),
-            endDateTime: crawlSession.getEndDateTime(),
-          });
+          resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
+        })
+        .catch(error => reject(error));
+    });
+  }
+
+  static getMostRecentCrawlSessionInfo(key) {
+    return new Promise((resolve, reject) => {
+      CrawlService.getMostRecentCrawlSession(key)
+        .then((crawlSession) => {
+          resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
         })
         .catch(error => reject(error));
     });
@@ -81,6 +90,38 @@ class CrawlService {
         .catch((error) => {
           reject(error);
         });
+    });
+  }
+
+  static getMostRecentCrawlSession(key) {
+    return new Promise((resolve, reject) => {
+      const query = Common.ParseWrapperService.createQuery(CrawlSession);
+
+      query.equalTo('key', key);
+      query.descending('startDateTime');
+      query.limit(1);
+
+      return query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No session found for session key: ${key}`);
+          } else {
+            resolve(new CrawlSession(results[0]));
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  static mapCrawlSessionToResponseFormat(crawlSession) {
+    return Map({
+      id: crawlSession.getId(),
+      sessionKey: crawlSession.getSessionKey(),
+      startDateTime: crawlSession.getStartDateTime(),
+      endDateTime: crawlSession.getEndDateTime(),
+      additionalInfo: crawlSession.getAdditionalInfo(),
     });
   }
 }
