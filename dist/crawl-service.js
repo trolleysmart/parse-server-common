@@ -120,7 +120,7 @@ var CrawlService = function () {
     key: 'getResultSets',
     value: function getResultSets(sessionId) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_crawlResult2.default);
+        var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_crawlResult2.default);
 
         query.equalTo('crawlSession', sessionId);
 

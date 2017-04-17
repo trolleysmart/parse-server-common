@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import uuid from 'uuid/v4';
 import '../bootstrap';
 import CrawlService from './crawl-service';
@@ -6,9 +7,9 @@ import StoreCrawlerConfiguration from './schema/store-crawler-configuration';
 describe('getStoreCrawlerConfig', () => {
   test('should return config for the provided key', (done) => {
     const key = uuid();
-    const expectedValue = {
+    const expectedValue = Immutable.fromJS({
       val: uuid(),
-    };
+    });
 
     return StoreCrawlerConfiguration.spawn(key, expectedValue)
       .save()

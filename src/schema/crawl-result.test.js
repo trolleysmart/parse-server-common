@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import uuid from 'uuid/v4';
 import CrawlSession from './crawl-session';
 import CrawlResult from './crawl-result';
@@ -46,7 +47,7 @@ describe('public methods', () => {
   });
 
   test('getResultSet should return provided result', () => {
-    const expectedValue = [uuid(), uuid()];
+    const expectedValue = Immutable.fromJS([uuid(), uuid()]);
     const crawlSession = createCrawlSession();
     const object = CrawlResult.spawn(crawlSession.getId(), expectedValue);
 

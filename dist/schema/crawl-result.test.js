@@ -1,5 +1,9 @@
 'use strict';
 
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
@@ -49,7 +53,7 @@ describe('public methods', function () {
   });
 
   test('getResultSet should return provided result', function () {
-    var expectedValue = [(0, _v2.default)(), (0, _v2.default)()];
+    var expectedValue = _immutable2.default.fromJS([(0, _v2.default)(), (0, _v2.default)()]);
     var crawlSession = createCrawlSession();
     var object = _crawlResult2.default.spawn(crawlSession.getId(), expectedValue);
 

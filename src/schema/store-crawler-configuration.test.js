@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import uuid from 'uuid/v4';
 import StoreCrawlerConfiguration from './store-crawler-configuration';
 
@@ -54,9 +55,9 @@ describe('public methods', () => {
   });
 
   test('getConfig should return provided config', () => {
-    const expectedValue = {
+    const expectedValue = Immutable.fromJS({
       val: uuid(),
-    };
+    });
     const object = StoreCrawlerConfiguration.spawn('key', expectedValue);
 
     expect(new StoreCrawlerConfiguration(object)

@@ -1,5 +1,9 @@
 'use strict';
 
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
@@ -51,9 +55,9 @@ describe('public methods', function () {
   });
 
   test('getConfig should return provided config', function () {
-    var expectedValue = {
+    var expectedValue = _immutable2.default.fromJS({
       val: (0, _v2.default)()
-    };
+    });
     var object = _storeCrawlerConfiguration2.default.spawn('key', expectedValue);
 
     expect(new _storeCrawlerConfiguration2.default(object).getConfig()).toBe(expectedValue);

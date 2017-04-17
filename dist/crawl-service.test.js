@@ -1,5 +1,9 @@
 'use strict';
 
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
@@ -19,9 +23,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 describe('getStoreCrawlerConfig', function () {
   test('should return config for the provided key', function (done) {
     var key = (0, _v2.default)();
-    var expectedValue = {
+    var expectedValue = _immutable2.default.fromJS({
       val: (0, _v2.default)()
-    };
+    });
 
     return _storeCrawlerConfiguration2.default.spawn(key, expectedValue).save().then(function () {
       _crawlService2.default.getStoreCrawlerConfig(key).then(function (result) {

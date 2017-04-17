@@ -1,9 +1,7 @@
 import Immutable, {
   Map,
 } from 'immutable';
-import Common, {
-  ParseWrapperService,
-} from 'micro-business-parse-server-common';
+import Common from 'micro-business-parse-server-common';
 import CrawlResult from './schema/crawl-result';
 import CrawlSession from './schema/crawl-session';
 import StoreCrawlerConfiguration from './schema/store-crawler-configuration';
@@ -88,7 +86,7 @@ class CrawlService {
 
   static getResultSets(sessionId) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(CrawlResult);
+      const query = Common.ParseWrapperService.createQuery(CrawlResult);
 
       query.equalTo('crawlSession', sessionId);
 
