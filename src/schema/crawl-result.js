@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import Common from 'micro-business-parse-server-common';
 import CrawlSession from './crawl-session';
 
@@ -27,8 +28,8 @@ class CrawlResult extends Common.BaseObject {
   }
 
   getResultSet() {
-    return this.getObject()
-      .get('resultSet');
+    return Immutable.fromJS(this.getObject()
+      .get('resultSet'));
   }
 }
 

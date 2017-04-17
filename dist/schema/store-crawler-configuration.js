@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _microBusinessParseServerCommon2 = _interopRequireDefault(_microBusinessParseServerCommon);
@@ -39,7 +43,7 @@ var StoreCrawlerConfiguration = function (_Common$BaseObject) {
   }, {
     key: 'getConfig',
     value: function getConfig() {
-      return this.getObject().get('config');
+      return _immutable2.default.fromJS(this.getObject().get('config'));
     }
   }], [{
     key: 'spawn',

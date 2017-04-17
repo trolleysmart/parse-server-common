@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import Common from 'micro-business-parse-server-common';
 
 class StoreCrawlerConfiguration extends Common.BaseObject {
@@ -26,8 +27,8 @@ class StoreCrawlerConfiguration extends Common.BaseObject {
   }
 
   getConfig() {
-    return this.getObject()
-      .get('config');
+    return Immutable.fromJS(this.getObject()
+      .get('config'));
   }
 }
 
