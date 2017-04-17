@@ -90,9 +90,9 @@ var CrawlService = function () {
     }
   }, {
     key: 'getMostRecentCrawlSessionInfo',
-    value: function getMostRecentCrawlSessionInfo(key) {
+    value: function getMostRecentCrawlSessionInfo(sessionKey) {
       return new Promise(function (resolve, reject) {
-        CrawlService.getMostRecentCrawlSession(key).then(function (crawlSession) {
+        CrawlService.getMostRecentCrawlSession(sessionKey).then(function (crawlSession) {
           resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
         }).catch(function (error) {
           return reject(error);
@@ -120,17 +120,17 @@ var CrawlService = function () {
     }
   }, {
     key: 'getMostRecentCrawlSession',
-    value: function getMostRecentCrawlSession(key) {
+    value: function getMostRecentCrawlSession(sessionKey) {
       return new Promise(function (resolve, reject) {
         var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_crawlSession2.default);
 
-        query.equalTo('key', key);
+        query.equalTo('sessionKey', sessionKey);
         query.descending('startDateTime');
         query.limit(1);
 
         return query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No session found for session key: ' + key);
+            reject('No session found for session key: ' + sessionKey);
           } else {
             resolve(new _crawlSession2.default(results[0]));
           }

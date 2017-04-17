@@ -63,9 +63,9 @@ class CrawlService {
     });
   }
 
-  static getMostRecentCrawlSessionInfo(key) {
+  static getMostRecentCrawlSessionInfo(sessionKey) {
     return new Promise((resolve, reject) => {
-      CrawlService.getMostRecentCrawlSession(key)
+      CrawlService.getMostRecentCrawlSession(sessionKey)
         .then((crawlSession) => {
           resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
         })
@@ -93,18 +93,18 @@ class CrawlService {
     });
   }
 
-  static getMostRecentCrawlSession(key) {
+  static getMostRecentCrawlSession(sessionKey) {
     return new Promise((resolve, reject) => {
       const query = Common.ParseWrapperService.createQuery(CrawlSession);
 
-      query.equalTo('key', key);
+      query.equalTo('sessionKey', sessionKey);
       query.descending('startDateTime');
       query.limit(1);
 
       return query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No session found for session key: ${key}`);
+            reject(`No session found for session key: ${sessionKey}`);
           } else {
             resolve(new CrawlSession(results[0]));
           }

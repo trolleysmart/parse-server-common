@@ -59,23 +59,23 @@ describe('createNewCrawlSession', () => {
       .toBeDefined())
   );
 
-  test('should return the Id of the created session', (done) => {
+  test('should return the created session info', (done) => {
     const expectedSessionKey = uuid();
     const expectedStartDateTime = new Date();
 
     return CrawlService.createNewCrawlSession(expectedSessionKey, expectedStartDateTime)
       .then(id => {
         CrawlService.getExistingCrawlSessionInfo(id)
-          .then(({
-            sessionKey,
-            startDateTime,
-            endDateTime,
-          }) => {
-            expect(sessionKey)
+          .then((sessionInfo) => {
+            expect(sessionInfo.get('sessionKey'))
               .toEqual(expectedSessionKey);
-            expect(startDateTime)
+            expect(sessionInfo.get('startDateTime'))
               .toEqual(expectedStartDateTime);
-            expect(endDateTime.isNone())
+            expect(sessionInfo.get('endDateTime')
+                .isNone())
+              .toBeTruthy();
+            expect(sessionInfo.get('additionalInfo')
+                .isNone())
               .toBeTruthy();
 
             done();
