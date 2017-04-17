@@ -91,9 +91,11 @@ class CrawlService {
       query.equalTo('crawlSession', CrawlSession.createWithoutData(sessionId));
 
       query.find()
-        .then(results => Immutable.fromJS(results)
-          .map(_ => new CrawlResult(_)
-            .getResultSet()))
+        .then((results) => {
+          resolve(Immutable.fromJS(results)
+            .map(_ => new CrawlResult(_)
+              .getResultSet()));
+        })
         .catch(error => reject(error));
     });
   }

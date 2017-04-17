@@ -125,9 +125,9 @@ var CrawlService = function () {
         query.equalTo('crawlSession', _crawlSession2.default.createWithoutData(sessionId));
 
         query.find().then(function (results) {
-          return _immutable2.default.fromJS(results).map(function (_) {
+          resolve(_immutable2.default.fromJS(results).map(function (_) {
             return new _crawlResult2.default(_).getResultSet();
-          });
+          }));
         }).catch(function (error) {
           return reject(error);
         });
