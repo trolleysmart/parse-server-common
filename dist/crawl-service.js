@@ -127,7 +127,7 @@ var CrawlService = function () {
       query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(sessionId));
 
       var promise = query.each(function (_) {
-        return eventEmitter.emit('newResultSets', new _schema.CrawlResult(_).getResultSets());
+        return eventEmitter.emit('newResultSets', new _schema.CrawlResult(_).getResultSet());
       });
 
       return {

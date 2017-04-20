@@ -103,7 +103,7 @@ class CrawlService {
     query.equalTo('crawlSession', CrawlSession.createWithoutData(sessionId));
 
     const promise = query.each(_ => eventEmitter.emit('newResultSets', new CrawlResult(_)
-      .getResultSets()));
+      .getResultSet()));
 
     return {
       eventEmitter,
