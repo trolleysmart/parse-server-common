@@ -1,6 +1,6 @@
-import '../bootstrap';
 import Immutable from 'immutable';
 import uuid from 'uuid/v4';
+import '../bootstrap';
 import {
   CrawlService,
 } from './crawl-service';
@@ -19,12 +19,12 @@ describe('getStoreCrawlerConfig', () => {
       .save()
       .then(() => {
         CrawlService.getStoreCrawlerConfig(key)
-          .then(result => {
+          .then((result) => {
             expect(result)
               .toEqual(expectedValue);
             done();
           });
-      })
+      });
   });
 
   test('should reject if key does not exists', () => {
@@ -42,7 +42,7 @@ describe('createNewCrawlSession', () => {
   test('should return the Id of the created session', () =>
     CrawlService.createNewCrawlSession(uuid(), new Date())
     .then(result => expect(result)
-      .toBeDefined())
+      .toBeDefined()),
   );
 
   test('should return the created session info', (done) => {
@@ -50,7 +50,7 @@ describe('createNewCrawlSession', () => {
     const expectedStartDateTime = new Date();
 
     return CrawlService.createNewCrawlSession(expectedSessionKey, expectedStartDateTime)
-      .then(id => {
+      .then((id) => {
         CrawlService.getExistingCrawlSessionInfo(id)
           .then((sessionInfo) => {
             expect(sessionInfo.get('sessionKey'))
@@ -65,7 +65,7 @@ describe('createNewCrawlSession', () => {
               .toBeTruthy();
 
             done();
-          })
+          });
       });
   });
 });

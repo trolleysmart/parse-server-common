@@ -1,7 +1,5 @@
 'use strict';
 
-require('../bootstrap');
-
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -9,6 +7,8 @@ var _immutable2 = _interopRequireDefault(_immutable);
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
+
+require('../bootstrap');
 
 var _crawlService = require('./crawl-service');
 
