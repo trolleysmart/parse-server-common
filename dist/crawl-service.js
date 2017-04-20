@@ -45,7 +45,7 @@ var CrawlService = function () {
             resolve(new _schema.StoreCrawlerConfiguration(results[0]).getConfig());
           }
         }).catch(function (error) {
-          reject(error);
+          return reject(error);
         });
       });
     }
@@ -152,7 +152,7 @@ var CrawlService = function () {
             resolve(new _schema.CrawlSession(results[0]));
           }
         }).catch(function (error) {
-          reject(error);
+          return reject(error);
         });
       });
     }
@@ -173,7 +173,7 @@ var CrawlService = function () {
             resolve(new _schema.CrawlSession(results[0]));
           }
         }).catch(function (error) {
-          reject(error);
+          return reject(error);
         });
       });
     }

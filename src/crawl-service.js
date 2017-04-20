@@ -29,9 +29,7 @@ class CrawlService {
               .getConfig());
           }
         })
-        .catch((error) => {
-          reject(error);
-        });
+        .catch(error => reject(error));
     });
   }
 
@@ -126,9 +124,7 @@ class CrawlService {
             resolve(new CrawlSession(results[0]));
           }
         })
-        .catch((error) => {
-          reject(error);
-        });
+        .catch(error => reject(error));
     });
   }
 
@@ -148,9 +144,7 @@ class CrawlService {
             resolve(new CrawlSession(results[0]));
           }
         })
-        .catch((error) => {
-          reject(error);
-        });
+        .catch(error => reject(error));
     });
   }
 
