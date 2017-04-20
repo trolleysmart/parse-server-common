@@ -1,7 +1,9 @@
 import Immutable from 'immutable';
-import Common from 'micro-business-parse-server-common';
+import {
+  BaseObject,
+} from 'micro-business-parse-server-common';
 
-class StoreCrawlerConfiguration extends Common.BaseObject {
+class StoreCrawlerConfiguration extends BaseObject {
   constructor(object) {
     super(object, 'StoreCrawlerConfiguration');
 
@@ -31,5 +33,9 @@ class StoreCrawlerConfiguration extends Common.BaseObject {
       .get('config'));
   }
 }
+
+export {
+  StoreCrawlerConfiguration,
+};
 
 export default StoreCrawlerConfiguration;

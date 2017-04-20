@@ -1,4 +1,10 @@
-import CrawlService from './crawl-service';
+import {
+  CrawlService,
+} from './crawl-service';
+
+export {
+  CrawlService,
+};
 
 export default {
   CrawlService,

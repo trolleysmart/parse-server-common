@@ -1,9 +1,11 @@
 import {
   Maybe,
 } from 'monet';
-import Common from 'micro-business-parse-server-common';
+import {
+  BaseObject,
+} from 'micro-business-parse-server-common';
 
-class CrawlSession extends Common.BaseObject {
+class CrawlSession extends BaseObject {
   constructor(object) {
     super(object, 'CrawlSession');
 
@@ -52,5 +54,9 @@ class CrawlSession extends Common.BaseObject {
       .set('additionalInfo', additionalInfo);
   }
 }
+
+export {
+  CrawlSession,
+};
 
 export default CrawlSession;

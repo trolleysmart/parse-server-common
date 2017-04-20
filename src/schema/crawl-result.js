@@ -1,8 +1,12 @@
 import Immutable from 'immutable';
-import Common from 'micro-business-parse-server-common';
-import CrawlSession from './crawl-session';
+import {
+  BaseObject,
+} from 'micro-business-parse-server-common';
+import {
+  CrawlSession,
+} from './crawl-session';
 
-class CrawlResult extends Common.BaseObject {
+class CrawlResult extends BaseObject {
   constructor(object) {
     super(object, 'CrawlResult');
 
@@ -32,5 +36,9 @@ class CrawlResult extends Common.BaseObject {
       .get('resultSet'));
   }
 }
+
+export {
+  CrawlResult,
+};
 
 export default CrawlResult;

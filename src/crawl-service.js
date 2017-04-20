@@ -1,15 +1,19 @@
 import Immutable, {
   Map,
 } from 'immutable';
-import Common from 'micro-business-parse-server-common';
-import CrawlResult from './schema/crawl-result';
-import CrawlSession from './schema/crawl-session';
-import StoreCrawlerConfiguration from './schema/store-crawler-configuration';
+import {
+  ParseWrapperService,
+} from 'micro-business-parse-server-common';
+import {
+  CrawlResult,
+  CrawlSession,
+  StoreCrawlerConfiguration,
+} from './schema';
 
 class CrawlService {
   static getStoreCrawlerConfig(key) {
     return new Promise((resolve, reject) => {
-      const query = Common.ParseWrapperService.createQuery(StoreCrawlerConfiguration);
+      const query = ParseWrapperService.createQuery(StoreCrawlerConfiguration);
 
       query.equalTo('key', key);
       query.descending('createdAt');
@@ -20,7 +24,8 @@ class CrawlService {
           if (results.length === 0) {
             reject(`No store crawler config found for key: ${key}`);
           } else {
-            resolve(new StoreCrawlerConfiguration(results[0]).getConfig());
+            resolve(new StoreCrawlerConfiguration(results[0])
+              .getConfig());
           }
         })
         .catch((error) => {
@@ -94,7 +99,7 @@ class CrawlService {
 
   static getResultSets(sessionId) {
     return new Promise((resolve, reject) => {
-      const query = Common.ParseWrapperService.createQuery(CrawlResult);
+      const query = ParseWrapperService.createQuery(CrawlResult);
 
       query.equalTo('crawlSession', CrawlSession.createWithoutData(sessionId));
 
@@ -110,7 +115,7 @@ class CrawlService {
 
   static getExistingCrawlSession(id) {
     return new Promise((resolve, reject) => {
-      const query = Common.ParseWrapperService.createQuery(CrawlSession);
+      const query = ParseWrapperService.createQuery(CrawlSession);
 
       query.equalTo('objectId', id);
 
@@ -130,7 +135,7 @@ class CrawlService {
 
   static getMostRecentCrawlSession(sessionKey) {
     return new Promise((resolve, reject) => {
-      const query = Common.ParseWrapperService.createQuery(CrawlSession);
+      const query = ParseWrapperService.createQuery(CrawlSession);
 
       query.equalTo('sessionKey', sessionKey);
       query.descending('startDateTime');
@@ -160,5 +165,9 @@ class CrawlService {
     });
   }
 }
+
+export {
+  CrawlService,
+};
 
 export default CrawlService;

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.CrawlResult = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -12,11 +13,7 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-var _microBusinessParseServerCommon2 = _interopRequireDefault(_microBusinessParseServerCommon);
-
 var _crawlSession = require('./crawl-session');
-
-var _crawlSession2 = _interopRequireDefault(_crawlSession);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,8 +23,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CrawlResult = function (_Common$BaseObject) {
-  _inherits(CrawlResult, _Common$BaseObject);
+var CrawlResult = function (_BaseObject) {
+  _inherits(CrawlResult, _BaseObject);
 
   function CrawlResult(object) {
     _classCallCheck(this, CrawlResult);
@@ -42,7 +39,7 @@ var CrawlResult = function (_Common$BaseObject) {
   _createClass(CrawlResult, [{
     key: 'getCrawlSession',
     value: function getCrawlSession() {
-      return new _crawlSession2.default(this.getObject().get('crawlSession'));
+      return new _crawlSession.CrawlSession(this.getObject().get('crawlSession'));
     }
   }, {
     key: 'getResultSet',
@@ -54,7 +51,7 @@ var CrawlResult = function (_Common$BaseObject) {
     value: function spawn(sessionId, resultSet) {
       var object = new CrawlResult();
 
-      object.set('crawlSession', _crawlSession2.default.createWithoutData(sessionId));
+      object.set('crawlSession', _crawlSession.CrawlSession.createWithoutData(sessionId));
       object.set('resultSet', resultSet);
 
       return object;
@@ -62,6 +59,7 @@ var CrawlResult = function (_Common$BaseObject) {
   }]);
 
   return CrawlResult;
-}(_microBusinessParseServerCommon2.default.BaseObject);
+}(_microBusinessParseServerCommon.BaseObject);
 
+exports.CrawlResult = CrawlResult;
 exports.default = CrawlResult;

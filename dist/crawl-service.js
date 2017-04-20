@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.CrawlService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -12,19 +13,7 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-var _microBusinessParseServerCommon2 = _interopRequireDefault(_microBusinessParseServerCommon);
-
-var _crawlResult = require('./schema/crawl-result');
-
-var _crawlResult2 = _interopRequireDefault(_crawlResult);
-
-var _crawlSession = require('./schema/crawl-session');
-
-var _crawlSession2 = _interopRequireDefault(_crawlSession);
-
-var _storeCrawlerConfiguration = require('./schema/store-crawler-configuration');
-
-var _storeCrawlerConfiguration2 = _interopRequireDefault(_storeCrawlerConfiguration);
+var _schema = require('./schema');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,7 +28,7 @@ var CrawlService = function () {
     key: 'getStoreCrawlerConfig',
     value: function getStoreCrawlerConfig(key) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_storeCrawlerConfiguration2.default);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreCrawlerConfiguration);
 
         query.equalTo('key', key);
         query.descending('createdAt');
@@ -49,7 +38,7 @@ var CrawlService = function () {
           if (results.length === 0) {
             reject('No store crawler config found for key: ' + key);
           } else {
-            resolve(new _storeCrawlerConfiguration2.default(results[0]).getConfig());
+            resolve(new _schema.StoreCrawlerConfiguration(results[0]).getConfig());
           }
         }).catch(function (error) {
           reject(error);
@@ -60,7 +49,7 @@ var CrawlService = function () {
     key: 'setStoreCrawlerConfig',
     value: function setStoreCrawlerConfig(key, config) {
       return new Promise(function (resolve, reject) {
-        _storeCrawlerConfiguration2.default.spawn(key, config).save().then(function (result) {
+        _schema.StoreCrawlerConfiguration.spawn(key, config).save().then(function (result) {
           return resolve(result.id);
         }).catch(function (error) {
           return reject(error);
@@ -71,7 +60,7 @@ var CrawlService = function () {
     key: 'createNewCrawlSession',
     value: function createNewCrawlSession(sessionKey, startDateTime) {
       return new Promise(function (resolve, reject) {
-        _crawlSession2.default.spawn(sessionKey, startDateTime).save().then(function (result) {
+        _schema.CrawlSession.spawn(sessionKey, startDateTime).save().then(function (result) {
           return resolve(result.id);
         }).catch(function (error) {
           return reject(error);
@@ -88,7 +77,7 @@ var CrawlService = function () {
 
           return crawlSession.saveObject();
         }).then(function (crawSession) {
-          return resolve(new _crawlSession2.default(crawSession).getId());
+          return resolve(new _schema.CrawlSession(crawSession).getId());
         }).catch(function (error) {
           return reject(error);
         });
@@ -120,8 +109,8 @@ var CrawlService = function () {
     key: 'addResultSet',
     value: function addResultSet(sessionId, resultSet) {
       return new Promise(function (resolve, reject) {
-        _crawlResult2.default.spawn(sessionId, resultSet).save().then(function (object) {
-          return resolve(new _crawlResult2.default(object).getId());
+        _schema.CrawlResult.spawn(sessionId, resultSet).save().then(function (object) {
+          return resolve(new _schema.CrawlResult(object).getId());
         }).catch(function (error) {
           return reject(error);
         });
@@ -131,13 +120,13 @@ var CrawlService = function () {
     key: 'getResultSets',
     value: function getResultSets(sessionId) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_crawlResult2.default);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
 
-        query.equalTo('crawlSession', _crawlSession2.default.createWithoutData(sessionId));
+        query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(sessionId));
 
         query.find().then(function (results) {
           resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _crawlResult2.default(_).getResultSet();
+            return new _schema.CrawlResult(_).getResultSet();
           }));
         }).catch(function (error) {
           return reject(error);
@@ -148,7 +137,7 @@ var CrawlService = function () {
     key: 'getExistingCrawlSession',
     value: function getExistingCrawlSession(id) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_crawlSession2.default);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession);
 
         query.equalTo('objectId', id);
 
@@ -156,7 +145,7 @@ var CrawlService = function () {
           if (results.length === 0) {
             reject('No session found for Id: ' + id);
           } else {
-            resolve(new _crawlSession2.default(results[0]));
+            resolve(new _schema.CrawlSession(results[0]));
           }
         }).catch(function (error) {
           reject(error);
@@ -167,7 +156,7 @@ var CrawlService = function () {
     key: 'getMostRecentCrawlSession',
     value: function getMostRecentCrawlSession(sessionKey) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon2.default.ParseWrapperService.createQuery(_crawlSession2.default);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession);
 
         query.equalTo('sessionKey', sessionKey);
         query.descending('startDateTime');
@@ -177,7 +166,7 @@ var CrawlService = function () {
           if (results.length === 0) {
             reject('No session found for session key: ' + sessionKey);
           } else {
-            resolve(new _crawlSession2.default(results[0]));
+            resolve(new _schema.CrawlSession(results[0]));
           }
         }).catch(function (error) {
           reject(error);
@@ -200,4 +189,5 @@ var CrawlService = function () {
   return CrawlService;
 }();
 
+exports.CrawlService = CrawlService;
 exports.default = CrawlService;

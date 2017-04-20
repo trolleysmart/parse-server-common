@@ -3,13 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.CrawlService = undefined;
 
 var _crawlService = require('./crawl-service');
 
-var _crawlService2 = _interopRequireDefault(_crawlService);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+exports.CrawlService = _crawlService.CrawlService;
 exports.default = {
-  CrawlService: _crawlService2.default
+  CrawlService: _crawlService.CrawlService
 };
