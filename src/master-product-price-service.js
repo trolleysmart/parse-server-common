@@ -19,15 +19,7 @@ class MasterProductPriceService {
 
   static search(productPrice, includeMasterProductDetails) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProductPrice);
-
-      if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
-        query.equalTo('masterProduct', MasterProduct.createWithoutData(productPrice.get('masterProductId')));
-      }
-
-      if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
-        query.equalTo('priceDetails', productPrice.get('priceDetails'));
-      }
+      const query = MasterProductPriceService.getQuery(productPrice);
 
       if (includeMasterProductDetails) {
         query.include('masterProduct');
@@ -42,20 +34,26 @@ class MasterProductPriceService {
 
   static exists(productPrice) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProductPrice);
-
-      if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
-        query.equalTo('masterProduct', MasterProduct.createWithoutData(productPrice.get('masterProductId')));
-      }
-
-      if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
-        query.equalTo('priceDetails', productPrice.get('priceDetails'));
-      }
+      const query = MasterProductPriceService.getQuery(productPrice);
 
       return query.count()
         .then(total => resolve(total > 0))
         .catch(error => reject(error));
     });
+  }
+
+  static getQuery(productPrice) {
+    const query = ParseWrapperService.createQuery(MasterProductPrice);
+
+    if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
+      query.equalTo('masterProduct', MasterProduct.createWithoutData(productPrice.get('masterProductId')));
+    }
+
+    if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
+      query.equalTo('priceDetails', productPrice.get('priceDetails'));
+    }
+
+    return query;
   }
 
   static mapMasterProductPriceToResponseFormat(masterProductPrice) {

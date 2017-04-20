@@ -39,15 +39,7 @@ var MasterProductPriceService = function () {
     key: 'search',
     value: function search(productPrice, includeMasterProductDetails) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
-
-        if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
-          query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(productPrice.get('masterProductId')));
-        }
-
-        if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
-          query.equalTo('priceDetails', productPrice.get('priceDetails'));
-        }
+        var query = MasterProductPriceService.getQuery(productPrice);
 
         if (includeMasterProductDetails) {
           query.include('masterProduct');
@@ -64,15 +56,7 @@ var MasterProductPriceService = function () {
     key: 'exists',
     value: function exists(productPrice) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
-
-        if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
-          query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(productPrice.get('masterProductId')));
-        }
-
-        if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
-          query.equalTo('priceDetails', productPrice.get('priceDetails'));
-        }
+        var query = MasterProductPriceService.getQuery(productPrice);
 
         return query.count().then(function (total) {
           return resolve(total > 0);
@@ -80,6 +64,21 @@ var MasterProductPriceService = function () {
           return reject(error);
         });
       });
+    }
+  }, {
+    key: 'getQuery',
+    value: function getQuery(productPrice) {
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+
+      if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
+        query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(productPrice.get('masterProductId')));
+      }
+
+      if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
+        query.equalTo('priceDetails', productPrice.get('priceDetails'));
+      }
+
+      return query;
     }
   }, {
     key: 'mapMasterProductPriceToResponseFormat',
