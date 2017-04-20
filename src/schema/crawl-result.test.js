@@ -1,7 +1,11 @@
 import Immutable from 'immutable';
 import uuid from 'uuid/v4';
-import CrawlSession from './crawl-session';
-import CrawlResult from './crawl-result';
+import {
+  CrawlSession,
+} from './crawl-session';
+import {
+  CrawlResult,
+} from './crawl-result';
 
 function createCrawlSession() {
   return CrawlSession.spawn('sessionKey', new Date());

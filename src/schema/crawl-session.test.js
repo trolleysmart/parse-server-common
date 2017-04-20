@@ -1,5 +1,7 @@
 import uuid from 'uuid/v4';
-import CrawlSession from './crawl-session';
+import {
+  CrawlSession,
+} from './crawl-session';
 
 describe('constructor', () => {
   test('should set class name', () => {

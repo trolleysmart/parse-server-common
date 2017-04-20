@@ -1,8 +1,12 @@
+import '../bootstrap';
 import Immutable from 'immutable';
 import uuid from 'uuid/v4';
-import '../bootstrap';
-import CrawlService from './crawl-service';
-import StoreCrawlerConfiguration from './schema/store-crawler-configuration';
+import {
+  CrawlService,
+} from './crawl-service';
+import {
+  StoreCrawlerConfiguration,
+} from './schema/store-crawler-configuration';
 
 describe('getStoreCrawlerConfig', () => {
   test('should return config for the provided key', (done) => {

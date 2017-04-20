@@ -1,5 +1,7 @@
 'use strict';
 
+require('../bootstrap');
+
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -8,15 +10,9 @@ var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
-require('../bootstrap');
-
 var _crawlService = require('./crawl-service');
 
-var _crawlService2 = _interopRequireDefault(_crawlService);
-
 var _storeCrawlerConfiguration = require('./schema/store-crawler-configuration');
-
-var _storeCrawlerConfiguration2 = _interopRequireDefault(_storeCrawlerConfiguration);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,8 +23,8 @@ describe('getStoreCrawlerConfig', function () {
       val: (0, _v2.default)()
     });
 
-    return _storeCrawlerConfiguration2.default.spawn(key, expectedValue).save().then(function () {
-      _crawlService2.default.getStoreCrawlerConfig(key).then(function (result) {
+    return _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(key, expectedValue).save().then(function () {
+      _crawlService.CrawlService.getStoreCrawlerConfig(key).then(function (result) {
         expect(result).toEqual(expectedValue);
         done();
       });
@@ -38,7 +34,7 @@ describe('getStoreCrawlerConfig', function () {
   test('should reject if key does not exists', function () {
     var key = (0, _v2.default)();
 
-    return _crawlService2.default.getStoreCrawlerConfig(key).catch(function (error) {
+    return _crawlService.CrawlService.getStoreCrawlerConfig(key).catch(function (error) {
       expect(error).toBe('No store crawler config found for key: ' + key);
     });
   });
@@ -46,7 +42,7 @@ describe('getStoreCrawlerConfig', function () {
 
 describe('createNewCrawlSession', function () {
   test('should return the Id of the created session', function () {
-    return _crawlService2.default.createNewCrawlSession((0, _v2.default)(), new Date()).then(function (result) {
+    return _crawlService.CrawlService.createNewCrawlSession((0, _v2.default)(), new Date()).then(function (result) {
       return expect(result).toBeDefined();
     });
   });
@@ -55,8 +51,8 @@ describe('createNewCrawlSession', function () {
     var expectedSessionKey = (0, _v2.default)();
     var expectedStartDateTime = new Date();
 
-    return _crawlService2.default.createNewCrawlSession(expectedSessionKey, expectedStartDateTime).then(function (id) {
-      _crawlService2.default.getExistingCrawlSessionInfo(id).then(function (sessionInfo) {
+    return _crawlService.CrawlService.createNewCrawlSession(expectedSessionKey, expectedStartDateTime).then(function (id) {
+      _crawlService.CrawlService.getExistingCrawlSessionInfo(id).then(function (sessionInfo) {
         expect(sessionInfo.get('sessionKey')).toEqual(expectedSessionKey);
         expect(sessionInfo.get('startDateTime')).toEqual(expectedStartDateTime);
         expect(sessionInfo.get('endDateTime').isNone()).toBeTruthy();

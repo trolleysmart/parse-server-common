@@ -1,6 +1,8 @@
 import Immutable from 'immutable';
 import uuid from 'uuid/v4';
-import StoreCrawlerConfiguration from './store-crawler-configuration';
+import {
+  StoreCrawlerConfiguration,
+} from './store-crawler-configuration';
 
 describe('constructor', () => {
   test('should set class name', () => {
