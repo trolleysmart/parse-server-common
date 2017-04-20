@@ -13,8 +13,6 @@ var _events2 = _interopRequireDefault(_events);
 
 var _immutable = require('immutable');
 
-var _immutable2 = _interopRequireDefault(_immutable);
-
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('./schema');
@@ -128,8 +126,8 @@ var CrawlService = function () {
 
       query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(sessionId));
 
-      var promise = query.each(function (resultSets) {
-        return eventEmitter.emit('newResultSets', _immutable2.default.fromJS(resultSets));
+      var promise = query.each(function (_) {
+        return eventEmitter.emit('newResultSets', new _schema.CrawlResult(_).getResultSets());
       });
 
       return {

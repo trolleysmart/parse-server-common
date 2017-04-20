@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import Immutable, {
+import {
   Map,
 } from 'immutable';
 import {
@@ -102,7 +102,8 @@ class CrawlService {
 
     query.equalTo('crawlSession', CrawlSession.createWithoutData(sessionId));
 
-    const promise = query.each(resultSets => eventEmitter.emit('newResultSets', Immutable.fromJS(resultSets)));
+    const promise = query.each(_ => eventEmitter.emit('newResultSets', new CrawlResult(_)
+      .getResultSets()));
 
     return {
       eventEmitter,
