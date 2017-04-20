@@ -19,24 +19,20 @@ class MasterProductService {
     });
   }
 
-  static exists({
-    description,
-    barcode,
-    imageUrl,
-  }) {
+  static exists(product) {
     return new Promise((resolve, reject) => {
       const query = ParseWrapperService.createQuery(MasterProduct);
 
-      if (description) {
-        query.equalTo('description', description);
+      if (product.has('description') && product.get('description')) {
+        query.equalTo('description', product.get('description'));
       }
 
-      if (barcode) {
-        query.equalTo('barcode', barcode);
+      if (product.has('barcode') && product.get('barcode')) {
+        query.equalTo('barcode', product.get('barcode'));
       }
 
-      if (imageUrl) {
-        query.equalTo('imageUrl', imageUrl);
+      if (product.has('imageUrl') && product.get('imageUrl')) {
+        query.equalTo('imageUrl', product.get('imageUrl'));
       }
 
       return query.count()

@@ -35,24 +35,20 @@ var MasterProductService = function () {
     }
   }, {
     key: 'exists',
-    value: function exists(_ref2) {
-      var description = _ref2.description,
-          barcode = _ref2.barcode,
-          imageUrl = _ref2.imageUrl;
-
+    value: function exists(product) {
       return new Promise(function (resolve, reject) {
         var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
 
-        if (description) {
-          query.equalTo('description', description);
+        if (product.has('description') && product.get('description')) {
+          query.equalTo('description', product.get('description'));
         }
 
-        if (barcode) {
-          query.equalTo('barcode', barcode);
+        if (product.has('barcode') && product.get('barcode')) {
+          query.equalTo('barcode', product.get('barcode'));
         }
 
-        if (imageUrl) {
-          query.equalTo('imageUrl', imageUrl);
+        if (product.has('imageUrl') && product.get('imageUrl')) {
+          query.equalTo('imageUrl', product.get('imageUrl'));
         }
 
         return query.count().then(function (total) {
