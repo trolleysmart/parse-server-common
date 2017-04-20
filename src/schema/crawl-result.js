@@ -15,12 +15,12 @@ class CrawlResult extends BaseObject {
   }
 
   static spawn(
-    sessionId,
+    crawlSessionId,
     resultSet,
   ) {
     const object = new CrawlResult();
 
-    object.set('crawlSession', CrawlSession.createWithoutData(sessionId));
+    object.set('crawlSession', CrawlSession.createWithoutData(crawlSessionId));
     object.set('resultSet', resultSet);
 
     return object;

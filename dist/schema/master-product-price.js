@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CrawlResult = undefined;
+exports.MasterProductPrice = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -13,7 +13,7 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-var _crawlSession = require('./crawl-session');
+var _masterProduct = require('./master-product');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23,43 +23,43 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CrawlResult = function (_BaseObject) {
-  _inherits(CrawlResult, _BaseObject);
+var MasterProductPrice = function (_BaseObject) {
+  _inherits(MasterProductPrice, _BaseObject);
 
-  function CrawlResult(object) {
-    _classCallCheck(this, CrawlResult);
+  function MasterProductPrice(object) {
+    _classCallCheck(this, MasterProductPrice);
 
-    var _this = _possibleConstructorReturn(this, (CrawlResult.__proto__ || Object.getPrototypeOf(CrawlResult)).call(this, object, 'CrawlResult'));
+    var _this = _possibleConstructorReturn(this, (MasterProductPrice.__proto__ || Object.getPrototypeOf(MasterProductPrice)).call(this, object, 'MasterProductPrice'));
 
-    _this.getCrawlSession = _this.getCrawlSession.bind(_this);
-    _this.getResultSet = _this.getResultSet.bind(_this);
+    _this.getMasterProduct = _this.getMasterProduct.bind(_this);
+    _this.getPriceDetails = _this.getPriceDetails.bind(_this);
     return _this;
   }
 
-  _createClass(CrawlResult, [{
-    key: 'getCrawlSession',
-    value: function getCrawlSession() {
-      return new _crawlSession.CrawlSession(this.getObject().get('crawlSession'));
+  _createClass(MasterProductPrice, [{
+    key: 'getMasterProduct',
+    value: function getMasterProduct() {
+      return new _masterProduct.MasterProduct(this.getObject().get('masterProduct'));
     }
   }, {
-    key: 'getResultSet',
-    value: function getResultSet() {
-      return _immutable2.default.fromJS(this.getObject().get('resultSet'));
+    key: 'getPriceDetails',
+    value: function getPriceDetails() {
+      return _immutable2.default.fromJS(this.getObject().get('priceDetails'));
     }
   }], [{
     key: 'spawn',
-    value: function spawn(crawlSessionId, resultSet) {
-      var object = new CrawlResult();
+    value: function spawn(masterProductId, priceDetails) {
+      var object = new MasterProductPrice();
 
-      object.set('crawlSession', _crawlSession.CrawlSession.createWithoutData(crawlSessionId));
-      object.set('resultSet', resultSet);
+      object.set('masterProduct', _masterProduct.MasterProduct.createWithoutData(masterProductId));
+      object.set('priceDetails', priceDetails);
 
       return object;
     }
   }]);
 
-  return CrawlResult;
+  return MasterProductPrice;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.CrawlResult = CrawlResult;
-exports.default = CrawlResult;
+exports.MasterProductPrice = MasterProductPrice;
+exports.default = MasterProductPrice;
