@@ -20,13 +20,9 @@ var MasterProductService = function () {
 
   _createClass(MasterProductService, null, [{
     key: 'create',
-    value: function create(_ref) {
-      var description = _ref.description,
-          barcode = _ref.barcode,
-          imageUrl = _ref.imageUrl;
-
+    value: function create(product) {
       return new Promise(function (resolve, reject) {
-        _schema.MasterProduct.spawn(description, barcode, imageUrl).save().then(function (result) {
+        _schema.MasterProduct.spawn(product.get('description'), product.get('barcode'), product.get('imageUrl')).save().then(function (result) {
           return resolve(result.id);
         }).catch(function (error) {
           return reject(error);

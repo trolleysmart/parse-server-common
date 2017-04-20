@@ -6,13 +6,9 @@ import {
 } from './schema';
 
 class MasterProductService {
-  static create({
-    description,
-    barcode,
-    imageUrl,
-  }) {
+  static create(product) {
     return new Promise((resolve, reject) => {
-      MasterProduct.spawn(description, barcode, imageUrl)
+      MasterProduct.spawn(product.get('description'), product.get('barcode'), product.get('imageUrl'))
         .save()
         .then(result => resolve(result.id))
         .catch(error => reject(error));
