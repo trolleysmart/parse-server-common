@@ -7,6 +7,10 @@ exports.CrawlService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _events = require('events');
+
+var _events2 = _interopRequireDefault(_events);
+
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -119,19 +123,19 @@ var CrawlService = function () {
   }, {
     key: 'getResultSets',
     value: function getResultSets(sessionId) {
-      return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
+      var eventEmitter = new _events2.default();
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
 
-        query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(sessionId));
+      query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(sessionId));
 
-        query.find().then(function (results) {
-          resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.CrawlResult(_).getResultSet();
-          }));
-        }).catch(function (error) {
-          return reject(error);
-        });
+      var promise = query.each(function (resultSets) {
+        return eventEmitter.emit('newResultSets', _immutable2.default.fromJS(resultSets));
       });
+
+      return {
+        eventEmitter: eventEmitter,
+        promise: promise
+      };
     }
   }, {
     key: 'getExistingCrawlSession',

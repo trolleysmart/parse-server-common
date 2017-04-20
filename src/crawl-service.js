@@ -1,3 +1,4 @@
+import EventEmitter from 'events';
 import Immutable, {
   Map,
 } from 'immutable';
@@ -98,19 +99,17 @@ class CrawlService {
   }
 
   static getResultSets(sessionId) {
-    return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(CrawlResult);
+    const eventEmitter = new EventEmitter();
+    const query = ParseWrapperService.createQuery(CrawlResult);
 
-      query.equalTo('crawlSession', CrawlSession.createWithoutData(sessionId));
+    query.equalTo('crawlSession', CrawlSession.createWithoutData(sessionId));
 
-      query.find()
-        .then((results) => {
-          resolve(Immutable.fromJS(results)
-            .map(_ => new CrawlResult(_)
-              .getResultSet()));
-        })
-        .catch(error => reject(error));
-    });
+    const promise = query.each(resultSets => eventEmitter.emit('newResultSets', Immutable.fromJS(resultSets)));
+
+    return {
+      eventEmitter,
+      promise,
+    };
   }
 
   static getExistingCrawlSession(id) {
