@@ -46,7 +46,7 @@ var MasterProductPriceService = function () {
         }
 
         return query.find().then(function (results) {
-          return _immutable2.default.fromJS(results).map(MasterProductPriceService.mapMasterProductPriceToResponseFormat);
+          return _immutable2.default.fromJS(results).map(MasterProductPriceService.mapParseObjectToDataTransferObject);
         }).catch(function (error) {
           return reject(error);
         });
@@ -81,8 +81,8 @@ var MasterProductPriceService = function () {
       return query;
     }
   }, {
-    key: 'mapMasterProductPriceToResponseFormat',
-    value: function mapMasterProductPriceToResponseFormat(masterProductPrice) {
+    key: 'mapParseObjectToDataTransferObject',
+    value: function mapParseObjectToDataTransferObject(masterProductPrice) {
       return Map({
         id: masterProductPrice.getId(),
         masterProduct: masterProductPrice.getMasterProduct(),

@@ -12,7 +12,7 @@ require('../bootstrap');
 
 var _crawlService = require('./crawl-service');
 
-var _storeCrawlerConfiguration = require('./schema/store-crawler-configuration');
+var _schema = require('./schema');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23,7 +23,7 @@ describe('getStoreCrawlerConfig', function () {
       val: (0, _v2.default)()
     });
 
-    return _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(key, expectedValue).save().then(function () {
+    return _schema.StoreCrawlerConfiguration.spawn(key, expectedValue).save().then(function () {
       _crawlService.CrawlService.getStoreCrawlerConfig(key).then(function (result) {
         expect(result).toEqual(expectedValue);
         done();

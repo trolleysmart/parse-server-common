@@ -7,15 +7,20 @@ import {
 import {
   MasterProductPriceService,
 } from './master-product-price-service';
+import {
+  StoreService,
+} from './store-service';
 
 export {
   CrawlService,
   MasterProductService,
   MasterProductPriceService,
+  StoreService,
 };
 
 export default {
   CrawlService,
   MasterProductService,
   MasterProductPriceService,
+  StoreService,
 };

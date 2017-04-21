@@ -90,7 +90,7 @@ var CrawlService = function () {
     value: function getExistingCrawlSessionInfo(id) {
       return new Promise(function (resolve, reject) {
         CrawlService.getExistingCrawlSession(id).then(function (crawlSession) {
-          resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
+          resolve(CrawlService.mapCrawlSessionParseObjectToDataTransferObject(crawlSession));
         }).catch(function (error) {
           return reject(error);
         });
@@ -101,7 +101,7 @@ var CrawlService = function () {
     value: function getMostRecentCrawlSessionInfo(sessionKey) {
       return new Promise(function (resolve, reject) {
         CrawlService.getMostRecentCrawlSession(sessionKey).then(function (crawlSession) {
-          resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
+          resolve(CrawlService.mapCrawlSessionParseObjectToDataTransferObject(crawlSession));
         }).catch(function (error) {
           return reject(error);
         });
@@ -176,8 +176,8 @@ var CrawlService = function () {
       });
     }
   }, {
-    key: 'mapCrawlSessionToResponseFormat',
-    value: function mapCrawlSessionToResponseFormat(crawlSession) {
+    key: 'mapCrawlSessionParseObjectToDataTransferObject',
+    value: function mapCrawlSessionParseObjectToDataTransferObject(crawlSession) {
       return (0, _immutable.Map)({
         id: crawlSession.getId(),
         sessionKey: crawlSession.getSessionKey(),
