@@ -70,7 +70,7 @@ class CrawlService {
     return new Promise((resolve, reject) => {
       CrawlService.getExistingCrawlSession(id)
         .then((crawlSession) => {
-          resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
+          resolve(CrawlService.mapCrawlSessionParseObjectToDataTransferObject(crawlSession));
         })
         .catch(error => reject(error));
     });
@@ -80,7 +80,7 @@ class CrawlService {
     return new Promise((resolve, reject) => {
       CrawlService.getMostRecentCrawlSession(sessionKey)
         .then((crawlSession) => {
-          resolve(CrawlService.mapCrawlSessionToResponseFormat(crawlSession));
+          resolve(CrawlService.mapCrawlSessionParseObjectToDataTransferObject(crawlSession));
         })
         .catch(error => reject(error));
     });
@@ -149,7 +149,7 @@ class CrawlService {
     });
   }
 
-  static mapCrawlSessionToResponseFormat(crawlSession) {
+  static mapCrawlSessionParseObjectToDataTransferObject(crawlSession) {
     return Map({
       id: crawlSession.getId(),
       sessionKey: crawlSession.getSessionKey(),
