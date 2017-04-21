@@ -6,7 +6,7 @@ import {
 } from './crawl-service';
 import {
   StoreCrawlerConfiguration,
-} from './schema/store-crawler-configuration';
+} from './schema';
 
 describe('getStoreCrawlerConfig', () => {
   test('should return config for the provided key', (done) => {

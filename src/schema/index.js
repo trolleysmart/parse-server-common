@@ -11,6 +11,9 @@ import {
   MasterProductPrice,
 } from './master-product-price';
 import {
+  Store,
+} from './store';
+import {
   StoreCrawlerConfiguration,
 } from './store-crawler-configuration';
 
@@ -19,6 +22,7 @@ export {
   CrawlSession,
   MasterProduct,
   MasterProductPrice,
+  Store,
   StoreCrawlerConfiguration,
 };
 
@@ -27,5 +31,6 @@ export default {
   CrawlSession,
   MasterProduct,
   MasterProductPrice,
+  Store,
   StoreCrawlerConfiguration,
 };

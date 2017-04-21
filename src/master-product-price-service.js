@@ -27,7 +27,7 @@ class MasterProductPriceService {
 
       return query.find()
         .then(results => Immutable.fromJS(results)
-          .map(MasterProductPriceService.mapMasterProductPriceToResponseFormat))
+          .map(MasterProductPriceService.mapParseObjectToDataTransferObject))
         .catch(error => reject(error));
     });
   }
@@ -56,7 +56,7 @@ class MasterProductPriceService {
     return query;
   }
 
-  static mapMasterProductPriceToResponseFormat(masterProductPrice) {
+  static mapParseObjectToDataTransferObject(masterProductPrice) {
     return Map({
       id: masterProductPrice.getId(),
       masterProduct: masterProductPrice.getMasterProduct(),
