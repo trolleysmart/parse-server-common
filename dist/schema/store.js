@@ -7,6 +7,8 @@ exports.Store = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23,21 +25,34 @@ var Store = function (_BaseObject) {
 
     var _this = _possibleConstructorReturn(this, (Store.__proto__ || Object.getPrototypeOf(Store)).call(this, object, 'Store'));
 
-    _this.getName = _this.getName.bind(_this);
+    _this.updateInfo = _this.updateInfo.bind(_this);
+    _this.getInfo = _this.getInfo.bind(_this);
     return _this;
   }
 
   _createClass(Store, [{
-    key: 'getName',
-    value: function getName() {
-      return this.getObject().get('name');
+    key: 'updateInfo',
+    value: function updateInfo(info) {
+      var object = this.getObject();
+
+      object.set('name', info.get('name'));
+
+      return object;
+    }
+  }, {
+    key: 'getInfo',
+    value: function getInfo() {
+      return (0, _immutable.Map)({
+        id: this.getId(),
+        name: this.getObject().get('name')
+      });
     }
   }], [{
     key: 'spawn',
-    value: function spawn(name) {
+    value: function spawn(info) {
       var object = new Store();
 
-      object.set('name', name);
+      object.set('name', info.get('name'));
 
       return object;
     }

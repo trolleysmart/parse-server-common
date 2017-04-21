@@ -1,29 +1,39 @@
+import {
+  Map,
+} from 'immutable';
 import uuid from 'uuid/v4';
 import {
-    Store,
+  Store,
 } from './store';
 
 describe('constructor', () => {
   test('should set class name', () => {
-    expect(Store.spawn('name')
+    expect(Store.spawn(Map({
+      name: uuid(),
+    }))
         .className)
       .toBe('Store');
   });
 });
 
 describe('static public methods', () => {
-  test('spawn should set provided name', () => {
-    const expectedValue = uuid();
+  test('spawn should set provided info', () => {
+    const expectedVal = Map({
+      name: uuid(),
+    });
+    const object = Store.spawn(expectedVal);
+    const info = object.getInfo();
 
-    expect(Store.spawn(expectedValue)
-        .get('name'))
-      .toBe(expectedValue);
+    expect(info.get('name'))
+      .toBe(expectedVal.get('name'));
   });
 });
 
 describe('public methods', () => {
   test('getObject should return provided object', () => {
-    const object = Store.spawn('name');
+    const object = Store.spawn(Map({
+      name: uuid(),
+    }));
 
     expect(new Store(object)
         .getObject())
@@ -31,19 +41,41 @@ describe('public methods', () => {
   });
 
   test('getId should return provided object Id', () => {
-    const object = Store.spawn('name');
+    const object = Store.spawn(Map({
+      name: uuid(),
+    }));
 
     expect(new Store(object)
         .getId())
       .toBe(object.id);
   });
 
-  test('getName should return provided name', () => {
-    const expectedValue = uuid();
-    const object = Store.spawn(expectedValue);
+  test('updateInfo should update object info', () => {
+    const object = Store.spawn(Map({
+      name: uuid(),
+    }));
+    const expectedVal = Map({
+      name: uuid(),
+    });
 
-    expect(new Store(object)
-        .getName())
-      .toBe(expectedValue);
+    object.updateInfo(expectedVal);
+
+    const info = object.getInfo();
+
+    expect(info.get('name'))
+      .toBe(expectedVal.get('name'));
+  });
+
+  test('getInfo should return provided info', () => {
+    const expectedVal = Map({
+      name: uuid(),
+    });
+    const object = Store.spawn(expectedVal);
+    const info = object.getInfo();
+
+    expect(info.get('id'))
+      .toBe(object.getId());
+    expect(info.get('name'))
+      .toBe(expectedVal.get('name'));
   });
 });

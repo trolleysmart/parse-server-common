@@ -1,4 +1,7 @@
 import {
+  Map,
+} from 'immutable';
+import {
   BaseObject,
 } from 'micro-business-parse-server-common';
 
@@ -6,20 +9,32 @@ class Store extends BaseObject {
   constructor(object) {
     super(object, 'Store');
 
-    this.getName = this.getName.bind(this);
+    this.updateInfo = this.updateInfo.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
 
-  static spawn(name) {
+  static spawn(info) {
     const object = new Store();
 
-    object.set('name', name);
+    object.set('name', info.get('name'));
 
     return object;
   }
 
-  getName() {
-    return this.getObject()
-      .get('name');
+  updateInfo(info) {
+    const object = this.getObject();
+
+    object.set('name', info.get('name'));
+
+    return object;
+  }
+
+  getInfo() {
+    return Map({
+      id: this.getId(),
+      name: this.getObject()
+        .get('name'),
+    });
   }
 }
 

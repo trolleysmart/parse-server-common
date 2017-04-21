@@ -80,13 +80,22 @@ describe('search', () => {
       name: expectedVal.get('name'),
     });
 
+    let storeId;
+
     StoreService.create(expectedVal)
-      .then(() => StoreService.search(criteria))
+      .then((id) => {
+        storeId = id;
+
+        return StoreService.search(criteria);
+      })
       .then((stores) => {
         expect(stores.size)
           .toBe(1);
-        expect(stores.first()
-            .get('name'))
+
+        const store = stores.first();
+        expect(store.get('id'))
+          .toBe(storeId);
+        expect(store.get('name'))
           .toBe(expectedVal.get('name'));
         done();
       });

@@ -79,11 +79,18 @@ describe('search', function () {
       name: expectedVal.get('name')
     });
 
-    _storeService.StoreService.create(expectedVal).then(function () {
+    var storeId = void 0;
+
+    _storeService.StoreService.create(expectedVal).then(function (id) {
+      storeId = id;
+
       return _storeService.StoreService.search(criteria);
     }).then(function (stores) {
       expect(stores.size).toBe(1);
-      expect(stores.first().get('name')).toBe(expectedVal.get('name'));
+
+      var store = stores.first();
+      expect(store.get('id')).toBe(storeId);
+      expect(store.get('name')).toBe(expectedVal.get('name'));
       done();
     });
   });

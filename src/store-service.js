@@ -1,6 +1,4 @@
-import Immutable, {
-  Map,
-} from 'immutable';
+import Immutable from 'immutable';
 import {
   ParseWrapperService,
 } from 'micro-business-parse-server-common';
@@ -9,9 +7,9 @@ import {
 } from './schema';
 
 class StoreService {
-  static create(store) {
+  static create(info) {
     return new Promise((resolve, reject) => {
-      Store.spawn(store.get('name'))
+      Store.spawn(info)
         .save()
         .then(result => resolve(result.id))
         .catch(error => reject(error));
@@ -30,7 +28,52 @@ class StoreService {
           if (results.length === 0) {
             reject(`No store found with Id: ${id}`);
           } else {
-            resolve(StoreService.mapParseObjectToDataTransferObject(new Store(results[0])));
+            resolve(new Store(results[0]).getInfo());
+          }
+        })
+        .catch(error => reject(error));
+    });
+  }
+
+  static update(id, info) {
+    return new Promise((resolve, reject) => {
+      const query = ParseWrapperService.createQuery(Store);
+
+      query.equalTo('objectId', id);
+      query.limit(1);
+
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No store found with Id: ${id}`);
+          } else {
+            const object = new Store(results[0])
+              .updateInfo(info);
+
+            object.saveObject()
+              .then(() => resolve(object.getId()))
+              .catch(error => reject(error));
+          }
+        })
+        .catch(error => reject(error));
+    });
+  }
+
+  static delete(id) {
+    return new Promise((resolve, reject) => {
+      const query = ParseWrapperService.createQuery(Store);
+
+      query.equalTo('objectId', id);
+      query.limit(1);
+
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No store found with Id: ${id}`);
+          } else {
+            results[0].destroy()
+              .then(() => resolve())
+              .catch(error => reject(error));
           }
         })
         .catch(error => reject(error));
@@ -42,7 +85,7 @@ class StoreService {
       .find()
       .then(results => resolve(Immutable.fromJS(results)
         .map(_ => new Store(_))
-        .map(StoreService.mapParseObjectToDataTransferObject)))
+        .map(store => store.getInfo())))
       .catch(error => reject(error)));
   }
 
@@ -61,13 +104,6 @@ class StoreService {
     }
 
     return query;
-  }
-
-  static mapParseObjectToDataTransferObject(store) {
-    return Map({
-      id: store.getId(),
-      name: store.getName(),
-    });
   }
 }
 
