@@ -8,60 +8,104 @@ import {
 } from './schema';
 
 class MasterProductPriceService {
-  static create(productPrice) {
+  static create(info) {
     return new Promise((resolve, reject) => {
-      MasterProductPrice.spawn(productPrice.get('masterProductId'), productPrice.get('priceDetails'))
+      MasterProductPrice.spawn(info)
         .save()
         .then(result => resolve(result.id))
         .catch(error => reject(error));
     });
   }
 
-  static search(productPrice, includeMasterProductDetails) {
+  static read(id) {
     return new Promise((resolve, reject) => {
-      const query = MasterProductPriceService.getQuery(productPrice);
+      const query = ParseWrapperService.createQuery(MasterProductPrice);
 
-      if (includeMasterProductDetails) {
-        query.include('masterProduct');
-      }
+      query.equalTo('objectId', id);
+      query.limit(1);
 
-      return query.find()
-        .then(results => Immutable.fromJS(results)
-          .map(MasterProductPriceService.mapParseObjectToDataTransferObject))
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No master product price found with Id: ${id}`);
+          } else {
+            resolve(new MasterProductPrice(results[0])
+              .getInfo());
+          }
+        })
         .catch(error => reject(error));
     });
   }
 
-  static exists(productPrice) {
+  static update(id, info) {
     return new Promise((resolve, reject) => {
-      const query = MasterProductPriceService.getQuery(productPrice);
+      const query = ParseWrapperService.createQuery(MasterProductPrice);
 
-      return query.count()
-        .then(total => resolve(total > 0))
+      query.equalTo('objectId', id);
+      query.limit(1);
+
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No master product price found with Id: ${id}`);
+          } else {
+            const object = new MasterProductPrice(results[0]);
+
+            object.updateInfo(info)
+              .saveObject()
+              .then(() => resolve(object.getId()))
+              .catch(error => reject(error));
+          }
+        })
         .catch(error => reject(error));
     });
   }
 
-  static getQuery(productPrice) {
+  static delete(id) {
+    return new Promise((resolve, reject) => {
+      const query = ParseWrapperService.createQuery(MasterProductPrice);
+
+      query.equalTo('objectId', id);
+      query.limit(1);
+
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No master product price found with Id: ${id}`);
+          } else {
+            results[0].destroy()
+              .then(() => resolve())
+              .catch(error => reject(error));
+          }
+        })
+        .catch(error => reject(error));
+    });
+  }
+
+  static search(criteria) {
+    return new Promise((resolve, reject) => MasterProductPriceService.buildSearchQuery(criteria)
+      .find()
+      .then(results => resolve(Immutable.fromJS(results)
+        .map(_ => new MasterProductPrice(_))
+        .map(masterProduct => masterProduct.getInfo())))
+      .catch(error => reject(error)));
+  }
+
+  static exists(criteria) {
+    return new Promise((resolve, reject) => MasterProductPriceService.buildSearchQuery(criteria)
+      .count()
+      .then(total => resolve(total > 0))
+      .catch(error => reject(error)));
+  }
+
+  static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(MasterProductPrice);
 
-    if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
-      query.equalTo('masterProduct', MasterProduct.createWithoutData(productPrice.get('masterProductId')));
-    }
-
-    if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
-      query.equalTo('priceDetails', productPrice.get('priceDetails'));
+    if (criteria.has('masterProductId') && criteria.get('masterProductId')) {
+      query.equalTo('masterProduct', MasterProduct.createWithoutData(criteria.get('masterProductId')));
     }
 
     return query;
-  }
-
-  static mapParseObjectToDataTransferObject(masterProductPrice) {
-    return Map({
-      id: masterProductPrice.getId(),
-      masterProduct: masterProductPrice.getMasterProduct(),
-      priceDetails: masterProductPrice.getPriceDetails(),
-    });
   }
 }
 
