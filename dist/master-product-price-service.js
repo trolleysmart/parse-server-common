@@ -26,9 +26,9 @@ var MasterProductPriceService = function () {
 
   _createClass(MasterProductPriceService, null, [{
     key: 'create',
-    value: function create(productPrice) {
+    value: function create(info) {
       return new Promise(function (resolve, reject) {
-        _schema.MasterProductPrice.spawn(productPrice.get('masterProductId'), productPrice.get('priceDetails')).save().then(function (result) {
+        _schema.MasterProductPrice.spawn(info).save().then(function (result) {
           return resolve(result.id);
         }).catch(function (error) {
           return reject(error);
@@ -36,17 +36,85 @@ var MasterProductPriceService = function () {
       });
     }
   }, {
-    key: 'search',
-    value: function search(productPrice, includeMasterProductDetails) {
+    key: 'read',
+    value: function read(id) {
       return new Promise(function (resolve, reject) {
-        var query = MasterProductPriceService.getQuery(productPrice);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
 
-        if (includeMasterProductDetails) {
-          query.include('masterProduct');
-        }
+        query.equalTo('objectId', id);
+        query.limit(1);
 
-        return query.find().then(function (results) {
-          return _immutable2.default.fromJS(results).map(MasterProductPriceService.mapParseObjectToDataTransferObject);
+        query.find().then(function (results) {
+          if (results.length === 0) {
+            reject('No master product price found with Id: ' + id);
+          } else {
+            resolve(new _schema.MasterProductPrice(results[0]).getInfo());
+          }
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'update',
+    value: function update(id, info) {
+      return new Promise(function (resolve, reject) {
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+
+        query.equalTo('objectId', id);
+        query.limit(1);
+
+        query.find().then(function (results) {
+          if (results.length === 0) {
+            reject('No master product price found with Id: ' + id);
+          } else {
+            var object = new _schema.MasterProductPrice(results[0]);
+
+            object.updateInfo(info).saveObject().then(function () {
+              return resolve(object.getId());
+            }).catch(function (error) {
+              return reject(error);
+            });
+          }
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'delete',
+    value: function _delete(id) {
+      return new Promise(function (resolve, reject) {
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+
+        query.equalTo('objectId', id);
+        query.limit(1);
+
+        query.find().then(function (results) {
+          if (results.length === 0) {
+            reject('No master product price found with Id: ' + id);
+          } else {
+            results[0].destroy().then(function () {
+              return resolve();
+            }).catch(function (error) {
+              return reject(error);
+            });
+          }
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'search',
+    value: function search(criteria) {
+      return new Promise(function (resolve, reject) {
+        return MasterProductPriceService.buildSearchQuery(criteria).find().then(function (results) {
+          return resolve(_immutable2.default.fromJS(results).map(function (_) {
+            return new _schema.MasterProductPrice(_);
+          }).map(function (masterProduct) {
+            return masterProduct.getInfo();
+          }));
         }).catch(function (error) {
           return reject(error);
         });
@@ -54,11 +122,9 @@ var MasterProductPriceService = function () {
     }
   }, {
     key: 'exists',
-    value: function exists(productPrice) {
+    value: function exists(criteria) {
       return new Promise(function (resolve, reject) {
-        var query = MasterProductPriceService.getQuery(productPrice);
-
-        return query.count().then(function (total) {
+        return MasterProductPriceService.buildSearchQuery(criteria).count().then(function (total) {
           return resolve(total > 0);
         }).catch(function (error) {
           return reject(error);
@@ -66,28 +132,15 @@ var MasterProductPriceService = function () {
       });
     }
   }, {
-    key: 'getQuery',
-    value: function getQuery(productPrice) {
+    key: 'buildSearchQuery',
+    value: function buildSearchQuery(criteria) {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
 
-      if (productPrice.has('masterProductId') && productPrice.get('masterProductId')) {
-        query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(productPrice.get('masterProductId')));
-      }
-
-      if (productPrice.has('priceDetails') && productPrice.get('priceDetails')) {
-        query.equalTo('priceDetails', productPrice.get('priceDetails'));
+      if (criteria.has('masterProductId') && criteria.get('masterProductId')) {
+        query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(criteria.get('masterProductId')));
       }
 
       return query;
-    }
-  }, {
-    key: 'mapParseObjectToDataTransferObject',
-    value: function mapParseObjectToDataTransferObject(masterProductPrice) {
-      return Map({
-        id: masterProductPrice.getId(),
-        masterProduct: masterProductPrice.getMasterProduct(),
-        priceDetails: masterProductPrice.getPriceDetails()
-      });
     }
   }]);
 
