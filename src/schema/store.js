@@ -6,6 +6,10 @@ import {
 } from 'micro-business-parse-server-common';
 
 class Store extends BaseObject {
+  static updateInfoInternal(object, info) {
+    object.set('name', info.get('name'));
+  }
+
   constructor(object) {
     super(object, 'Store');
 
@@ -16,7 +20,7 @@ class Store extends BaseObject {
   static spawn(info) {
     const object = new Store();
 
-    object.set('name', info.get('name'));
+    Store.updateInfoInternal(object, info);
 
     return object;
   }
@@ -24,7 +28,7 @@ class Store extends BaseObject {
   updateInfo(info) {
     const object = this.getObject();
 
-    object.set('name', info.get('name'));
+    Store.updateInfoInternal(object, info);
 
     return this;
   }

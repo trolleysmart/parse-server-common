@@ -1,45 +1,53 @@
+import {
+  Map,
+} from 'immutable';
 import uuid from 'uuid/v4';
 import {
   MasterProduct,
 } from './master-product';
 
+export function createMasterProductInfo() {
+  return Map({
+    description: uuid(),
+    barcode: uuid(),
+    imageUrl: uuid(),
+  });
+}
+
+export function createMasterProduct(masterProductInfo) {
+  return MasterProduct.spawn(masterProductInfo || createMasterProductInfo());
+}
+
+function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
+  expect(masterProductInfo.get('description'))
+    .toBe(expectedMasterProductInfo.get('description'));
+  expect(masterProductInfo.get('barcode').some())
+    .toBe(expectedMasterProductInfo.get('barcode'));
+  expect(masterProductInfo.get('imageUrl').some())
+    .toBe(expectedMasterProductInfo.get('imageUrl'));
+}
+
 describe('constructor', () => {
   test('should set class name', () => {
-    expect(MasterProduct.spawn('key', 'config')
+    expect(createMasterProduct()
         .className)
       .toBe('MasterProduct');
   });
 });
 
 describe('static public methods', () => {
-  test('spawn should set provided description', () => {
-    const expectedValue = uuid();
+  test('spawn should set provided info', () => {
+    const masterProductInfo = createMasterProductInfo();
+    const object = createMasterProduct(masterProductInfo);
+    const info = object.getInfo();
 
-    expect(MasterProduct.spawn(expectedValue, 'barcode', 'imageUrl')
-        .get('description'))
-      .toBe(expectedValue);
-  });
-
-  test('spawn should set provided barcode', () => {
-    const expectedValue = uuid();
-
-    expect(MasterProduct.spawn('description', expectedValue, 'imageUrl')
-        .get('barcode'))
-      .toBe(expectedValue);
-  });
-
-  test('spawn should set provided imageUrl', () => {
-    const expectedValue = uuid();
-
-    expect(MasterProduct.spawn('description', 'barcode', expectedValue)
-        .get('imageUrl'))
-      .toBe(expectedValue);
+    expectMasterProductInfo(info, masterProductInfo);
   });
 });
 
 describe('public methods', () => {
   test('getObject should return provided object', () => {
-    const object = MasterProduct.spawn('description', 'barcode', 'imageUrl');
+    const object = createMasterProduct();
 
     expect(new MasterProduct(object)
         .getObject())
@@ -47,37 +55,31 @@ describe('public methods', () => {
   });
 
   test('getId should return provided object Id', () => {
-    const object = MasterProduct.spawn('description', 'barcode', 'imageUrl');
+    const object = createMasterProduct();
 
     expect(new MasterProduct(object)
         .getId())
       .toBe(object.id);
   });
 
-  test('getDescription should return provided description', () => {
-    const expectedValue = uuid();
-    const object = MasterProduct.spawn(expectedValue, 'barcode', 'imageUrl');
+  test('updateInfo should update object info', () => {
+    const object = createMasterProduct();
+    const updatedMasterProductInfo = createMasterProductInfo();
 
-    expect(new MasterProduct(object)
-        .getDescription())
-      .toBe(expectedValue);
+    object.updateInfo(updatedMasterProductInfo);
+
+    const info = object.getInfo();
+
+    expectMasterProductInfo(info, updatedMasterProductInfo);
   });
 
-  test('getBarcode should return provided barcode', () => {
-    const expectedValue = uuid();
-    const object = MasterProduct.spawn('description', expectedValue, 'imageUrl');
+  test('getInfo should return provided info', () => {
+    const masterProductInfo = createMasterProductInfo();
+    const object = createMasterProduct(masterProductInfo);
+    const info = object.getInfo();
 
-    expect(new MasterProduct(object)
-        .getBarcode().some())
-      .toBe(expectedValue);
-  });
-
-  test('getImageUrl should return provided imageUrl;', () => {
-    const expectedValue = uuid();
-    const object = MasterProduct.spawn('description', 'barcode', expectedValue);
-
-    expect(new MasterProduct(object)
-        .getImageUrl().some())
-      .toBe(expectedValue);
+    expect(info.get('id'))
+        .toBe(object.getId());
+    expectMasterProductInfo(info, masterProductInfo);
   });
 });

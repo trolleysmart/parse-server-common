@@ -7,6 +7,8 @@ exports.MasterProduct = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _monet = require('monet');
@@ -20,40 +22,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MasterProduct = function (_BaseObject) {
   _inherits(MasterProduct, _BaseObject);
 
+  _createClass(MasterProduct, null, [{
+    key: 'updateInfoInternal',
+    value: function updateInfoInternal(object, info) {
+      object.set('description', info.get('description'));
+      object.set('barcode', info.get('barcode'));
+      object.set('imageUrl', info.get('imageUrl'));
+    }
+  }]);
+
   function MasterProduct(object) {
     _classCallCheck(this, MasterProduct);
 
     var _this = _possibleConstructorReturn(this, (MasterProduct.__proto__ || Object.getPrototypeOf(MasterProduct)).call(this, object, 'MasterProduct'));
 
-    _this.getDescription = _this.getDescription.bind(_this);
-    _this.getBarcode = _this.getBarcode.bind(_this);
-    _this.getImageUrl = _this.getImageUrl.bind(_this);
+    _this.updateInfo = _this.updateInfo.bind(_this);
+    _this.getInfo = _this.getInfo.bind(_this);
     return _this;
   }
 
   _createClass(MasterProduct, [{
-    key: 'getDescription',
-    value: function getDescription() {
-      return this.getObject().get('description');
+    key: 'updateInfo',
+    value: function updateInfo(info) {
+      var object = this.getObject();
+
+      MasterProduct.updateInfoInternal(object, info);
+
+      return this;
     }
   }, {
-    key: 'getBarcode',
-    value: function getBarcode() {
-      return _monet.Maybe.fromNull(this.getObject().get('barcode'));
-    }
-  }, {
-    key: 'getImageUrl',
-    value: function getImageUrl() {
-      return _monet.Maybe.fromNull(this.getObject().get('imageUrl'));
+    key: 'getInfo',
+    value: function getInfo() {
+      return (0, _immutable.Map)({
+        id: this.getId(),
+        description: this.getObject().get('description'),
+        barcode: _monet.Maybe.fromNull(this.getObject().get('barcode')),
+        imageUrl: _monet.Maybe.fromNull(this.getObject().get('imageUrl'))
+      });
     }
   }], [{
     key: 'spawn',
-    value: function spawn(description, barcode, imageUrl) {
+    value: function spawn(info) {
       var object = new MasterProduct();
 
-      object.set('description', description);
-      object.set('barcode', barcode);
-      object.set('imageUrl', imageUrl);
+      MasterProduct.updateInfoInternal(object, info);
 
       return object;
     }

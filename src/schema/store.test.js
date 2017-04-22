@@ -6,11 +6,24 @@ import {
   Store,
 } from './store';
 
+export function createStoreInfo() {
+  return Map({
+    name: uuid(),
+  });
+}
+
+export function createStore(storeInfo) {
+  return Store.spawn(storeInfo || createStoreInfo());
+}
+
+function expectStoreInfo(storeInfo, expectedStoreInfo) {
+  expect(storeInfo.get('name'))
+    .toBe(expectedStoreInfo.get('name'));
+}
+
 describe('constructor', () => {
   test('should set class name', () => {
-    expect(Store.spawn(Map({
-      name: uuid(),
-    }))
+    expect(createStore()
         .className)
       .toBe('Store');
   });
@@ -18,22 +31,17 @@ describe('constructor', () => {
 
 describe('static public methods', () => {
   test('spawn should set provided info', () => {
-    const expectedVal = Map({
-      name: uuid(),
-    });
-    const object = Store.spawn(expectedVal);
+    const storeInfo = createStoreInfo();
+    const object = createStore(storeInfo);
     const info = object.getInfo();
 
-    expect(info.get('name'))
-      .toBe(expectedVal.get('name'));
+    expectStoreInfo(info, storeInfo);
   });
 });
 
 describe('public methods', () => {
   test('getObject should return provided object', () => {
-    const object = Store.spawn(Map({
-      name: uuid(),
-    }));
+    const object = Store.spawn(createStoreInfo());
 
     expect(new Store(object)
         .getObject())
@@ -41,9 +49,7 @@ describe('public methods', () => {
   });
 
   test('getId should return provided object Id', () => {
-    const object = Store.spawn(Map({
-      name: uuid(),
-    }));
+    const object = createStore();
 
     expect(new Store(object)
         .getId())
@@ -51,31 +57,23 @@ describe('public methods', () => {
   });
 
   test('updateInfo should update object info', () => {
-    const object = Store.spawn(Map({
-      name: uuid(),
-    }));
-    const expectedVal = Map({
-      name: uuid(),
-    });
+    const object = createStore();
+    const updatedStoreInfo = createStoreInfo();
 
-    object.updateInfo(expectedVal);
+    object.updateInfo(updatedStoreInfo);
 
     const info = object.getInfo();
 
-    expect(info.get('name'))
-      .toBe(expectedVal.get('name'));
+    expectStoreInfo(info, updatedStoreInfo);
   });
 
   test('getInfo should return provided info', () => {
-    const expectedVal = Map({
-      name: uuid(),
-    });
-    const object = Store.spawn(expectedVal);
+    const storeInfo = createStoreInfo();
+    const object = createStore(storeInfo);
     const info = object.getInfo();
 
     expect(info.get('id'))
       .toBe(object.getId());
-    expect(info.get('name'))
-      .toBe(expectedVal.get('name'));
+    expectStoreInfo(info, storeInfo);
   });
 });

@@ -1,60 +1,87 @@
 'use strict';
 
-var _immutable = require('immutable');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createMasterProductPriceInfo = createMasterProductPriceInfo;
+exports.createMasterProductPrice = createMasterProductPrice;
 
-var _immutable2 = _interopRequireDefault(_immutable);
+var _immutable = require('immutable');
 
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
-var _masterProduct = require('./master-product');
-
 var _masterProductPrice = require('./master-product-price');
+
+var _masterProduct = require('./master-product.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createMasterProduct() {
-  return _masterProduct.MasterProduct.spawn('description', 'barcode', 'imageUrl');
+function createMasterProductPriceInfo() {
+  return (0, _immutable.Map)({
+    masterProductId: (0, _masterProduct.createMasterProduct)().getId(),
+    priceDetails: (0, _immutable.Map)({
+      price: (0, _v2.default)()
+    })
+  });
+}
+
+function createMasterProductPrice(masterProductPriceInfo) {
+  return _masterProductPrice.MasterProductPrice.spawn(masterProductPriceInfo || createMasterProductPriceInfo());
+}
+
+function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo) {
+  expect(masterProductPriceInfo.get('masterProduct').getId()).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
+  expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
 }
 
 describe('constructor', function () {
   test('should set class name', function () {
-    var masterProduct = createMasterProduct();
+    expect(createMasterProductPrice().className).toBe('MasterProductPrice');
+  });
+});
 
-    expect(_masterProductPrice.MasterProductPrice.spawn(masterProduct.getId(), {}).className).toBe('MasterProductPrice');
+describe('static public methods', function () {
+  test('spawn should set provided info', function () {
+    var masterProductPriceInfo = createMasterProductPriceInfo();
+    var object = createMasterProductPrice(masterProductPriceInfo);
+    var info = object.getInfo();
+
+    expectMasterProductPriceInfo(info, masterProductPriceInfo);
   });
 });
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var masterProduct = createMasterProduct();
-    var object = _masterProductPrice.MasterProductPrice.spawn(masterProduct.getId(), {});
+    var object = createMasterProductPrice();
 
-    expect(new _masterProduct.MasterProduct(object).getObject()).toBe(object);
+    expect(new _masterProductPrice.MasterProductPrice(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
-    var masterProduct = createMasterProduct();
-    var object = _masterProductPrice.MasterProductPrice.spawn(masterProduct.getId(), {});
+    var object = createMasterProductPrice();
 
-    expect(new _masterProduct.MasterProduct(object).getId()).toBe(object.id);
+    expect(new _masterProductPrice.MasterProductPrice(object).getId()).toBe(object.id);
   });
 
-  test('getMasterProduct should return provided crawl session', function () {
-    var masterProduct = createMasterProduct();
-    var object = _masterProductPrice.MasterProductPrice.spawn(masterProduct.getId(), {});
+  test('updateInfo should update object info', function () {
+    var object = createMasterProductPrice();
+    var updatedMasterProductPriceInfo = createMasterProductPriceInfo();
 
-    expect(new _masterProductPrice.MasterProductPrice(object).getMasterProduct().getId()).toBe(masterProduct.getId());
+    object.updateInfo(updatedMasterProductPriceInfo);
+
+    var info = object.getInfo();
+
+    expectMasterProductPriceInfo(info, updatedMasterProductPriceInfo);
   });
 
-  test('getPriceDetails should return provided result', function () {
-    var expectedValue = _immutable2.default.fromJS({
-      val: (0, _v2.default)()
-    });
-    var masterProduct = createMasterProduct();
-    var object = _masterProductPrice.MasterProductPrice.spawn(masterProduct.getId(), expectedValue);
+  test('getInfo should return provided info', function () {
+    var masterProductPriceInfo = createMasterProductPriceInfo();
+    var object = createMasterProductPrice(masterProductPriceInfo);
+    var info = object.getInfo();
 
-    expect(new _masterProductPrice.MasterProductPrice(object).getPriceDetails()).toBe(expectedValue);
+    expect(info.get('id')).toBe(object.getId());
+    expectMasterProductPriceInfo(info, masterProductPriceInfo);
   });
 });

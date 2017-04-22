@@ -6,10 +6,26 @@ import '../bootstrap';
 import {
   StoreService,
 } from './store-service';
+import {
+  createStoreInfo,
+} from './schema/store.test';
 
-function createStoreInfo() {
+function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
+  expect(storeInfo.get('id'))
+    .toBe(storeId);
+  expect(storeInfo.get('name'))
+    .toBe(expectedStoreInfo.get('name'));
+}
+
+function createCriteria() {
   return Map({
     name: uuid(),
+  });
+}
+
+function createCriteriaUsingProvidedStoreInfo(storeInfo) {
+  return Map({
+    name: storeInfo.get('name'),
   });
 }
 
@@ -28,13 +44,17 @@ describe('create', () => {
   });
 
   test('should create the store', (done) => {
-    const storeInfo = createStoreInfo();
+    const expectedStoreInfo = createStoreInfo();
+    let storeId;
 
-    StoreService.create(storeInfo)
-      .then(storeId => StoreService.read(storeId))
-      .then((store) => {
-        expect(store.get('name'))
-          .toBe(storeInfo.get('name'));
+    StoreService.create(expectedStoreInfo)
+      .then((id) => {
+        storeId = id;
+
+        return StoreService.read(storeId);
+      })
+      .then((storeInfo) => {
+        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
       .catch((error) => {
@@ -57,13 +77,17 @@ describe('read', () => {
   });
 
   test('should read the existing store', (done) => {
-    const storeInfo = createStoreInfo();
+    const expectedStoreInfo = createStoreInfo();
+    let storeId;
 
-    StoreService.create(storeInfo)
-      .then(storeId => StoreService.read(storeId))
-      .then((store) => {
-        expect(store.get('name'))
-          .toBe(storeInfo.get('name'));
+    StoreService.create(expectedStoreInfo)
+      .then((id) => {
+        storeId = id;
+
+        return StoreService.read(storeId);
+      })
+      .then((storeInfo) => {
+        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
       .catch((error) => {
@@ -86,15 +110,13 @@ describe('update', () => {
   });
 
   test('should return the Id of the updated store', (done) => {
-    const storeInfo = createStoreInfo();
-    const updatedStoreInfo = createStoreInfo();
     let storeId;
 
-    StoreService.create(storeInfo)
+    StoreService.create(createStoreInfo())
       .then((id) => {
         storeId = id;
 
-        return StoreService.update(storeId, updatedStoreInfo);
+        return StoreService.update(storeId, createStoreInfo());
       })
       .then((id) => {
         expect(id)
@@ -108,15 +130,18 @@ describe('update', () => {
   });
 
   test('should update the existing store', (done) => {
-    const storeInfo = createStoreInfo();
-    const updatedStoreInfo = createStoreInfo();
+    const expectedStoreInfo = createStoreInfo();
+    let storeId;
 
-    StoreService.create(storeInfo)
-      .then(storeId => StoreService.update(storeId, updatedStoreInfo))
-      .then(storeId => StoreService.read(storeId))
-      .then((store) => {
-        expect(store.get('name'))
-          .toBe(updatedStoreInfo.get('name'));
+    StoreService.create(createStoreInfo())
+      .then(id => StoreService.update(id, expectedStoreInfo))
+      .then((id) => {
+        storeId = id;
+
+        return StoreService.read(storeId);
+      })
+      .then((storeInfo) => {
+        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
       .catch((error) => {
@@ -139,10 +164,9 @@ describe('delete', () => {
   });
 
   test('should delete the existing store', (done) => {
-    const storeInfo = createStoreInfo();
     let storeId;
 
-    StoreService.create(storeInfo)
+    StoreService.create(createStoreInfo())
       .then((id) => {
         storeId = id;
         return StoreService.delete(storeId);
@@ -158,11 +182,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no store if provided criteria matches no store', (done) => {
-    const criteria = Map({
-      name: uuid(),
-    });
-
-    StoreService.search(criteria)
+    StoreService.search(createStoreInfo())
       .then((stores) => {
         expect(stores.size)
           .toBe(0);
@@ -175,28 +195,21 @@ describe('search', () => {
   });
 
   test('should return the stores matches the criteria', (done) => {
-    const storeInfo = createStoreInfo();
-    const criteria = Map({
-      name: storeInfo.get('name'),
-    });
-
+    const expectedStoreInfo = createStoreInfo();
     let storeId;
 
-    StoreService.create(storeInfo)
+    StoreService.create(expectedStoreInfo)
       .then((id) => {
         storeId = id;
 
-        return StoreService.search(criteria);
+        return StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
       })
-      .then((stores) => {
-        expect(stores.size)
+      .then((storeInfos) => {
+        expect(storeInfos.size)
           .toBe(1);
 
-        const store = stores.first();
-        expect(store.get('id'))
-          .toBe(storeId);
-        expect(store.get('name'))
-          .toBe(storeInfo.get('name'));
+        const storeInfo = storeInfos.first();
+        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
       .catch((error) => {
@@ -208,11 +221,7 @@ describe('search', () => {
 
 describe('exists', () => {
   test('should return false if no store match provided criteria', (done) => {
-    const criteria = Map({
-      name: uuid(),
-    });
-
-    StoreService.exists(criteria)
+    StoreService.exists(createCriteria())
       .then((response) => {
         expect(response)
           .toBeFalsy();
@@ -226,12 +235,9 @@ describe('exists', () => {
 
   test('should return true if any store match provided criteria', (done) => {
     const storeInfo = createStoreInfo();
-    const criteria = Map({
-      name: storeInfo.get('name'),
-    });
 
     StoreService.create(storeInfo)
-      .then(() => StoreService.exists(criteria))
+      .then(() => StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo)))
       .then((response) => {
         expect(response)
           .toBeTruthy();

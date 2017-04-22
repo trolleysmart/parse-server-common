@@ -1,4 +1,6 @@
-import Immutable from 'immutable';
+import Immutable, {
+  Map,
+} from 'immutable';
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
@@ -7,33 +9,40 @@ import {
 } from './master-product';
 
 class MasterProductPrice extends BaseObject {
+  static updateInfoInternal(object, info) {
+    object.set('masterProduct', MasterProduct.createWithoutData(info.get('masterProductId')));
+    object.set('priceDetails', info.get('priceDetails').toJS());
+  }
+
   constructor(object) {
     super(object, 'MasterProductPrice');
 
-    this.getMasterProduct = this.getMasterProduct.bind(this);
-    this.getPriceDetails = this.getPriceDetails.bind(this);
+    this.updateInfo = this.updateInfo.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
 
-  static spawn(
-    masterProductId,
-    priceDetails,
-  ) {
+  static spawn(info) {
     const object = new MasterProductPrice();
 
-    object.set('masterProduct', MasterProduct.createWithoutData(masterProductId));
-    object.set('priceDetails', priceDetails);
+    MasterProductPrice.updateInfoInternal(object, info);
 
     return object;
   }
 
-  getMasterProduct() {
-    return new MasterProduct(this.getObject()
-      .get('masterProduct'));
+  updateInfo(info) {
+    const object = this.getObject();
+
+    MasterProductPrice.updateInfoInternal(object, info);
+
+    return this;
   }
 
-  getPriceDetails() {
-    return Immutable.fromJS(this.getObject()
-      .get('priceDetails'));
+  getInfo() {
+    return Map({
+      id: this.getId(),
+      masterProduct: new MasterProduct(this.getObject().get('masterProduct')),
+      priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
+    });
   }
 }
 

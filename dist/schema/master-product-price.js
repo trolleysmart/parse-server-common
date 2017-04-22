@@ -26,33 +26,48 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MasterProductPrice = function (_BaseObject) {
   _inherits(MasterProductPrice, _BaseObject);
 
+  _createClass(MasterProductPrice, null, [{
+    key: 'updateInfoInternal',
+    value: function updateInfoInternal(object, info) {
+      object.set('masterProduct', _masterProduct.MasterProduct.createWithoutData(info.get('masterProductId')));
+      object.set('priceDetails', info.get('priceDetails').toJS());
+    }
+  }]);
+
   function MasterProductPrice(object) {
     _classCallCheck(this, MasterProductPrice);
 
     var _this = _possibleConstructorReturn(this, (MasterProductPrice.__proto__ || Object.getPrototypeOf(MasterProductPrice)).call(this, object, 'MasterProductPrice'));
 
-    _this.getMasterProduct = _this.getMasterProduct.bind(_this);
-    _this.getPriceDetails = _this.getPriceDetails.bind(_this);
+    _this.updateInfo = _this.updateInfo.bind(_this);
+    _this.getInfo = _this.getInfo.bind(_this);
     return _this;
   }
 
   _createClass(MasterProductPrice, [{
-    key: 'getMasterProduct',
-    value: function getMasterProduct() {
-      return new _masterProduct.MasterProduct(this.getObject().get('masterProduct'));
+    key: 'updateInfo',
+    value: function updateInfo(info) {
+      var object = this.getObject();
+
+      MasterProductPrice.updateInfoInternal(object, info);
+
+      return this;
     }
   }, {
-    key: 'getPriceDetails',
-    value: function getPriceDetails() {
-      return _immutable2.default.fromJS(this.getObject().get('priceDetails'));
+    key: 'getInfo',
+    value: function getInfo() {
+      return (0, _immutable.Map)({
+        id: this.getId(),
+        masterProduct: new _masterProduct.MasterProduct(this.getObject().get('masterProduct')),
+        priceDetails: _immutable2.default.fromJS(this.getObject().get('priceDetails'))
+      });
     }
   }], [{
     key: 'spawn',
-    value: function spawn(masterProductId, priceDetails) {
+    value: function spawn(info) {
       var object = new MasterProductPrice();
 
-      object.set('masterProduct', _masterProduct.MasterProduct.createWithoutData(masterProductId));
-      object.set('priceDetails', priceDetails);
+      MasterProductPrice.updateInfoInternal(object, info);
 
       return object;
     }

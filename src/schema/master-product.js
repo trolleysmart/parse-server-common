@@ -1,4 +1,7 @@
 import {
+  Map,
+} from 'immutable';
+import {
   BaseObject,
 } from 'micro-business-parse-server-common';
 import {
@@ -6,41 +9,45 @@ import {
 } from 'monet';
 
 class MasterProduct extends BaseObject {
+  static updateInfoInternal(object, info) {
+    object.set('description', info.get('description'));
+    object.set('barcode', info.get('barcode'));
+    object.set('imageUrl', info.get('imageUrl'));
+  }
+
   constructor(object) {
     super(object, 'MasterProduct');
 
-    this.getDescription = this.getDescription.bind(this);
-    this.getBarcode = this.getBarcode.bind(this);
-    this.getImageUrl = this.getImageUrl.bind(this);
+    this.updateInfo = this.updateInfo.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
 
-  static spawn(
-    description,
-    barcode,
-    imageUrl,
-  ) {
+  static spawn(info) {
     const object = new MasterProduct();
 
-    object.set('description', description);
-    object.set('barcode', barcode);
-    object.set('imageUrl', imageUrl);
+    MasterProduct.updateInfoInternal(object, info);
 
     return object;
   }
 
-  getDescription() {
-    return this.getObject()
-      .get('description');
+  updateInfo(info) {
+    const object = this.getObject();
+
+    MasterProduct.updateInfoInternal(object, info);
+
+    return this;
   }
 
-  getBarcode() {
-    return Maybe.fromNull(this.getObject()
-      .get('barcode'));
-  }
-
-  getImageUrl() {
-    return Maybe.fromNull(this.getObject()
-      .get('imageUrl'));
+  getInfo() {
+    return Map({
+      id: this.getId(),
+      description: this.getObject()
+        .get('description'),
+      barcode: Maybe.fromNull(this.getObject()
+        .get('barcode')),
+      imageUrl: Maybe.fromNull(this.getObject()
+        .get('imageUrl')),
+    });
   }
 }
 

@@ -10,17 +10,30 @@ require('../bootstrap');
 
 var _storeService = require('./store-service');
 
+var _store = require('./schema/store.test');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createStoreInfo() {
+function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
+  expect(storeInfo.get('id')).toBe(storeId);
+  expect(storeInfo.get('name')).toBe(expectedStoreInfo.get('name'));
+}
+
+function createCriteria() {
   return (0, _immutable.Map)({
     name: (0, _v2.default)()
   });
 }
 
+function createCriteriaUsingProvidedStoreInfo(storeInfo) {
+  return (0, _immutable.Map)({
+    name: storeInfo.get('name')
+  });
+}
+
 describe('create', function () {
   test('should return the created store Id', function (done) {
-    _storeService.StoreService.create(createStoreInfo()).then(function (result) {
+    _storeService.StoreService.create((0, _store.createStoreInfo)()).then(function (result) {
       expect(result).toBeDefined();
       done();
     }).catch(function (error) {
@@ -30,12 +43,15 @@ describe('create', function () {
   });
 
   test('should create the store', function (done) {
-    var storeInfo = createStoreInfo();
+    var expectedStoreInfo = (0, _store.createStoreInfo)();
+    var storeId = void 0;
 
-    _storeService.StoreService.create(storeInfo).then(function (storeId) {
+    _storeService.StoreService.create(expectedStoreInfo).then(function (id) {
+      storeId = id;
+
       return _storeService.StoreService.read(storeId);
-    }).then(function (store) {
-      expect(store.get('name')).toBe(storeInfo.get('name'));
+    }).then(function (storeInfo) {
+      expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -55,12 +71,15 @@ describe('read', function () {
   });
 
   test('should read the existing store', function (done) {
-    var storeInfo = createStoreInfo();
+    var expectedStoreInfo = (0, _store.createStoreInfo)();
+    var storeId = void 0;
 
-    _storeService.StoreService.create(storeInfo).then(function (storeId) {
+    _storeService.StoreService.create(expectedStoreInfo).then(function (id) {
+      storeId = id;
+
       return _storeService.StoreService.read(storeId);
-    }).then(function (store) {
-      expect(store.get('name')).toBe(storeInfo.get('name'));
+    }).then(function (storeInfo) {
+      expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -73,21 +92,19 @@ describe('update', function () {
   test('should reject if the provided store Id does not exist', function (done) {
     var storeId = (0, _v2.default)();
 
-    _storeService.StoreService.update(storeId, createStoreInfo()).catch(function (error) {
+    _storeService.StoreService.update(storeId, (0, _store.createStoreInfo)()).catch(function (error) {
       expect(error).toBe('No store found with Id: ' + storeId);
       done();
     });
   });
 
   test('should return the Id of the updated store', function (done) {
-    var storeInfo = createStoreInfo();
-    var updatedStoreInfo = createStoreInfo();
     var storeId = void 0;
 
-    _storeService.StoreService.create(storeInfo).then(function (id) {
+    _storeService.StoreService.create((0, _store.createStoreInfo)()).then(function (id) {
       storeId = id;
 
-      return _storeService.StoreService.update(storeId, updatedStoreInfo);
+      return _storeService.StoreService.update(storeId, (0, _store.createStoreInfo)());
     }).then(function (id) {
       expect(id).toBe(storeId);
       done();
@@ -98,15 +115,17 @@ describe('update', function () {
   });
 
   test('should update the existing store', function (done) {
-    var storeInfo = createStoreInfo();
-    var updatedStoreInfo = createStoreInfo();
+    var expectedStoreInfo = (0, _store.createStoreInfo)();
+    var storeId = void 0;
 
-    _storeService.StoreService.create(storeInfo).then(function (storeId) {
-      return _storeService.StoreService.update(storeId, updatedStoreInfo);
-    }).then(function (storeId) {
+    _storeService.StoreService.create((0, _store.createStoreInfo)()).then(function (id) {
+      return _storeService.StoreService.update(id, expectedStoreInfo);
+    }).then(function (id) {
+      storeId = id;
+
       return _storeService.StoreService.read(storeId);
-    }).then(function (store) {
-      expect(store.get('name')).toBe(updatedStoreInfo.get('name'));
+    }).then(function (storeInfo) {
+      expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -126,10 +145,9 @@ describe('delete', function () {
   });
 
   test('should delete the existing store', function (done) {
-    var storeInfo = createStoreInfo();
     var storeId = void 0;
 
-    _storeService.StoreService.create(storeInfo).then(function (id) {
+    _storeService.StoreService.create((0, _store.createStoreInfo)()).then(function (id) {
       storeId = id;
       return _storeService.StoreService.delete(storeId);
     }).then(function () {
@@ -143,11 +161,7 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no store if provided criteria matches no store', function (done) {
-    var criteria = (0, _immutable.Map)({
-      name: (0, _v2.default)()
-    });
-
-    _storeService.StoreService.search(criteria).then(function (stores) {
+    _storeService.StoreService.search((0, _store.createStoreInfo)()).then(function (stores) {
       expect(stores.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -157,23 +171,18 @@ describe('search', function () {
   });
 
   test('should return the stores matches the criteria', function (done) {
-    var storeInfo = createStoreInfo();
-    var criteria = (0, _immutable.Map)({
-      name: storeInfo.get('name')
-    });
-
+    var expectedStoreInfo = (0, _store.createStoreInfo)();
     var storeId = void 0;
 
-    _storeService.StoreService.create(storeInfo).then(function (id) {
+    _storeService.StoreService.create(expectedStoreInfo).then(function (id) {
       storeId = id;
 
-      return _storeService.StoreService.search(criteria);
-    }).then(function (stores) {
-      expect(stores.size).toBe(1);
+      return _storeService.StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
+    }).then(function (storeInfos) {
+      expect(storeInfos.size).toBe(1);
 
-      var store = stores.first();
-      expect(store.get('id')).toBe(storeId);
-      expect(store.get('name')).toBe(storeInfo.get('name'));
+      var storeInfo = storeInfos.first();
+      expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -184,11 +193,7 @@ describe('search', function () {
 
 describe('exists', function () {
   test('should return false if no store match provided criteria', function (done) {
-    var criteria = (0, _immutable.Map)({
-      name: (0, _v2.default)()
-    });
-
-    _storeService.StoreService.exists(criteria).then(function (response) {
+    _storeService.StoreService.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -198,13 +203,10 @@ describe('exists', function () {
   });
 
   test('should return true if any store match provided criteria', function (done) {
-    var storeInfo = createStoreInfo();
-    var criteria = (0, _immutable.Map)({
-      name: storeInfo.get('name')
-    });
+    var storeInfo = (0, _store.createStoreInfo)();
 
     _storeService.StoreService.create(storeInfo).then(function () {
-      return _storeService.StoreService.exists(criteria);
+      return _storeService.StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();
