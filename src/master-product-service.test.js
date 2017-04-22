@@ -193,8 +193,8 @@ describe('delete', () => {
 describe('search', () => {
   test('should return no master product if provided criteria matches no masterProduct', (done) => {
     MasterProductService.search(createCriteria())
-      .then((masterProducts) => {
-        expect(masterProducts.size)
+      .then((masterProductInfos) => {
+        expect(masterProductInfos.size)
           .toBe(0);
         done();
       })
@@ -204,7 +204,7 @@ describe('search', () => {
       });
   });
 
-  test('should return the masterProducts matches the criteria', (done) => {
+  test('should return the master products matches the criteria', (done) => {
     const expectedMasterProductInfo = createMasterProductInfo();
     let masterProductId;
 

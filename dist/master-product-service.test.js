@@ -173,8 +173,8 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no master product if provided criteria matches no masterProduct', function (done) {
-    _masterProductService.MasterProductService.search(createCriteria()).then(function (masterProducts) {
-      expect(masterProducts.size).toBe(0);
+    _masterProductService.MasterProductService.search(createCriteria()).then(function (masterProductInfos) {
+      expect(masterProductInfos.size).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -182,7 +182,7 @@ describe('search', function () {
     });
   });
 
-  test('should return the masterProducts matches the criteria', function (done) {
+  test('should return the master products matches the criteria', function (done) {
     var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
     var masterProductId = void 0;
 

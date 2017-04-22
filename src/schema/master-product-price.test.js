@@ -9,9 +9,9 @@ import {
   createMasterProduct,
 } from './master-product.test';
 
-export function createMasterProductPriceInfo() {
+export function createMasterProductPriceInfo(masterProductId) {
   return Map({
-    masterProductId: createMasterProduct()
+    masterProductId: masterProductId || createMasterProduct()
       .getId(),
     priceDetails: Map({
       price: uuid(),

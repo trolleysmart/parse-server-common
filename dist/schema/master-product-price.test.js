@@ -18,9 +18,9 @@ var _masterProduct = require('./master-product.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createMasterProductPriceInfo() {
+function createMasterProductPriceInfo(masterProductId) {
   return (0, _immutable.Map)({
-    masterProductId: (0, _masterProduct.createMasterProduct)().getId(),
+    masterProductId: masterProductId || (0, _masterProduct.createMasterProduct)().getId(),
     priceDetails: (0, _immutable.Map)({
       price: (0, _v2.default)()
     })
