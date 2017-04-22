@@ -68,9 +68,9 @@ var StoreService = function () {
           if (results.length === 0) {
             reject('No store found with Id: ' + id);
           } else {
-            var object = new _schema.Store(results[0]).updateInfo(info);
+            var object = new _schema.Store(results[0]);
 
-            object.saveObject().then(function () {
+            object.updateInfo(info).saveObject().then(function () {
               return resolve(object.getId());
             }).catch(function (error) {
               return reject(error);

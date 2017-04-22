@@ -26,7 +26,7 @@ class Store extends BaseObject {
 
     object.set('name', info.get('name'));
 
-    return object;
+    return this;
   }
 
   getInfo() {

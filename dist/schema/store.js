@@ -37,7 +37,7 @@ var Store = function (_BaseObject) {
 
       object.set('name', info.get('name'));
 
-      return object;
+      return this;
     }
   }, {
     key: 'getInfo',

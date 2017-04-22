@@ -28,7 +28,8 @@ class StoreService {
           if (results.length === 0) {
             reject(`No store found with Id: ${id}`);
           } else {
-            resolve(new Store(results[0]).getInfo());
+            resolve(new Store(results[0])
+              .getInfo());
           }
         })
         .catch(error => reject(error));
@@ -47,10 +48,10 @@ class StoreService {
           if (results.length === 0) {
             reject(`No store found with Id: ${id}`);
           } else {
-            const object = new Store(results[0])
-              .updateInfo(info);
+            const object = new Store(results[0]);
 
-            object.saveObject()
+            object.updateInfo(info)
+              .saveObject()
               .then(() => resolve(object.getId()))
               .catch(error => reject(error));
           }
