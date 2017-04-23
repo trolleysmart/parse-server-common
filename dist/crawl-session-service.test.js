@@ -200,6 +200,48 @@ describe('search', function () {
   });
 });
 
+describe('searchAll', function () {
+  test('should return no crawl session if provided criteria matches no crawl session', function (done) {
+    var result = _crawlSessionService.CrawlSessionService.searchAll(createCriteria());
+    var crawlSessions = (0, _immutable.List)();
+
+    result.event.subscribe(function (crawlSession) {
+      crawlSessions = crawlSessions.push(crawlSession);
+    });
+    result.promise.then(function () {
+      expect(crawlSessions.size).toBe(0);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should return the crawl sessions matches the criteria', function (done) {
+    var expectedCrawlSessionInfo = (0, _crawlSession.createCrawlSessionInfo)();
+
+    Promise.all([_crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo), _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo)]).then(function (ids) {
+      var crawlSessionIds = _immutable.List.of(ids[0], ids[1]);
+      var result = _crawlSessionService.CrawlSessionService.searchAll(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
+      var crawlSessions = (0, _immutable.List)();
+
+      result.event.subscribe(function (crawlSession) {
+        crawlSessions = crawlSessions.push(crawlSession);
+      });
+      result.promise.then(function () {
+        expect(crawlSessions.size).toBe(crawlSessionIds.size);
+        done();
+      }).catch(function (error) {
+        fail(error);
+        done();
+      });
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
 describe('exists', function () {
   test('should return false if no crawl session match provided criteria', function (done) {
     _crawlSessionService.CrawlSessionService.exists(createCriteria()).then(function (response) {
