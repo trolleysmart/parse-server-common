@@ -15,6 +15,8 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('./schema');
 
+var _newSearchResultReceivedEvent = require('./new-search-result-received-event');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -119,6 +121,19 @@ var MasterProductPriceService = function () {
           return reject(error);
         });
       });
+    }
+  }, {
+    key: 'searchAll',
+    value: function searchAll(criteria) {
+      var event = new _newSearchResultReceivedEvent.NewSearchResultReceivedEvent();
+      var promise = MasterProductPriceService.buildSearchQuery(criteria).each(function (_) {
+        return event.raise(new _schema.MasterProductPrice(_).getInfo());
+      });
+
+      return {
+        event: event,
+        promise: promise
+      };
     }
   }, {
     key: 'exists',

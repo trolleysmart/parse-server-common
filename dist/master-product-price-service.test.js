@@ -236,6 +236,54 @@ describe('search', function () {
   });
 });
 
+describe('searchAll', function () {
+  test('should return no master product price if provided criteria matches no master product price', function (done) {
+    var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteria());
+    var masterProductPrices = (0, _immutable.List)();
+
+    result.event.subscribe(function (masterProductPrice) {
+      masterProductPrices = masterProductPrices.push(masterProductPrice);
+    });
+    result.promise.then(function () {
+      expect(masterProductPrices.size).toBe(0);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should return the master products price matches the criteria', function (done) {
+    var masterProductId = void 0;
+    var expectedMasterProductPriceInfo = void 0;
+
+    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
+      masterProductId = id;
+      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId);
+
+      return Promise.all([_masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo), _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo)]);
+    }).then(function (ids) {
+      var masterProductPriceIds = _immutable.List.of(ids[0], ids[1]);
+      var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId));
+      var masterProductPrices = (0, _immutable.List)();
+
+      result.event.subscribe(function (masterProductPrice) {
+        masterProductPrices = masterProductPrices.push(masterProductPrice);
+      });
+      result.promise.then(function () {
+        expect(masterProductPrices.size).toBe(masterProductPriceIds.size);
+        done();
+      }).catch(function (error) {
+        fail(error);
+        done();
+      });
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
 describe('exists', function () {
   test('should return false if no master product price match provided criteria', function (done) {
     _masterProductPriceService.MasterProductPriceService.exists(createCriteria()).then(function (response) {

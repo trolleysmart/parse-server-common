@@ -1,4 +1,5 @@
 import {
+  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
@@ -254,6 +255,62 @@ describe('search', () => {
         const masterProductPriceInfo = masterProductPriceInfos.first();
         expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId);
         done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+});
+
+describe('searchAll', () => {
+  test('should return no master product price if provided criteria matches no master product price', (done) => {
+    const result = MasterProductPriceService.searchAll(createCriteria());
+    let masterProductPrices = List();
+
+    result.event.subscribe((masterProductPrice) => {
+      masterProductPrices = masterProductPrices.push(masterProductPrice);
+    });
+    result.promise.then(() => {
+      expect(masterProductPrices.size)
+          .toBe(0);
+      done();
+    })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+
+  test('should return the master products price matches the criteria', (done) => {
+    let masterProductId;
+    let expectedMasterProductPriceInfo;
+
+    MasterProductService.create(createMasterProductInfo())
+      .then((id) => {
+        masterProductId = id;
+        expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId);
+
+        return Promise.all([MasterProductPriceService.create(expectedMasterProductPriceInfo), MasterProductPriceService.create(
+          expectedMasterProductPriceInfo)]);
+      })
+      .then((ids) => {
+        const masterProductPriceIds = List.of(ids[0], ids[1]);
+        const result = MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId));
+        let masterProductPrices = List();
+
+        result.event.subscribe((masterProductPrice) => {
+          masterProductPrices = masterProductPrices.push(masterProductPrice);
+        });
+        result.promise.then(() => {
+          expect(masterProductPrices.size)
+              .toBe(masterProductPriceIds.size);
+          done();
+        })
+          .catch((error) => {
+            fail(error);
+            done();
+          });
       })
       .catch((error) => {
         fail(error);

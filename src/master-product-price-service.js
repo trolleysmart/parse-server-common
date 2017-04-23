@@ -6,6 +6,9 @@ import {
   MasterProduct,
   MasterProductPrice,
 } from './schema';
+import {
+  NewSearchResultReceivedEvent,
+} from './new-search-result-received-event';
 
 class MasterProductPriceService {
   static create(info) {
@@ -89,6 +92,18 @@ class MasterProductPriceService {
         .map(_ => new MasterProductPrice(_))
         .map(masterProductPrice => masterProductPrice.getInfo())))
       .catch(error => reject(error)));
+  }
+
+  static searchAll(criteria) {
+    const event = new NewSearchResultReceivedEvent();
+    const promise = MasterProductPriceService.buildSearchQuery(criteria)
+      .each(_ => event.raise(new MasterProductPrice(_)
+        .getInfo()));
+
+    return {
+      event,
+      promise,
+    };
   }
 
   static exists(criteria) {
