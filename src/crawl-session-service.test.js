@@ -1,4 +1,5 @@
 import {
+  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
@@ -220,6 +221,54 @@ describe('search', () => {
         const crawlSessionInfo = crawlSessionInfos.first();
         expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
         done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+});
+
+describe('searchAll', () => {
+  test('should return no crawl session if provided criteria matches no crawl session', (done) => {
+    const result = CrawlSessionService.searchAll(createCriteria());
+    let crawlSessions = List();
+
+    result.event.subscribe((crawlSession) => {
+      crawlSessions = crawlSessions.push(crawlSession);
+    });
+    result.promise.then(() => {
+      expect(crawlSessions.size)
+          .toBe(0);
+      done();
+    })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+
+  test('should return the crawl sessions matches the criteria', (done) => {
+    const expectedCrawlSessionInfo = createCrawlSessionInfo();
+
+    Promise.all([CrawlSessionService.create(expectedCrawlSessionInfo), CrawlSessionService.create(expectedCrawlSessionInfo)])
+      .then((ids) => {
+        const crawlSessionIds = List.of(ids[0], ids[1]);
+        const result = CrawlSessionService.searchAll(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
+        let crawlSessions = List();
+
+        result.event.subscribe((crawlSession) => {
+          crawlSessions = crawlSessions.push(crawlSession);
+        });
+        result.promise.then(() => {
+          expect(crawlSessions.size)
+              .toBe(crawlSessionIds.size);
+          done();
+        })
+          .catch((error) => {
+            fail(error);
+            done();
+          });
       })
       .catch((error) => {
         fail(error);
