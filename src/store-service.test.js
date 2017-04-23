@@ -1,4 +1,5 @@
 import {
+  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
@@ -211,6 +212,54 @@ describe('search', () => {
         const storeInfo = storeInfos.first();
         expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+});
+
+describe('searchAll', () => {
+  test('should return no store if provided criteria matches no store', (done) => {
+    const result = StoreService.searchAll(createStoreInfo());
+    let stores = List();
+
+    result.event.subscribe((store) => {
+      stores = stores.push(store);
+    });
+    result.promise.then(() => {
+      expect(stores.size)
+          .toBe(0);
+      done();
+    })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+
+  test('should return the stores matches the criteria', (done) => {
+    const expectedStoreInfo = createStoreInfo();
+
+    Promise.all([StoreService.create(expectedStoreInfo), StoreService.create(expectedStoreInfo)])
+      .then((ids) => {
+        const storeIds = List.of(ids[0], ids[1]);
+        const result = StoreService.searchAll(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
+        let stores = List();
+
+        result.event.subscribe((store) => {
+          stores = stores.push(store);
+        });
+        result.promise.then(() => {
+          expect(stores.size)
+              .toBe(storeIds.size);
+          done();
+        })
+          .catch((error) => {
+            fail(error);
+            done();
+          });
       })
       .catch((error) => {
         fail(error);
