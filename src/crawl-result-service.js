@@ -6,6 +6,9 @@ import {
   CrawlResult,
   CrawlSession,
 } from './schema';
+import {
+  NewSearchResultReceivedEvent,
+} from './new-search-result-received-event';
 
 class CrawlResultService {
   static create(info) {
@@ -89,6 +92,18 @@ class CrawlResultService {
         .map(_ => new CrawlResult(_))
         .map(crawlResult => crawlResult.getInfo())))
       .catch(error => reject(error)));
+  }
+
+  static searchAll(criteria) {
+    const event = new NewSearchResultReceivedEvent();
+    const promise = CrawlResultService.buildSearchQuery(criteria)
+      .each(_ => event.raise(new CrawlResult(_)
+        .getInfo()));
+
+    return {
+      event,
+      promise,
+    };
   }
 
   static exists(criteria) {

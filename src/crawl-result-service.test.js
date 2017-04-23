@@ -1,4 +1,5 @@
 import {
+  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
@@ -254,6 +255,62 @@ describe('search', () => {
         const crawlResultInfo = crawlResultInfos.first();
         expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, crawlSessionId);
         done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+});
+
+describe('searchAll', () => {
+  test('should return no crawl result if provided criteria matches no crawl result', (done) => {
+    const result = CrawlResultService.searchAll(createCriteria());
+    let crawlResults = List();
+
+    result.event.subscribe((crawlResult) => {
+      crawlResults = crawlResults.push(crawlResult);
+    });
+    result.promise.then(() => {
+      expect(crawlResults.size)
+          .toBe(0);
+      done();
+    })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+
+  test('should return the crawl results matches the criteria', (done) => {
+    let crawlSessionId;
+    let expectedCrawlResultInfo;
+
+    CrawlSessionService.create(createCrawlSessionInfo())
+      .then((id) => {
+        crawlSessionId = id;
+        expectedCrawlResultInfo = createCrawlResultInfo(crawlSessionId);
+
+        return Promise.all([CrawlResultService.create(expectedCrawlResultInfo), CrawlResultService.create(
+          expectedCrawlResultInfo)]);
+      })
+      .then((ids) => {
+        const crawlResultIds = List.of(ids[0], ids[1]);
+        const result = CrawlResultService.searchAll(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+        let crawlResults = List();
+
+        result.event.subscribe((crawlResult) => {
+          crawlResults = crawlResults.push(crawlResult);
+        });
+        result.promise.then(() => {
+          expect(crawlResults.size)
+              .toBe(crawlResultIds.size);
+          done();
+        })
+          .catch((error) => {
+            fail(error);
+            done();
+          });
       })
       .catch((error) => {
         fail(error);

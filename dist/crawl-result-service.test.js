@@ -236,6 +236,54 @@ describe('search', function () {
   });
 });
 
+describe('searchAll', function () {
+  test('should return no crawl result if provided criteria matches no crawl result', function (done) {
+    var result = _crawlResultService.CrawlResultService.searchAll(createCriteria());
+    var crawlResults = (0, _immutable.List)();
+
+    result.event.subscribe(function (crawlResult) {
+      crawlResults = crawlResults.push(crawlResult);
+    });
+    result.promise.then(function () {
+      expect(crawlResults.size).toBe(0);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should return the crawl results matches the criteria', function (done) {
+    var crawlSessionId = void 0;
+    var expectedCrawlResultInfo = void 0;
+
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      crawlSessionId = id;
+      expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(crawlSessionId);
+
+      return Promise.all([_crawlResultService.CrawlResultService.create(expectedCrawlResultInfo), _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo)]);
+    }).then(function (ids) {
+      var crawlResultIds = _immutable.List.of(ids[0], ids[1]);
+      var result = _crawlResultService.CrawlResultService.searchAll(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+      var crawlResults = (0, _immutable.List)();
+
+      result.event.subscribe(function (crawlResult) {
+        crawlResults = crawlResults.push(crawlResult);
+      });
+      result.promise.then(function () {
+        expect(crawlResults.size).toBe(crawlResultIds.size);
+        done();
+      }).catch(function (error) {
+        fail(error);
+        done();
+      });
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
 describe('exists', function () {
   test('should return false if no crawl result match provided criteria', function (done) {
     _crawlResultService.CrawlResultService.exists(createCriteria()).then(function (response) {
