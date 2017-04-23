@@ -263,7 +263,7 @@ describe('search', () => {
 });
 
 describe('exists', () => {
-  test('should return false if no master product match provided criteria', (done) => {
+  test('should return false if no master product price match provided criteria', (done) => {
     MasterProductPriceService.exists(createCriteria())
       .then((response) => {
         expect(response)
@@ -276,7 +276,7 @@ describe('exists', () => {
       });
   });
 
-  test('should return true if any master product match provided criteria', (done) => {
+  test('should return true if any master product price match provided criteria', (done) => {
     let masterProductId;
 
     MasterProductService.create(createMasterProductInfo())

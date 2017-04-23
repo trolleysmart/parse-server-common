@@ -21,6 +21,15 @@ var Store = function (_BaseObject) {
   _inherits(Store, _BaseObject);
 
   _createClass(Store, null, [{
+    key: 'spawn',
+    value: function spawn(info) {
+      var object = new Store();
+
+      Store.updateInfoInternal(object, info);
+
+      return object;
+    }
+  }, {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('name', info.get('name'));
@@ -53,15 +62,6 @@ var Store = function (_BaseObject) {
         id: this.getId(),
         name: this.getObject().get('name')
       });
-    }
-  }], [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new Store();
-
-      Store.updateInfoInternal(object, info);
-
-      return object;
     }
   }]);
 

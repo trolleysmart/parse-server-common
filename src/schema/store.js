@@ -6,6 +6,14 @@ import {
 } from 'micro-business-parse-server-common';
 
 class Store extends BaseObject {
+  static spawn(info) {
+    const object = new Store();
+
+    Store.updateInfoInternal(object, info);
+
+    return object;
+  }
+
   static updateInfoInternal(object, info) {
     object.set('name', info.get('name'));
   }
@@ -15,14 +23,6 @@ class Store extends BaseObject {
 
     this.updateInfo = this.updateInfo.bind(this);
     this.getInfo = this.getInfo.bind(this);
-  }
-
-  static spawn(info) {
-    const object = new Store();
-
-    Store.updateInfoInternal(object, info);
-
-    return object;
   }
 
   updateInfo(info) {

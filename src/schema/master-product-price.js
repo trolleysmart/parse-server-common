@@ -9,9 +9,18 @@ import {
 } from './master-product';
 
 class MasterProductPrice extends BaseObject {
+  static spawn(info) {
+    const object = new MasterProductPrice();
+
+    MasterProductPrice.updateInfoInternal(object, info);
+
+    return object;
+  }
+
   static updateInfoInternal(object, info) {
     object.set('masterProduct', MasterProduct.createWithoutData(info.get('masterProductId')));
-    object.set('priceDetails', info.get('priceDetails').toJS());
+    object.set('priceDetails', info.get('priceDetails')
+      .toJS());
   }
 
   constructor(object) {
@@ -19,14 +28,6 @@ class MasterProductPrice extends BaseObject {
 
     this.updateInfo = this.updateInfo.bind(this);
     this.getInfo = this.getInfo.bind(this);
-  }
-
-  static spawn(info) {
-    const object = new MasterProductPrice();
-
-    MasterProductPrice.updateInfoInternal(object, info);
-
-    return object;
   }
 
   updateInfo(info) {
@@ -38,16 +39,21 @@ class MasterProductPrice extends BaseObject {
   }
 
   getInfo() {
+    const masterProduct = new MasterProduct(this.getObject()
+      .get('masterProduct'));
+
     return Map({
       id: this.getId(),
-      masterProduct: new MasterProduct(this.getObject().get('masterProduct')),
-      priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
+      masterProduct,
+      masterProductId: masterProduct.getId(),
+      priceDetails: Immutable.fromJS(this.getObject()
+          .get('priceDetails')),
     });
   }
-}
+  }
 
 export {
-  MasterProductPrice,
-};
+    MasterProductPrice,
+  };
 
 export default MasterProductPrice;

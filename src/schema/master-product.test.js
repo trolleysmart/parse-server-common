@@ -1,6 +1,9 @@
 import {
   Map,
 } from 'immutable';
+import {
+  Maybe,
+} from 'monet';
 import uuid from 'uuid/v4';
 import {
   MasterProduct,
@@ -9,8 +12,8 @@ import {
 export function createMasterProductInfo() {
   return Map({
     description: uuid(),
-    barcode: uuid(),
-    imageUrl: uuid(),
+    barcode: Maybe.Some(uuid()),
+    imageUrl: Maybe.Some(uuid()),
   });
 }
 
@@ -21,10 +24,14 @@ export function createMasterProduct(masterProductInfo) {
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
   expect(masterProductInfo.get('description'))
     .toBe(expectedMasterProductInfo.get('description'));
-  expect(masterProductInfo.get('barcode').some())
-    .toBe(expectedMasterProductInfo.get('barcode'));
-  expect(masterProductInfo.get('imageUrl').some())
-    .toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('barcode')
+      .some())
+    .toBe(expectedMasterProductInfo.get('barcode')
+      .some());
+  expect(masterProductInfo.get('imageUrl')
+      .some())
+    .toBe(expectedMasterProductInfo.get('imageUrl')
+      .some());
 }
 
 describe('constructor', () => {
@@ -79,7 +86,7 @@ describe('public methods', () => {
     const info = object.getInfo();
 
     expect(info.get('id'))
-        .toBe(object.getId());
+      .toBe(object.getId());
     expectMasterProductInfo(info, masterProductInfo);
   });
 });

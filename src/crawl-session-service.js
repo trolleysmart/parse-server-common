@@ -1,6 +1,4 @@
-import Immutable, {
-  Map,
-} from 'immutable';
+import Immutable from 'immutable';
 import {
   ParseWrapperService,
 } from 'micro-business-parse-server-common';
@@ -9,9 +7,9 @@ import {
 } from './schema';
 
 class CrawlSessionService {
-  static create(store) {
+  static create(info) {
     return new Promise((resolve, reject) => {
-      CrawlSession.spawn(store.get('sessionKey'), store.get('startDateTime'), store.get('additionalInfo'))
+      CrawlSession.spawn(info)
         .save()
         .then(result => resolve(result.id))
         .catch(error => reject(error));
@@ -28,9 +26,55 @@ class CrawlSessionService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No store found with Id: ${id}`);
+            reject(`No crawl session found with Id: ${id}`);
           } else {
-            resolve(CrawlSessionService.mapParseObjectToDataTransferObject(new CrawlSession(results[0])));
+            resolve(new CrawlSession(results[0])
+              .getInfo());
+          }
+        })
+        .catch(error => reject(error));
+    });
+  }
+
+  static update(id, info) {
+    return new Promise((resolve, reject) => {
+      const query = ParseWrapperService.createQuery(CrawlSession);
+
+      query.equalTo('objectId', id);
+      query.limit(1);
+
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No crawl session found with Id: ${id}`);
+          } else {
+            const object = new CrawlSession(results[0]);
+
+            object.updateInfo(info)
+              .saveObject()
+              .then(() => resolve(object.getId()))
+              .catch(error => reject(error));
+          }
+        })
+        .catch(error => reject(error));
+    });
+  }
+
+  static delete(id) {
+    return new Promise((resolve, reject) => {
+      const query = ParseWrapperService.createQuery(CrawlSession);
+
+      query.equalTo('objectId', id);
+      query.limit(1);
+
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No crawl session found with Id: ${id}`);
+          } else {
+            results[0].destroy()
+              .then(() => resolve())
+              .catch(error => reject(error));
           }
         })
         .catch(error => reject(error));
@@ -42,7 +86,7 @@ class CrawlSessionService {
       .find()
       .then(results => resolve(Immutable.fromJS(results)
         .map(_ => new CrawlSession(_))
-        .map(CrawlSessionService.mapParseObjectToDataTransferObject)))
+        .map(crawlSession => crawlSession.getInfo())))
       .catch(error => reject(error)));
   }
 
@@ -61,16 +105,6 @@ class CrawlSessionService {
     }
 
     return query;
-  }
-
-  static mapParseObjectToDataTransferObject(store) {
-    return Map({
-      id: store.getId(),
-      sessionKey: store.getSessionKey(),
-      startDateTime: store.getStartDateTime(),
-      endDateTime: store.getEndDateTime(),
-      additionalInfo: store.getAdditionalInfo(),
-    });
   }
 }
 

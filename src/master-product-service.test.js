@@ -17,10 +17,10 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
     .toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')
       .some())
-    .toBe(expectedMasterProductInfo.get('barcode'));
+    .toBe(expectedMasterProductInfo.get('barcode').some());
   expect(masterProductInfo.get('imageUrl')
       .some())
-    .toBe(expectedMasterProductInfo.get('imageUrl'));
+    .toBe(expectedMasterProductInfo.get('imageUrl').some());
 }
 
 export function createCriteria() {
@@ -34,8 +34,8 @@ export function createCriteria() {
 export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return Map({
     description: masterProductInfo.get('description'),
-    barcode: masterProductInfo.get('barcode'),
-    imageUrl: masterProductInfo.get('imageUrl'),
+    barcode: masterProductInfo.get('barcode').some(),
+    imageUrl: masterProductInfo.get('imageUrl').some(),
   });
 }
 
@@ -53,7 +53,7 @@ describe('create', () => {
       });
   });
 
-  test('should create the masterProduct', (done) => {
+  test('should create the master product', (done) => {
     const expectedMasterProductInfo = createMasterProductInfo();
     let masterProductId;
 
@@ -86,7 +86,7 @@ describe('read', () => {
       });
   });
 
-  test('should read the existing masterProduct', (done) => {
+  test('should read the existing master product', (done) => {
     const expectedMasterProductInfo = createMasterProductInfo();
     let masterProductId;
 
@@ -119,7 +119,7 @@ describe('update', () => {
       });
   });
 
-  test('should return the Id of the updated masterProduct', (done) => {
+  test('should return the Id of the updated master product', (done) => {
     let masterProductId;
 
     MasterProductService.create(createMasterProductInfo())
@@ -139,7 +139,7 @@ describe('update', () => {
       });
   });
 
-  test('should update the existing masterProduct', (done) => {
+  test('should update the existing master product', (done) => {
     const expectedMasterProductInfo = createMasterProductInfo();
     let masterProductId;
 
@@ -173,7 +173,7 @@ describe('delete', () => {
       });
   });
 
-  test('should delete the existing masterProduct', (done) => {
+  test('should delete the existing master product', (done) => {
     let masterProductId;
 
     MasterProductService.create(createMasterProductInfo())
@@ -191,7 +191,7 @@ describe('delete', () => {
 });
 
 describe('search', () => {
-  test('should return no master product if provided criteria matches no masterProduct', (done) => {
+  test('should return no master product if provided criteria matches no master product', (done) => {
     MasterProductService.search(createCriteria())
       .then((masterProductInfos) => {
         expect(masterProductInfos.size)

@@ -1,57 +1,66 @@
-import {
-  Maybe,
-} from 'monet';
+import Immutable, {
+  Map,
+} from 'immutable';
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
+import {
+  Maybe,
+} from 'monet';
 
 class CrawlSession extends BaseObject {
-  constructor(object) {
-    super(object, 'CrawlSession');
-
-    this.getSessionKey = this.getSessionKey.bind(this);
-    this.getStartDateTime = this.getStartDateTime.bind(this);
-    this.getEndDateTime = this.getEndDateTime.bind(this);
-  }
-
-  static spawn(sessionKey, startDateTime, additionalInfo) {
+  static spawn(info) {
     const object = new CrawlSession();
 
-    object.set('sessionKey', sessionKey);
-    object.set('startDateTime', startDateTime);
-    object.set('additionalInfo', additionalInfo);
+    CrawlSession.updateInfoInternal(object, info);
 
     return object;
   }
 
-  getSessionKey() {
-    return this.getObject()
-      .get('sessionKey');
+  static updateInfoInternal(object, info) {
+    object.set('sessionKey', info.get('sessionKey'));
+    object.set('startDateTime', info.get('startDateTime')
+      .orSome(undefined));
+    object.set('endDateTime', info.get('endDateTime')
+      .orSome(undefined));
+
+    const additionalInfo = info.get('additionalInfo');
+
+    if (additionalInfo && additionalInfo.isSome()) {
+      object.set('additionalInfo', additionalInfo.some()
+        .toJS());
+    } else {
+      object.set('additionalInfo', undefined);
+    }
   }
 
-  getStartDateTime() {
-    return this.getObject()
-      .get('startDateTime');
+  constructor(object) {
+    super(object, 'CrawlSession');
+
+    this.updateInfo = this.updateInfo.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
 
-  getEndDateTime() {
-    return Maybe.fromNull(this.getObject()
-      .get('endDateTime'));
+  updateInfo(info) {
+    const object = this.getObject();
+
+    CrawlSession.updateInfoInternal(object, info);
+
+    return this;
   }
 
-  setEndDateTime(endDateTime) {
-    this.getObject()
-      .set('endDateTime', endDateTime);
-  }
-
-  getAdditionalInfo() {
-    return Maybe.fromNull(this.getObject()
-      .get('additionalInfo'));
-  }
-
-  setAdditionalInfo(additionalInfo) {
-    this.getObject()
-      .set('additionalInfo', additionalInfo);
+  getInfo() {
+    return Map({
+      id: this.getId(),
+      sessionKey: this.getObject()
+        .get('sessionKey'),
+      startDateTime: Maybe.fromNull(this.getObject()
+        .get('startDateTime')),
+      endDateTime: Maybe.fromNull(this.getObject()
+        .get('endDateTime')),
+      additionalInfo: Maybe.fromNull(Immutable.fromJS(this.getObject()
+        .get('additionalInfo'))),
+    });
   }
 }
 

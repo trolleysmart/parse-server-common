@@ -237,7 +237,7 @@ describe('search', function () {
 });
 
 describe('exists', function () {
-  test('should return false if no master product match provided criteria', function (done) {
+  test('should return false if no master product price match provided criteria', function (done) {
     _masterProductPriceService.MasterProductPriceService.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
@@ -247,7 +247,7 @@ describe('exists', function () {
     });
   });
 
-  test('should return true if any master product match provided criteria', function (done) {
+  test('should return true if any master product price match provided criteria', function (done) {
     var masterProductId = void 0;
 
     _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {

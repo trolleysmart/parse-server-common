@@ -27,6 +27,15 @@ var MasterProductPrice = function (_BaseObject) {
   _inherits(MasterProductPrice, _BaseObject);
 
   _createClass(MasterProductPrice, null, [{
+    key: 'spawn',
+    value: function spawn(info) {
+      var object = new MasterProductPrice();
+
+      MasterProductPrice.updateInfoInternal(object, info);
+
+      return object;
+    }
+  }, {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('masterProduct', _masterProduct.MasterProduct.createWithoutData(info.get('masterProductId')));
@@ -56,20 +65,14 @@ var MasterProductPrice = function (_BaseObject) {
   }, {
     key: 'getInfo',
     value: function getInfo() {
+      var masterProduct = new _masterProduct.MasterProduct(this.getObject().get('masterProduct'));
+
       return (0, _immutable.Map)({
         id: this.getId(),
-        masterProduct: new _masterProduct.MasterProduct(this.getObject().get('masterProduct')),
+        masterProduct: masterProduct,
+        masterProductId: masterProduct.getId(),
         priceDetails: _immutable2.default.fromJS(this.getObject().get('priceDetails'))
       });
-    }
-  }], [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new MasterProductPrice();
-
-      MasterProductPrice.updateInfoInternal(object, info);
-
-      return object;
     }
   }]);
 

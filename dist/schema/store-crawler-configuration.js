@@ -24,35 +24,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var StoreCrawlerConfiguration = function (_BaseObject) {
   _inherits(StoreCrawlerConfiguration, _BaseObject);
 
+  _createClass(StoreCrawlerConfiguration, null, [{
+    key: 'spawn',
+    value: function spawn(info) {
+      var object = new StoreCrawlerConfiguration();
+
+      StoreCrawlerConfiguration.updateInfoInternal(object, info);
+
+      return object;
+    }
+  }, {
+    key: 'updateInfoInternal',
+    value: function updateInfoInternal(object, info) {
+      object.set('key', info.get('key'));
+      object.set('config', info.get('config').toJS());
+    }
+  }]);
+
   function StoreCrawlerConfiguration(object) {
     _classCallCheck(this, StoreCrawlerConfiguration);
 
     var _this = _possibleConstructorReturn(this, (StoreCrawlerConfiguration.__proto__ || Object.getPrototypeOf(StoreCrawlerConfiguration)).call(this, object, 'StoreCrawlerConfiguration'));
 
-    _this.getKey = _this.getKey.bind(_this);
-    _this.getConfig = _this.getConfig.bind(_this);
+    _this.updateInfo = _this.updateInfo.bind(_this);
+    _this.getInfo = _this.getInfo.bind(_this);
     return _this;
   }
 
   _createClass(StoreCrawlerConfiguration, [{
-    key: 'getKey',
-    value: function getKey() {
-      return this.getObject().get('key');
+    key: 'updateInfo',
+    value: function updateInfo(info) {
+      var object = this.getObject();
+
+      StoreCrawlerConfiguration.updateInfoInternal(object, info);
+
+      return this;
     }
   }, {
-    key: 'getConfig',
-    value: function getConfig() {
-      return _immutable2.default.fromJS(this.getObject().get('config'));
-    }
-  }], [{
-    key: 'spawn',
-    value: function spawn(key, config) {
-      var object = new StoreCrawlerConfiguration();
-
-      object.set('key', key);
-      object.set('config', config);
-
-      return object;
+    key: 'getInfo',
+    value: function getInfo() {
+      return (0, _immutable.Map)({
+        id: this.getId(),
+        key: this.getObject().get('key'),
+        config: _immutable2.default.fromJS(this.getObject().get('config'))
+      });
     }
   }]);
 

@@ -1,4 +1,6 @@
-import Immutable from 'immutable';
+import Immutable, {
+  Map,
+} from 'immutable';
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
@@ -7,33 +9,46 @@ import {
 } from './crawl-session';
 
 class CrawlResult extends BaseObject {
-  constructor(object) {
-    super(object, 'CrawlResult');
-
-    this.getCrawlSession = this.getCrawlSession.bind(this);
-    this.getResultSet = this.getResultSet.bind(this);
-  }
-
-  static spawn(
-    crawlSessionId,
-    resultSet,
-  ) {
+  static spawn(info) {
     const object = new CrawlResult();
 
-    object.set('crawlSession', CrawlSession.createWithoutData(crawlSessionId));
-    object.set('resultSet', resultSet);
+    CrawlResult.updateInfoInternal(object, info);
 
     return object;
   }
 
-  getCrawlSession() {
-    return new CrawlSession(this.getObject()
-      .get('crawlSession'));
+  static updateInfoInternal(object, info) {
+    object.set('crawlSession', CrawlSession.createWithoutData(info.get('crawlSessionId')));
+    object.set('resultSet', info.get('resultSet')
+      .toJS());
   }
 
-  getResultSet() {
-    return Immutable.fromJS(this.getObject()
-      .get('resultSet'));
+  constructor(object) {
+    super(object, 'CrawlResult');
+
+    this.updateInfo = this.updateInfo.bind(this);
+    this.getInfo = this.getInfo.bind(this);
+  }
+
+  updateInfo(info) {
+    const object = this.getObject();
+
+    CrawlResult.updateInfoInternal(object, info);
+
+    return this;
+  }
+
+  getInfo() {
+    const crawlSession = new CrawlSession(this.getObject()
+      .get('crawlSession'));
+
+    return Map({
+      id: this.getId(),
+      crawlSession,
+      crawlSessionId: crawlSession.getId(),
+      resultSet: Immutable.fromJS(this.getObject()
+        .get('resultSet')),
+    });
   }
 }
 

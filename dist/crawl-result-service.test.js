@@ -1,0 +1,267 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createCriteria = createCriteria;
+exports.createCriteriaUsingProvidedCrawlResultInfo = createCriteriaUsingProvidedCrawlResultInfo;
+
+var _immutable = require('immutable');
+
+var _v = require('uuid/v4');
+
+var _v2 = _interopRequireDefault(_v);
+
+require('../bootstrap');
+
+var _crawlSessionService = require('./crawl-session-service');
+
+var _crawlResultService = require('./crawl-result-service');
+
+var _crawlSession = require('./schema/crawl-session.test');
+
+var _crawlResult = require('./schema/crawl-result.test');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, crawlSessionId) {
+  expect(crawlResultInfo.get('id')).toBe(crawlResultId);
+  expect(crawlResultInfo.get('crawlSession').getId()).toBe(crawlSessionId);
+  expect(crawlResultInfo.get('resultSet')).toEqual(expectedCrawlResultInfo.get('resultSet'));
+}
+
+function createCriteria() {
+  return (0, _immutable.Map)({
+    crawlSessionId: (0, _v2.default)()
+  });
+}
+
+function createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId) {
+  return (0, _immutable.Map)({
+    crawlSessionId: crawlSessionId
+  });
+}
+
+describe('create', function () {
+  test('should return the created crawl result Id', function (done) {
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    }).then(function (result) {
+      expect(result).toBeDefined();
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should create the crawl result', function (done) {
+    var expectedCrawlSessionInfo = (0, _crawlSession.createCrawlSessionInfo)();
+    var crawlSessionId = void 0;
+    var crawlResultId = void 0;
+    var expectedCrawlResultInfo = void 0;
+
+    _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo).then(function (id) {
+      crawlSessionId = id;
+      expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
+
+      return _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo);
+    }).then(function (id) {
+      crawlResultId = id;
+
+      return _crawlResultService.CrawlResultService.read(crawlResultId);
+    }).then(function (crawlResultInfo) {
+      expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, crawlSessionId);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
+describe('read', function () {
+  test('should reject if the provided crawl result Id does not exist', function (done) {
+    var crawlResultId = (0, _v2.default)();
+
+    _crawlResultService.CrawlResultService.read(crawlResultId).catch(function (error) {
+      expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
+      done();
+    });
+  });
+
+  test('should read the existing crawl result', function (done) {
+    var expectedCrawlSessionInfo = (0, _crawlSession.createCrawlSessionInfo)();
+    var crawlSessionId = void 0;
+    var crawlResultId = void 0;
+    var expectedCrawlResultInfo = void 0;
+
+    _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo).then(function (id) {
+      crawlSessionId = id;
+      expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
+
+      return _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo);
+    }).then(function (id) {
+      crawlResultId = id;
+
+      return _crawlResultService.CrawlResultService.read(crawlResultId);
+    }).then(function (crawlResultInfo) {
+      expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, crawlSessionId);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
+describe('update', function () {
+  test('should reject if the provided crawl result Id does not exist', function (done) {
+    var crawlResultId = (0, _v2.default)();
+
+    _crawlResultService.CrawlResultService.update(crawlResultId, (0, _crawlResult.createCrawlResultInfo)()).catch(function (error) {
+      expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
+      done();
+    });
+  });
+
+  test('should return the Id of the updated crawl result', function (done) {
+    var crawlResultId = void 0;
+
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    }).then(function (id) {
+      crawlResultId = id;
+
+      return _crawlResultService.CrawlResultService.update(crawlResultId, (0, _crawlResult.createCrawlResultInfo)());
+    }).then(function (id) {
+      expect(id).toBe(crawlResultId);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should update the existing crawl result', function (done) {
+    var expectedCrawlResultInfo = void 0;
+    var expectedCrawlSessionId = void 0;
+    var crawlResultId = void 0;
+
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      expectedCrawlSessionId = id;
+      expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(expectedCrawlSessionId);
+
+      return _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)());
+    }).then(function (id) {
+      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    }).then(function (id) {
+      return _crawlResultService.CrawlResultService.update(id, expectedCrawlResultInfo);
+    }).then(function (id) {
+      crawlResultId = id;
+
+      return _crawlResultService.CrawlResultService.read(crawlResultId);
+    }).then(function (crawlResultInfo) {
+      expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, expectedCrawlSessionId);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
+describe('delete', function () {
+  test('should reject if the provided crawl result Id does not exist', function (done) {
+    var crawlResultId = (0, _v2.default)();
+
+    _crawlResultService.CrawlResultService.delete(crawlResultId).catch(function (error) {
+      expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
+      done();
+    });
+  });
+
+  test('should delete the existing crawl result', function (done) {
+    var crawlResultId = void 0;
+
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    }).then(function (id) {
+      crawlResultId = id;
+      return _crawlResultService.CrawlResultService.delete(crawlResultId);
+    }).then(function () {
+      return _crawlResultService.CrawlResultService.read(crawlResultId);
+    }).catch(function (error) {
+      expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
+      done();
+    });
+  });
+});
+
+describe('search', function () {
+  test('should return no crawl result if provided criteria matches no crawl result', function (done) {
+    _crawlResultService.CrawlResultService.search(createCriteria()).then(function (crawlResultInfos) {
+      expect(crawlResultInfos.size).toBe(0);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should return the crawl results matches the criteria', function (done) {
+    var expectedCrawlResultInfo = void 0;
+    var crawlResultId = void 0;
+    var crawlSessionId = void 0;
+
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      crawlSessionId = id;
+      expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
+
+      return _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo);
+    }).then(function (id) {
+      crawlResultId = id;
+
+      return _crawlResultService.CrawlResultService.search(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+    }).then(function (crawlResultInfos) {
+      expect(crawlResultInfos.size).toBe(1);
+
+      var crawlResultInfo = crawlResultInfos.first();
+      expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, crawlSessionId);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
+describe('exists', function () {
+  test('should return false if no crawl result match provided criteria', function (done) {
+    _crawlResultService.CrawlResultService.exists(createCriteria()).then(function (response) {
+      expect(response).toBeFalsy();
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should return true if any crawl resuult match provided criteria', function (done) {
+    var crawlSessionId = void 0;
+
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      crawlSessionId = id;
+
+      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    }).then(function () {
+      return _crawlResultService.CrawlResultService.exists(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+    }).then(function (response) {
+      expect(response).toBeTruthy();
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});

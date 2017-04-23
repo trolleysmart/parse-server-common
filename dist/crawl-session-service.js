@@ -26,9 +26,9 @@ var CrawlSessionService = function () {
 
   _createClass(CrawlSessionService, null, [{
     key: 'create',
-    value: function create(store) {
+    value: function create(info) {
       return new Promise(function (resolve, reject) {
-        _schema.CrawlSession.spawn(store.get('sessionKey'), store.get('startDateTime'), store.get('additionalInfo')).save().then(function (result) {
+        _schema.CrawlSession.spawn(info).save().then(function (result) {
           return resolve(result.id);
         }).catch(function (error) {
           return reject(error);
@@ -46,9 +46,59 @@ var CrawlSessionService = function () {
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No store found with Id: ' + id);
+            reject('No crawl session found with Id: ' + id);
           } else {
-            resolve(CrawlSessionService.mapParseObjectToDataTransferObject(new _schema.CrawlSession(results[0])));
+            resolve(new _schema.CrawlSession(results[0]).getInfo());
+          }
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'update',
+    value: function update(id, info) {
+      return new Promise(function (resolve, reject) {
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession);
+
+        query.equalTo('objectId', id);
+        query.limit(1);
+
+        query.find().then(function (results) {
+          if (results.length === 0) {
+            reject('No crawl session found with Id: ' + id);
+          } else {
+            var object = new _schema.CrawlSession(results[0]);
+
+            object.updateInfo(info).saveObject().then(function () {
+              return resolve(object.getId());
+            }).catch(function (error) {
+              return reject(error);
+            });
+          }
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: 'delete',
+    value: function _delete(id) {
+      return new Promise(function (resolve, reject) {
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession);
+
+        query.equalTo('objectId', id);
+        query.limit(1);
+
+        query.find().then(function (results) {
+          if (results.length === 0) {
+            reject('No crawl session found with Id: ' + id);
+          } else {
+            results[0].destroy().then(function () {
+              return resolve();
+            }).catch(function (error) {
+              return reject(error);
+            });
           }
         }).catch(function (error) {
           return reject(error);
@@ -62,7 +112,9 @@ var CrawlSessionService = function () {
         return CrawlSessionService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
             return new _schema.CrawlSession(_);
-          }).map(CrawlSessionService.mapParseObjectToDataTransferObject));
+          }).map(function (crawlSession) {
+            return crawlSession.getInfo();
+          }));
         }).catch(function (error) {
           return reject(error);
         });
@@ -89,17 +141,6 @@ var CrawlSessionService = function () {
       }
 
       return query;
-    }
-  }, {
-    key: 'mapParseObjectToDataTransferObject',
-    value: function mapParseObjectToDataTransferObject(store) {
-      return (0, _immutable.Map)({
-        id: store.getId(),
-        sessionKey: store.getSessionKey(),
-        startDateTime: store.getStartDateTime(),
-        endDateTime: store.getEndDateTime(),
-        additionalInfo: store.getAdditionalInfo()
-      });
     }
   }]);
 

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MasterProductPriceService = undefined;
+exports.CrawlResultService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -19,16 +19,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MasterProductPriceService = function () {
-  function MasterProductPriceService() {
-    _classCallCheck(this, MasterProductPriceService);
+var CrawlResultService = function () {
+  function CrawlResultService() {
+    _classCallCheck(this, CrawlResultService);
   }
 
-  _createClass(MasterProductPriceService, null, [{
+  _createClass(CrawlResultService, null, [{
     key: 'create',
     value: function create(info) {
       return new Promise(function (resolve, reject) {
-        _schema.MasterProductPrice.spawn(info).save().then(function (result) {
+        _schema.CrawlResult.spawn(info).save().then(function (result) {
           return resolve(result.id);
         }).catch(function (error) {
           return reject(error);
@@ -39,16 +39,16 @@ var MasterProductPriceService = function () {
     key: 'read',
     value: function read(id) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
 
         query.equalTo('objectId', id);
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No master product price found with Id: ' + id);
+            reject('No crawl result found with Id: ' + id);
           } else {
-            resolve(new _schema.MasterProductPrice(results[0]).getInfo());
+            resolve(new _schema.CrawlResult(results[0]).getInfo());
           }
         }).catch(function (error) {
           return reject(error);
@@ -59,16 +59,16 @@ var MasterProductPriceService = function () {
     key: 'update',
     value: function update(id, info) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
 
         query.equalTo('objectId', id);
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No master product price found with Id: ' + id);
+            reject('No crawl result found with Id: ' + id);
           } else {
-            var object = new _schema.MasterProductPrice(results[0]);
+            var object = new _schema.CrawlResult(results[0]);
 
             object.updateInfo(info).saveObject().then(function () {
               return resolve(object.getId());
@@ -85,14 +85,14 @@ var MasterProductPriceService = function () {
     key: 'delete',
     value: function _delete(id) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
 
         query.equalTo('objectId', id);
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No master product price found with Id: ' + id);
+            reject('No crawl result found with Id: ' + id);
           } else {
             results[0].destroy().then(function () {
               return resolve();
@@ -109,11 +109,11 @@ var MasterProductPriceService = function () {
     key: 'search',
     value: function search(criteria) {
       return new Promise(function (resolve, reject) {
-        return MasterProductPriceService.buildSearchQuery(criteria).find().then(function (results) {
+        return CrawlResultService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.MasterProductPrice(_);
-          }).map(function (masterProductPrice) {
-            return masterProductPrice.getInfo();
+            return new _schema.CrawlResult(_);
+          }).map(function (crawlResult) {
+            return crawlResult.getInfo();
           }));
         }).catch(function (error) {
           return reject(error);
@@ -124,7 +124,7 @@ var MasterProductPriceService = function () {
     key: 'exists',
     value: function exists(criteria) {
       return new Promise(function (resolve, reject) {
-        return MasterProductPriceService.buildSearchQuery(criteria).count().then(function (total) {
+        return CrawlResultService.buildSearchQuery(criteria).count().then(function (total) {
           return resolve(total > 0);
         }).catch(function (error) {
           return reject(error);
@@ -134,18 +134,18 @@ var MasterProductPriceService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
 
-      if (criteria.has('masterProductId') && criteria.get('masterProductId')) {
-        query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(criteria.get('masterProductId')));
+      if (criteria.has('crawlSessionId') && criteria.get('crawlSessionId')) {
+        query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(criteria.get('crawlSessionId')));
       }
 
       return query;
     }
   }]);
 
-  return MasterProductPriceService;
+  return CrawlResultService;
 }();
 
-exports.MasterProductPriceService = MasterProductPriceService;
-exports.default = MasterProductPriceService;
+exports.CrawlResultService = CrawlResultService;
+exports.default = CrawlResultService;

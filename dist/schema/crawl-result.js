@@ -26,35 +26,53 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CrawlResult = function (_BaseObject) {
   _inherits(CrawlResult, _BaseObject);
 
+  _createClass(CrawlResult, null, [{
+    key: 'spawn',
+    value: function spawn(info) {
+      var object = new CrawlResult();
+
+      CrawlResult.updateInfoInternal(object, info);
+
+      return object;
+    }
+  }, {
+    key: 'updateInfoInternal',
+    value: function updateInfoInternal(object, info) {
+      object.set('crawlSession', _crawlSession.CrawlSession.createWithoutData(info.get('crawlSessionId')));
+      object.set('resultSet', info.get('resultSet').toJS());
+    }
+  }]);
+
   function CrawlResult(object) {
     _classCallCheck(this, CrawlResult);
 
     var _this = _possibleConstructorReturn(this, (CrawlResult.__proto__ || Object.getPrototypeOf(CrawlResult)).call(this, object, 'CrawlResult'));
 
-    _this.getCrawlSession = _this.getCrawlSession.bind(_this);
-    _this.getResultSet = _this.getResultSet.bind(_this);
+    _this.updateInfo = _this.updateInfo.bind(_this);
+    _this.getInfo = _this.getInfo.bind(_this);
     return _this;
   }
 
   _createClass(CrawlResult, [{
-    key: 'getCrawlSession',
-    value: function getCrawlSession() {
-      return new _crawlSession.CrawlSession(this.getObject().get('crawlSession'));
+    key: 'updateInfo',
+    value: function updateInfo(info) {
+      var object = this.getObject();
+
+      CrawlResult.updateInfoInternal(object, info);
+
+      return this;
     }
   }, {
-    key: 'getResultSet',
-    value: function getResultSet() {
-      return _immutable2.default.fromJS(this.getObject().get('resultSet'));
-    }
-  }], [{
-    key: 'spawn',
-    value: function spawn(crawlSessionId, resultSet) {
-      var object = new CrawlResult();
+    key: 'getInfo',
+    value: function getInfo() {
+      var crawlSession = new _crawlSession.CrawlSession(this.getObject().get('crawlSession'));
 
-      object.set('crawlSession', _crawlSession.CrawlSession.createWithoutData(crawlSessionId));
-      object.set('resultSet', resultSet);
-
-      return object;
+      return (0, _immutable.Map)({
+        id: this.getId(),
+        crawlSession: crawlSession,
+        crawlSessionId: crawlSession.getId(),
+        resultSet: _immutable2.default.fromJS(this.getObject().get('resultSet'))
+      });
     }
   }]);
 

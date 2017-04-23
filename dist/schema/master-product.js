@@ -23,11 +23,20 @@ var MasterProduct = function (_BaseObject) {
   _inherits(MasterProduct, _BaseObject);
 
   _createClass(MasterProduct, null, [{
+    key: 'spawn',
+    value: function spawn(info) {
+      var object = new MasterProduct();
+
+      MasterProduct.updateInfoInternal(object, info);
+
+      return object;
+    }
+  }, {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('description', info.get('description'));
-      object.set('barcode', info.get('barcode'));
-      object.set('imageUrl', info.get('imageUrl'));
+      object.set('barcode', info.get('barcode').orSome(undefined));
+      object.set('imageUrl', info.get('imageUrl').orSome(undefined));
     }
   }]);
 
@@ -59,15 +68,6 @@ var MasterProduct = function (_BaseObject) {
         barcode: _monet.Maybe.fromNull(this.getObject().get('barcode')),
         imageUrl: _monet.Maybe.fromNull(this.getObject().get('imageUrl'))
       });
-    }
-  }], [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new MasterProduct();
-
-      MasterProduct.updateInfoInternal(object, info);
-
-      return object;
     }
   }]);
 

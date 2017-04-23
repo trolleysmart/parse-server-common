@@ -9,10 +9,18 @@ import {
 } from 'monet';
 
 class MasterProduct extends BaseObject {
+  static spawn(info) {
+    const object = new MasterProduct();
+
+    MasterProduct.updateInfoInternal(object, info);
+
+    return object;
+  }
+
   static updateInfoInternal(object, info) {
     object.set('description', info.get('description'));
-    object.set('barcode', info.get('barcode'));
-    object.set('imageUrl', info.get('imageUrl'));
+    object.set('barcode', info.get('barcode').orSome(undefined));
+    object.set('imageUrl', info.get('imageUrl').orSome(undefined));
   }
 
   constructor(object) {
@@ -20,14 +28,6 @@ class MasterProduct extends BaseObject {
 
     this.updateInfo = this.updateInfo.bind(this);
     this.getInfo = this.getInfo.bind(this);
-  }
-
-  static spawn(info) {
-    const object = new MasterProduct();
-
-    MasterProduct.updateInfoInternal(object, info);
-
-    return object;
   }
 
   updateInfo(info) {

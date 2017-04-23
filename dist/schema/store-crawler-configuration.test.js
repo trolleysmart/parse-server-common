@@ -1,8 +1,12 @@
 'use strict';
 
-var _immutable = require('immutable');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createStoreCrawlerConfigurationInfo = createStoreCrawlerConfigurationInfo;
+exports.createStoreCrawlerConfiguration = createStoreCrawlerConfiguration;
 
-var _immutable2 = _interopRequireDefault(_immutable);
+var _immutable = require('immutable');
 
 var _v = require('uuid/v4');
 
@@ -12,52 +16,70 @@ var _storeCrawlerConfiguration = require('./store-crawler-configuration');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function createStoreCrawlerConfigurationInfo() {
+  return (0, _immutable.Map)({
+    key: (0, _v2.default)(),
+    config: (0, _immutable.Map)({
+      val: (0, _v2.default)()
+    })
+  });
+}
+
+function createStoreCrawlerConfiguration(storeCrawlerConfigurationInfo) {
+  return _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(storeCrawlerConfigurationInfo || createStoreCrawlerConfigurationInfo());
+}
+
+function expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expectedStoreCrawlerConfigurationInfo) {
+  expect(storeCrawlerConfigurationInfo.get('key')).toEqual(expectedStoreCrawlerConfigurationInfo.get('key'));
+  expect(storeCrawlerConfigurationInfo.get('config')).toEqual(expectedStoreCrawlerConfigurationInfo.get('config'));
+}
+
 describe('constructor', function () {
   test('should set class name', function () {
-    expect(_storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn('key', 'config').className).toBe('StoreCrawlerConfiguration');
+    expect(createStoreCrawlerConfiguration().className).toBe('StoreCrawlerConfiguration');
   });
 });
 
 describe('static public methods', function () {
-  test('spawn should set provided key', function () {
-    var expectedValue = (0, _v2.default)();
+  test('spawn should set provided info', function () {
+    var storeCrawlerConfigurationInfo = createStoreCrawlerConfigurationInfo();
+    var object = createStoreCrawlerConfiguration(storeCrawlerConfigurationInfo);
+    var info = object.getInfo();
 
-    expect(_storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(expectedValue, 'config').get('key')).toBe(expectedValue);
-  });
-
-  test('spawn should set provided config', function () {
-    var expectedValue = (0, _v2.default)();
-
-    expect(_storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn('key', expectedValue).get('config')).toBe(expectedValue);
+    expectStoreCrawlerConfigurationInfo(info, storeCrawlerConfigurationInfo);
   });
 });
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn('key', 'config');
+    var object = _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(createStoreCrawlerConfigurationInfo());
 
     expect(new _storeCrawlerConfiguration.StoreCrawlerConfiguration(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
-    var object = _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn('key', 'config');
+    var object = createStoreCrawlerConfiguration();
 
     expect(new _storeCrawlerConfiguration.StoreCrawlerConfiguration(object).getId()).toBe(object.id);
   });
 
-  test('getKey should return provided key', function () {
-    var expectedValue = (0, _v2.default)();
-    var object = _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(expectedValue, 'config');
+  test('updateInfo should update object info', function () {
+    var object = createStoreCrawlerConfiguration();
+    var updatedStoreCrawlerConfigurationInfo = createStoreCrawlerConfigurationInfo();
 
-    expect(new _storeCrawlerConfiguration.StoreCrawlerConfiguration(object).getKey()).toBe(expectedValue);
+    object.updateInfo(updatedStoreCrawlerConfigurationInfo);
+
+    var info = object.getInfo();
+
+    expectStoreCrawlerConfigurationInfo(info, updatedStoreCrawlerConfigurationInfo);
   });
 
-  test('getConfig should return provided config', function () {
-    var expectedValue = _immutable2.default.fromJS({
-      val: (0, _v2.default)()
-    });
-    var object = _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn('key', expectedValue);
+  test('getInfo should return provided info', function () {
+    var storeCrawlerConfigurationInfo = createStoreCrawlerConfigurationInfo();
+    var object = createStoreCrawlerConfiguration(storeCrawlerConfigurationInfo);
+    var info = object.getInfo();
 
-    expect(new _storeCrawlerConfiguration.StoreCrawlerConfiguration(object).getConfig()).toBe(expectedValue);
+    expect(info.get('id')).toBe(object.getId());
+    expectStoreCrawlerConfigurationInfo(info, storeCrawlerConfigurationInfo);
   });
 });

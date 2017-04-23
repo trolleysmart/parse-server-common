@@ -27,6 +27,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('masterProduct')
       .getId())
     .toBe(expectedMasterProductPriceInfo.get('masterProductId'));
+  expect(masterProductPriceInfo.get('masterProductId'))
+    .toBe(expectedMasterProductPriceInfo.get('masterProductId'));
   expect(masterProductPriceInfo.get('priceDetails'))
     .toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
 }

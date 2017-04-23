@@ -1,36 +1,47 @@
-import Immutable from 'immutable';
+import Immutable, {
+  Map,
+} from 'immutable';
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
 
 class StoreCrawlerConfiguration extends BaseObject {
-  constructor(object) {
-    super(object, 'StoreCrawlerConfiguration');
-
-    this.getKey = this.getKey.bind(this);
-    this.getConfig = this.getConfig.bind(this);
-  }
-
-  static spawn(
-    key,
-    config,
-  ) {
+  static spawn(info) {
     const object = new StoreCrawlerConfiguration();
 
-    object.set('key', key);
-    object.set('config', config);
+    StoreCrawlerConfiguration.updateInfoInternal(object, info);
 
     return object;
   }
 
-  getKey() {
-    return this.getObject()
-      .get('key');
+  static updateInfoInternal(object, info) {
+    object.set('key', info.get('key'));
+    object.set('config', info.get('config').toJS());
   }
 
-  getConfig() {
-    return Immutable.fromJS(this.getObject()
-      .get('config'));
+  constructor(object) {
+    super(object, 'StoreCrawlerConfiguration');
+
+    this.updateInfo = this.updateInfo.bind(this);
+    this.getInfo = this.getInfo.bind(this);
+  }
+
+  updateInfo(info) {
+    const object = this.getObject();
+
+    StoreCrawlerConfiguration.updateInfoInternal(object, info);
+
+    return this;
+  }
+
+  getInfo() {
+    return Map({
+      id: this.getId(),
+      key: this.getObject()
+        .get('key'),
+      config: Immutable.fromJS(this.getObject()
+        .get('config')),
+    });
   }
 }
 

@@ -23,8 +23,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId) {
   expect(masterProductInfo.get('id')).toBe(masterProductId);
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
-  expect(masterProductInfo.get('barcode').some()).toBe(expectedMasterProductInfo.get('barcode'));
-  expect(masterProductInfo.get('imageUrl').some()).toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('barcode').some()).toBe(expectedMasterProductInfo.get('barcode').some());
+  expect(masterProductInfo.get('imageUrl').some()).toBe(expectedMasterProductInfo.get('imageUrl').some());
 }
 
 function createCriteria() {
@@ -38,8 +38,8 @@ function createCriteria() {
 function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return (0, _immutable.Map)({
     description: masterProductInfo.get('description'),
-    barcode: masterProductInfo.get('barcode'),
-    imageUrl: masterProductInfo.get('imageUrl')
+    barcode: masterProductInfo.get('barcode').some(),
+    imageUrl: masterProductInfo.get('imageUrl').some()
   });
 }
 
@@ -54,7 +54,7 @@ describe('create', function () {
     });
   });
 
-  test('should create the masterProduct', function (done) {
+  test('should create the master product', function (done) {
     var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
     var masterProductId = void 0;
 
@@ -82,7 +82,7 @@ describe('read', function () {
     });
   });
 
-  test('should read the existing masterProduct', function (done) {
+  test('should read the existing master product', function (done) {
     var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
     var masterProductId = void 0;
 
@@ -110,7 +110,7 @@ describe('update', function () {
     });
   });
 
-  test('should return the Id of the updated masterProduct', function (done) {
+  test('should return the Id of the updated master product', function (done) {
     var masterProductId = void 0;
 
     _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
@@ -126,7 +126,7 @@ describe('update', function () {
     });
   });
 
-  test('should update the existing masterProduct', function (done) {
+  test('should update the existing master product', function (done) {
     var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
     var masterProductId = void 0;
 
@@ -156,7 +156,7 @@ describe('delete', function () {
     });
   });
 
-  test('should delete the existing masterProduct', function (done) {
+  test('should delete the existing master product', function (done) {
     var masterProductId = void 0;
 
     _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
@@ -172,7 +172,7 @@ describe('delete', function () {
 });
 
 describe('search', function () {
-  test('should return no master product if provided criteria matches no masterProduct', function (done) {
+  test('should return no master product if provided criteria matches no master product', function (done) {
     _masterProductService.MasterProductService.search(createCriteria()).then(function (masterProductInfos) {
       expect(masterProductInfos.size).toBe(0);
       done();

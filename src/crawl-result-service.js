@@ -3,14 +3,14 @@ import {
   ParseWrapperService,
 } from 'micro-business-parse-server-common';
 import {
-  MasterProduct,
-  MasterProductPrice,
+  CrawlResult,
+  CrawlSession,
 } from './schema';
 
-class MasterProductPriceService {
+class CrawlResultService {
   static create(info) {
     return new Promise((resolve, reject) => {
-      MasterProductPrice.spawn(info)
+      CrawlResult.spawn(info)
         .save()
         .then(result => resolve(result.id))
         .catch(error => reject(error));
@@ -19,7 +19,7 @@ class MasterProductPriceService {
 
   static read(id) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProductPrice);
+      const query = ParseWrapperService.createQuery(CrawlResult);
 
       query.equalTo('objectId', id);
       query.limit(1);
@@ -27,9 +27,9 @@ class MasterProductPriceService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No master product price found with Id: ${id}`);
+            reject(`No crawl result found with Id: ${id}`);
           } else {
-            resolve(new MasterProductPrice(results[0])
+            resolve(new CrawlResult(results[0])
               .getInfo());
           }
         })
@@ -39,7 +39,7 @@ class MasterProductPriceService {
 
   static update(id, info) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProductPrice);
+      const query = ParseWrapperService.createQuery(CrawlResult);
 
       query.equalTo('objectId', id);
       query.limit(1);
@@ -47,9 +47,9 @@ class MasterProductPriceService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No master product price found with Id: ${id}`);
+            reject(`No crawl result found with Id: ${id}`);
           } else {
-            const object = new MasterProductPrice(results[0]);
+            const object = new CrawlResult(results[0]);
 
             object.updateInfo(info)
               .saveObject()
@@ -63,7 +63,7 @@ class MasterProductPriceService {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProductPrice);
+      const query = ParseWrapperService.createQuery(CrawlResult);
 
       query.equalTo('objectId', id);
       query.limit(1);
@@ -71,7 +71,7 @@ class MasterProductPriceService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No master product price found with Id: ${id}`);
+            reject(`No crawl result found with Id: ${id}`);
           } else {
             results[0].destroy()
               .then(() => resolve())
@@ -83,26 +83,26 @@ class MasterProductPriceService {
   }
 
   static search(criteria) {
-    return new Promise((resolve, reject) => MasterProductPriceService.buildSearchQuery(criteria)
+    return new Promise((resolve, reject) => CrawlResultService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new MasterProductPrice(_))
-        .map(masterProductPrice => masterProductPrice.getInfo())))
+        .map(_ => new CrawlResult(_))
+        .map(crawlResult => crawlResult.getInfo())))
       .catch(error => reject(error)));
   }
 
   static exists(criteria) {
-    return new Promise((resolve, reject) => MasterProductPriceService.buildSearchQuery(criteria)
+    return new Promise((resolve, reject) => CrawlResultService.buildSearchQuery(criteria)
       .count()
       .then(total => resolve(total > 0))
       .catch(error => reject(error)));
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(MasterProductPrice);
+    const query = ParseWrapperService.createQuery(CrawlResult);
 
-    if (criteria.has('masterProductId') && criteria.get('masterProductId')) {
-      query.equalTo('masterProduct', MasterProduct.createWithoutData(criteria.get('masterProductId')));
+    if (criteria.has('crawlSessionId') && criteria.get('crawlSessionId')) {
+      query.equalTo('crawlSession', CrawlSession.createWithoutData(criteria.get('crawlSessionId')));
     }
 
     return query;
@@ -110,7 +110,7 @@ class MasterProductPriceService {
 }
 
 export {
-  MasterProductPriceService,
+  CrawlResultService,
 };
 
-export default MasterProductPriceService;
+export default CrawlResultService;

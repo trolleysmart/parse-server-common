@@ -1,5 +1,15 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createCrawlSessionInfo = createCrawlSessionInfo;
+exports.createCrawlSession = createCrawlSession;
+
+var _immutable = require('immutable');
+
+var _monet = require('monet');
+
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
@@ -8,77 +18,74 @@ var _crawlSession = require('./crawl-session');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function createCrawlSessionInfo() {
+  return (0, _immutable.Map)({
+    sessionKey: (0, _v2.default)(),
+    startDateTime: _monet.Maybe.Some(new Date()),
+    endDateTime: _monet.Maybe.Some(new Date()),
+    additionalInfo: _monet.Maybe.Some((0, _immutable.Map)({
+      val: (0, _v2.default)()
+    }))
+  });
+}
+
+function createCrawlSession(crawlSessionInfo) {
+  return _crawlSession.CrawlSession.spawn(crawlSessionInfo || createCrawlSessionInfo());
+}
+
+function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo) {
+  expect(crawlSessionInfo.get('sessionKey')).toBe(expectedCrawlSessionInfo.get('sessionKey'));
+  expect(crawlSessionInfo.get('startDateTime').some()).toBe(expectedCrawlSessionInfo.get('startDateTime').some());
+  expect(crawlSessionInfo.get('endDateTime').some()).toBe(expectedCrawlSessionInfo.get('endDateTime').some());
+  expect(crawlSessionInfo.get('additionalInfo').some()).toEqual(expectedCrawlSessionInfo.get('additionalInfo').some());
+}
+
 describe('constructor', function () {
   test('should set class name', function () {
-    expect(_crawlSession.CrawlSession.spawn('sessionKey', new Date(), {}).className).toBe('CrawlSession');
+    expect(createCrawlSession().className).toBe('CrawlSession');
+  });
+});
+
+describe('static public methods', function () {
+  test('spawn should set provided info', function () {
+    var crawlSessionInfo = createCrawlSessionInfo();
+    var object = createCrawlSession(crawlSessionInfo);
+    var info = object.getInfo();
+
+    expectCrawlSessionInfo(info, crawlSessionInfo);
   });
 });
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', new Date(), {});
+    var object = createCrawlSession();
 
     expect(new _crawlSession.CrawlSession(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', new Date(), {});
+    var object = createCrawlSession();
 
     expect(new _crawlSession.CrawlSession(object).getId()).toBe(object.id);
   });
 
-  test('getSessionKey should return provided session key', function () {
-    var expectedValue = (0, _v2.default)();
-    var object = _crawlSession.CrawlSession.spawn(expectedValue, new Date(), {});
+  test('updateInfo should update object info', function () {
+    var object = createCrawlSession();
+    var updatedCrawlSessionInfo = createCrawlSessionInfo();
 
-    expect(new _crawlSession.CrawlSession(object).getSessionKey()).toBe(expectedValue);
+    object.updateInfo(updatedCrawlSessionInfo);
+
+    var info = object.getInfo();
+
+    expectCrawlSessionInfo(info, updatedCrawlSessionInfo);
   });
 
-  test('getStartDateTime should return provided start date time', function () {
-    var expectedValue = new Date();
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', expectedValue, {});
+  test('getInfo should return provided info', function () {
+    var crawlSessionInfo = createCrawlSessionInfo();
+    var object = createCrawlSession(crawlSessionInfo);
+    var info = object.getInfo();
 
-    expect(new _crawlSession.CrawlSession(object).getStartDateTime()).toBe(expectedValue);
-  });
-
-  test('getEndDateTime should return none if end date time is not set yet', function () {
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', new Date(), {});
-
-    expect(new _crawlSession.CrawlSession(object).getEndDateTime().isNone()).toBeTruthy();
-  });
-
-  test('setEndDateTime should set end date time', function () {
-    var expectedValue = new Date();
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', new Date(), {});
-
-    object.setEndDateTime(expectedValue);
-
-    expect(new _crawlSession.CrawlSession(object).getEndDateTime().some()).toBe(expectedValue);
-  });
-
-  test('getAdditionalInfo should return none if additional info is not provided yet', function () {
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', new Date());
-
-    expect(new _crawlSession.CrawlSession(object).getAdditionalInfo().isNone()).toBeTruthy();
-  });
-
-  test('getAdditionalInfo should return additional info if additional info is not provided through spawn', function () {
-    var expectedValue = {
-      val: (0, _v2.default)()
-    };
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', new Date(), expectedValue);
-
-    expect(new _crawlSession.CrawlSession(object).getAdditionalInfo().some()).toBe(expectedValue);
-  });
-
-  test('setAdditionalInfo should set end date time', function () {
-    var expectedValue = {
-      val: (0, _v2.default)()
-    };
-    var object = _crawlSession.CrawlSession.spawn('sessionKey', new Date());
-
-    object.setAdditionalInfo(expectedValue);
-
-    expect(new _crawlSession.CrawlSession(object).getAdditionalInfo().some()).toBe(expectedValue);
+    expect(info.get('id')).toBe(object.getId());
+    expectCrawlSessionInfo(info, crawlSessionInfo);
   });
 });

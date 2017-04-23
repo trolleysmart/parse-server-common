@@ -7,9 +7,15 @@ exports.CrawlSession = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _monet = require('monet');
+var _immutable = require('immutable');
+
+var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+
+var _monet = require('monet');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20,57 +26,61 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CrawlSession = function (_BaseObject) {
   _inherits(CrawlSession, _BaseObject);
 
+  _createClass(CrawlSession, null, [{
+    key: 'spawn',
+    value: function spawn(info) {
+      var object = new CrawlSession();
+
+      CrawlSession.updateInfoInternal(object, info);
+
+      return object;
+    }
+  }, {
+    key: 'updateInfoInternal',
+    value: function updateInfoInternal(object, info) {
+      object.set('sessionKey', info.get('sessionKey'));
+      object.set('startDateTime', info.get('startDateTime').orSome(undefined));
+      object.set('endDateTime', info.get('endDateTime').orSome(undefined));
+
+      var additionalInfo = info.get('additionalInfo');
+
+      if (additionalInfo && additionalInfo.isSome()) {
+        object.set('additionalInfo', additionalInfo.some().toJS());
+      } else {
+        object.set('additionalInfo', undefined);
+      }
+    }
+  }]);
+
   function CrawlSession(object) {
     _classCallCheck(this, CrawlSession);
 
     var _this = _possibleConstructorReturn(this, (CrawlSession.__proto__ || Object.getPrototypeOf(CrawlSession)).call(this, object, 'CrawlSession'));
 
-    _this.getSessionKey = _this.getSessionKey.bind(_this);
-    _this.getStartDateTime = _this.getStartDateTime.bind(_this);
-    _this.getEndDateTime = _this.getEndDateTime.bind(_this);
+    _this.updateInfo = _this.updateInfo.bind(_this);
+    _this.getInfo = _this.getInfo.bind(_this);
     return _this;
   }
 
   _createClass(CrawlSession, [{
-    key: 'getSessionKey',
-    value: function getSessionKey() {
-      return this.getObject().get('sessionKey');
-    }
-  }, {
-    key: 'getStartDateTime',
-    value: function getStartDateTime() {
-      return this.getObject().get('startDateTime');
-    }
-  }, {
-    key: 'getEndDateTime',
-    value: function getEndDateTime() {
-      return _monet.Maybe.fromNull(this.getObject().get('endDateTime'));
-    }
-  }, {
-    key: 'setEndDateTime',
-    value: function setEndDateTime(endDateTime) {
-      this.getObject().set('endDateTime', endDateTime);
-    }
-  }, {
-    key: 'getAdditionalInfo',
-    value: function getAdditionalInfo() {
-      return _monet.Maybe.fromNull(this.getObject().get('additionalInfo'));
-    }
-  }, {
-    key: 'setAdditionalInfo',
-    value: function setAdditionalInfo(additionalInfo) {
-      this.getObject().set('additionalInfo', additionalInfo);
-    }
-  }], [{
-    key: 'spawn',
-    value: function spawn(sessionKey, startDateTime, additionalInfo) {
-      var object = new CrawlSession();
+    key: 'updateInfo',
+    value: function updateInfo(info) {
+      var object = this.getObject();
 
-      object.set('sessionKey', sessionKey);
-      object.set('startDateTime', startDateTime);
-      object.set('additionalInfo', additionalInfo);
+      CrawlSession.updateInfoInternal(object, info);
 
-      return object;
+      return this;
+    }
+  }, {
+    key: 'getInfo',
+    value: function getInfo() {
+      return (0, _immutable.Map)({
+        id: this.getId(),
+        sessionKey: this.getObject().get('sessionKey'),
+        startDateTime: _monet.Maybe.fromNull(this.getObject().get('startDateTime')),
+        endDateTime: _monet.Maybe.fromNull(this.getObject().get('endDateTime')),
+        additionalInfo: _monet.Maybe.fromNull(_immutable2.default.fromJS(this.getObject().get('additionalInfo')))
+      });
     }
   }]);
 
