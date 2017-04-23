@@ -183,7 +183,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no store if provided criteria matches no store', (done) => {
-    StoreService.search(createStoreInfo())
+    StoreService.search(createCriteria())
       .then((stores) => {
         expect(stores.size)
           .toBe(0);
@@ -222,7 +222,7 @@ describe('search', () => {
 
 describe('searchAll', () => {
   test('should return no store if provided criteria matches no store', (done) => {
-    const result = StoreService.searchAll(createStoreInfo());
+    const result = StoreService.searchAll(createCriteria());
     let stores = List();
 
     result.event.subscribe((store) => {

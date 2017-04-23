@@ -1,4 +1,5 @@
 import {
+  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
@@ -17,10 +18,12 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
     .toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')
       .some())
-    .toBe(expectedMasterProductInfo.get('barcode').some());
+    .toBe(expectedMasterProductInfo.get('barcode')
+      .some());
   expect(masterProductInfo.get('imageUrl')
       .some())
-    .toBe(expectedMasterProductInfo.get('imageUrl').some());
+    .toBe(expectedMasterProductInfo.get('imageUrl')
+      .some());
 }
 
 export function createCriteria() {
@@ -34,8 +37,10 @@ export function createCriteria() {
 export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return Map({
     description: masterProductInfo.get('description'),
-    barcode: masterProductInfo.get('barcode').some(),
-    imageUrl: masterProductInfo.get('imageUrl').some(),
+    barcode: masterProductInfo.get('barcode')
+      .some(),
+    imageUrl: masterProductInfo.get('imageUrl')
+      .some(),
   });
 }
 
@@ -192,12 +197,17 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no master product if provided criteria matches no master product', (done) => {
-    MasterProductService.search(createCriteria())
-      .then((masterProductInfos) => {
-        expect(masterProductInfos.size)
+    const result = MasterProductService.searchAll(createCriteria());
+    let masterProducts = List();
+
+    result.event.subscribe((masterProduct) => {
+      masterProducts = masterProducts.push(masterProduct);
+    });
+    result.promise.then(() => {
+      expect(masterProducts.size)
           .toBe(0);
-        done();
-      })
+      done();
+    })
       .catch((error) => {
         fail(error);
         done();
@@ -221,6 +231,49 @@ describe('search', () => {
         const masterProductInfo = masterProductInfos.first();
         expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
         done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+});
+
+describe('searchAll', () => {
+  test('should return no master product if provided criteria matches no master product', (done) => {
+    MasterProductService.search(createCriteria())
+      .then((masterProductInfos) => {
+        expect(masterProductInfos.size)
+          .toBe(0);
+        done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+
+  test('should return the master products matches the criteria', (done) => {
+    const expectedMasterProductInfo = createMasterProductInfo();
+
+    Promise.all([MasterProductService.create(expectedMasterProductInfo), MasterProductService.create(expectedMasterProductInfo)])
+      .then((ids) => {
+        const masterProductIds = List.of(ids[0], ids[1]);
+        const result = MasterProductService.searchAll(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
+        let masterProducts = List();
+
+        result.event.subscribe((masterProduct) => {
+          masterProducts = masterProducts.push(masterProduct);
+        });
+        result.promise.then(() => {
+          expect(masterProducts.size)
+              .toBe(masterProductIds.size);
+          done();
+        })
+          .catch((error) => {
+            fail(error);
+            done();
+          });
       })
       .catch((error) => {
         fail(error);

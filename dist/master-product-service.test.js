@@ -173,8 +173,14 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no master product if provided criteria matches no master product', function (done) {
-    _masterProductService.MasterProductService.search(createCriteria()).then(function (masterProductInfos) {
-      expect(masterProductInfos.size).toBe(0);
+    var result = _masterProductService.MasterProductService.searchAll(createCriteria());
+    var masterProducts = (0, _immutable.List)();
+
+    result.event.subscribe(function (masterProduct) {
+      masterProducts = masterProducts.push(masterProduct);
+    });
+    result.promise.then(function () {
+      expect(masterProducts.size).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -196,6 +202,42 @@ describe('search', function () {
       var masterProductInfo = masterProductInfos.first();
       expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
       done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+});
+
+describe('searchAll', function () {
+  test('should return no master product if provided criteria matches no master product', function (done) {
+    _masterProductService.MasterProductService.search(createCriteria()).then(function (masterProductInfos) {
+      expect(masterProductInfos.size).toBe(0);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
+
+  test('should return the master products matches the criteria', function (done) {
+    var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
+
+    Promise.all([_masterProductService.MasterProductService.create(expectedMasterProductInfo), _masterProductService.MasterProductService.create(expectedMasterProductInfo)]).then(function (ids) {
+      var masterProductIds = _immutable.List.of(ids[0], ids[1]);
+      var result = _masterProductService.MasterProductService.searchAll(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
+      var masterProducts = (0, _immutable.List)();
+
+      result.event.subscribe(function (masterProduct) {
+        masterProducts = masterProducts.push(masterProduct);
+      });
+      result.promise.then(function () {
+        expect(masterProducts.size).toBe(masterProductIds.size);
+        done();
+      }).catch(function (error) {
+        fail(error);
+        done();
+      });
     }).catch(function (error) {
       fail(error);
       done();

@@ -3,6 +3,9 @@ import {
   ParseWrapperService,
 } from 'micro-business-parse-server-common';
 import {
+  NewSearchResultReceivedEvent,
+} from './new-search-result-received-event';
+import {
   MasterProduct,
 } from './schema';
 
@@ -88,6 +91,18 @@ class MasterProductService {
         .map(_ => new MasterProduct(_))
         .map(masterProduct => masterProduct.getInfo())))
       .catch(error => reject(error)));
+  }
+
+  static searchAll(criteria) {
+    const event = new NewSearchResultReceivedEvent();
+    const promise = MasterProductService.buildSearchQuery(criteria)
+      .each(_ => event.raise(new MasterProduct(_)
+        .getInfo()));
+
+    return {
+      event,
+      promise,
+    };
   }
 
   static exists(criteria) {

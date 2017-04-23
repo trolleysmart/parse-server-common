@@ -13,6 +13,8 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
+var _newSearchResultReceivedEvent = require('./new-search-result-received-event');
+
 var _schema = require('./schema');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -119,6 +121,19 @@ var MasterProductService = function () {
           return reject(error);
         });
       });
+    }
+  }, {
+    key: 'searchAll',
+    value: function searchAll(criteria) {
+      var event = new _newSearchResultReceivedEvent.NewSearchResultReceivedEvent();
+      var promise = MasterProductService.buildSearchQuery(criteria).each(function (_) {
+        return event.raise(new _schema.MasterProduct(_).getInfo());
+      });
+
+      return {
+        event: event,
+        promise: promise
+      };
     }
   }, {
     key: 'exists',
