@@ -59,16 +59,16 @@ var CrawlResultService = function () {
     }
   }, {
     key: 'update',
-    value: function update(id, info) {
+    value: function update(info) {
       return new Promise(function (resolve, reject) {
         var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
 
-        query.equalTo('objectId', id);
+        query.equalTo('objectId', info.get('id'));
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No crawl result found with Id: ' + id);
+            reject('No crawl result found with Id: ' + info.get('id'));
           } else {
             var object = new _schema.CrawlResult(results[0]);
 

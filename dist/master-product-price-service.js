@@ -59,16 +59,16 @@ var MasterProductPriceService = function () {
     }
   }, {
     key: 'update',
-    value: function update(id, info) {
+    value: function update(info) {
       return new Promise(function (resolve, reject) {
         var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
 
-        query.equalTo('objectId', id);
+        query.equalTo('objectId', info.get('id'));
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No master product price found with Id: ' + id);
+            reject('No master product price found with Id: ' + info.get('id'));
           } else {
             var object = new _schema.MasterProductPrice(results[0]);
 

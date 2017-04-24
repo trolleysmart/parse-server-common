@@ -18,13 +18,16 @@ function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, craw
     .toBe(expectedCrawlSessionInfo.get('sessionKey'));
   expect(crawlSessionInfo.get('startDateTime')
       .some())
-    .toEqual(expectedCrawlSessionInfo.get('startDateTime').some());
+    .toEqual(expectedCrawlSessionInfo.get('startDateTime')
+      .some());
   expect(crawlSessionInfo.get('endDateTime')
       .some())
-    .toEqual(expectedCrawlSessionInfo.get('endDateTime').some());
+    .toEqual(expectedCrawlSessionInfo.get('endDateTime')
+      .some());
   expect(crawlSessionInfo.get('additionalInfo')
       .some())
-    .toEqual(expectedCrawlSessionInfo.get('additionalInfo').some());
+    .toEqual(expectedCrawlSessionInfo.get('additionalInfo')
+      .some());
 }
 
 export function createCriteria() {
@@ -111,7 +114,8 @@ describe('update', () => {
   test('should reject if the provided crawl session Id does not exist', (done) => {
     const crawlSessionId = uuid();
 
-    CrawlSessionService.update(crawlSessionId, createCrawlSessionInfo())
+    CrawlSessionService.update(createCrawlSessionInfo()
+        .set('id', crawlSessionId))
       .catch((error) => {
         expect(error)
           .toBe(`No crawl session found with Id: ${crawlSessionId}`);
@@ -126,7 +130,8 @@ describe('update', () => {
       .then((id) => {
         crawlSessionId = id;
 
-        return CrawlSessionService.update(crawlSessionId, createCrawlSessionInfo());
+        return CrawlSessionService.update(createCrawlSessionInfo()
+          .set('id', crawlSessionId));
       })
       .then((id) => {
         expect(id)
@@ -144,7 +149,7 @@ describe('update', () => {
     let crawlSessionId;
 
     CrawlSessionService.create(createCrawlSessionInfo())
-      .then(id => CrawlSessionService.update(id, expectedCrawlSessionInfo))
+      .then(id => CrawlSessionService.update(expectedCrawlSessionInfo.set('id', id)))
       .then((id) => {
         crawlSessionId = id;
 
@@ -233,7 +238,7 @@ describe('search', () => {
     let crawlSessionId;
 
     CrawlSessionService.create(expectedCrawlSessionInfo)
-    .then(() => CrawlSessionService.create(expectedCrawlSessionInfo))
+      .then(() => CrawlSessionService.create(expectedCrawlSessionInfo))
       .then((id) => {
         crawlSessionId = id;
 

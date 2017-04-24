@@ -116,7 +116,8 @@ describe('update', () => {
   test('should reject if the provided master product Id does not exist', (done) => {
     const masterProductId = uuid();
 
-    MasterProductService.update(masterProductId, createMasterProductInfo())
+    MasterProductService.update(createMasterProductInfo()
+        .set('id', masterProductId))
       .catch((error) => {
         expect(error)
           .toBe(`No master product found with Id: ${masterProductId}`);
@@ -131,7 +132,8 @@ describe('update', () => {
       .then((id) => {
         masterProductId = id;
 
-        return MasterProductService.update(masterProductId, createMasterProductInfo());
+        return MasterProductService.update(createMasterProductInfo()
+          .set('id', masterProductId));
       })
       .then((id) => {
         expect(id)
@@ -149,7 +151,7 @@ describe('update', () => {
     let masterProductId;
 
     MasterProductService.create(createMasterProductInfo())
-      .then(id => MasterProductService.update(id, expectedMasterProductInfo))
+      .then(id => MasterProductService.update(expectedMasterProductInfo.set('id', id)))
       .then((id) => {
         masterProductId = id;
 

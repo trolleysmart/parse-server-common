@@ -92,7 +92,7 @@ describe('update', function () {
   test('should reject if the provided store crawler configuration Id does not exist', function (done) {
     var storeCrawlerConfigurationId = (0, _v2.default)();
 
-    _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.update(storeCrawlerConfigurationId, (0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)()).catch(function (error) {
+    _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.update((0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)().set('id', storeCrawlerConfigurationId)).catch(function (error) {
       expect(error).toBe('No store crawler configuration found with Id: ' + storeCrawlerConfigurationId);
       done();
     });
@@ -104,7 +104,7 @@ describe('update', function () {
     _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.create((0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)()).then(function (id) {
       storeCrawlerConfigurationId = id;
 
-      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.update(storeCrawlerConfigurationId, (0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)());
+      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.update((0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)().set('id', storeCrawlerConfigurationId));
     }).then(function (id) {
       expect(id).toBe(storeCrawlerConfigurationId);
       done();
@@ -119,7 +119,7 @@ describe('update', function () {
     var storeCrawlerConfigurationId = void 0;
 
     _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.create((0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)()).then(function (id) {
-      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.update(id, expectedStoreCrawlerConfigurationInfo);
+      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.update(expectedStoreCrawlerConfigurationInfo.set('id', id));
     }).then(function (id) {
       storeCrawlerConfigurationId = id;
 

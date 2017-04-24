@@ -119,7 +119,7 @@ describe('update', function () {
   test('should reject if the provided crawl result Id does not exist', function (done) {
     var crawlResultId = (0, _v2.default)();
 
-    _crawlResultService.CrawlResultService.update(crawlResultId, (0, _crawlResult.createCrawlResultInfo)()).catch(function (error) {
+    _crawlResultService.CrawlResultService.update((0, _crawlResult.createCrawlResultInfo)().set('id', crawlResultId)).catch(function (error) {
       expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
       done();
     });
@@ -133,7 +133,7 @@ describe('update', function () {
     }).then(function (id) {
       crawlResultId = id;
 
-      return _crawlResultService.CrawlResultService.update(crawlResultId, (0, _crawlResult.createCrawlResultInfo)());
+      return _crawlResultService.CrawlResultService.update((0, _crawlResult.createCrawlResultInfo)().set('id', crawlResultId));
     }).then(function (id) {
       expect(id).toBe(crawlResultId);
       done();
@@ -156,7 +156,7 @@ describe('update', function () {
     }).then(function (id) {
       return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
     }).then(function (id) {
-      return _crawlResultService.CrawlResultService.update(id, expectedCrawlResultInfo);
+      return _crawlResultService.CrawlResultService.update(expectedCrawlResultInfo.set('id', id));
     }).then(function (id) {
       crawlResultId = id;
 

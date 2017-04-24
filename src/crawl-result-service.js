@@ -40,17 +40,17 @@ class CrawlResultService {
     });
   }
 
-  static update(id, info) {
+  static update(info) {
     return new Promise((resolve, reject) => {
       const query = ParseWrapperService.createQuery(CrawlResult);
 
-      query.equalTo('objectId', id);
+      query.equalTo('objectId', info.get('id'));
       query.limit(1);
 
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No crawl result found with Id: ${id}`);
+            reject(`No crawl result found with Id: ${info.get('id')}`);
           } else {
             const object = new CrawlResult(results[0]);
 

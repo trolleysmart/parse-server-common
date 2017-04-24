@@ -119,7 +119,7 @@ describe('update', function () {
   test('should reject if the provided master product price Id does not exist', function (done) {
     var masterProductPriceId = (0, _v2.default)();
 
-    _masterProductPriceService.MasterProductPriceService.update(masterProductPriceId, (0, _masterProductPrice.createMasterProductPriceInfo)()).catch(function (error) {
+    _masterProductPriceService.MasterProductPriceService.update((0, _masterProductPrice.createMasterProductPriceInfo)().set('id', masterProductPriceId)).catch(function (error) {
       expect(error).toBe('No master product price found with Id: ' + masterProductPriceId);
       done();
     });
@@ -133,7 +133,7 @@ describe('update', function () {
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.update(masterProductPriceId, (0, _masterProductPrice.createMasterProductPriceInfo)());
+      return _masterProductPriceService.MasterProductPriceService.update((0, _masterProductPrice.createMasterProductPriceInfo)().set('id', masterProductPriceId));
     }).then(function (id) {
       expect(id).toBe(masterProductPriceId);
       done();
@@ -156,7 +156,7 @@ describe('update', function () {
     }).then(function (id) {
       return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
     }).then(function (id) {
-      return _masterProductPriceService.MasterProductPriceService.update(id, expectedMasterProductPriceInfo);
+      return _masterProductPriceService.MasterProductPriceService.update(expectedMasterProductPriceInfo.set('id', id));
     }).then(function (id) {
       masterProductPriceId = id;
 

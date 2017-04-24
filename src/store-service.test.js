@@ -102,7 +102,8 @@ describe('update', () => {
   test('should reject if the provided store Id does not exist', (done) => {
     const storeId = uuid();
 
-    StoreService.update(storeId, createStoreInfo())
+    StoreService.update(createStoreInfo()
+        .set('id', storeId))
       .catch((error) => {
         expect(error)
           .toBe(`No store found with Id: ${storeId}`);
@@ -117,7 +118,8 @@ describe('update', () => {
       .then((id) => {
         storeId = id;
 
-        return StoreService.update(storeId, createStoreInfo());
+        return StoreService.update(createStoreInfo()
+          .set('id', storeId));
       })
       .then((id) => {
         expect(id)
@@ -135,7 +137,7 @@ describe('update', () => {
     let storeId;
 
     StoreService.create(createStoreInfo())
-      .then(id => StoreService.update(id, expectedStoreInfo))
+      .then(id => StoreService.update(expectedStoreInfo.set('id', id)))
       .then((id) => {
         storeId = id;
 

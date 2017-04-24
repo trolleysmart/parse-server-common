@@ -101,7 +101,7 @@ describe('update', function () {
   test('should reject if the provided crawl session Id does not exist', function (done) {
     var crawlSessionId = (0, _v2.default)();
 
-    _crawlSessionService.CrawlSessionService.update(crawlSessionId, (0, _crawlSession.createCrawlSessionInfo)()).catch(function (error) {
+    _crawlSessionService.CrawlSessionService.update((0, _crawlSession.createCrawlSessionInfo)().set('id', crawlSessionId)).catch(function (error) {
       expect(error).toBe('No crawl session found with Id: ' + crawlSessionId);
       done();
     });
@@ -113,7 +113,7 @@ describe('update', function () {
     _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
 
-      return _crawlSessionService.CrawlSessionService.update(crawlSessionId, (0, _crawlSession.createCrawlSessionInfo)());
+      return _crawlSessionService.CrawlSessionService.update((0, _crawlSession.createCrawlSessionInfo)().set('id', crawlSessionId));
     }).then(function (id) {
       expect(id).toBe(crawlSessionId);
       done();
@@ -128,7 +128,7 @@ describe('update', function () {
     var crawlSessionId = void 0;
 
     _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
-      return _crawlSessionService.CrawlSessionService.update(id, expectedCrawlSessionInfo);
+      return _crawlSessionService.CrawlSessionService.update(expectedCrawlSessionInfo.set('id', id));
     }).then(function (id) {
       crawlSessionId = id;
 

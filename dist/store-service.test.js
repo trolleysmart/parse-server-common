@@ -92,7 +92,7 @@ describe('update', function () {
   test('should reject if the provided store Id does not exist', function (done) {
     var storeId = (0, _v2.default)();
 
-    _storeService.StoreService.update(storeId, (0, _store.createStoreInfo)()).catch(function (error) {
+    _storeService.StoreService.update((0, _store.createStoreInfo)().set('id', storeId)).catch(function (error) {
       expect(error).toBe('No store found with Id: ' + storeId);
       done();
     });
@@ -104,7 +104,7 @@ describe('update', function () {
     _storeService.StoreService.create((0, _store.createStoreInfo)()).then(function (id) {
       storeId = id;
 
-      return _storeService.StoreService.update(storeId, (0, _store.createStoreInfo)());
+      return _storeService.StoreService.update((0, _store.createStoreInfo)().set('id', storeId));
     }).then(function (id) {
       expect(id).toBe(storeId);
       done();
@@ -119,7 +119,7 @@ describe('update', function () {
     var storeId = void 0;
 
     _storeService.StoreService.create((0, _store.createStoreInfo)()).then(function (id) {
-      return _storeService.StoreService.update(id, expectedStoreInfo);
+      return _storeService.StoreService.update(expectedStoreInfo.set('id', id));
     }).then(function (id) {
       storeId = id;
 

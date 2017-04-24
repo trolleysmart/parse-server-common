@@ -104,7 +104,8 @@ describe('update', () => {
   test('should reject if the provided store crawler configuration Id does not exist', (done) => {
     const storeCrawlerConfigurationId = uuid();
 
-    StoreCrawlerConfigurationService.update(storeCrawlerConfigurationId, createStoreCrawlerConfigurationInfo())
+    StoreCrawlerConfigurationService.update(createStoreCrawlerConfigurationInfo()
+        .set('id', storeCrawlerConfigurationId))
       .catch((error) => {
         expect(error)
           .toBe(`No store crawler configuration found with Id: ${storeCrawlerConfigurationId}`);
@@ -119,7 +120,8 @@ describe('update', () => {
       .then((id) => {
         storeCrawlerConfigurationId = id;
 
-        return StoreCrawlerConfigurationService.update(storeCrawlerConfigurationId, createStoreCrawlerConfigurationInfo());
+        return StoreCrawlerConfigurationService.update(createStoreCrawlerConfigurationInfo()
+          .set('id', storeCrawlerConfigurationId));
       })
       .then((id) => {
         expect(id)
@@ -137,7 +139,7 @@ describe('update', () => {
     let storeCrawlerConfigurationId;
 
     StoreCrawlerConfigurationService.create(createStoreCrawlerConfigurationInfo())
-      .then(id => StoreCrawlerConfigurationService.update(id, expectedStoreCrawlerConfigurationInfo))
+      .then(id => StoreCrawlerConfigurationService.update(expectedStoreCrawlerConfigurationInfo.set('id', id)))
       .then((id) => {
         storeCrawlerConfigurationId = id;
 

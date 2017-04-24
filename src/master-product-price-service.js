@@ -40,17 +40,17 @@ class MasterProductPriceService {
     });
   }
 
-  static update(id, info) {
+  static update(info) {
     return new Promise((resolve, reject) => {
       const query = ParseWrapperService.createQuery(MasterProductPrice);
 
-      query.equalTo('objectId', id);
+      query.equalTo('objectId', info.get('id'));
       query.limit(1);
 
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No master product price found with Id: ${id}`);
+            reject(`No master product price found with Id: ${info.get('id')}`);
           } else {
             const object = new MasterProductPrice(results[0]);
 

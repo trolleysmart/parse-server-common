@@ -128,7 +128,8 @@ describe('update', () => {
   test('should reject if the provided crawl result Id does not exist', (done) => {
     const crawlResultId = uuid();
 
-    CrawlResultService.update(crawlResultId, createCrawlResultInfo())
+    CrawlResultService.update(createCrawlResultInfo()
+        .set('id', crawlResultId))
       .catch((error) => {
         expect(error)
           .toBe(`No crawl result found with Id: ${crawlResultId}`);
@@ -144,7 +145,8 @@ describe('update', () => {
       .then((id) => {
         crawlResultId = id;
 
-        return CrawlResultService.update(crawlResultId, createCrawlResultInfo());
+        return CrawlResultService.update(createCrawlResultInfo()
+          .set('id', crawlResultId));
       })
       .then((id) => {
         expect(id)
@@ -170,7 +172,7 @@ describe('update', () => {
         return CrawlSessionService.create(createCrawlSessionInfo());
       })
       .then(id => CrawlResultService.create(createCrawlResultInfo(id)))
-      .then(id => CrawlResultService.update(id, expectedCrawlResultInfo))
+      .then(id => CrawlResultService.update(expectedCrawlResultInfo.set('id', id)))
       .then((id) => {
         crawlResultId = id;
 

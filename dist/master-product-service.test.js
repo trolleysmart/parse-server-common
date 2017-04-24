@@ -104,7 +104,7 @@ describe('update', function () {
   test('should reject if the provided master product Id does not exist', function (done) {
     var masterProductId = (0, _v2.default)();
 
-    _masterProductService.MasterProductService.update(masterProductId, (0, _masterProduct.createMasterProductInfo)()).catch(function (error) {
+    _masterProductService.MasterProductService.update((0, _masterProduct.createMasterProductInfo)().set('id', masterProductId)).catch(function (error) {
       expect(error).toBe('No master product found with Id: ' + masterProductId);
       done();
     });
@@ -116,7 +116,7 @@ describe('update', function () {
     _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
       masterProductId = id;
 
-      return _masterProductService.MasterProductService.update(masterProductId, (0, _masterProduct.createMasterProductInfo)());
+      return _masterProductService.MasterProductService.update((0, _masterProduct.createMasterProductInfo)().set('id', masterProductId));
     }).then(function (id) {
       expect(id).toBe(masterProductId);
       done();
@@ -131,7 +131,7 @@ describe('update', function () {
     var masterProductId = void 0;
 
     _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      return _masterProductService.MasterProductService.update(id, expectedMasterProductInfo);
+      return _masterProductService.MasterProductService.update(expectedMasterProductInfo.set('id', id));
     }).then(function (id) {
       masterProductId = id;
 
