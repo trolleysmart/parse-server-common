@@ -1,7 +1,4 @@
 import {
-  CrawlService,
-} from './crawl-service';
-import {
   CrawlResultService,
 } from './crawl-result-service';
 import {
@@ -24,7 +21,6 @@ import {
 } from './store-service';
 
 export {
-  CrawlService,
   CrawlResultService,
   CrawlSessionService,
   MasterProductService,
@@ -35,7 +31,6 @@ export {
 };
 
 export default {
-  CrawlService,
   CrawlResultService,
   CrawlSessionService,
   MasterProductService,

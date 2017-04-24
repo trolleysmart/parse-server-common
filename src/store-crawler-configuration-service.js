@@ -115,6 +115,11 @@ class StoreCrawlerConfigurationService {
   static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(StoreCrawlerConfiguration);
 
+    if (criteria.has('latest') && criteria.get('latest')) {
+      query.descending('createdAt');
+      query.limit(1);
+    }
+
     if (criteria.has('key') && criteria.get('key')) {
       query.equalTo('key', criteria.get('key'));
     }

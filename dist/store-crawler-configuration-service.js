@@ -151,6 +151,11 @@ var StoreCrawlerConfigurationService = function () {
     value: function buildSearchQuery(criteria) {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreCrawlerConfiguration);
 
+      if (criteria.has('latest') && criteria.get('latest')) {
+        query.descending('createdAt');
+        query.limit(1);
+      }
+
       if (criteria.has('key') && criteria.get('key')) {
         query.equalTo('key', criteria.get('key'));
       }

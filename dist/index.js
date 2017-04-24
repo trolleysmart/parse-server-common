@@ -3,9 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StoreService = exports.StoreCrawlerConfigurationService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = exports.CrawlService = undefined;
-
-var _crawlService = require('./crawl-service');
+exports.StoreService = exports.StoreCrawlerConfigurationService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _crawlResultService = require('./crawl-result-service');
 
@@ -21,7 +19,6 @@ var _storeCrawlerConfigurationService = require('./store-crawler-configuration-s
 
 var _storeService = require('./store-service');
 
-exports.CrawlService = _crawlService.CrawlService;
 exports.CrawlResultService = _crawlResultService.CrawlResultService;
 exports.CrawlSessionService = _crawlSessionService.CrawlSessionService;
 exports.MasterProductService = _masterProductService.MasterProductService;
@@ -30,7 +27,6 @@ exports.NewSearchResultReceivedEvent = _newSearchResultReceivedEvent.NewSearchRe
 exports.StoreCrawlerConfigurationService = _storeCrawlerConfigurationService.StoreCrawlerConfigurationService;
 exports.StoreService = _storeService.StoreService;
 exports.default = {
-  CrawlService: _crawlService.CrawlService,
   CrawlResultService: _crawlResultService.CrawlResultService,
   CrawlSessionService: _crawlSessionService.CrawlSessionService,
   MasterProductService: _masterProductService.MasterProductService,

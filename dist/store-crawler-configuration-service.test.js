@@ -189,6 +189,28 @@ describe('search', function () {
       done();
     });
   });
+
+  test('should return the latest store crawler configuration matches the criteria when latest is set', function (done) {
+    var expectedStoreCrawlerConfigurationInfo = (0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)();
+    var storeCrawlerConfigurationId = void 0;
+
+    _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo).then(function () {
+      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo);
+    }).then(function (id) {
+      storeCrawlerConfigurationId = id;
+      var criteria = createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(expectedStoreCrawlerConfigurationInfo);
+      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.search(criteria.set('latest', true));
+    }).then(function (storeCrawlerConfigurationInfos) {
+      expect(storeCrawlerConfigurationInfos.size).toBe(1);
+
+      var storeCrawlerConfigurationInfo = storeCrawlerConfigurationInfos.first();
+      expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expectedStoreCrawlerConfigurationInfo, storeCrawlerConfigurationId);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
 });
 
 describe('searchAll', function () {
