@@ -55,12 +55,11 @@ describe('create', () => {
   });
 
   test('should create the crawl result', (done) => {
-    const expectedCrawlSessionInfo = createCrawlSessionInfo();
     let crawlSessionId;
     let crawlResultId;
     let expectedCrawlResultInfo;
 
-    CrawlSessionService.create(expectedCrawlSessionInfo)
+    CrawlSessionService.create(createCrawlSessionInfo())
       .then((id) => {
         crawlSessionId = id;
         expectedCrawlResultInfo = createCrawlResultInfo(id);
@@ -96,12 +95,11 @@ describe('read', () => {
   });
 
   test('should read the existing crawl result', (done) => {
-    const expectedCrawlSessionInfo = createCrawlSessionInfo();
     let crawlSessionId;
     let crawlResultId;
     let expectedCrawlResultInfo;
 
-    CrawlSessionService.create(expectedCrawlSessionInfo)
+    CrawlSessionService.create(createCrawlSessionInfo())
       .then((id) => {
         crawlSessionId = id;
         expectedCrawlResultInfo = createCrawlResultInfo(id);

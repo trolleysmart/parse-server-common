@@ -56,12 +56,11 @@ describe('create', function () {
   });
 
   test('should create the crawl result', function (done) {
-    var expectedCrawlSessionInfo = (0, _crawlSession.createCrawlSessionInfo)();
     var crawlSessionId = void 0;
     var crawlResultId = void 0;
     var expectedCrawlResultInfo = void 0;
 
-    _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo).then(function (id) {
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
       expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
 
@@ -91,12 +90,11 @@ describe('read', function () {
   });
 
   test('should read the existing crawl result', function (done) {
-    var expectedCrawlSessionInfo = (0, _crawlSession.createCrawlSessionInfo)();
     var crawlSessionId = void 0;
     var crawlResultId = void 0;
     var expectedCrawlResultInfo = void 0;
 
-    _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo).then(function (id) {
+    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
       expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
 

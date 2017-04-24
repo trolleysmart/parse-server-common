@@ -155,6 +155,10 @@ var MasterProductPriceService = function () {
         query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(criteria.get('masterProductId')));
       }
 
+      if (criteria.has('storeId') && criteria.get('storeId')) {
+        query.equalTo('store', _schema.Store.createWithoutData(criteria.get('storeId')));
+      }
+
       return query;
     }
   }]);

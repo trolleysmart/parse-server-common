@@ -16,11 +16,14 @@ var _masterProductPrice = require('./master-product-price');
 
 var _masterProduct = require('./master-product.test');
 
+var _store = require('./store.test');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createMasterProductPriceInfo(masterProductId) {
+function createMasterProductPriceInfo(masterProductId, storeId) {
   return (0, _immutable.Map)({
     masterProductId: masterProductId || (0, _masterProduct.createMasterProduct)().getId(),
+    storeId: storeId || (0, _store.createStore)().getId(),
     priceDetails: (0, _immutable.Map)({
       price: (0, _v2.default)()
     })
@@ -34,6 +37,8 @@ function createMasterProductPrice(masterProductPriceInfo) {
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo) {
   expect(masterProductPriceInfo.get('masterProduct').getId()).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
+  expect(masterProductPriceInfo.get('store').getId()).toBe(expectedMasterProductPriceInfo.get('storeId'));
+  expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
 }
 

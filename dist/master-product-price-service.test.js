@@ -18,34 +18,44 @@ var _masterProductService = require('./master-product-service');
 
 var _masterProductPriceService = require('./master-product-price-service');
 
+var _storeService = require('./store-service');
+
 var _masterProduct = require('./schema/master-product.test');
 
 var _masterProductPrice = require('./schema/master-product-price.test');
 
+var _store = require('./schema/store.test');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId) {
+function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
   expect(masterProductPriceInfo.get('masterProduct').getId()).toBe(masterProductId);
+  expect(masterProductPriceInfo.get('store').getId()).toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    masterProductId: (0, _v2.default)()
+    masterProductId: (0, _v2.default)(),
+    storeId: (0, _v2.default)()
   });
 }
 
-function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId) {
+function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId) {
   return (0, _immutable.Map)({
-    masterProductId: masterProductId
+    masterProductId: masterProductId,
+    storeId: storeId
   });
 }
 
 describe('create', function () {
   test('should return the created master product price Id', function (done) {
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      var masterProductId = results[0];
+      var storeId = results[1];
+
+      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
     }).then(function (result) {
       expect(result).toBeDefined();
       done();
@@ -56,14 +66,16 @@ describe('create', function () {
   });
 
   test('should create the master product price', function (done) {
-    var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
     var masterProductId = void 0;
+    var storeId = void 0;
     var masterProductPriceId = void 0;
     var expectedMasterProductPriceInfo = void 0;
 
-    _masterProductService.MasterProductService.create(expectedMasterProductInfo).then(function (id) {
-      masterProductId = id;
-      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(id);
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      masterProductId = results[0];
+      storeId = results[1];
+
+      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
       return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
     }).then(function (id) {
@@ -71,7 +83,7 @@ describe('create', function () {
 
       return _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId);
     }).then(function (masterProductPriceInfo) {
-      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId);
+      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -91,14 +103,15 @@ describe('read', function () {
   });
 
   test('should read the existing master product price', function (done) {
-    var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
     var masterProductId = void 0;
+    var storeId = void 0;
     var masterProductPriceId = void 0;
     var expectedMasterProductPriceInfo = void 0;
 
-    _masterProductService.MasterProductService.create(expectedMasterProductInfo).then(function (id) {
-      masterProductId = id;
-      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(id);
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      masterProductId = results[0];
+      storeId = results[1];
+      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
       return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
     }).then(function (id) {
@@ -106,7 +119,7 @@ describe('read', function () {
 
       return _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId);
     }).then(function (masterProductPriceInfo) {
-      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId);
+      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -128,8 +141,11 @@ describe('update', function () {
   test('should return the Id of the updated master product price', function (done) {
     var masterProductPriceId = void 0;
 
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      var masterProductId = results[0];
+      var storeId = results[1];
+
+      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
     }).then(function (id) {
       masterProductPriceId = id;
 
@@ -146,11 +162,13 @@ describe('update', function () {
   test('should update the existing master product price', function (done) {
     var expectedMasterProductPriceInfo = void 0;
     var expectedMasterProductId = void 0;
+    var expectedStoreId = void 0;
     var masterProductPriceId = void 0;
 
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      expectedMasterProductId = id;
-      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(expectedMasterProductId);
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      expectedMasterProductId = results[0];
+      expectedStoreId = results[1];
+      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(expectedMasterProductId, expectedStoreId);
 
       return _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)());
     }).then(function (id) {
@@ -162,7 +180,7 @@ describe('update', function () {
 
       return _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId);
     }).then(function (masterProductPriceInfo) {
-      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, expectedMasterProductId);
+      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, expectedMasterProductId, expectedStoreId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -213,21 +231,23 @@ describe('search', function () {
     var expectedMasterProductPriceInfo = void 0;
     var masterProductPriceId = void 0;
     var masterProductId = void 0;
+    var storeId = void 0;
 
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      masterProductId = id;
-      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(id);
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      masterProductId = results[0];
+      storeId = results[1];
+      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
       return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId));
+      return _masterProductPriceService.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
     }).then(function (masterProductPriceInfos) {
       expect(masterProductPriceInfos.size).toBe(1);
 
       var masterProductPriceInfo = masterProductPriceInfos.first();
-      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId);
+      expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
       done();
     }).catch(function (error) {
       fail(error);
@@ -255,16 +275,18 @@ describe('searchAll', function () {
 
   test('should return the master products price matches the criteria', function (done) {
     var masterProductId = void 0;
+    var storeId = void 0;
     var expectedMasterProductPriceInfo = void 0;
 
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      masterProductId = id;
-      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId);
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      masterProductId = results[0];
+      storeId = results[1];
+      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
       return Promise.all([_masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo), _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo)]);
     }).then(function (ids) {
       var masterProductPriceIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId));
+      var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
       var masterProductPrices = (0, _immutable.List)();
 
       result.event.subscribe(function (masterProductPrice) {
@@ -297,13 +319,15 @@ describe('exists', function () {
 
   test('should return true if any master product price match provided criteria', function (done) {
     var masterProductId = void 0;
+    var storeId = void 0;
 
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      masterProductId = id;
+    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+      masterProductId = results[0];
+      storeId = results[1];
 
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
+      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
     }).then(function () {
-      return _masterProductPriceService.MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId));
+      return _masterProductPriceService.MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

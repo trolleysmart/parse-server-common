@@ -5,6 +5,7 @@ import {
 import {
   MasterProduct,
   MasterProductPrice,
+  Store,
 } from './schema';
 import {
   NewSearchResultReceivedEvent,
@@ -118,6 +119,10 @@ class MasterProductPriceService {
 
     if (criteria.has('masterProductId') && criteria.get('masterProductId')) {
       query.equalTo('masterProduct', MasterProduct.createWithoutData(criteria.get('masterProductId')));
+    }
+
+    if (criteria.has('storeId') && criteria.get('storeId')) {
+      query.equalTo('store', Store.createWithoutData(criteria.get('storeId')));
     }
 
     return query;

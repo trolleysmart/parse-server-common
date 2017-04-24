@@ -15,6 +15,8 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _masterProduct = require('./master-product');
 
+var _store = require('./store');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39,6 +41,7 @@ var MasterProductPrice = function (_BaseObject) {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('masterProduct', _masterProduct.MasterProduct.createWithoutData(info.get('masterProductId')));
+      object.set('store', _store.Store.createWithoutData(info.get('storeId')));
       object.set('priceDetails', info.get('priceDetails').toJS());
     }
   }]);
@@ -66,11 +69,14 @@ var MasterProductPrice = function (_BaseObject) {
     key: 'getInfo',
     value: function getInfo() {
       var masterProduct = new _masterProduct.MasterProduct(this.getObject().get('masterProduct'));
+      var store = new _store.Store(this.getObject().get('store'));
 
       return (0, _immutable.Map)({
         id: this.getId(),
         masterProduct: masterProduct,
         masterProductId: masterProduct.getId(),
+        store: store,
+        storeId: store.getId(),
         priceDetails: _immutable2.default.fromJS(this.getObject().get('priceDetails'))
       });
     }
