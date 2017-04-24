@@ -89,8 +89,8 @@ class CrawlResultService {
     return new Promise((resolve, reject) => CrawlResultService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new CrawlResult(_))
-        .map(crawlResult => crawlResult.getInfo())))
+        .map(_ => new CrawlResult(_)
+          .getInfo())))
       .catch(error => reject(error)));
   }
 

@@ -113,9 +113,7 @@ var MasterProductService = function () {
       return new Promise(function (resolve, reject) {
         return MasterProductService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.MasterProduct(_);
-          }).map(function (masterProduct) {
-            return masterProduct.getInfo();
+            return new _schema.MasterProduct(_).getInfo();
           }));
         }).catch(function (error) {
           return reject(error);

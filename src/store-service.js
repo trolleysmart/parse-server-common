@@ -88,8 +88,8 @@ class StoreService {
     return new Promise((resolve, reject) => StoreService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new Store(_))
-        .map(store => store.getInfo())))
+        .map(_ => new Store(_)
+          .getInfo())))
       .catch(error => reject(error)));
   }
 

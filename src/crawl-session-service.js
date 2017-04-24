@@ -88,8 +88,8 @@ class CrawlSessionService {
     return new Promise((resolve, reject) => CrawlSessionService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new CrawlSession(_))
-        .map(crawlSession => crawlSession.getInfo())))
+        .map(_ => new CrawlSession(_)
+          .getInfo())))
       .catch(error => reject(error)));
   }
 

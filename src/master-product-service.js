@@ -88,8 +88,8 @@ class MasterProductService {
     return new Promise((resolve, reject) => MasterProductService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new MasterProduct(_))
-        .map(masterProduct => masterProduct.getInfo())))
+        .map(_ => new MasterProduct(_)
+          .getInfo())))
       .catch(error => reject(error)));
   }
 

@@ -113,9 +113,7 @@ var StoreService = function () {
       return new Promise(function (resolve, reject) {
         return StoreService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.Store(_);
-          }).map(function (store) {
-            return store.getInfo();
+            return new _schema.Store(_).getInfo();
           }));
         }).catch(function (error) {
           return reject(error);

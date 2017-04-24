@@ -113,9 +113,7 @@ var MasterProductPriceService = function () {
       return new Promise(function (resolve, reject) {
         return MasterProductPriceService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.MasterProductPrice(_);
-          }).map(function (masterProductPrice) {
-            return masterProductPrice.getInfo();
+            return new _schema.MasterProductPrice(_).getInfo();
           }));
         }).catch(function (error) {
           return reject(error);
