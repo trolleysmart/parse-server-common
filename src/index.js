@@ -17,6 +17,9 @@ import {
   NewSearchResultReceivedEvent,
 } from './new-search-result-received-event';
 import {
+  StoreCrawlerConfigurationService,
+} from './store-crawler-configuration-service';
+import {
   StoreService,
 } from './store-service';
 
@@ -27,6 +30,7 @@ export {
   MasterProductService,
   MasterProductPriceService,
   NewSearchResultReceivedEvent,
+  StoreCrawlerConfigurationService,
   StoreService,
 };
 
@@ -37,5 +41,6 @@ export default {
   MasterProductService,
   MasterProductPriceService,
   NewSearchResultReceivedEvent,
+  StoreCrawlerConfigurationService,
   StoreService,
 };
