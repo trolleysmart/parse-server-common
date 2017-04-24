@@ -227,6 +227,33 @@ describe('search', () => {
         done();
       });
   });
+
+  test('should return the the latest crawl sessions matches the criteria when latest is set', (done) => {
+    const expectedCrawlSessionInfo = createCrawlSessionInfo();
+    let crawlSessionId;
+
+    CrawlSessionService.create(expectedCrawlSessionInfo)
+    .then(() => CrawlSessionService.create(expectedCrawlSessionInfo))
+      .then((id) => {
+        crawlSessionId = id;
+
+        const criteria = createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo);
+
+        return CrawlSessionService.search(criteria.set('latest', true));
+      })
+      .then((crawlSessionInfos) => {
+        expect(crawlSessionInfos.size)
+          .toBe(1);
+
+        const crawlSessionInfo = crawlSessionInfos.first();
+        expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
+        done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
 });
 
 describe('searchAll', () => {

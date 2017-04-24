@@ -232,7 +232,9 @@ describe('search', () => {
       .then(() => StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo))
       .then((id) => {
         storeCrawlerConfigurationId = id;
+
         const criteria = createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(expectedStoreCrawlerConfigurationInfo);
+
         return StoreCrawlerConfigurationService.search(criteria.set('latest', true));
       })
       .then((storeCrawlerConfigurationInfos) => {

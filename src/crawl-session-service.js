@@ -115,6 +115,11 @@ class CrawlSessionService {
   static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(CrawlSession);
 
+    if (criteria.has('latest') && criteria.get('latest')) {
+      query.descending('createdAt');
+      query.limit(1);
+    }
+
     if (criteria.has('sessionKey') && criteria.get('sessionKey')) {
       query.equalTo('sessionKey', criteria.get('sessionKey'));
     }

@@ -198,7 +198,9 @@ describe('search', function () {
       return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo);
     }).then(function (id) {
       storeCrawlerConfigurationId = id;
+
       var criteria = createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(expectedStoreCrawlerConfigurationInfo);
+
       return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.search(criteria.set('latest', true));
     }).then(function (storeCrawlerConfigurationInfos) {
       expect(storeCrawlerConfigurationInfos.size).toBe(1);

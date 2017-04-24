@@ -151,6 +151,11 @@ var CrawlSessionService = function () {
     value: function buildSearchQuery(criteria) {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession);
 
+      if (criteria.has('latest') && criteria.get('latest')) {
+        query.descending('createdAt');
+        query.limit(1);
+      }
+
       if (criteria.has('sessionKey') && criteria.get('sessionKey')) {
         query.equalTo('sessionKey', criteria.get('sessionKey'));
       }

@@ -198,6 +198,30 @@ describe('search', function () {
       done();
     });
   });
+
+  test('should return the the latest crawl sessions matches the criteria when latest is set', function (done) {
+    var expectedCrawlSessionInfo = (0, _crawlSession.createCrawlSessionInfo)();
+    var crawlSessionId = void 0;
+
+    _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo).then(function () {
+      return _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo);
+    }).then(function (id) {
+      crawlSessionId = id;
+
+      var criteria = createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo);
+
+      return _crawlSessionService.CrawlSessionService.search(criteria.set('latest', true));
+    }).then(function (crawlSessionInfos) {
+      expect(crawlSessionInfos.size).toBe(1);
+
+      var crawlSessionInfo = crawlSessionInfos.first();
+      expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
+      done();
+    }).catch(function (error) {
+      fail(error);
+      done();
+    });
+  });
 });
 
 describe('searchAll', function () {
