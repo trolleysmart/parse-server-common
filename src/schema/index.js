@@ -16,6 +16,12 @@ import {
 import {
   StoreCrawlerConfiguration,
 } from './store-crawler-configuration';
+import {
+  ShoppingList,
+} from './shopping-list';
+import {
+  StapleShoppingList,
+} from './staple-shopping-list';
 
 export {
   CrawlResult,
@@ -24,6 +30,8 @@ export {
   MasterProductPrice,
   Store,
   StoreCrawlerConfiguration,
+  ShoppingList,
+  StapleShoppingList,
 };
 
 export default {
@@ -33,4 +41,6 @@ export default {
   MasterProductPrice,
   Store,
   StoreCrawlerConfiguration,
+  ShoppingList,
+  StapleShoppingList,
 };

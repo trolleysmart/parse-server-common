@@ -19,6 +19,12 @@ import {
 import {
   StoreService,
 } from './store-service';
+import {
+  ShoppingListService,
+} from './shopping-list-service';
+import {
+  StapleShoppingListService,
+} from './staple-shopping-list-service';
 
 export {
   CrawlResultService,
@@ -28,6 +34,8 @@ export {
   NewSearchResultReceivedEvent,
   StoreCrawlerConfigurationService,
   StoreService,
+  ShoppingListService,
+  StapleShoppingListService,
 };
 
 export default {
@@ -38,4 +46,6 @@ export default {
   NewSearchResultReceivedEvent,
   StoreCrawlerConfigurationService,
   StoreService,
+  ShoppingListService,
+  StapleShoppingListService,
 };
