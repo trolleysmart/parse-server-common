@@ -44,7 +44,7 @@ var CrawlSession = function (_BaseObject) {
 
       var additionalInfo = info.get('additionalInfo');
 
-      if (additionalInfo && additionalInfo.isSome()) {
+      if (additionalInfo.isSome()) {
         object.set('additionalInfo', additionalInfo.some().toJS());
       } else {
         object.set('additionalInfo', undefined);

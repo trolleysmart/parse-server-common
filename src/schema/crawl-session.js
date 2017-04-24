@@ -26,7 +26,7 @@ class CrawlSession extends BaseObject {
 
     const additionalInfo = info.get('additionalInfo');
 
-    if (additionalInfo && additionalInfo.isSome()) {
+    if (additionalInfo.isSome()) {
       object.set('additionalInfo', additionalInfo.some()
         .toJS());
     } else {
