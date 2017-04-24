@@ -22,6 +22,12 @@ import {
 import {
   StapleShoppingList,
 } from './staple-shopping-list';
+import {
+  StapleTemplate,
+} from './staple-temmplate';
+import {
+  StapleTemplateShoppingList,
+} from './staple-template-shopping-list';
 
 export {
   CrawlResult,
@@ -32,6 +38,8 @@ export {
   StoreCrawlerConfiguration,
   ShoppingList,
   StapleShoppingList,
+  StapleTemplate,
+  StapleTemplateShoppingList,
 };
 
 export default {
@@ -43,4 +51,6 @@ export default {
   StoreCrawlerConfiguration,
   ShoppingList,
   StapleShoppingList,
+  StapleTemplate,
+  StapleTemplateShoppingList,
 };
