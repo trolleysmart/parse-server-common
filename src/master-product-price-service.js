@@ -90,8 +90,8 @@ class MasterProductPriceService {
     return new Promise((resolve, reject) => MasterProductPriceService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new MasterProductPrice(_))
-        .map(masterProductPrice => masterProductPrice.getInfo())))
+        .map(_ => new MasterProductPrice(_)
+          .getInfo())))
       .catch(error => reject(error)));
   }
 

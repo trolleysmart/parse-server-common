@@ -113,9 +113,7 @@ var CrawlResultService = function () {
       return new Promise(function (resolve, reject) {
         return CrawlResultService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.CrawlResult(_);
-          }).map(function (crawlResult) {
-            return crawlResult.getInfo();
+            return new _schema.CrawlResult(_).getInfo();
           }));
         }).catch(function (error) {
           return reject(error);

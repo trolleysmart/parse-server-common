@@ -88,8 +88,8 @@ class StoreCrawlerConfigurationService {
     return new Promise((resolve, reject) => StoreCrawlerConfigurationService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new StoreCrawlerConfiguration(_))
-        .map(storeCrawlerConfiguration => storeCrawlerConfiguration.getInfo())))
+        .map(_ => new StoreCrawlerConfiguration(_)
+          .getInfo())))
       .catch(error => reject(error)));
   }
 

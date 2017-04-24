@@ -113,9 +113,7 @@ var CrawlSessionService = function () {
       return new Promise(function (resolve, reject) {
         return CrawlSessionService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.CrawlSession(_);
-          }).map(function (crawlSession) {
-            return crawlSession.getInfo();
+            return new _schema.CrawlSession(_).getInfo();
           }));
         }).catch(function (error) {
           return reject(error);

@@ -113,9 +113,7 @@ var StoreCrawlerConfigurationService = function () {
       return new Promise(function (resolve, reject) {
         return StoreCrawlerConfigurationService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.StoreCrawlerConfiguration(_);
-          }).map(function (storeCrawlerConfiguration) {
-            return storeCrawlerConfiguration.getInfo();
+            return new _schema.StoreCrawlerConfiguration(_).getInfo();
           }));
         }).catch(function (error) {
           return reject(error);
