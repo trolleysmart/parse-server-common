@@ -34,19 +34,23 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
     .toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails'))
     .toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
+  expect(masterProductPriceInfo.get('inProgress'))
+    .toBe(expectedMasterProductPriceInfo.get('inProgress'));
 }
 
 export function createCriteria() {
   return Map({
     masterProductId: uuid(),
     storeId: uuid(),
+    inProgress: false,
   });
 }
 
-export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId) {
+export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return Map({
     masterProductId,
     storeId,
+    inProgress: masterProductPriceInfo.get('inProgress'),
   });
 }
 
@@ -277,7 +281,8 @@ describe('search', () => {
       .then((id) => {
         masterProductPriceId = id;
 
-        return MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
+        return MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo,
+          masterProductId, storeId));
       })
       .then((masterProductPriceInfos) => {
         expect(masterProductPriceInfos.size)
@@ -329,7 +334,8 @@ describe('searchAll', () => {
       })
       .then((ids) => {
         const masterProductPriceIds = List.of(ids[0], ids[1]);
-        const result = MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
+        const result = MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo,
+          masterProductId, storeId));
         let masterProductPrices = List();
 
         result.event.subscribe((masterProductPrice) => {
@@ -367,6 +373,7 @@ describe('exists', () => {
   });
 
   test('should return true if any master product price match provided criteria', (done) => {
+    let expectedMasterProductPriceInfo;
     let masterProductId;
     let storeId;
 
@@ -375,9 +382,12 @@ describe('exists', () => {
         masterProductId = results[0];
         storeId = results[1];
 
-        return MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId));
+        expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+
+        return MasterProductPriceService.create(expectedMasterProductPriceInfo);
       })
-      .then(() => MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId)))
+      .then(() => MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo,
+        masterProductId, storeId)))
       .then((response) => {
         expect(response)
           .toBeTruthy();

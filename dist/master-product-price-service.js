@@ -157,6 +157,10 @@ var MasterProductPriceService = function () {
         query.equalTo('store', _schema.Store.createWithoutData(criteria.get('storeId')));
       }
 
+      if (criteria.has('inProgress') && criteria.get('inProgress')) {
+        query.equalTo('inProgress', _schema.Store.createWithoutData(criteria.get('inProgress')));
+      }
+
       return query;
     }
   }]);

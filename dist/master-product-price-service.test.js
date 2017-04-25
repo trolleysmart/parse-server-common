@@ -33,19 +33,22 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('masterProduct').getId()).toBe(masterProductId);
   expect(masterProductPriceInfo.get('store').getId()).toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
+  expect(masterProductPriceInfo.get('inProgress')).toBe(expectedMasterProductPriceInfo.get('inProgress'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
     masterProductId: (0, _v2.default)(),
-    storeId: (0, _v2.default)()
+    storeId: (0, _v2.default)(),
+    inProgress: false
   });
 }
 
-function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId) {
+function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return (0, _immutable.Map)({
     masterProductId: masterProductId,
-    storeId: storeId
+    storeId: storeId,
+    inProgress: masterProductPriceInfo.get('inProgress')
   });
 }
 
@@ -242,7 +245,7 @@ describe('search', function () {
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
+      return _masterProductPriceService.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
     }).then(function (masterProductPriceInfos) {
       expect(masterProductPriceInfos.size).toBe(1);
 
@@ -286,7 +289,7 @@ describe('searchAll', function () {
       return Promise.all([_masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo), _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo)]);
     }).then(function (ids) {
       var masterProductPriceIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
+      var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
       var masterProductPrices = (0, _immutable.List)();
 
       result.event.subscribe(function (masterProductPrice) {
@@ -318,6 +321,7 @@ describe('exists', function () {
   });
 
   test('should return true if any master product price match provided criteria', function (done) {
+    var expectedMasterProductPriceInfo = void 0;
     var masterProductId = void 0;
     var storeId = void 0;
 
@@ -325,9 +329,11 @@ describe('exists', function () {
       masterProductId = results[0];
       storeId = results[1];
 
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
+      expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
+
+      return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
     }).then(function () {
-      return _masterProductPriceService.MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(masterProductId, storeId));
+      return _masterProductPriceService.MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

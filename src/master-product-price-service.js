@@ -125,6 +125,10 @@ class MasterProductPriceService {
       query.equalTo('store', Store.createWithoutData(criteria.get('storeId')));
     }
 
+    if (criteria.has('inProgress') && criteria.get('inProgress')) {
+      query.equalTo('inProgress', Store.createWithoutData(criteria.get('inProgress')));
+    }
+
     return query;
   }
 }

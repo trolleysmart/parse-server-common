@@ -43,6 +43,7 @@ var MasterProductPrice = function (_BaseObject) {
       object.set('masterProduct', _masterProduct.MasterProduct.createWithoutData(info.get('masterProductId')));
       object.set('store', _store.Store.createWithoutData(info.get('storeId')));
       object.set('priceDetails', info.get('priceDetails').toJS());
+      object.set('inProgress', info.get('inProgress'));
     }
   }]);
 
@@ -77,7 +78,8 @@ var MasterProductPrice = function (_BaseObject) {
         masterProductId: masterProduct.getId(),
         store: store,
         storeId: store.getId(),
-        priceDetails: _immutable2.default.fromJS(this.getObject().get('priceDetails'))
+        priceDetails: _immutable2.default.fromJS(this.getObject().get('priceDetails')),
+        inProgress: this.getObject().get('inProgress')
       });
     }
   }]);

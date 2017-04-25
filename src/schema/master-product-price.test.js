@@ -21,6 +21,7 @@ export function createMasterProductPriceInfo(masterProductId, storeId) {
     priceDetails: Map({
       price: uuid(),
     }),
+    inProgress: false,
   });
 }
 
@@ -41,6 +42,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
     .toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('priceDetails'))
     .toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
+  expect(masterProductPriceInfo.get('inProgress'))
+    .toEqual(expectedMasterProductPriceInfo.get('inProgress'));
 }
 
 describe('constructor', () => {

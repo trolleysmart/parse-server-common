@@ -26,7 +26,8 @@ function createMasterProductPriceInfo(masterProductId, storeId) {
     storeId: storeId || (0, _store.createStore)().getId(),
     priceDetails: (0, _immutable.Map)({
       price: (0, _v2.default)()
-    })
+    }),
+    inProgress: false
   });
 }
 
@@ -40,6 +41,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('store').getId()).toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
+  expect(masterProductPriceInfo.get('inProgress')).toEqual(expectedMasterProductPriceInfo.get('inProgress'));
 }
 
 describe('constructor', function () {
