@@ -34,15 +34,14 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
     .toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails'))
     .toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
-  expect(masterProductPriceInfo.get('inProgress'))
-    .toBe(expectedMasterProductPriceInfo.get('inProgress'));
+  expect(masterProductPriceInfo.get('capturedDate'))
+    .toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
 }
 
 export function createCriteria() {
   return Map({
     masterProductId: uuid(),
     storeId: uuid(),
-    inProgress: false,
   });
 }
 
@@ -50,7 +49,6 @@ export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductP
   return Map({
     masterProductId,
     storeId,
-    inProgress: masterProductPriceInfo.get('inProgress'),
   });
 }
 

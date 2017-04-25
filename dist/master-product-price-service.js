@@ -153,12 +153,8 @@ var MasterProductPriceService = function () {
         query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(criteria.get('masterProductId')));
       }
 
-      if (criteria.has('storeId') && criteria.get('storeId')) {
-        query.equalTo('store', _schema.Store.createWithoutData(criteria.get('storeId')));
-      }
-
-      if (criteria.has('inProgress') && criteria.get('inProgress')) {
-        query.equalTo('inProgress', _schema.Store.createWithoutData(criteria.get('inProgress')));
+      if (criteria.has('lessThanOrEqualToCapturedDate') && criteria.get('lessThanOrEqualToCapturedDate')) {
+        query.lessThanOrEqualTo('capturedDate', _schema.Store.createWithoutData(criteria.get('lessThanOrEqualToCapturedDate')));
       }
 
       return query;

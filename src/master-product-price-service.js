@@ -121,12 +121,8 @@ class MasterProductPriceService {
       query.equalTo('masterProduct', MasterProduct.createWithoutData(criteria.get('masterProductId')));
     }
 
-    if (criteria.has('storeId') && criteria.get('storeId')) {
-      query.equalTo('store', Store.createWithoutData(criteria.get('storeId')));
-    }
-
-    if (criteria.has('inProgress') && criteria.get('inProgress')) {
-      query.equalTo('inProgress', Store.createWithoutData(criteria.get('inProgress')));
+    if (criteria.has('lessThanOrEqualToCapturedDate') && criteria.get('lessThanOrEqualToCapturedDate')) {
+      query.lessThanOrEqualTo('capturedDate', Store.createWithoutData(criteria.get('lessThanOrEqualToCapturedDate')));
     }
 
     return query;

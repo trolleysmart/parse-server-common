@@ -27,7 +27,7 @@ function createMasterProductPriceInfo(masterProductId, storeId) {
     priceDetails: (0, _immutable.Map)({
       price: (0, _v2.default)()
     }),
-    inProgress: false
+    capturedDate: new Date()
   });
 }
 
@@ -41,7 +41,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('store').getId()).toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
-  expect(masterProductPriceInfo.get('inProgress')).toEqual(expectedMasterProductPriceInfo.get('inProgress'));
+  expect(masterProductPriceInfo.get('capturedDate')).toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
 }
 
 describe('constructor', function () {

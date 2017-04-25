@@ -21,7 +21,7 @@ export function createMasterProductPriceInfo(masterProductId, storeId) {
     priceDetails: Map({
       price: uuid(),
     }),
-    inProgress: false,
+    capturedDate: new Date(),
   });
 }
 
@@ -42,8 +42,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
     .toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('priceDetails'))
     .toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
-  expect(masterProductPriceInfo.get('inProgress'))
-    .toEqual(expectedMasterProductPriceInfo.get('inProgress'));
+  expect(masterProductPriceInfo.get('capturedDate'))
+    .toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
 }
 
 describe('constructor', () => {

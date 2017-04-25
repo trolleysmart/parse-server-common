@@ -33,22 +33,20 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('masterProduct').getId()).toBe(masterProductId);
   expect(masterProductPriceInfo.get('store').getId()).toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
-  expect(masterProductPriceInfo.get('inProgress')).toBe(expectedMasterProductPriceInfo.get('inProgress'));
+  expect(masterProductPriceInfo.get('capturedDate')).toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
     masterProductId: (0, _v2.default)(),
-    storeId: (0, _v2.default)(),
-    inProgress: false
+    storeId: (0, _v2.default)()
   });
 }
 
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return (0, _immutable.Map)({
     masterProductId: masterProductId,
-    storeId: storeId,
-    inProgress: masterProductPriceInfo.get('inProgress')
+    storeId: storeId
   });
 }
 

@@ -25,7 +25,7 @@ class MasterProductPrice extends BaseObject {
     object.set('store', Store.createWithoutData(info.get('storeId')));
     object.set('priceDetails', info.get('priceDetails')
       .toJS());
-    object.set('inProgress', info.get('inProgress'));
+    object.set('capturedDate', info.get('capturedDate'));
   }
 
   constructor(object) {
@@ -57,8 +57,8 @@ class MasterProductPrice extends BaseObject {
       storeId: store.getId(),
       priceDetails: Immutable.fromJS(this.getObject()
         .get('priceDetails')),
-      inProgress: this.getObject()
-        .get('inProgress'),
+      capturedDate: this.getObject()
+        .get('capturedDate'),
     });
   }
 }
