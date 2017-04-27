@@ -28,6 +28,9 @@ import {
 import {
   StapleTemplateShoppingList,
 } from './staple-template-shopping-list';
+import {
+  Tag,
+} from './tag';
 
 export {
   CrawlResult,
@@ -40,6 +43,7 @@ export {
   StapleShoppingList,
   StapleTemplate,
   StapleTemplateShoppingList,
+  Tag,
 };
 
 export default {
@@ -53,4 +57,5 @@ export default {
   StapleShoppingList,
   StapleTemplate,
   StapleTemplateShoppingList,
+  Tag,
 };
