@@ -1,38 +1,54 @@
 import {
-  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
+import {
+  UserService,
+} from 'micro-business-parse-server-common';
 import '../bootstrap';
 import {
   ShoppingListService,
-} from './shopping-list-service.js';
+} from './shopping-list-service';
 import {
-  createStoreInfo,
-} from './schema/store.test';
+  createShoppingListInfo,
+} from './schema/shopping-list.test';
 
-function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
-  expect(storeInfo.get('id'))
-    .toBe(storeId);
-  expect(storeInfo.get('name'))
-    .toBe(expectedStoreInfo.get('name'));
+function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId) {
+  expect(shoppingListInfo.get('id'))
+    .toBe(shoppingListId);
+  expect(shoppingListInfo.get('userId'))
+    .toBe(expectedShoppingListInfo.get('userId'));
+  expect(shoppingListInfo.get('items'))
+    .toEqual(expectedShoppingListInfo.get('items'));
 }
 
 function createCriteria() {
   return Map({
-    name: uuid(),
+    userId: uuid(),
   });
 }
 
-function createCriteriaUsingProvidedStoreInfo(storeInfo) {
+function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo) {
   return Map({
-    name: storeInfo.get('name'),
+    userId: shoppingListInfo.get('userId'),
+    latest: true,
   });
 }
+
+let userId;
+
+beforeEach(() => new Promise((resolve, reject) => {
+  UserService.signUpWithEmailAndPassword(`${uuid()}@email.com`, '123456')
+    .then((user) => {
+      userId = user.id;
+      resolve();
+    })
+    .catch(error => reject(error));
+}));
 
 describe('create', () => {
   test('should return the created shopping list Id', (done) => {
-    StoreService.create(createStoreInfo())
+    ShoppingListService.create(createShoppingListInfo(userId))
       .then((result) => {
         expect(result)
           .toBeDefined();
@@ -44,18 +60,18 @@ describe('create', () => {
       });
   });
 
-  test('should create the store', (done) => {
-    const expectedStoreInfo = createStoreInfo();
-    let storeId;
+  test('should create the shopping list', (done) => {
+    const expectedShoppingListInfo = createShoppingListInfo(userId);
+    let shoppingListId;
 
-    StoreService.create(expectedStoreInfo)
+    ShoppingListService.create(expectedShoppingListInfo)
       .then((id) => {
-        storeId = id;
+        shoppingListId = id;
 
-        return StoreService.read(storeId);
+        return ShoppingListService.read(shoppingListId);
       })
-      .then((storeInfo) => {
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+      .then((shoppingListInfo) => {
+        expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
         done();
       })
       .catch((error) => {
@@ -66,29 +82,29 @@ describe('create', () => {
 });
 
 describe('read', () => {
-  test('should reject if the provided store Id does not exist', (done) => {
-    const storeId = uuid();
+  test('should reject if the provided shopping list Id does not exist', (done) => {
+    const shoppingListId = uuid();
 
-    StoreService.read(storeId)
+    ShoppingListService.read(shoppingListId)
       .catch((error) => {
         expect(error)
-          .toBe(`No store found with Id: ${storeId}`);
+          .toBe(`No shopping list found with Id: ${shoppingListId}`);
         done();
       });
   });
 
-  test('should read the existing store', (done) => {
-    const expectedStoreInfo = createStoreInfo();
-    let storeId;
+  test('should read the existing shopping list', (done) => {
+    const expectedStoreInfo = createShoppingListInfo(userId);
+    let shoppingListId;
 
-    StoreService.create(expectedStoreInfo)
+    ShoppingListService.create(expectedStoreInfo)
       .then((id) => {
-        storeId = id;
+        shoppingListId = id;
 
-        return StoreService.read(storeId);
+        return ShoppingListService.read(shoppingListId);
       })
-      .then((storeInfo) => {
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+      .then((shoppingListInfo) => {
+        expectShoppingListInfo(shoppingListInfo, expectedStoreInfo, shoppingListId);
         done();
       })
       .catch((error) => {
@@ -99,31 +115,31 @@ describe('read', () => {
 });
 
 describe('update', () => {
-  test('should reject if the provided store Id does not exist', (done) => {
-    const storeId = uuid();
+  test('should reject if the provided shopping list Id does not exist', (done) => {
+    const shoppingListId = uuid();
 
-    StoreService.update(createStoreInfo()
-        .set('id', storeId))
+    ShoppingListService.update(createShoppingListInfo(userId)
+        .set('id', shoppingListId))
       .catch((error) => {
         expect(error)
-          .toBe(`No store found with Id: ${storeId}`);
+          .toBe(`No shopping list found with Id: ${shoppingListId}`);
         done();
       });
   });
 
-  test('should return the Id of the updated store', (done) => {
-    let storeId;
+  test('should return the Id of the updated shopping list', (done) => {
+    let shoppingListId;
 
-    StoreService.create(createStoreInfo())
+    ShoppingListService.create(createShoppingListInfo(userId))
       .then((id) => {
-        storeId = id;
+        shoppingListId = id;
 
-        return StoreService.update(createStoreInfo()
-          .set('id', storeId));
+        return ShoppingListService.update(createShoppingListInfo(userId)
+          .set('id', shoppingListId));
       })
       .then((id) => {
         expect(id)
-          .toBe(storeId);
+          .toBe(shoppingListId);
         done();
       })
       .catch((error) => {
@@ -132,19 +148,19 @@ describe('update', () => {
       });
   });
 
-  test('should update the existing store', (done) => {
-    const expectedStoreInfo = createStoreInfo();
-    let storeId;
+  test('should update the existing shopping list', (done) => {
+    const expectedShoppingListInfo = createShoppingListInfo(userId);
+    let shoppingListId;
 
-    StoreService.create(createStoreInfo())
-      .then(id => StoreService.update(expectedStoreInfo.set('id', id)))
+    ShoppingListService.create(createShoppingListInfo(userId))
+      .then(id => ShoppingListService.update(expectedShoppingListInfo.set('id', id)))
       .then((id) => {
-        storeId = id;
+        shoppingListId = id;
 
-        return StoreService.read(storeId);
+        return ShoppingListService.read(shoppingListId);
       })
       .then((storeInfo) => {
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+        expectShoppingListInfo(storeInfo, expectedShoppingListInfo, shoppingListId);
         done();
       })
       .catch((error) => {
@@ -155,37 +171,37 @@ describe('update', () => {
 });
 
 describe('delete', () => {
-  test('should reject if the provided store Id does not exist', (done) => {
-    const storeId = uuid();
+  test('should reject if the provided shopping list Id does not exist', (done) => {
+    const shoppingListId = uuid();
 
-    StoreService.delete(storeId)
+    ShoppingListService.delete(shoppingListId)
       .catch((error) => {
         expect(error)
-          .toBe(`No store found with Id: ${storeId}`);
+          .toBe(`No shopping list found with Id: ${shoppingListId}`);
         done();
       });
   });
 
-  test('should delete the existing store', (done) => {
-    let storeId;
+  test('should delete the existing shopping list', (done) => {
+    let shoppingListId;
 
-    StoreService.create(createStoreInfo())
+    ShoppingListService.create(createShoppingListInfo(userId))
       .then((id) => {
-        storeId = id;
-        return StoreService.delete(storeId);
+        shoppingListId = id;
+        return ShoppingListService.delete(shoppingListId);
       })
-      .then(() => StoreService.read(storeId))
+      .then(() => ShoppingListService.read(shoppingListId))
       .catch((error) => {
         expect(error)
-          .toBe(`No store found with Id: ${storeId}`);
+          .toBe(`No shopping list found with Id: ${shoppingListId}`);
         done();
       });
   });
 });
 
 describe('search', () => {
-  test('should return no store if provided criteria matches no store', (done) => {
-    StoreService.search(createCriteria())
+  test('should return no shopping list if provided criteria matches no shopping list', (done) => {
+    ShoppingListService.search(createCriteria())
       .then((stores) => {
         expect(stores.size)
           .toBe(0);
@@ -197,71 +213,23 @@ describe('search', () => {
       });
   });
 
-  test('should return the stores matches the criteria', (done) => {
-    const expectedStoreInfo = createStoreInfo();
-    let storeId;
+  test('should return the shopping lists matches the criteria', (done) => {
+    const expectedShoppingListInfo = createShoppingListInfo(userId);
+    let shoppingListId;
 
-    StoreService.create(expectedStoreInfo)
+    ShoppingListService.create(expectedShoppingListInfo)
       .then((id) => {
-        storeId = id;
+        shoppingListId = id;
 
-        return StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
+        return ShoppingListService.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
       })
-      .then((storeInfos) => {
-        expect(storeInfos.size)
+      .then((shoppingListInfos) => {
+        expect(shoppingListInfos.size)
           .toBe(1);
 
-        const storeInfo = storeInfos.first();
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+        const shoppingListInfo = shoppingListInfos.first();
+        expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
         done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
-  });
-});
-
-describe('searchAll', () => {
-  test('should return no store if provided criteria matches no store', (done) => {
-    const result = StoreService.searchAll(createCriteria());
-    let stores = List();
-
-    result.event.subscribe((store) => {
-      stores = stores.push(store);
-    });
-    result.promise.then(() => {
-        expect(stores.size)
-          .toBe(0);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
-  });
-
-  test('should return the stores matches the criteria', (done) => {
-    const expectedStoreInfo = createStoreInfo();
-
-    Promise.all([StoreService.create(expectedStoreInfo), StoreService.create(expectedStoreInfo)])
-      .then((ids) => {
-        const storeIds = List.of(ids[0], ids[1]);
-        const result = StoreService.searchAll(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
-        let stores = List();
-
-        result.event.subscribe((store) => {
-          stores = stores.push(store);
-        });
-        result.promise.then(() => {
-            expect(stores.size)
-              .toBe(storeIds.size);
-            done();
-          })
-          .catch((error) => {
-            fail(error);
-            done();
-          });
       })
       .catch((error) => {
         fail(error);
@@ -271,8 +239,8 @@ describe('searchAll', () => {
 });
 
 describe('exists', () => {
-  test('should return false if no store match provided criteria', (done) => {
-    StoreService.exists(createCriteria())
+  test('should return false if no shopping list match provided criteria', (done) => {
+    ShoppingListService.exists(createCriteria())
       .then((response) => {
         expect(response)
           .toBeFalsy();
@@ -284,11 +252,11 @@ describe('exists', () => {
       });
   });
 
-  test('should return true if any store match provided criteria', (done) => {
-    const storeInfo = createStoreInfo();
+  test('should return true if any shopping list match provided criteria', (done) => {
+    const shoppingListInfo = createShoppingListInfo(userId);
 
-    StoreService.create(storeInfo)
-      .then(() => StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo)))
+    ShoppingListService.create(shoppingListInfo)
+      .then(() => ShoppingListService.exists(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo)))
       .then((response) => {
         expect(response)
           .toBeTruthy();

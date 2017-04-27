@@ -4,16 +4,12 @@ import {
 } from 'immutable';
 import uuid from 'uuid/v4';
 import {
-  User,
-} from 'micro-business-parse-server-common';
-import {
   ShoppingList,
 } from './shopping-list';
 
 export function createShoppingListInfo(userId) {
   return Map({
-    user: userId || new User()
-      .getId(),
+    userId: userId || uuid(),
     items: List(),
   });
 }
@@ -23,8 +19,7 @@ export function createShoppingList(shoppingListInfo) {
 }
 
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo) {
-  expect(shoppingListInfo.get('user')
-      .getId())
+  expect(shoppingListInfo.get('userId'))
     .toBe(expectedShoppingListInfo.get('userId'));
   expect(shoppingListInfo.get('items'))
     .toEqual(expectedShoppingListInfo.get('items'));

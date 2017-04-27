@@ -1,7 +1,6 @@
 import Immutable from 'immutable';
 import {
   ParseWrapperService,
-  User,
 } from 'micro-business-parse-server-common';
 import {
   ShoppingList,
@@ -27,7 +26,7 @@ class ShoppingListService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No shopping lists found with Id: ${id}`);
+            reject(`No shopping list found with Id: ${id}`);
           } else {
             resolve(new ShoppingList(results[0])
               .getInfo());
@@ -37,17 +36,17 @@ class ShoppingListService {
     });
   }
 
-  static update(id, info) {
+  static update(info) {
     return new Promise((resolve, reject) => {
       const query = ParseWrapperService.createQuery(ShoppingList);
 
-      query.equalTo('objectId', id);
+      query.equalTo('objectId', info.get('id'));
       query.limit(1);
 
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No shopping list found with Id: ${id}`);
+            reject(`No shopping list found with Id: ${info.get('id')}`);
           } else {
             const object = new ShoppingList(results[0]);
 
@@ -102,7 +101,7 @@ class ShoppingListService {
     const query = ParseWrapperService.createQuery(ShoppingList);
 
     if (criteria.has('userId') && criteria.get('userId')) {
-      query.equalTo('user', User.createWithoutData(criteria.get('userId')));
+      query.equalTo('user', ParseWrapperService.createUserWithoutData(criteria.get('userId')));
     }
 
     if (criteria.has('latest') && criteria.get('latest')) {

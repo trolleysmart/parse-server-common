@@ -27,7 +27,7 @@ var ShoppingList = function (_BaseObject) {
   _createClass(ShoppingList, null, [{
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
-      object.set('user', _microBusinessParseServerCommon.User.createWithoutData(info.get('userId')));
+      object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(info.get('userId')));
       object.set('items', info.get('items').toJS());
     }
   }]);
@@ -54,12 +54,9 @@ var ShoppingList = function (_BaseObject) {
   }, {
     key: 'getInfo',
     value: function getInfo() {
-      var user = new _microBusinessParseServerCommon.User(this.getObject().get('user'));
-
       return (0, _immutable.Map)({
         id: this.getId(),
-        user: user,
-        userId: user.getId(),
+        userId: this.getObject().get('user').id,
         items: _immutable2.default.fromJS(this.getObject().get('items'))
       });
     }

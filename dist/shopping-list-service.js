@@ -46,7 +46,7 @@ var ShoppingListService = function () {
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No shopping lists found with Id: ' + id);
+            reject('No shopping list found with Id: ' + id);
           } else {
             resolve(new _schema.ShoppingList(results[0]).getInfo());
           }
@@ -57,16 +57,16 @@ var ShoppingListService = function () {
     }
   }, {
     key: 'update',
-    value: function update(id, info) {
+    value: function update(info) {
       return new Promise(function (resolve, reject) {
         var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList);
 
-        query.equalTo('objectId', id);
+        query.equalTo('objectId', info.get('id'));
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No shopping list found with Id: ' + id);
+            reject('No shopping list found with Id: ' + info.get('id'));
           } else {
             var object = new _schema.ShoppingList(results[0]);
 
@@ -135,7 +135,7 @@ var ShoppingListService = function () {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList);
 
       if (criteria.has('userId') && criteria.get('userId')) {
-        query.equalTo('user', _microBusinessParseServerCommon.User.createWithoutData(criteria.get('userId')));
+        query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(criteria.get('userId')));
       }
 
       if (criteria.has('latest') && criteria.get('latest')) {

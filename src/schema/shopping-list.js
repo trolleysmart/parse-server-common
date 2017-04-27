@@ -4,12 +4,12 @@ import Immutable, {
 
 import {
   BaseObject,
-  User,
+  ParseWrapperService,
 } from 'micro-business-parse-server-common';
 
 class ShoppingList extends BaseObject {
   static updateInfoInternal(object, info) {
-    object.set('user', User.createWithoutData(info.get('userId')));
+    object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
     object.set('items', info.get('items')
       .toJS());
   }
@@ -38,13 +38,11 @@ class ShoppingList extends BaseObject {
   }
 
   getInfo() {
-    const user = new User(this.getObject()
-      .get('user'));
-
     return Map({
       id: this.getId(),
-      user,
-      userId: user.getId(),
+      userId: this.getObject()
+        .get('user')
+        .id,
       items: Immutable.fromJS(this.getObject()
         .get('items')),
     });
