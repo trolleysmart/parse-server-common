@@ -1,4 +1,5 @@
 import {
+  List,
   Map,
 } from 'immutable';
 import {
@@ -14,6 +15,7 @@ export function createMasterProductInfo() {
     description: uuid(),
     barcode: Maybe.Some(uuid()),
     imageUrl: Maybe.Some(uuid()),
+    tags: Maybe.Some(List.of(uuid(), uuid())),
   });
 }
 
@@ -31,6 +33,10 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
   expect(masterProductInfo.get('imageUrl')
       .some())
     .toBe(expectedMasterProductInfo.get('imageUrl')
+      .some());
+  expect(masterProductInfo.get('tags')
+      .some())
+    .toEqual(expectedMasterProductInfo.get('tags')
       .some());
 }
 

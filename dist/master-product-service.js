@@ -157,8 +157,8 @@ var MasterProductService = function () {
         query.equalTo('barcode', criteria.get('barcode'));
       }
 
-      if (criteria.has('imageUrl') && criteria.get('imageUrl')) {
-        query.equalTo('imageUrl', criteria.get('imageUrl'));
+      if (criteria.has('tags') && criteria.get('tags')) {
+        query.containsAll('tags', criteria.get('tags').toArray());
       }
 
       return query;

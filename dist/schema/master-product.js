@@ -9,9 +9,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _immutable = require('immutable');
 
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _monet = require('monet');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -37,6 +41,7 @@ var MasterProduct = function (_BaseObject) {
       object.set('description', info.get('description'));
       object.set('barcode', info.get('barcode').orSome(undefined));
       object.set('imageUrl', info.get('imageUrl').orSome(undefined));
+      object.set('tags', info.get('tags').orSome((0, _immutable.List)()).toJS());
     }
   }]);
 
@@ -66,7 +71,8 @@ var MasterProduct = function (_BaseObject) {
         id: this.getId(),
         description: this.getObject().get('description'),
         barcode: _monet.Maybe.fromNull(this.getObject().get('barcode')),
-        imageUrl: _monet.Maybe.fromNull(this.getObject().get('imageUrl'))
+        imageUrl: _monet.Maybe.fromNull(this.getObject().get('imageUrl')),
+        tags: _monet.Maybe.fromNull(_immutable2.default.fromJS(this.getObject().get('tags')))
       });
     }
   }]);

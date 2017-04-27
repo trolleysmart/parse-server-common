@@ -1,4 +1,5 @@
-import {
+import Immutable, {
+  List,
   Map,
 } from 'immutable';
 import {
@@ -19,8 +20,13 @@ class MasterProduct extends BaseObject {
 
   static updateInfoInternal(object, info) {
     object.set('description', info.get('description'));
-    object.set('barcode', info.get('barcode').orSome(undefined));
-    object.set('imageUrl', info.get('imageUrl').orSome(undefined));
+    object.set('barcode', info.get('barcode')
+      .orSome(undefined));
+    object.set('imageUrl', info.get('imageUrl')
+      .orSome(undefined));
+    object.set('tags', info.get('tags')
+      .orSome(List())
+      .toJS());
   }
 
   constructor(object) {
@@ -47,6 +53,8 @@ class MasterProduct extends BaseObject {
         .get('barcode')),
       imageUrl: Maybe.fromNull(this.getObject()
         .get('imageUrl')),
+      tags: Maybe.fromNull(Immutable.fromJS(this.getObject()
+        .get('tags'))),
     });
   }
 }
