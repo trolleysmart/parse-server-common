@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MasterProductService = undefined;
+exports.TagService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -21,16 +21,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MasterProductService = function () {
-  function MasterProductService() {
-    _classCallCheck(this, MasterProductService);
+var TagService = function () {
+  function TagService() {
+    _classCallCheck(this, TagService);
   }
 
-  _createClass(MasterProductService, null, [{
+  _createClass(TagService, null, [{
     key: 'create',
     value: function create(info) {
       return new Promise(function (resolve, reject) {
-        _schema.MasterProduct.spawn(info).save().then(function (result) {
+        _schema.Tag.spawn(info).save().then(function (result) {
           return resolve(result.id);
         }).catch(function (error) {
           return reject(error);
@@ -41,16 +41,16 @@ var MasterProductService = function () {
     key: 'read',
     value: function read(id) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
 
         query.equalTo('objectId', id);
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No master product found with Id: ' + id);
+            reject('No tag found with Id: ' + id);
           } else {
-            resolve(new _schema.MasterProduct(results[0]).getInfo());
+            resolve(new _schema.Tag(results[0]).getInfo());
           }
         }).catch(function (error) {
           return reject(error);
@@ -61,16 +61,16 @@ var MasterProductService = function () {
     key: 'update',
     value: function update(info) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
 
         query.equalTo('objectId', info.get('id'));
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No master product found with Id: ' + info.get('id'));
+            reject('No tag found with Id: ' + info.get('id'));
           } else {
-            var object = new _schema.MasterProduct(results[0]);
+            var object = new _schema.Tag(results[0]);
 
             object.updateInfo(info).saveObject().then(function () {
               return resolve(object.getId());
@@ -87,14 +87,14 @@ var MasterProductService = function () {
     key: 'delete',
     value: function _delete(id) {
       return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
+        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
 
         query.equalTo('objectId', id);
         query.limit(1);
 
         query.find().then(function (results) {
           if (results.length === 0) {
-            reject('No master product found with Id: ' + id);
+            reject('No tag found with Id: ' + id);
           } else {
             results[0].destroy().then(function () {
               return resolve();
@@ -111,9 +111,9 @@ var MasterProductService = function () {
     key: 'search',
     value: function search(criteria) {
       return new Promise(function (resolve, reject) {
-        return MasterProductService.buildSearchQuery(criteria).find().then(function (results) {
+        return TagService.buildSearchQuery(criteria).find().then(function (results) {
           return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.MasterProduct(_).getInfo();
+            return new _schema.Tag(_).getInfo();
           }));
         }).catch(function (error) {
           return reject(error);
@@ -124,8 +124,8 @@ var MasterProductService = function () {
     key: 'searchAll',
     value: function searchAll(criteria) {
       var event = new _newSearchResultReceivedEvent.NewSearchResultReceivedEvent();
-      var promise = MasterProductService.buildSearchQuery(criteria).each(function (_) {
-        return event.raise(new _schema.MasterProduct(_).getInfo());
+      var promise = TagService.buildSearchQuery(criteria).each(function (_) {
+        return event.raise(new _schema.Tag(_).getInfo());
       });
 
       return {
@@ -137,7 +137,7 @@ var MasterProductService = function () {
     key: 'exists',
     value: function exists(criteria) {
       return new Promise(function (resolve, reject) {
-        return MasterProductService.buildSearchQuery(criteria).count().then(function (total) {
+        return TagService.buildSearchQuery(criteria).count().then(function (total) {
           return resolve(total > 0);
         }).catch(function (error) {
           return reject(error);
@@ -147,26 +147,22 @@ var MasterProductService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
 
-      if (criteria.has('description') && criteria.get('description')) {
-        query.equalTo('description', criteria.get('description'));
+      if (criteria.has('name') && criteria.get('name')) {
+        query.equalTo('name', criteria.get('name'));
       }
 
-      if (criteria.has('barcode') && criteria.get('barcode')) {
-        query.equalTo('barcode', criteria.get('barcode'));
-      }
-
-      if (criteria.has('tags') && criteria.get('tags')) {
-        query.containsAll('tags', criteria.get('tags').toArray());
+      if (criteria.has('weight') && criteria.get('weight')) {
+        query.equalTo('weight', criteria.get('weight'));
       }
 
       return query;
     }
   }]);
 
-  return MasterProductService;
+  return TagService;
 }();
 
-exports.MasterProductService = MasterProductService;
-exports.default = MasterProductService;
+exports.TagService = TagService;
+exports.default = TagService;

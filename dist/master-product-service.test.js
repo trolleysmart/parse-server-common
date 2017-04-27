@@ -25,6 +25,7 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode').some()).toBe(expectedMasterProductInfo.get('barcode').some());
   expect(masterProductInfo.get('imageUrl').some()).toBe(expectedMasterProductInfo.get('imageUrl').some());
+  expect(masterProductInfo.get('tags').some()).toEqual(expectedMasterProductInfo.get('tags').some());
 }
 
 function createCriteria() {
@@ -39,7 +40,8 @@ function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return (0, _immutable.Map)({
     description: masterProductInfo.get('description'),
     barcode: masterProductInfo.get('barcode').some(),
-    imageUrl: masterProductInfo.get('imageUrl').some()
+    imageUrl: masterProductInfo.get('imageUrl').some(),
+    tags: masterProductInfo.get('tags').some()
   });
 }
 

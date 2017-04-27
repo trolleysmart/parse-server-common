@@ -24,6 +24,10 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
       .some())
     .toBe(expectedMasterProductInfo.get('imageUrl')
       .some());
+  expect(masterProductInfo.get('tags')
+      .some())
+    .toEqual(expectedMasterProductInfo.get('tags')
+      .some());
 }
 
 export function createCriteria() {
@@ -40,6 +44,8 @@ export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) 
     barcode: masterProductInfo.get('barcode')
       .some(),
     imageUrl: masterProductInfo.get('imageUrl')
+      .some(),
+    tags: masterProductInfo.get('tags')
       .some(),
   });
 }

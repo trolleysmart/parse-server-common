@@ -31,6 +31,9 @@ import {
 import {
   StapleTemplateShoppingListService,
 } from './staple-template-shopping-list-service';
+import {
+  TagService,
+} from './tag-service';
 
 export {
   CrawlResultService,
@@ -44,6 +47,7 @@ export {
   StapleShoppingListService,
   StapleTemplateService,
   StapleTemplateShoppingListService,
+  TagService,
 };
 
 export default {
@@ -58,4 +62,5 @@ export default {
   StapleShoppingListService,
   StapleTemplateService,
   StapleTemplateShoppingListService,
+  TagService,
 };

@@ -22,7 +22,8 @@ function createMasterProductInfo() {
   return (0, _immutable.Map)({
     description: (0, _v2.default)(),
     barcode: _monet.Maybe.Some((0, _v2.default)()),
-    imageUrl: _monet.Maybe.Some((0, _v2.default)())
+    imageUrl: _monet.Maybe.Some((0, _v2.default)()),
+    tags: _monet.Maybe.Some(_immutable.List.of((0, _v2.default)(), (0, _v2.default)()))
   });
 }
 
@@ -34,6 +35,7 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode').some()).toBe(expectedMasterProductInfo.get('barcode').some());
   expect(masterProductInfo.get('imageUrl').some()).toBe(expectedMasterProductInfo.get('imageUrl').some());
+  expect(masterProductInfo.get('tags').some()).toEqual(expectedMasterProductInfo.get('tags').some());
 }
 
 describe('constructor', function () {

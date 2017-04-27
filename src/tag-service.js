@@ -6,13 +6,13 @@ import {
   NewSearchResultReceivedEvent,
 } from './new-search-result-received-event';
 import {
-  MasterProduct,
+  Tag,
 } from './schema';
 
-class MasterProductService {
+class TagService {
   static create(info) {
     return new Promise((resolve, reject) => {
-      MasterProduct.spawn(info)
+      Tag.spawn(info)
         .save()
         .then(result => resolve(result.id))
         .catch(error => reject(error));
@@ -21,7 +21,7 @@ class MasterProductService {
 
   static read(id) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProduct);
+      const query = ParseWrapperService.createQuery(Tag);
 
       query.equalTo('objectId', id);
       query.limit(1);
@@ -29,9 +29,9 @@ class MasterProductService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No master product found with Id: ${id}`);
+            reject(`No tag found with Id: ${id}`);
           } else {
-            resolve(new MasterProduct(results[0])
+            resolve(new Tag(results[0])
               .getInfo());
           }
         })
@@ -41,7 +41,7 @@ class MasterProductService {
 
   static update(info) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProduct);
+      const query = ParseWrapperService.createQuery(Tag);
 
       query.equalTo('objectId', info.get('id'));
       query.limit(1);
@@ -49,9 +49,9 @@ class MasterProductService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No master product found with Id: ${info.get('id')}`);
+            reject(`No tag found with Id: ${info.get('id')}`);
           } else {
-            const object = new MasterProduct(results[0]);
+            const object = new Tag(results[0]);
 
             object.updateInfo(info)
               .saveObject()
@@ -65,7 +65,7 @@ class MasterProductService {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createQuery(MasterProduct);
+      const query = ParseWrapperService.createQuery(Tag);
 
       query.equalTo('objectId', id);
       query.limit(1);
@@ -73,7 +73,7 @@ class MasterProductService {
       query.find()
         .then((results) => {
           if (results.length === 0) {
-            reject(`No master product found with Id: ${id}`);
+            reject(`No tag found with Id: ${id}`);
           } else {
             results[0].destroy()
               .then(() => resolve())
@@ -85,18 +85,18 @@ class MasterProductService {
   }
 
   static search(criteria) {
-    return new Promise((resolve, reject) => MasterProductService.buildSearchQuery(criteria)
+    return new Promise((resolve, reject) => TagService.buildSearchQuery(criteria)
       .find()
       .then(results => resolve(Immutable.fromJS(results)
-        .map(_ => new MasterProduct(_)
+        .map(_ => new Tag(_)
           .getInfo())))
       .catch(error => reject(error)));
   }
 
   static searchAll(criteria) {
     const event = new NewSearchResultReceivedEvent();
-    const promise = MasterProductService.buildSearchQuery(criteria)
-      .each(_ => event.raise(new MasterProduct(_)
+    const promise = TagService.buildSearchQuery(criteria)
+      .each(_ => event.raise(new Tag(_)
         .getInfo()));
 
     return {
@@ -106,25 +106,21 @@ class MasterProductService {
   }
 
   static exists(criteria) {
-    return new Promise((resolve, reject) => MasterProductService.buildSearchQuery(criteria)
+    return new Promise((resolve, reject) => TagService.buildSearchQuery(criteria)
       .count()
       .then(total => resolve(total > 0))
       .catch(error => reject(error)));
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(MasterProduct);
+    const query = ParseWrapperService.createQuery(Tag);
 
-    if (criteria.has('description') && criteria.get('description')) {
-      query.equalTo('description', criteria.get('description'));
+    if (criteria.has('name') && criteria.get('name')) {
+      query.equalTo('name', criteria.get('name'));
     }
 
-    if (criteria.has('barcode') && criteria.get('barcode')) {
-      query.equalTo('barcode', criteria.get('barcode'));
-    }
-
-    if (criteria.has('tags') && criteria.get('tags')) {
-      query.containsAll('tags', criteria.get('tags').toArray());
+    if (criteria.has('weight') && criteria.get('weight')) {
+      query.equalTo('weight', criteria.get('weight'));
     }
 
     return query;
@@ -132,7 +128,7 @@ class MasterProductService {
 }
 
 export {
-  MasterProductService,
+  TagService,
 };
 
-export default MasterProductService;
+export default TagService;

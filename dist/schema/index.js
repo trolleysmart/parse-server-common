@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.StoreCrawlerConfiguration = exports.Store = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
+exports.Tag = exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.StoreCrawlerConfiguration = exports.Store = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
 
 var _crawlResult = require('./crawl-result');
 
@@ -25,6 +25,8 @@ var _stapleTemmplate = require('./staple-temmplate');
 
 var _stapleTemplateShoppingList = require('./staple-template-shopping-list');
 
+var _tag = require('./tag');
+
 exports.CrawlResult = _crawlResult.CrawlResult;
 exports.CrawlSession = _crawlSession.CrawlSession;
 exports.MasterProduct = _masterProduct.MasterProduct;
@@ -35,6 +37,7 @@ exports.ShoppingList = _shoppingList.ShoppingList;
 exports.StapleShoppingList = _stapleShoppingList.StapleShoppingList;
 exports.StapleTemplate = _stapleTemmplate.StapleTemplate;
 exports.StapleTemplateShoppingList = _stapleTemplateShoppingList.StapleTemplateShoppingList;
+exports.Tag = _tag.Tag;
 exports.default = {
   CrawlResult: _crawlResult.CrawlResult,
   CrawlSession: _crawlSession.CrawlSession,
@@ -45,5 +48,6 @@ exports.default = {
   ShoppingList: _shoppingList.ShoppingList,
   StapleShoppingList: _stapleShoppingList.StapleShoppingList,
   StapleTemplate: _stapleTemmplate.StapleTemplate,
-  StapleTemplateShoppingList: _stapleTemplateShoppingList.StapleTemplateShoppingList
+  StapleTemplateShoppingList: _stapleTemplateShoppingList.StapleTemplateShoppingList,
+  Tag: _tag.Tag
 };
