@@ -145,14 +145,6 @@ class StapleTemplateShoppingListService {
       }
     }
 
-    if (conditions.has('templateId')) {
-      const value = conditions.get('templateId');
-
-      if (value) {
-        query.equalTo('templates', value);
-      }
-    }
-
     if (conditions.has('templateIds')) {
       const value = conditions.get('templateIds');
 

@@ -179,19 +179,11 @@ var StapleTemplateShoppingListService = function () {
         }
       }
 
-      if (conditions.has('templateId')) {
-        var _value3 = conditions.get('templateId');
+      if (conditions.has('templateIds')) {
+        var _value3 = conditions.get('templateIds');
 
         if (_value3) {
-          query.equalTo('templates', _value3);
-        }
-      }
-
-      if (conditions.has('templateIds')) {
-        var _value4 = conditions.get('templateIds');
-
-        if (_value4) {
-          query.containsAll('templates', _value4.toArray());
+          query.containsAll('templates', _value3.toArray());
         }
       }
 
