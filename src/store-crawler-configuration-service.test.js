@@ -20,13 +20,23 @@ function expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expe
 
 function createCriteria() {
   return Map({
-    key: uuid(),
+    fields: List.of('key', 'config'),
+    conditions: Map({
+      key: uuid(),
+      config: Map({
+        val: uuid(),
+      }),
+    }),
   });
 }
 
 function createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo) {
   return Map({
-    key: storeCrawlerConfigurationInfo.get('key'),
+    fields: List.of('key', 'config'),
+    conditions: Map({
+      key: storeCrawlerConfigurationInfo.get('key'),
+      config: storeCrawlerConfigurationInfo.get('config'),
+    }),
   });
 }
 
@@ -210,34 +220,6 @@ describe('search', () => {
 
         return StoreCrawlerConfigurationService.search(createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(
           expectedStoreCrawlerConfigurationInfo));
-      })
-      .then((storeCrawlerConfigurationInfos) => {
-        expect(storeCrawlerConfigurationInfos.size)
-          .toBe(1);
-
-        const storeCrawlerConfigurationInfo = storeCrawlerConfigurationInfos.first();
-        expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expectedStoreCrawlerConfigurationInfo,
-          storeCrawlerConfigurationId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
-  });
-
-  test('should return the latest store crawler configuration matches the criteria when latest is set', (done) => {
-    const expectedStoreCrawlerConfigurationInfo = createStoreCrawlerConfigurationInfo();
-    let storeCrawlerConfigurationId;
-
-    StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo)
-      .then(() => StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo))
-      .then((id) => {
-        storeCrawlerConfigurationId = id;
-
-        const criteria = createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(expectedStoreCrawlerConfigurationInfo);
-
-        return StoreCrawlerConfigurationService.search(criteria.set('latest', true));
       })
       .then((storeCrawlerConfigurationInfos) => {
         expect(storeCrawlerConfigurationInfos.size)

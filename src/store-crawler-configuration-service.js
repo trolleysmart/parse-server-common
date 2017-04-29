@@ -113,15 +113,20 @@ class StoreCrawlerConfigurationService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(StoreCrawlerConfiguration);
+    const query = ParseWrapperService.createQuery(StoreCrawlerConfiguration, criteria);
 
-    if (criteria.has('latest') && criteria.get('latest')) {
-      query.descending('createdAt');
-      query.limit(1);
+    if (!criteria.has('conditions')) {
+      return query;
     }
 
-    if (criteria.has('key') && criteria.get('key')) {
-      query.equalTo('key', criteria.get('key'));
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('key')) {
+      const value = conditions.get('key');
+
+      if (value) {
+        query.equalTo('key', value);
+      }
     }
 
     return query;

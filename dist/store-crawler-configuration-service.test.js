@@ -21,13 +21,23 @@ function expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expe
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    key: (0, _v2.default)()
+    fields: _immutable.List.of('key', 'config'),
+    conditions: (0, _immutable.Map)({
+      key: (0, _v2.default)(),
+      config: (0, _immutable.Map)({
+        val: (0, _v2.default)()
+      })
+    })
   });
 }
 
 function createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo) {
   return (0, _immutable.Map)({
-    key: storeCrawlerConfigurationInfo.get('key')
+    fields: _immutable.List.of('key', 'config'),
+    conditions: (0, _immutable.Map)({
+      key: storeCrawlerConfigurationInfo.get('key'),
+      config: storeCrawlerConfigurationInfo.get('config')
+    })
   });
 }
 
@@ -178,30 +188,6 @@ describe('search', function () {
       storeCrawlerConfigurationId = id;
 
       return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.search(createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(expectedStoreCrawlerConfigurationInfo));
-    }).then(function (storeCrawlerConfigurationInfos) {
-      expect(storeCrawlerConfigurationInfos.size).toBe(1);
-
-      var storeCrawlerConfigurationInfo = storeCrawlerConfigurationInfos.first();
-      expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expectedStoreCrawlerConfigurationInfo, storeCrawlerConfigurationId);
-      done();
-    }).catch(function (error) {
-      fail(error);
-      done();
-    });
-  });
-
-  test('should return the latest store crawler configuration matches the criteria when latest is set', function (done) {
-    var expectedStoreCrawlerConfigurationInfo = (0, _storeCrawlerConfiguration.createStoreCrawlerConfigurationInfo)();
-    var storeCrawlerConfigurationId = void 0;
-
-    _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo).then(function () {
-      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.create(expectedStoreCrawlerConfigurationInfo);
-    }).then(function (id) {
-      storeCrawlerConfigurationId = id;
-
-      var criteria = createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(expectedStoreCrawlerConfigurationInfo);
-
-      return _storeCrawlerConfigurationService.StoreCrawlerConfigurationService.search(criteria.set('latest', true));
     }).then(function (storeCrawlerConfigurationInfos) {
       expect(storeCrawlerConfigurationInfos.size).toBe(1);
 

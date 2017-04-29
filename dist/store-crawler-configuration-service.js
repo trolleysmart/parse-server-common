@@ -147,15 +147,20 @@ var StoreCrawlerConfigurationService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreCrawlerConfiguration);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreCrawlerConfiguration, criteria);
 
-      if (criteria.has('latest') && criteria.get('latest')) {
-        query.descending('createdAt');
-        query.limit(1);
+      if (!criteria.has('conditions')) {
+        return query;
       }
 
-      if (criteria.has('key') && criteria.get('key')) {
-        query.equalTo('key', criteria.get('key'));
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('key')) {
+        var value = conditions.get('key');
+
+        if (value) {
+          query.equalTo('key', value);
+        }
       }
 
       return query;
