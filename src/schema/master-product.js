@@ -1,13 +1,9 @@
 import Immutable, {
-  List,
   Map,
 } from 'immutable';
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
-import {
-  Maybe,
-} from 'monet';
 
 class MasterProduct extends BaseObject {
   static spawn(info) {
@@ -20,12 +16,9 @@ class MasterProduct extends BaseObject {
 
   static updateInfoInternal(object, info) {
     object.set('description', info.get('description'));
-    object.set('barcode', info.get('barcode')
-      .orSome(undefined));
-    object.set('imageUrl', info.get('imageUrl')
-      .orSome(undefined));
+    object.set('barcode', info.get('barcode'));
+    object.set('imageUrl', info.get('imageUrl'));
     object.set('tags', info.get('tags')
-      .orSome(List())
       .toJS());
   }
 
@@ -49,12 +42,12 @@ class MasterProduct extends BaseObject {
       id: this.getId(),
       description: this.getObject()
         .get('description'),
-      barcode: Maybe.fromNull(this.getObject()
-        .get('barcode')),
-      imageUrl: Maybe.fromNull(this.getObject()
-        .get('imageUrl')),
-      tags: Maybe.fromNull(Immutable.fromJS(this.getObject()
-        .get('tags'))),
+      barcode: this.getObject()
+        .get('barcode'),
+      imageUrl: this.getObject()
+        .get('imageUrl'),
+      tags: Immutable.fromJS(this.getObject()
+        .get('tags')),
     });
   }
 }

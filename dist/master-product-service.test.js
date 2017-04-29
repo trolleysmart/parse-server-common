@@ -23,9 +23,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId) {
   expect(masterProductInfo.get('id')).toBe(masterProductId);
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
-  expect(masterProductInfo.get('barcode').some()).toBe(expectedMasterProductInfo.get('barcode').some());
-  expect(masterProductInfo.get('imageUrl').some()).toBe(expectedMasterProductInfo.get('imageUrl').some());
-  expect(masterProductInfo.get('tags').some()).toEqual(expectedMasterProductInfo.get('tags').some());
+  expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
+  expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('tags')).toEqual(expectedMasterProductInfo.get('tags'));
 }
 
 function createCriteria() {
@@ -39,9 +39,9 @@ function createCriteria() {
 function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return (0, _immutable.Map)({
     description: masterProductInfo.get('description'),
-    barcode: masterProductInfo.get('barcode').some(),
-    imageUrl: masterProductInfo.get('imageUrl').some(),
-    tags: masterProductInfo.get('tags').some()
+    barcode: masterProductInfo.get('barcode'),
+    imageUrl: masterProductInfo.get('imageUrl'),
+    tags: masterProductInfo.get('tags')
   });
 }
 

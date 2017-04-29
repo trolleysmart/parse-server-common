@@ -2,9 +2,6 @@ import {
   List,
   Map,
 } from 'immutable';
-import {
-  Maybe,
-} from 'monet';
 import uuid from 'uuid/v4';
 import {
   MasterProduct,
@@ -13,9 +10,9 @@ import {
 export function createMasterProductInfo() {
   return Map({
     description: uuid(),
-    barcode: Maybe.Some(uuid()),
-    imageUrl: Maybe.Some(uuid()),
-    tags: Maybe.Some(List.of(uuid(), uuid())),
+    barcode: uuid(),
+    imageUrl: uuid(),
+    tags: List.of(uuid(), uuid()),
   });
 }
 
@@ -26,18 +23,12 @@ export function createMasterProduct(masterProductInfo) {
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
   expect(masterProductInfo.get('description'))
     .toBe(expectedMasterProductInfo.get('description'));
-  expect(masterProductInfo.get('barcode')
-      .some())
-    .toBe(expectedMasterProductInfo.get('barcode')
-      .some());
-  expect(masterProductInfo.get('imageUrl')
-      .some())
-    .toBe(expectedMasterProductInfo.get('imageUrl')
-      .some());
-  expect(masterProductInfo.get('tags')
-      .some())
-    .toEqual(expectedMasterProductInfo.get('tags')
-      .some());
+  expect(masterProductInfo.get('barcode'))
+    .toBe(expectedMasterProductInfo.get('barcode'));
+  expect(masterProductInfo.get('imageUrl'))
+    .toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('tags'))
+    .toEqual(expectedMasterProductInfo.get('tags'));
 }
 
 describe('constructor', () => {

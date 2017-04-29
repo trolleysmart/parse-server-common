@@ -13,8 +13,6 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-var _monet = require('monet');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39,9 +37,9 @@ var MasterProduct = function (_BaseObject) {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('description', info.get('description'));
-      object.set('barcode', info.get('barcode').orSome(undefined));
-      object.set('imageUrl', info.get('imageUrl').orSome(undefined));
-      object.set('tags', info.get('tags').orSome((0, _immutable.List)()).toJS());
+      object.set('barcode', info.get('barcode'));
+      object.set('imageUrl', info.get('imageUrl'));
+      object.set('tags', info.get('tags').toJS());
     }
   }]);
 
@@ -70,9 +68,9 @@ var MasterProduct = function (_BaseObject) {
       return (0, _immutable.Map)({
         id: this.getId(),
         description: this.getObject().get('description'),
-        barcode: _monet.Maybe.fromNull(this.getObject().get('barcode')),
-        imageUrl: _monet.Maybe.fromNull(this.getObject().get('imageUrl')),
-        tags: _monet.Maybe.fromNull(_immutable2.default.fromJS(this.getObject().get('tags')))
+        barcode: this.getObject().get('barcode'),
+        imageUrl: this.getObject().get('imageUrl'),
+        tags: _immutable2.default.fromJS(this.getObject().get('tags'))
       });
     }
   }]);

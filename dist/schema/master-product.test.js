@@ -8,8 +8,6 @@ exports.createMasterProduct = createMasterProduct;
 
 var _immutable = require('immutable');
 
-var _monet = require('monet');
-
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
@@ -21,9 +19,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function createMasterProductInfo() {
   return (0, _immutable.Map)({
     description: (0, _v2.default)(),
-    barcode: _monet.Maybe.Some((0, _v2.default)()),
-    imageUrl: _monet.Maybe.Some((0, _v2.default)()),
-    tags: _monet.Maybe.Some(_immutable.List.of((0, _v2.default)(), (0, _v2.default)()))
+    barcode: (0, _v2.default)(),
+    imageUrl: (0, _v2.default)(),
+    tags: _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
   });
 }
 
@@ -33,9 +31,9 @@ function createMasterProduct(masterProductInfo) {
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
-  expect(masterProductInfo.get('barcode').some()).toBe(expectedMasterProductInfo.get('barcode').some());
-  expect(masterProductInfo.get('imageUrl').some()).toBe(expectedMasterProductInfo.get('imageUrl').some());
-  expect(masterProductInfo.get('tags').some()).toEqual(expectedMasterProductInfo.get('tags').some());
+  expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
+  expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('tags')).toEqual(expectedMasterProductInfo.get('tags'));
 }
 
 describe('constructor', function () {

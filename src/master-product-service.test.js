@@ -16,18 +16,12 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
     .toBe(masterProductId);
   expect(masterProductInfo.get('description'))
     .toBe(expectedMasterProductInfo.get('description'));
-  expect(masterProductInfo.get('barcode')
-      .some())
-    .toBe(expectedMasterProductInfo.get('barcode')
-      .some());
-  expect(masterProductInfo.get('imageUrl')
-      .some())
-    .toBe(expectedMasterProductInfo.get('imageUrl')
-      .some());
-  expect(masterProductInfo.get('tags')
-      .some())
-    .toEqual(expectedMasterProductInfo.get('tags')
-      .some());
+  expect(masterProductInfo.get('barcode'))
+    .toBe(expectedMasterProductInfo.get('barcode'));
+  expect(masterProductInfo.get('imageUrl'))
+    .toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('tags'))
+    .toEqual(expectedMasterProductInfo.get('tags'));
 }
 
 export function createCriteria() {
@@ -41,12 +35,9 @@ export function createCriteria() {
 export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return Map({
     description: masterProductInfo.get('description'),
-    barcode: masterProductInfo.get('barcode')
-      .some(),
-    imageUrl: masterProductInfo.get('imageUrl')
-      .some(),
-    tags: masterProductInfo.get('tags')
-      .some(),
+    barcode: masterProductInfo.get('barcode'),
+    imageUrl: masterProductInfo.get('imageUrl'),
+    tags: masterProductInfo.get('tags'),
   });
 }
 
