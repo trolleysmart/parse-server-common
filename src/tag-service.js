@@ -113,7 +113,7 @@ class TagService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(Tag);
+    const query = ParseWrapperService.createQuery(Tag, criteria);
 
     if (!criteria.has('conditions')) {
       return query;

@@ -115,14 +115,52 @@ class MasterProductPriceService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(MasterProductPrice);
+    const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
 
-    if (criteria.has('masterProductId') && criteria.get('masterProductId')) {
-      query.equalTo('masterProduct', MasterProduct.createWithoutData(criteria.get('masterProductId')));
+    if (!criteria.has('conditions')) {
+      return query;
     }
 
-    if (criteria.has('lessThanOrEqualToCapturedDate') && criteria.get('lessThanOrEqualToCapturedDate')) {
-      query.lessThanOrEqualTo('capturedDate', Store.createWithoutData(criteria.get('lessThanOrEqualToCapturedDate')));
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('masterProductId')) {
+      const value = conditions.get('masterProductId');
+
+      if (value) {
+        query.equalTo('masterProduct', MasterProduct.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('storeId')) {
+      const value = conditions.get('storeId');
+
+      if (value) {
+        query.equalTo('store', Store.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('capturedDate')) {
+      const value = conditions.get('capturedDate');
+
+      if (value) {
+        query.equalTo('capturedDate', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_capturedDate')) {
+      const value = conditions.get('lessThanOrEqualTo_capturedDate');
+
+      if (value) {
+        query.lessThanOrEqualTo('capturedDate', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_capturedDate')) {
+      const value = conditions.get('greaterThanOrEqualTo_capturedDate');
+
+      if (value) {
+        query.greaterThanOrEqualTo('capturedDate', value);
+      }
     }
 
     return query;

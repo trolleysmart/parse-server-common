@@ -147,7 +147,7 @@ var TagService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag, criteria);
 
       if (!criteria.has('conditions')) {
         return query;

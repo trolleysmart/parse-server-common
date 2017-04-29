@@ -147,7 +147,7 @@ var MasterProductService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
 
       if (!criteria.has('conditions')) {
         return query;

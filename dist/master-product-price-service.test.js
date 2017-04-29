@@ -38,15 +38,21 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    masterProductId: (0, _v2.default)(),
-    storeId: (0, _v2.default)()
+    fields: _immutable.List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    conditions: (0, _immutable.Map)({
+      masterProductId: (0, _v2.default)(),
+      storeId: (0, _v2.default)()
+    })
   });
 }
 
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return (0, _immutable.Map)({
-    masterProductId: masterProductId,
-    storeId: storeId
+    fields: _immutable.List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    conditions: (0, _immutable.Map)({
+      masterProductId: masterProductId,
+      storeId: storeId
+    })
   });
 }
 

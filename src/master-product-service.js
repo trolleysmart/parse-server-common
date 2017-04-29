@@ -113,7 +113,7 @@ class MasterProductService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(MasterProduct);
+    const query = ParseWrapperService.createQuery(MasterProduct, criteria);
 
     if (!criteria.has('conditions')) {
       return query;

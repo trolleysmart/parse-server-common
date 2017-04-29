@@ -147,14 +147,52 @@ var MasterProductPriceService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice, criteria);
 
-      if (criteria.has('masterProductId') && criteria.get('masterProductId')) {
-        query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(criteria.get('masterProductId')));
+      if (!criteria.has('conditions')) {
+        return query;
       }
 
-      if (criteria.has('lessThanOrEqualToCapturedDate') && criteria.get('lessThanOrEqualToCapturedDate')) {
-        query.lessThanOrEqualTo('capturedDate', _schema.Store.createWithoutData(criteria.get('lessThanOrEqualToCapturedDate')));
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('masterProductId')) {
+        var value = conditions.get('masterProductId');
+
+        if (value) {
+          query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(value));
+        }
+      }
+
+      if (conditions.has('storeId')) {
+        var _value = conditions.get('storeId');
+
+        if (_value) {
+          query.equalTo('store', _schema.Store.createWithoutData(_value));
+        }
+      }
+
+      if (conditions.has('capturedDate')) {
+        var _value2 = conditions.get('capturedDate');
+
+        if (_value2) {
+          query.equalTo('capturedDate', _value2);
+        }
+      }
+
+      if (conditions.has('lessThanOrEqualTo_capturedDate')) {
+        var _value3 = conditions.get('lessThanOrEqualTo_capturedDate');
+
+        if (_value3) {
+          query.lessThanOrEqualTo('capturedDate', _value3);
+        }
+      }
+
+      if (conditions.has('greaterThanOrEqualTo_capturedDate')) {
+        var _value4 = conditions.get('greaterThanOrEqualTo_capturedDate');
+
+        if (_value4) {
+          query.greaterThanOrEqualTo('capturedDate', _value4);
+        }
       }
 
       return query;
