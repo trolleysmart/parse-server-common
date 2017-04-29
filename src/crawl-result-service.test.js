@@ -29,13 +29,19 @@ function expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlRe
 
 export function createCriteria() {
   return Map({
-    crawlSessionId: uuid(),
+    fields: List.of('crawlSession', 'resultSet'),
+    conditions: Map({
+      crawlSessionId: uuid(),
+    }),
   });
 }
 
 export function createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId) {
   return Map({
-    crawlSessionId,
+    fields: List.of('crawlSession', 'resultSet'),
+    conditions: Map({
+      crawlSessionId,
+    }),
   });
 }
 
@@ -272,10 +278,10 @@ describe('searchAll', () => {
       crawlResults = crawlResults.push(crawlResult);
     });
     result.promise.then(() => {
-      expect(crawlResults.size)
+        expect(crawlResults.size)
           .toBe(0);
-      done();
-    })
+        done();
+      })
       .catch((error) => {
         fail(error);
         done();
@@ -303,10 +309,10 @@ describe('searchAll', () => {
           crawlResults = crawlResults.push(crawlResult);
         });
         result.promise.then(() => {
-          expect(crawlResults.size)
+            expect(crawlResults.size)
               .toBe(crawlResultIds.size);
-          done();
-        })
+            done();
+          })
           .catch((error) => {
             fail(error);
             done();

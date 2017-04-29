@@ -147,10 +147,20 @@ var CrawlResultService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult, criteria);
 
-      if (criteria.has('crawlSessionId') && criteria.get('crawlSessionId')) {
-        query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(criteria.get('crawlSessionId')));
+      if (!criteria.has('conditions')) {
+        return query;
+      }
+
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('crawlSessionId')) {
+        var value = conditions.get('crawlSessionId');
+
+        if (value) {
+          query.equalTo('crawlSession', _schema.CrawlSession.createWithoutData(value));
+        }
       }
 
       return query;

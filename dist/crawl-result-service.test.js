@@ -32,13 +32,19 @@ function expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlRe
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    crawlSessionId: (0, _v2.default)()
+    fields: _immutable.List.of('crawlSession', 'resultSet'),
+    conditions: (0, _immutable.Map)({
+      crawlSessionId: (0, _v2.default)()
+    })
   });
 }
 
 function createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId) {
   return (0, _immutable.Map)({
-    crawlSessionId: crawlSessionId
+    fields: _immutable.List.of('crawlSession', 'resultSet'),
+    conditions: (0, _immutable.Map)({
+      crawlSessionId: crawlSessionId
+    })
   });
 }
 

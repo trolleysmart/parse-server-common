@@ -114,10 +114,20 @@ class CrawlResultService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(CrawlResult);
+    const query = ParseWrapperService.createQuery(CrawlResult, criteria);
 
-    if (criteria.has('crawlSessionId') && criteria.get('crawlSessionId')) {
-      query.equalTo('crawlSession', CrawlSession.createWithoutData(criteria.get('crawlSessionId')));
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('crawlSessionId')) {
+      const value = conditions.get('crawlSessionId');
+
+      if (value) {
+        query.equalTo('crawlSession', CrawlSession.createWithoutData(value));
+      }
     }
 
     return query;
