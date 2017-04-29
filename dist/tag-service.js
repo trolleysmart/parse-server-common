@@ -149,12 +149,42 @@ var TagService = function () {
     value: function buildSearchQuery(criteria) {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
 
-      if (criteria.has('name') && criteria.get('name')) {
-        query.equalTo('name', criteria.get('name'));
+      if (!criteria.has('conditions')) {
+        return query;
       }
 
-      if (criteria.has('weight') && criteria.get('weight')) {
-        query.equalTo('weight', criteria.get('weight'));
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('name')) {
+        var value = conditions.get('name');
+
+        if (value) {
+          query.equalTo('name', value);
+        }
+      }
+
+      if (conditions.has('startsWith_name')) {
+        var _value = conditions.get('startsWith_name');
+
+        if (_value) {
+          query.startsWith('name', _value);
+        }
+      }
+
+      if (conditions.has('contains_name')) {
+        var _value2 = conditions.get('contains_name');
+
+        if (_value2) {
+          query.contains('name', _value2);
+        }
+      }
+
+      if (conditions.has('weight')) {
+        var _value3 = conditions.get('weight');
+
+        if (_value3) {
+          query.equalTo('weight', _value3);
+        }
       }
 
       return query;

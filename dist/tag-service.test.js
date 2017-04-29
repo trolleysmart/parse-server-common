@@ -22,14 +22,21 @@ function expectTagInfo(tagInfo, expectedTagInfo, tagId) {
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    name: (0, _v2.default)()
+    fields: _immutable.List.of('name', 'weight'),
+    conditions: (0, _immutable.Map)({
+      name: (0, _v2.default)(),
+      weight: 1
+    })
   });
 }
 
 function createCriteriaUsingProvidedTagInfo(tagInfo) {
   return (0, _immutable.Map)({
-    name: tagInfo.get('name'),
-    weight: tagInfo.get('weight')
+    fields: _immutable.List.of('name', 'weight'),
+    conditions: (0, _immutable.Map)({
+      name: tagInfo.get('name'),
+      weigth: tagInfo.get('weight')
+    })
   });
 }
 

@@ -115,12 +115,42 @@ class TagService {
   static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(Tag);
 
-    if (criteria.has('name') && criteria.get('name')) {
-      query.equalTo('name', criteria.get('name'));
+    if (!criteria.has('conditions')) {
+      return query;
     }
 
-    if (criteria.has('weight') && criteria.get('weight')) {
-      query.equalTo('weight', criteria.get('weight'));
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('name')) {
+      const value = conditions.get('name');
+
+      if (value) {
+        query.equalTo('name', value);
+      }
+    }
+
+    if (conditions.has('startsWith_name')) {
+      const value = conditions.get('startsWith_name');
+
+      if (value) {
+        query.startsWith('name', value);
+      }
+    }
+
+    if (conditions.has('contains_name')) {
+      const value = conditions.get('contains_name');
+
+      if (value) {
+        query.contains('name', value);
+      }
+    }
+
+    if (conditions.has('weight')) {
+      const value = conditions.get('weight');
+
+      if (value) {
+        query.equalTo('weight', value);
+      }
     }
 
     return query;

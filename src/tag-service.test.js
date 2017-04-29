@@ -22,14 +22,21 @@ function expectTagInfo(tagInfo, expectedTagInfo, tagId) {
 
 function createCriteria() {
   return Map({
-    name: uuid(),
+    fields: List.of('name', 'weight'),
+    conditions: Map({
+      name: uuid(),
+      weight: 1,
+    }),
   });
 }
 
 function createCriteriaUsingProvidedTagInfo(tagInfo) {
   return Map({
-    name: tagInfo.get('name'),
-    weight: tagInfo.get('weight'),
+    fields: List.of('name', 'weight'),
+    conditions: Map({
+      name: tagInfo.get('name'),
+      weigth: tagInfo.get('weight'),
+    }),
   });
 }
 
