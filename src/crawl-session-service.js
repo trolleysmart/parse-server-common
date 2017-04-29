@@ -113,15 +113,36 @@ class CrawlSessionService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(CrawlSession);
+    const query = ParseWrapperService.createQuery(CrawlSession, criteria);
 
-    if (criteria.has('latest') && criteria.get('latest')) {
-      query.descending('createdAt');
-      query.limit(1);
+    if (!criteria.has('conditions')) {
+      return query;
     }
 
-    if (criteria.has('sessionKey') && criteria.get('sessionKey')) {
-      query.equalTo('sessionKey', criteria.get('sessionKey'));
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('sessionKey')) {
+      const value = conditions.get('sessionKey');
+
+      if (value) {
+        query.equalTo('sessionKey', value);
+      }
+    }
+
+    if (conditions.has('startsWith_sessionKey')) {
+      const value = conditions.get('startsWith_sessionKey');
+
+      if (value) {
+        query.startsWith('sessionKey', value);
+      }
+    }
+
+    if (conditions.has('contains_sessionKey')) {
+      const value = conditions.get('contains_sessionKey');
+
+      if (value) {
+        query.contains('sessionKey', value);
+      }
     }
 
     return query;

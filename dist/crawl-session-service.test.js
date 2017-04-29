@@ -30,13 +30,19 @@ function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, craw
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    sessionKey: (0, _v2.default)()
+    fields: _immutable.List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
+    conditions: (0, _immutable.Map)({
+      sessionKey: (0, _v2.default)()
+    })
   });
 }
 
 function createCriteriaUsingProvidedCrawlSessionInfo(crawlSessionInfo) {
   return (0, _immutable.Map)({
-    sessionKey: crawlSessionInfo.get('sessionKey')
+    fields: _immutable.List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
+    conditions: (0, _immutable.Map)({
+      sessionKey: crawlSessionInfo.get('sessionKey')
+    })
   });
 }
 
@@ -187,30 +193,6 @@ describe('search', function () {
       crawlSessionId = id;
 
       return _crawlSessionService.CrawlSessionService.search(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
-    }).then(function (crawlSessionInfos) {
-      expect(crawlSessionInfos.size).toBe(1);
-
-      var crawlSessionInfo = crawlSessionInfos.first();
-      expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
-      done();
-    }).catch(function (error) {
-      fail(error);
-      done();
-    });
-  });
-
-  test('should return the the latest crawl sessions matches the criteria when latest is set', function (done) {
-    var expectedCrawlSessionInfo = (0, _crawlSession.createCrawlSessionInfo)();
-    var crawlSessionId = void 0;
-
-    _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo).then(function () {
-      return _crawlSessionService.CrawlSessionService.create(expectedCrawlSessionInfo);
-    }).then(function (id) {
-      crawlSessionId = id;
-
-      var criteria = createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo);
-
-      return _crawlSessionService.CrawlSessionService.search(criteria.set('latest', true));
     }).then(function (crawlSessionInfos) {
       expect(crawlSessionInfos.size).toBe(1);
 

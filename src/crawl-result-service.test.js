@@ -278,10 +278,10 @@ describe('searchAll', () => {
       crawlResults = crawlResults.push(crawlResult);
     });
     result.promise.then(() => {
-        expect(crawlResults.size)
+      expect(crawlResults.size)
           .toBe(0);
-        done();
-      })
+      done();
+    })
       .catch((error) => {
         fail(error);
         done();
@@ -309,10 +309,10 @@ describe('searchAll', () => {
           crawlResults = crawlResults.push(crawlResult);
         });
         result.promise.then(() => {
-            expect(crawlResults.size)
+          expect(crawlResults.size)
               .toBe(crawlResultIds.size);
-            done();
-          })
+          done();
+        })
           .catch((error) => {
             fail(error);
             done();

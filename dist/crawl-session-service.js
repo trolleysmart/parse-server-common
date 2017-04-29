@@ -147,15 +147,36 @@ var CrawlSessionService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession, criteria);
 
-      if (criteria.has('latest') && criteria.get('latest')) {
-        query.descending('createdAt');
-        query.limit(1);
+      if (!criteria.has('conditions')) {
+        return query;
       }
 
-      if (criteria.has('sessionKey') && criteria.get('sessionKey')) {
-        query.equalTo('sessionKey', criteria.get('sessionKey'));
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('sessionKey')) {
+        var value = conditions.get('sessionKey');
+
+        if (value) {
+          query.equalTo('sessionKey', value);
+        }
+      }
+
+      if (conditions.has('startsWith_sessionKey')) {
+        var _value = conditions.get('startsWith_sessionKey');
+
+        if (_value) {
+          query.startsWith('sessionKey', _value);
+        }
+      }
+
+      if (conditions.has('contains_sessionKey')) {
+        var _value2 = conditions.get('contains_sessionKey');
+
+        if (_value2) {
+          query.contains('sessionKey', _value2);
+        }
       }
 
       return query;

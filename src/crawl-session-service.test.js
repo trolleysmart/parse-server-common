@@ -32,13 +32,19 @@ function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, craw
 
 export function createCriteria() {
   return Map({
-    sessionKey: uuid(),
+    fields: List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
+    conditions: Map({
+      sessionKey: uuid(),
+    }),
   });
 }
 
 export function createCriteriaUsingProvidedCrawlSessionInfo(crawlSessionInfo) {
   return Map({
-    sessionKey: crawlSessionInfo.get('sessionKey'),
+    fields: List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
+    conditions: Map({
+      sessionKey: crawlSessionInfo.get('sessionKey'),
+    }),
   });
 }
 
@@ -218,33 +224,6 @@ describe('search', () => {
         crawlSessionId = id;
 
         return CrawlSessionService.search(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
-      })
-      .then((crawlSessionInfos) => {
-        expect(crawlSessionInfos.size)
-          .toBe(1);
-
-        const crawlSessionInfo = crawlSessionInfos.first();
-        expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
-  });
-
-  test('should return the the latest crawl sessions matches the criteria when latest is set', (done) => {
-    const expectedCrawlSessionInfo = createCrawlSessionInfo();
-    let crawlSessionId;
-
-    CrawlSessionService.create(expectedCrawlSessionInfo)
-      .then(() => CrawlSessionService.create(expectedCrawlSessionInfo))
-      .then((id) => {
-        crawlSessionId = id;
-
-        const criteria = createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo);
-
-        return CrawlSessionService.search(criteria.set('latest', true));
       })
       .then((crawlSessionInfos) => {
         expect(crawlSessionInfos.size)
