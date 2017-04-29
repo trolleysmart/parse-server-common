@@ -8,8 +8,6 @@ exports.createCrawlSession = createCrawlSession;
 
 var _immutable = require('immutable');
 
-var _monet = require('monet');
-
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
@@ -21,11 +19,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function createCrawlSessionInfo() {
   return (0, _immutable.Map)({
     sessionKey: (0, _v2.default)(),
-    startDateTime: _monet.Maybe.Some(new Date()),
-    endDateTime: _monet.Maybe.Some(new Date()),
-    additionalInfo: _monet.Maybe.Some((0, _immutable.Map)({
+    startDateTime: new Date(),
+    endDateTime: new Date(),
+    additionalInfo: (0, _immutable.Map)({
       val: (0, _v2.default)()
-    }))
+    })
   });
 }
 
@@ -35,9 +33,9 @@ function createCrawlSession(crawlSessionInfo) {
 
 function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo) {
   expect(crawlSessionInfo.get('sessionKey')).toBe(expectedCrawlSessionInfo.get('sessionKey'));
-  expect(crawlSessionInfo.get('startDateTime').some()).toBe(expectedCrawlSessionInfo.get('startDateTime').some());
-  expect(crawlSessionInfo.get('endDateTime').some()).toBe(expectedCrawlSessionInfo.get('endDateTime').some());
-  expect(crawlSessionInfo.get('additionalInfo').some()).toEqual(expectedCrawlSessionInfo.get('additionalInfo').some());
+  expect(crawlSessionInfo.get('startDateTime')).toBe(expectedCrawlSessionInfo.get('startDateTime'));
+  expect(crawlSessionInfo.get('endDateTime')).toBe(expectedCrawlSessionInfo.get('endDateTime'));
+  expect(crawlSessionInfo.get('additionalInfo')).toEqual(expectedCrawlSessionInfo.get('additionalInfo'));
 }
 
 describe('constructor', function () {

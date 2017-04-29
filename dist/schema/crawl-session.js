@@ -13,8 +13,6 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-var _monet = require('monet');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39,16 +37,12 @@ var CrawlSession = function (_BaseObject) {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('sessionKey', info.get('sessionKey'));
-      object.set('startDateTime', info.get('startDateTime').orSome(undefined));
-      object.set('endDateTime', info.get('endDateTime').orSome(undefined));
+      object.set('startDateTime', info.get('startDateTime'));
+      object.set('endDateTime', info.get('endDateTime'));
 
       var additionalInfo = info.get('additionalInfo');
 
-      if (additionalInfo.isSome()) {
-        object.set('additionalInfo', additionalInfo.some().toJS());
-      } else {
-        object.set('additionalInfo', undefined);
-      }
+      object.set('additionalInfo', additionalInfo ? additionalInfo.toJS() : undefined);
     }
   }]);
 
@@ -77,9 +71,9 @@ var CrawlSession = function (_BaseObject) {
       return (0, _immutable.Map)({
         id: this.getId(),
         sessionKey: this.getObject().get('sessionKey'),
-        startDateTime: _monet.Maybe.fromNull(this.getObject().get('startDateTime')),
-        endDateTime: _monet.Maybe.fromNull(this.getObject().get('endDateTime')),
-        additionalInfo: _monet.Maybe.fromNull(_immutable2.default.fromJS(this.getObject().get('additionalInfo')))
+        startDateTime: this.getObject().get('startDateTime'),
+        endDateTime: this.getObject().get('endDateTime'),
+        additionalInfo: _immutable2.default.fromJS(this.getObject().get('additionalInfo'))
       });
     }
   }]);

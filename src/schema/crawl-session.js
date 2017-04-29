@@ -4,9 +4,6 @@ import Immutable, {
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
-import {
-  Maybe,
-} from 'monet';
 
 class CrawlSession extends BaseObject {
   static spawn(info) {
@@ -19,19 +16,12 @@ class CrawlSession extends BaseObject {
 
   static updateInfoInternal(object, info) {
     object.set('sessionKey', info.get('sessionKey'));
-    object.set('startDateTime', info.get('startDateTime')
-      .orSome(undefined));
-    object.set('endDateTime', info.get('endDateTime')
-      .orSome(undefined));
+    object.set('startDateTime', info.get('startDateTime'));
+    object.set('endDateTime', info.get('endDateTime'));
 
     const additionalInfo = info.get('additionalInfo');
 
-    if (additionalInfo.isSome()) {
-      object.set('additionalInfo', additionalInfo.some()
-        .toJS());
-    } else {
-      object.set('additionalInfo', undefined);
-    }
+    object.set('additionalInfo', additionalInfo ? additionalInfo.toJS() : undefined);
   }
 
   constructor(object) {
@@ -54,12 +44,12 @@ class CrawlSession extends BaseObject {
       id: this.getId(),
       sessionKey: this.getObject()
         .get('sessionKey'),
-      startDateTime: Maybe.fromNull(this.getObject()
-        .get('startDateTime')),
-      endDateTime: Maybe.fromNull(this.getObject()
-        .get('endDateTime')),
-      additionalInfo: Maybe.fromNull(Immutable.fromJS(this.getObject()
-        .get('additionalInfo'))),
+      startDateTime: this.getObject()
+        .get('startDateTime'),
+      endDateTime: this.getObject()
+        .get('endDateTime'),
+      additionalInfo: Immutable.fromJS(this.getObject()
+        .get('additionalInfo')),
     });
   }
 }

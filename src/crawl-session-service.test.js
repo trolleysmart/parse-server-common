@@ -16,18 +16,12 @@ function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, craw
     .toBe(crawlSessionId);
   expect(crawlSessionInfo.get('sessionKey'))
     .toBe(expectedCrawlSessionInfo.get('sessionKey'));
-  expect(crawlSessionInfo.get('startDateTime')
-      .some())
-    .toEqual(expectedCrawlSessionInfo.get('startDateTime')
-      .some());
-  expect(crawlSessionInfo.get('endDateTime')
-      .some())
-    .toEqual(expectedCrawlSessionInfo.get('endDateTime')
-      .some());
-  expect(crawlSessionInfo.get('additionalInfo')
-      .some())
-    .toEqual(expectedCrawlSessionInfo.get('additionalInfo')
-      .some());
+  expect(crawlSessionInfo.get('startDateTime'))
+    .toEqual(expectedCrawlSessionInfo.get('startDateTime'));
+  expect(crawlSessionInfo.get('endDateTime'))
+    .toEqual(expectedCrawlSessionInfo.get('endDateTime'));
+  expect(crawlSessionInfo.get('additionalInfo'))
+    .toEqual(expectedCrawlSessionInfo.get('additionalInfo'));
 }
 
 export function createCriteria() {

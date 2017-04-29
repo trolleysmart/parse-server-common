@@ -1,9 +1,6 @@
 import {
   Map,
 } from 'immutable';
-import {
-  Maybe,
-} from 'monet';
 import uuid from 'uuid/v4';
 import {
   CrawlSession,
@@ -12,11 +9,11 @@ import {
 export function createCrawlSessionInfo() {
   return Map({
     sessionKey: uuid(),
-    startDateTime: Maybe.Some(new Date()),
-    endDateTime: Maybe.Some(new Date()),
-    additionalInfo: Maybe.Some(Map({
+    startDateTime: new Date(),
+    endDateTime: new Date(),
+    additionalInfo: Map({
       val: uuid(),
-    })),
+    }),
   });
 }
 
@@ -27,18 +24,12 @@ export function createCrawlSession(crawlSessionInfo) {
 function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo) {
   expect(crawlSessionInfo.get('sessionKey'))
     .toBe(expectedCrawlSessionInfo.get('sessionKey'));
-  expect(crawlSessionInfo.get('startDateTime')
-      .some())
-    .toBe(expectedCrawlSessionInfo.get('startDateTime')
-      .some());
-  expect(crawlSessionInfo.get('endDateTime')
-      .some())
-    .toBe(expectedCrawlSessionInfo.get('endDateTime')
-      .some());
-  expect(crawlSessionInfo.get('additionalInfo')
-      .some())
-    .toEqual(expectedCrawlSessionInfo.get('additionalInfo')
-      .some());
+  expect(crawlSessionInfo.get('startDateTime'))
+    .toBe(expectedCrawlSessionInfo.get('startDateTime'));
+  expect(crawlSessionInfo.get('endDateTime'))
+    .toBe(expectedCrawlSessionInfo.get('endDateTime'));
+  expect(crawlSessionInfo.get('additionalInfo'))
+    .toEqual(expectedCrawlSessionInfo.get('additionalInfo'));
 }
 
 describe('constructor', () => {
