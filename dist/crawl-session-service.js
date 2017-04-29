@@ -179,6 +179,54 @@ var CrawlSessionService = function () {
         }
       }
 
+      if (conditions.has('startDateTime')) {
+        var _value3 = conditions.get('startDateTime');
+
+        if (_value3) {
+          query.equalTo('startDateTime', _value3);
+        }
+      }
+
+      if (conditions.has('lessThanOrEqualTo_startDateTime')) {
+        var _value4 = conditions.get('lessThanOrEqualTo_startDateTime');
+
+        if (_value4) {
+          query.lessThanOrEqualTo('startDateTime', _value4);
+        }
+      }
+
+      if (conditions.has('greaterThanOrEqualTo_startDateTime')) {
+        var _value5 = conditions.get('greaterThanOrEqualTo_startDateTime');
+
+        if (_value5) {
+          query.greaterThanOrEqualTo('startDateTime', _value5);
+        }
+      }
+
+      if (conditions.has('endDateTime')) {
+        var _value6 = conditions.get('endDateTime');
+
+        if (_value6) {
+          query.equalTo('endDateTime', _value6);
+        }
+      }
+
+      if (conditions.has('lessThanOrEqualTo_endDateTime')) {
+        var _value7 = conditions.get('lessThanOrEqualTo_endDateTime');
+
+        if (_value7) {
+          query.lessThanOrEqualTo('endDateTime', _value7);
+        }
+      }
+
+      if (conditions.has('greaterThanOrEqualTo_endDateTime')) {
+        var _value8 = conditions.get('greaterThanOrEqualTo_endDateTime');
+
+        if (_value8) {
+          query.greaterThanOrEqualTo('endDateTime', _value8);
+        }
+      }
+
       return query;
     }
   }]);
