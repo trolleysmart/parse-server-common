@@ -147,10 +147,20 @@ var StapleShoppingListService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList, criteria);
 
-      if (criteria.has('userId') && criteria.get('userId')) {
-        query.equalTo('user', _microBusinessParseServerCommon.User.createWithoutData(criteria.get('userId')));
+      if (!criteria.has('conditions')) {
+        return query;
+      }
+
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('userId')) {
+        var value = conditions.get('userId');
+
+        if (value) {
+          query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(value));
+        }
       }
 
       return query;

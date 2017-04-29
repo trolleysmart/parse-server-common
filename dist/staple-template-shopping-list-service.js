@@ -147,14 +147,52 @@ var StapleTemplateShoppingListService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList, criteria);
 
-      if (criteria.has('description') && criteria.get('description')) {
-        query.equalTo('description', criteria.get('description'));
+      if (!criteria.has('conditions')) {
+        return query;
       }
 
-      if (criteria.has('templateId') && criteria.get('templateId')) {
-        query.equalTo('templates', criteria.get('templateId'));
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('description')) {
+        var value = conditions.get('description');
+
+        if (value) {
+          query.equalTo('description', value);
+        }
+      }
+
+      if (conditions.has('startsWith_description')) {
+        var _value = conditions.get('startsWith_description');
+
+        if (_value) {
+          query.startsWith('description', _value);
+        }
+      }
+
+      if (conditions.has('contains_description')) {
+        var _value2 = conditions.get('contains_description');
+
+        if (_value2) {
+          query.contains('description', _value2);
+        }
+      }
+
+      if (conditions.has('templateId')) {
+        var _value3 = conditions.get('templateId');
+
+        if (_value3) {
+          query.equalTo('templates', _value3);
+        }
+      }
+
+      if (conditions.has('templateIds')) {
+        var _value4 = conditions.get('templateIds');
+
+        if (_value4) {
+          query.containsAll('templates', _value4.toArray());
+        }
       }
 
       return query;

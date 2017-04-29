@@ -113,14 +113,52 @@ class StapleTemplateShoppingListService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(StapleTemplateShoppingList);
+    const query = ParseWrapperService.createQuery(StapleTemplateShoppingList, criteria);
 
-    if (criteria.has('description') && criteria.get('description')) {
-      query.equalTo('description', criteria.get('description'));
+    if (!criteria.has('conditions')) {
+      return query;
     }
 
-    if (criteria.has('templateId') && criteria.get('templateId')) {
-      query.equalTo('templates', criteria.get('templateId'));
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('description')) {
+      const value = conditions.get('description');
+
+      if (value) {
+        query.equalTo('description', value);
+      }
+    }
+
+    if (conditions.has('startsWith_description')) {
+      const value = conditions.get('startsWith_description');
+
+      if (value) {
+        query.startsWith('description', value);
+      }
+    }
+
+    if (conditions.has('contains_description')) {
+      const value = conditions.get('contains_description');
+
+      if (value) {
+        query.contains('description', value);
+      }
+    }
+
+    if (conditions.has('templateId')) {
+      const value = conditions.get('templateId');
+
+      if (value) {
+        query.equalTo('templates', value);
+      }
+    }
+
+    if (conditions.has('templateIds')) {
+      const value = conditions.get('templateIds');
+
+      if (value) {
+        query.containsAll('templates', value.toArray());
+      }
     }
 
     return query;

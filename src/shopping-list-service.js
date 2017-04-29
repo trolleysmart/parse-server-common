@@ -5,6 +5,9 @@ import {
 import {
   ShoppingList,
 } from './schema';
+import {
+  NewSearchResultReceivedEvent,
+} from './new-search-result-received-event';
 
 class ShoppingListService {
   static create(info) {
@@ -90,6 +93,18 @@ class ShoppingListService {
       .catch(error => reject(error)));
   }
 
+  static searchAll(criteria) {
+    const event = new NewSearchResultReceivedEvent();
+    const promise = ShoppingListService.buildSearchQuery(criteria)
+      .each(_ => event.raise(new ShoppingList(_)
+        .getInfo()));
+
+    return {
+      event,
+      promise,
+    };
+  }
+
   static exists(criteria) {
     return new Promise((resolve, reject) => ShoppingListService.buildSearchQuery(criteria)
       .count()
@@ -98,15 +113,20 @@ class ShoppingListService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(ShoppingList);
+    const query = ParseWrapperService.createQuery(ShoppingList, criteria);
 
-    if (criteria.has('userId') && criteria.get('userId')) {
-      query.equalTo('user', ParseWrapperService.createUserWithoutData(criteria.get('userId')));
+    if (!criteria.has('conditions')) {
+      return query;
     }
 
-    if (criteria.has('latest') && criteria.get('latest')) {
-      query.descending('createdAt');
-      query.limit(1);
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('userId')) {
+      const value = conditions.get('userId');
+
+      if (value) {
+        query.equalTo('user', ParseWrapperService.createUserWithoutData(value));
+      }
     }
 
     return query;

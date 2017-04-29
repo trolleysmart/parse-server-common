@@ -113,10 +113,36 @@ class StapleTemplateService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(StapleTemplate);
+    const query = ParseWrapperService.createQuery(StapleTemplate, criteria);
 
-    if (criteria.has('name') && criteria.get('name')) {
-      query.equalTo('name', criteria.get('name'));
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('name')) {
+      const value = conditions.get('name');
+
+      if (value) {
+        query.equalTo('name', value);
+      }
+    }
+
+    if (conditions.has('startsWith_name')) {
+      const value = conditions.get('startsWith_name');
+
+      if (value) {
+        query.startsWith('name', value);
+      }
+    }
+
+    if (conditions.has('contains_name')) {
+      const value = conditions.get('contains_name');
+
+      if (value) {
+        query.contains('name', value);
+      }
     }
 
     return query;

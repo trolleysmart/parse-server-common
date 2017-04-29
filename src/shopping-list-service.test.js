@@ -1,4 +1,5 @@
 import {
+  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
@@ -24,14 +25,19 @@ function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shop
 
 function createCriteria() {
   return Map({
-    userId: uuid(),
+    fields: List.of('user', 'items'),
+    conditions: Map({
+      userId: uuid(),
+    }),
   });
 }
 
 function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo) {
   return Map({
-    userId: shoppingListInfo.get('userId'),
-    latest: true,
+    fields: List.of('user', 'items'),
+    conditions: Map({
+      userId: shoppingListInfo.get('userId'),
+    }),
   });
 }
 
@@ -230,6 +236,49 @@ describe('search', () => {
         const shoppingListInfo = shoppingListInfos.first();
         expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
         done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+});
+
+describe('searchAll', () => {
+  test('should return no shopping list if provided criteria matches no shopping list', (done) => {
+    ShoppingListService.search(createCriteria())
+      .then((shoppingListInfos) => {
+        expect(shoppingListInfos.size)
+          .toBe(0);
+        done();
+      })
+      .catch((error) => {
+        fail(error);
+        done();
+      });
+  });
+
+  test('should return the shopping list matches the criteria', (done) => {
+    const expectedShoppingListInfo = createShoppingListInfo(userId);
+
+    Promise.all([ShoppingListService.create(expectedShoppingListInfo), ShoppingListService.create(expectedShoppingListInfo)])
+      .then((ids) => {
+        const shoppingListIds = List.of(ids[0], ids[1]);
+        const result = ShoppingListService.searchAll(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
+        let shoppingLists = List();
+
+        result.event.subscribe((shoppingList) => {
+          shoppingLists = shoppingLists.push(shoppingList);
+        });
+        result.promise.then(() => {
+          expect(shoppingLists.size)
+              .toBe(shoppingListIds.size);
+          done();
+        })
+          .catch((error) => {
+            fail(error);
+            done();
+          });
       })
       .catch((error) => {
         fail(error);

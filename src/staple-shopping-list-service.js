@@ -1,7 +1,6 @@
 import Immutable from 'immutable';
 import {
   ParseWrapperService,
-  User,
 } from 'micro-business-parse-server-common';
 import {
   NewSearchResultReceivedEvent,
@@ -114,10 +113,20 @@ class StapleShoppingListService {
   }
 
   static buildSearchQuery(criteria) {
-    const query = ParseWrapperService.createQuery(StapleShoppingList);
+    const query = ParseWrapperService.createQuery(StapleShoppingList, criteria);
 
-    if (criteria.has('userId') && criteria.get('userId')) {
-      query.equalTo('user', User.createWithoutData(criteria.get('userId')));
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('userId')) {
+      const value = conditions.get('userId');
+
+      if (value) {
+        query.equalTo('user', ParseWrapperService.createUserWithoutData(value));
+      }
     }
 
     return query;

@@ -15,6 +15,8 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('./schema');
 
+var _newSearchResultReceivedEvent = require('./new-search-result-received-event');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -119,6 +121,19 @@ var ShoppingListService = function () {
       });
     }
   }, {
+    key: 'searchAll',
+    value: function searchAll(criteria) {
+      var event = new _newSearchResultReceivedEvent.NewSearchResultReceivedEvent();
+      var promise = ShoppingListService.buildSearchQuery(criteria).each(function (_) {
+        return event.raise(new _schema.ShoppingList(_).getInfo());
+      });
+
+      return {
+        event: event,
+        promise: promise
+      };
+    }
+  }, {
     key: 'exists',
     value: function exists(criteria) {
       return new Promise(function (resolve, reject) {
@@ -132,15 +147,20 @@ var ShoppingListService = function () {
   }, {
     key: 'buildSearchQuery',
     value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList);
+      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList, criteria);
 
-      if (criteria.has('userId') && criteria.get('userId')) {
-        query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(criteria.get('userId')));
+      if (!criteria.has('conditions')) {
+        return query;
       }
 
-      if (criteria.has('latest') && criteria.get('latest')) {
-        query.descending('createdAt');
-        query.limit(1);
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('userId')) {
+        var value = conditions.get('userId');
+
+        if (value) {
+          query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(value));
+        }
       }
 
       return query;

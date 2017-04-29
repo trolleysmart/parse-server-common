@@ -10,7 +10,7 @@ import {
 export function createShoppingListInfo(userId) {
   return Map({
     userId: userId || uuid(),
-    items: List(),
+    items: List.of(),
   });
 }
 
