@@ -3,7 +3,7 @@ import {
 } from 'immutable';
 import {
   BaseObject,
-  User,
+  ParseWrapperService,
 } from 'micro-business-parse-server-common';
 
 class StapleShoppingList extends BaseObject {
@@ -16,7 +16,7 @@ class StapleShoppingList extends BaseObject {
   }
 
   static updateInfoInternal(object, info) {
-    object.set('user', User.createWithoutData(info.get('userId')));
+    object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
     object.set('description', info.get('description'));
   }
 
@@ -36,13 +36,11 @@ class StapleShoppingList extends BaseObject {
   }
 
   getInfo() {
-    const user = new User(this.getObject()
-      .get('user'));
-
     return Map({
       id: this.getId(),
-      user,
-      userId: user.getId(),
+      userId: this.getObject()
+        .get('user')
+        .id,
       description: this.getObject()
         .get('description'),
     });

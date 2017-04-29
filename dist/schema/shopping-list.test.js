@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function createShoppingListInfo(userId) {
   return (0, _immutable.Map)({
     userId: userId || (0, _v2.default)(),
-    items: _immutable.List.of()
+    items: _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
   });
 }
 

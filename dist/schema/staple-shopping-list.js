@@ -32,7 +32,7 @@ var StapleShoppingList = function (_BaseObject) {
   }, {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
-      object.set('user', _microBusinessParseServerCommon.User.createWithoutData(info.get('userId')));
+      object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(info.get('userId')));
       object.set('description', info.get('description'));
     }
   }]);
@@ -59,12 +59,9 @@ var StapleShoppingList = function (_BaseObject) {
   }, {
     key: 'getInfo',
     value: function getInfo() {
-      var user = new _microBusinessParseServerCommon.User(this.getObject().get('user'));
-
       return (0, _immutable.Map)({
         id: this.getId(),
-        user: user,
-        userId: user.getId(),
+        userId: this.getObject().get('user').id,
         description: this.getObject().get('description')
       });
     }
