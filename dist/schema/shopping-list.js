@@ -25,6 +25,15 @@ var ShoppingList = function (_BaseObject) {
   _inherits(ShoppingList, _BaseObject);
 
   _createClass(ShoppingList, null, [{
+    key: 'spawn',
+    value: function spawn(info) {
+      var object = new ShoppingList();
+
+      ShoppingList.updateInfoInternal(object, info);
+
+      return object;
+    }
+  }, {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(info.get('userId')));
@@ -59,15 +68,6 @@ var ShoppingList = function (_BaseObject) {
         userId: this.getObject().get('user').id,
         items: _immutable2.default.fromJS(this.getObject().get('items'))
       });
-    }
-  }], [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new ShoppingList();
-
-      ShoppingList.updateInfoInternal(object, info);
-
-      return object;
     }
   }]);
 
