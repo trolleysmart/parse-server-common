@@ -115,16 +115,58 @@ class MasterProductService {
   static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(MasterProduct);
 
-    if (criteria.has('description') && criteria.get('description')) {
-      query.equalTo('description', criteria.get('description'));
+    if (!criteria.has('conditions')) {
+      return query;
     }
 
-    if (criteria.has('barcode') && criteria.get('barcode')) {
-      query.equalTo('barcode', criteria.get('barcode'));
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('description')) {
+      const value = conditions.get('description');
+
+      if (value) {
+        query.equalTo('description', value);
+      }
     }
 
-    if (criteria.has('tags') && criteria.get('tags')) {
-      query.containsAll('tags', criteria.get('tags').toArray());
+    if (conditions.has('startsWith_description')) {
+      const value = conditions.get('startsWith_description');
+
+      if (value) {
+        query.startsWith('description', value);
+      }
+    }
+
+    if (conditions.has('contains_description')) {
+      const value = conditions.get('contains_description');
+
+      if (value) {
+        query.contains('description', value);
+      }
+    }
+
+    if (conditions.has('barcode')) {
+      const value = conditions.get('barcode');
+
+      if (value) {
+        query.equalTo('barcode', value);
+      }
+    }
+
+    if (conditions.has('imageUrl')) {
+      const value = conditions.get('imageUrl');
+
+      if (value) {
+        query.equalTo('imageUrl', value);
+      }
+    }
+
+    if (conditions.has('tags')) {
+      const value = conditions.get('tags');
+
+      if (value) {
+        query.containsAll('tags', value.toArray());
+      }
     }
 
     return query;

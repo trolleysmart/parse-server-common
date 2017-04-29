@@ -149,16 +149,58 @@ var MasterProductService = function () {
     value: function buildSearchQuery(criteria) {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
 
-      if (criteria.has('description') && criteria.get('description')) {
-        query.equalTo('description', criteria.get('description'));
+      if (!criteria.has('conditions')) {
+        return query;
       }
 
-      if (criteria.has('barcode') && criteria.get('barcode')) {
-        query.equalTo('barcode', criteria.get('barcode'));
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('description')) {
+        var value = conditions.get('description');
+
+        if (value) {
+          query.equalTo('description', value);
+        }
       }
 
-      if (criteria.has('tags') && criteria.get('tags')) {
-        query.containsAll('tags', criteria.get('tags').toArray());
+      if (conditions.has('startsWith_description')) {
+        var _value = conditions.get('startsWith_description');
+
+        if (_value) {
+          query.startsWith('description', _value);
+        }
+      }
+
+      if (conditions.has('contains_description')) {
+        var _value2 = conditions.get('contains_description');
+
+        if (_value2) {
+          query.contains('description', _value2);
+        }
+      }
+
+      if (conditions.has('barcode')) {
+        var _value3 = conditions.get('barcode');
+
+        if (_value3) {
+          query.equalTo('barcode', _value3);
+        }
+      }
+
+      if (conditions.has('imageUrl')) {
+        var _value4 = conditions.get('imageUrl');
+
+        if (_value4) {
+          query.equalTo('imageUrl', _value4);
+        }
+      }
+
+      if (conditions.has('tags')) {
+        var _value5 = conditions.get('tags');
+
+        if (_value5) {
+          query.containsAll('tags', _value5.toArray());
+        }
       }
 
       return query;

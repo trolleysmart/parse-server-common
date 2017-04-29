@@ -26,18 +26,24 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
 
 export function createCriteria() {
   return Map({
-    description: uuid(),
-    barcode: uuid(),
-    imageUrl: uuid(),
+    fields: List.of('description', 'barcode', 'imageUrl', 'tags'),
+    conditions: Map({
+      description: uuid(),
+      barcode: uuid(),
+      imageUrl: uuid(),
+    }),
   });
 }
 
 export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return Map({
-    description: masterProductInfo.get('description'),
-    barcode: masterProductInfo.get('barcode'),
-    imageUrl: masterProductInfo.get('imageUrl'),
-    tags: masterProductInfo.get('tags'),
+    fields: List.of('description', 'barcode', 'imageUrl', 'tags'),
+    conditions: Map({
+      description: masterProductInfo.get('description'),
+      barcode: masterProductInfo.get('barcode'),
+      imageUrl: masterProductInfo.get('imageUrl'),
+      tags: masterProductInfo.get('tags'),
+    }),
   });
 }
 
