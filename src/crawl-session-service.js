@@ -145,6 +145,54 @@ class CrawlSessionService {
       }
     }
 
+    if (conditions.has('startDateTime')) {
+      const value = conditions.get('startDateTime');
+
+      if (value) {
+        query.equalTo('startDateTime', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_startDateTime')) {
+      const value = conditions.get('lessThanOrEqualTo_startDateTime');
+
+      if (value) {
+        query.lessThanOrEqualTo('startDateTime', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_startDateTime')) {
+      const value = conditions.get('greaterThanOrEqualTo_startDateTime');
+
+      if (value) {
+        query.greaterThanOrEqualTo('startDateTime', value);
+      }
+    }
+
+    if (conditions.has('endDateTime')) {
+      const value = conditions.get('endDateTime');
+
+      if (value) {
+        query.equalTo('endDateTime', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_endDateTime')) {
+      const value = conditions.get('lessThanOrEqualTo_endDateTime');
+
+      if (value) {
+        query.lessThanOrEqualTo('endDateTime', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_endDateTime')) {
+      const value = conditions.get('greaterThanOrEqualTo_endDateTime');
+
+      if (value) {
+        query.greaterThanOrEqualTo('endDateTime', value);
+      }
+    }
+
     return query;
   }
 }
