@@ -116,7 +116,7 @@ class TagService {
     const query = ParseWrapperService.createQuery(Tag, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(Tag, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -153,7 +153,7 @@ class TagService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(Tag, query, criteria);
   }
 }
 

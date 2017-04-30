@@ -116,7 +116,7 @@ class StapleShoppingListService {
     const query = ParseWrapperService.createQuery(StapleShoppingList, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(StapleShoppingList, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -129,7 +129,7 @@ class StapleShoppingListService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(StapleShoppingList, query, criteria);
   }
 }
 

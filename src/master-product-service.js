@@ -116,7 +116,7 @@ class MasterProductService {
     const query = ParseWrapperService.createQuery(MasterProduct, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(MasterProduct, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -169,7 +169,7 @@ class MasterProductService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(MasterProduct, query, criteria);
   }
 }
 

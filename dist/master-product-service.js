@@ -150,7 +150,7 @@ var MasterProductService = function () {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
 
       if (!criteria.has('conditions')) {
-        return query;
+        return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.MasterProduct, query, criteria);
       }
 
       var conditions = criteria.get('conditions');
@@ -203,7 +203,7 @@ var MasterProductService = function () {
         }
       }
 
-      return query;
+      return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.MasterProduct, query, criteria);
     }
   }]);
 

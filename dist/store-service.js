@@ -150,7 +150,7 @@ var StoreService = function () {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
 
       if (!criteria.has('conditions')) {
-        return query;
+        return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Store, query, criteria);
       }
 
       var conditions = criteria.get('conditions');
@@ -179,7 +179,7 @@ var StoreService = function () {
         }
       }
 
-      return query;
+      return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Store, query, criteria);
     }
   }]);
 

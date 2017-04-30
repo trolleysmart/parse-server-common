@@ -116,7 +116,7 @@ class StoreCrawlerConfigurationService {
     const query = ParseWrapperService.createQuery(StoreCrawlerConfiguration, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(StoreCrawlerConfiguration, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -129,7 +129,7 @@ class StoreCrawlerConfigurationService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(StoreCrawlerConfiguration, query, criteria);
   }
 }
 

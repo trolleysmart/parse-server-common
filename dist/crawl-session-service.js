@@ -150,7 +150,7 @@ var CrawlSessionService = function () {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession, criteria);
 
       if (!criteria.has('conditions')) {
-        return query;
+        return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.CrawlSession, query, criteria);
       }
 
       var conditions = criteria.get('conditions');
@@ -227,7 +227,7 @@ var CrawlSessionService = function () {
         }
       }
 
-      return query;
+      return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.CrawlSession, query, criteria);
     }
   }]);
 

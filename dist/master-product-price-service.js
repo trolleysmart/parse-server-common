@@ -150,7 +150,7 @@ var MasterProductPriceService = function () {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice, criteria);
 
       if (!criteria.has('conditions')) {
-        return query;
+        return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.MasterProductPrice, query, criteria);
       }
 
       var conditions = criteria.get('conditions');
@@ -195,7 +195,7 @@ var MasterProductPriceService = function () {
         }
       }
 
-      return query;
+      return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.MasterProductPrice, query, criteria);
     }
   }]);
 

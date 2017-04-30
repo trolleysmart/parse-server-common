@@ -116,7 +116,7 @@ class StapleTemplateService {
     const query = ParseWrapperService.createQuery(StapleTemplate, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(StapleTemplate, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -145,7 +145,7 @@ class StapleTemplateService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(StapleTemplate, query, criteria);
   }
 }
 

@@ -116,7 +116,7 @@ class StoreService {
     const query = ParseWrapperService.createQuery(Store, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(Store, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -145,7 +145,7 @@ class StoreService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(Store, query, criteria);
   }
 }
 

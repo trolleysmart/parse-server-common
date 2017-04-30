@@ -150,7 +150,7 @@ var StapleTemplateShoppingListService = function () {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList, criteria);
 
       if (!criteria.has('conditions')) {
-        return query;
+        return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.StapleTemplateShoppingList, query, criteria);
       }
 
       var conditions = criteria.get('conditions');
@@ -187,7 +187,7 @@ var StapleTemplateShoppingListService = function () {
         }
       }
 
-      return query;
+      return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.StapleTemplateShoppingList, query, criteria);
     }
   }]);
 

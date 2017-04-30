@@ -116,7 +116,7 @@ class CrawlSessionService {
     const query = ParseWrapperService.createQuery(CrawlSession, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(CrawlSession, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -193,7 +193,7 @@ class CrawlSessionService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(CrawlSession, query, criteria);
   }
 }
 

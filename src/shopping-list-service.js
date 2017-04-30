@@ -116,7 +116,7 @@ class ShoppingListService {
     const query = ParseWrapperService.createQuery(ShoppingList, criteria);
 
     if (!criteria.has('conditions')) {
-      return query;
+      return ParseWrapperService.createQueryIncludingObjectIds(ShoppingList, query, criteria);
     }
 
     const conditions = criteria.get('conditions');
@@ -129,7 +129,7 @@ class ShoppingListService {
       }
     }
 
-    return query;
+    return ParseWrapperService.createQueryIncludingObjectIds(ShoppingList, query, criteria);
   }
 }
 
