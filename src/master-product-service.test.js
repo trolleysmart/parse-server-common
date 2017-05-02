@@ -5,11 +5,17 @@ import {
 import uuid from 'uuid/v4';
 import '../bootstrap';
 import {
+  Tag,
+} from './schema';
+import {
   MasterProductService,
 } from './master-product-service';
 import {
   createMasterProductInfo,
 } from './schema/master-product.test';
+import {
+  createTagInfo,
+} from './schema/tag.test';
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId) {
   expect(masterProductInfo.get('id'))
@@ -20,8 +26,8 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
     .toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl'))
     .toBe(expectedMasterProductInfo.get('imageUrl'));
-  expect(masterProductInfo.get('tags'))
-    .toEqual(expectedMasterProductInfo.get('tags'));
+  expect(masterProductInfo.get('tagIds'))
+    .toEqual(expectedMasterProductInfo.get('tagIds'));
 }
 
 export function createCriteria() {
@@ -62,10 +68,18 @@ describe('create', () => {
   });
 
   test('should create the master product', (done) => {
-    const expectedMasterProductInfo = createMasterProductInfo();
+    let expectedMasterProductInfo;
     let masterProductId;
 
-    MasterProductService.create(expectedMasterProductInfo)
+    Promise.all([Tag.spawn(createTagInfo())
+        .save(), Tag.spawn(createTagInfo())
+        .save(),
+    ])
+      .then((results) => {
+        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
+
+        return MasterProductService.create(expectedMasterProductInfo);
+      })
       .then((id) => {
         masterProductId = id;
 
@@ -95,10 +109,18 @@ describe('read', () => {
   });
 
   test('should read the existing master product', (done) => {
-    const expectedMasterProductInfo = createMasterProductInfo();
+    let expectedMasterProductInfo;
     let masterProductId;
 
-    MasterProductService.create(expectedMasterProductInfo)
+    Promise.all([Tag.spawn(createTagInfo())
+        .save(), Tag.spawn(createTagInfo())
+        .save(),
+    ])
+      .then((results) => {
+        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
+
+        return MasterProductService.create(expectedMasterProductInfo);
+      })
       .then((id) => {
         masterProductId = id;
 
@@ -150,11 +172,19 @@ describe('update', () => {
   });
 
   test('should update the existing master product', (done) => {
-    const expectedMasterProductInfo = createMasterProductInfo();
+    let expectedMasterProductInfo;
     let masterProductId;
 
-    MasterProductService.create(createMasterProductInfo())
-      .then(id => MasterProductService.update(expectedMasterProductInfo.set('id', id)))
+    Promise.all([Tag.spawn(createTagInfo())
+        .save(), Tag.spawn(createTagInfo())
+        .save(),
+      MasterProductService.create(createMasterProductInfo()),
+    ])
+      .then((results) => {
+        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
+
+        return MasterProductService.update(expectedMasterProductInfo.set('id', results[2]));
+      })
       .then((id) => {
         masterProductId = id;
 
@@ -220,10 +250,18 @@ describe('search', () => {
   });
 
   test('should return the master products matches the criteria', (done) => {
-    const expectedMasterProductInfo = createMasterProductInfo();
+    let expectedMasterProductInfo;
     let masterProductId;
 
-    MasterProductService.create(expectedMasterProductInfo)
+    Promise.all([Tag.spawn(createTagInfo())
+        .save(), Tag.spawn(createTagInfo())
+        .save(),
+    ])
+      .then((results) => {
+        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
+
+        return MasterProductService.create(expectedMasterProductInfo);
+      })
       .then((id) => {
         masterProductId = id;
 

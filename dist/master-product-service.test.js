@@ -14,9 +14,13 @@ var _v2 = _interopRequireDefault(_v);
 
 require('../bootstrap');
 
+var _schema = require('./schema');
+
 var _masterProductService = require('./master-product-service');
 
 var _masterProduct = require('./schema/master-product.test');
+
+var _tag = require('./schema/tag.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25,7 +29,7 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));
-  expect(masterProductInfo.get('tags')).toEqual(expectedMasterProductInfo.get('tags'));
+  expect(masterProductInfo.get('tagIds')).toEqual(expectedMasterProductInfo.get('tagIds'));
 }
 
 function createCriteria() {
@@ -63,10 +67,14 @@ describe('create', function () {
   });
 
   test('should create the master product', function (done) {
-    var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
+    var expectedMasterProductInfo = void 0;
     var masterProductId = void 0;
 
-    _masterProductService.MasterProductService.create(expectedMasterProductInfo).then(function (id) {
+    Promise.all([_schema.Tag.spawn((0, _tag.createTagInfo)()).save(), _schema.Tag.spawn((0, _tag.createTagInfo)()).save()]).then(function (results) {
+      expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)(_immutable.List.of(results[0].id, results[1].id));
+
+      return _masterProductService.MasterProductService.create(expectedMasterProductInfo);
+    }).then(function (id) {
       masterProductId = id;
 
       return _masterProductService.MasterProductService.read(masterProductId);
@@ -91,10 +99,14 @@ describe('read', function () {
   });
 
   test('should read the existing master product', function (done) {
-    var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
+    var expectedMasterProductInfo = void 0;
     var masterProductId = void 0;
 
-    _masterProductService.MasterProductService.create(expectedMasterProductInfo).then(function (id) {
+    Promise.all([_schema.Tag.spawn((0, _tag.createTagInfo)()).save(), _schema.Tag.spawn((0, _tag.createTagInfo)()).save()]).then(function (results) {
+      expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)(_immutable.List.of(results[0].id, results[1].id));
+
+      return _masterProductService.MasterProductService.create(expectedMasterProductInfo);
+    }).then(function (id) {
       masterProductId = id;
 
       return _masterProductService.MasterProductService.read(masterProductId);
@@ -135,11 +147,13 @@ describe('update', function () {
   });
 
   test('should update the existing master product', function (done) {
-    var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
+    var expectedMasterProductInfo = void 0;
     var masterProductId = void 0;
 
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      return _masterProductService.MasterProductService.update(expectedMasterProductInfo.set('id', id));
+    Promise.all([_schema.Tag.spawn((0, _tag.createTagInfo)()).save(), _schema.Tag.spawn((0, _tag.createTagInfo)()).save(), _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)())]).then(function (results) {
+      expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)(_immutable.List.of(results[0].id, results[1].id));
+
+      return _masterProductService.MasterProductService.update(expectedMasterProductInfo.set('id', results[2]));
     }).then(function (id) {
       masterProductId = id;
 
@@ -197,10 +211,14 @@ describe('search', function () {
   });
 
   test('should return the master products matches the criteria', function (done) {
-    var expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)();
+    var expectedMasterProductInfo = void 0;
     var masterProductId = void 0;
 
-    _masterProductService.MasterProductService.create(expectedMasterProductInfo).then(function (id) {
+    Promise.all([_schema.Tag.spawn((0, _tag.createTagInfo)()).save(), _schema.Tag.spawn((0, _tag.createTagInfo)()).save()]).then(function (results) {
+      expectedMasterProductInfo = (0, _masterProduct.createMasterProductInfo)(_immutable.List.of(results[0].id, results[1].id));
+
+      return _masterProductService.MasterProductService.create(expectedMasterProductInfo);
+    }).then(function (id) {
       masterProductId = id;
 
       return _masterProductService.MasterProductService.search(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));

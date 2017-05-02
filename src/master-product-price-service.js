@@ -163,6 +163,15 @@ class MasterProductPriceService {
       }
     }
 
+      /* if (conditions.has('description')) {
+       * const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
+       *   const value = conditions.get('description');
+
+       *   if (value) {
+       *     query.equalTo('description', value);
+       *   }
+       * }*/
+
     return ParseWrapperService.createQueryIncludingObjectIds(MasterProductPrice, query, criteria);
   }
 }

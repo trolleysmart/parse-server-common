@@ -195,6 +195,14 @@ var MasterProductPriceService = function () {
         }
       }
 
+      /* if (conditions.has('description')) {
+       * const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
+       *   const value = conditions.get('description');
+        *   if (value) {
+       *     query.equalTo('description', value);
+       *   }
+       * }*/
+
       return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.MasterProductPrice, query, criteria);
     }
   }]);

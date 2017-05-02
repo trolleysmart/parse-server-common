@@ -16,13 +16,16 @@ var _masterProduct = require('./master-product');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createMasterProductInfo() {
-  return (0, _immutable.Map)({
+function createMasterProductInfo(tagIds) {
+  var info = (0, _immutable.Map)({
     description: (0, _v2.default)(),
     barcode: (0, _v2.default)(),
-    imageUrl: (0, _v2.default)(),
-    tags: _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
+    imageUrl: (0, _v2.default)()
   });
+
+  return tagIds ? info.merge({
+    tagIds: tagIds
+  }) : info;
 }
 
 function createMasterProduct(masterProductInfo) {

@@ -23,7 +23,7 @@
   "homepage": "https://bitbucket.org/microbusiness/smart-grocery-parse-server-common#readme",
   "dependencies": {
     "immutable": "^3.8.1",
-    "micro-business-parse-server-common": "^0.1.40"
+    "micro-business-parse-server-common": "^0.1.41"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

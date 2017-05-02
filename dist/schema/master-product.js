@@ -13,6 +13,8 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
+var _tag = require('./tag');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39,7 +41,22 @@ var MasterProduct = function (_BaseObject) {
       object.set('description', info.get('description'));
       object.set('barcode', info.get('barcode'));
       object.set('imageUrl', info.get('imageUrl'));
-      object.set('tags', info.get('tags').toJS());
+
+      if (info.has('tagIds')) {
+        var tagIds = info.get('tagIds');
+
+        if (!tagIds.isEmpty()) {
+          object.set('tags', tagIds.map(function (tagId) {
+            return _tag.Tag.createWithoutData(tagId);
+          }).toArray());
+        }
+      } else if (info.has('tags')) {
+        var tags = info.get('tags');
+
+        if (!tags.isEmpty()) {
+          object.set('tags', tags.toArray());
+        }
+      }
     }
   }]);
 
@@ -65,12 +82,20 @@ var MasterProduct = function (_BaseObject) {
   }, {
     key: 'getInfo',
     value: function getInfo() {
+      var tagObjects = this.getObject().get('tags');
+      var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
+        return new _tag.Tag(tag).getInfo();
+      }) : undefined;
+
       return (0, _immutable.Map)({
         id: this.getId(),
         description: this.getObject().get('description'),
         barcode: this.getObject().get('barcode'),
         imageUrl: this.getObject().get('imageUrl'),
-        tags: _immutable2.default.fromJS(this.getObject().get('tags'))
+        tags: tags,
+        tagIds: tags ? tags.map(function (tag) {
+          return tag.get('id');
+        }) : (0, _immutable.List)()
       });
     }
   }]);

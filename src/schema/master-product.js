@@ -1,9 +1,13 @@
 import Immutable, {
+  List,
   Map,
 } from 'immutable';
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
+import {
+  Tag,
+} from './tag';
 
 class MasterProduct extends BaseObject {
   static spawn(info) {
@@ -18,8 +22,21 @@ class MasterProduct extends BaseObject {
     object.set('description', info.get('description'));
     object.set('barcode', info.get('barcode'));
     object.set('imageUrl', info.get('imageUrl'));
-    object.set('tags', info.get('tags')
-      .toJS());
+
+    if (info.has('tagIds')) {
+      const tagIds = info.get('tagIds');
+
+      if (!tagIds.isEmpty()) {
+        object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId))
+          .toArray());
+      }
+    } else if (info.has('tags')) {
+      const tags = info.get('tags');
+
+      if (!tags.isEmpty()) {
+        object.set('tags', tags.toArray());
+      }
+    }
   }
 
   constructor(object) {
@@ -38,6 +55,11 @@ class MasterProduct extends BaseObject {
   }
 
   getInfo() {
+    const tagObjects = this.getObject().get('tags');
+    const tags = tagObjects ? Immutable.fromJS(tagObjects)
+      .map(tag => new Tag(tag)
+        .getInfo()) : undefined;
+
     return Map({
       id: this.getId(),
       description: this.getObject()
@@ -46,8 +68,8 @@ class MasterProduct extends BaseObject {
         .get('barcode'),
       imageUrl: this.getObject()
         .get('imageUrl'),
-      tags: Immutable.fromJS(this.getObject()
-        .get('tags')),
+      tags,
+      tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });
   }
 }

@@ -7,13 +7,16 @@ import {
   MasterProduct,
 } from './master-product';
 
-export function createMasterProductInfo() {
-  return Map({
+export function createMasterProductInfo(tagIds) {
+  const info = Map({
     description: uuid(),
     barcode: uuid(),
     imageUrl: uuid(),
-    tags: List.of(uuid(), uuid()),
   });
+
+  return tagIds ? info.merge({
+    tagIds,
+  }) : info;
 }
 
 export function createMasterProduct(masterProductInfo) {
