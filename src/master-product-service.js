@@ -7,6 +7,7 @@ import {
 } from './new-search-result-received-event';
 import {
   MasterProduct,
+  Tag,
 } from './schema';
 
 class MasterProductService {
@@ -115,6 +116,14 @@ class MasterProductService {
   static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(MasterProduct, criteria);
 
+    if (criteria.has('includeTags')) {
+      const value = criteria.get('includeTags');
+
+      if (value) {
+        query.include('tags', value);
+      }
+    }
+
     if (!criteria.has('conditions')) {
       return ParseWrapperService.createQueryIncludingObjectIds(MasterProduct, query, criteria);
     }
@@ -161,11 +170,36 @@ class MasterProductService {
       }
     }
 
+    if (conditions.has('tag')) {
+      const value = conditions.get('tag');
+
+      if (value) {
+        query.equalTo('tags', value);
+      }
+    }
+
     if (conditions.has('tags')) {
       const value = conditions.get('tags');
 
       if (value) {
-        query.containsAll('tags', value.toArray());
+        query.containedIn('tags', value.toArray());
+      }
+    }
+
+    if (conditions.has('tagId')) {
+      const value = conditions.get('tagId');
+
+      if (value) {
+        query.equalTo('tags', Tag.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('tagIds')) {
+      const value = conditions.get('tagIds');
+
+      if (value) {
+        query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId))
+          .toArray());
       }
     }
 

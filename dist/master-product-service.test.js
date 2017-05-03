@@ -35,6 +35,7 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
 function createCriteria() {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('description', 'barcode', 'imageUrl', 'tags'),
+    includeTags: true,
     conditions: (0, _immutable.Map)({
       description: (0, _v2.default)(),
       barcode: (0, _v2.default)(),
@@ -46,6 +47,7 @@ function createCriteria() {
 function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('description', 'barcode', 'imageUrl', 'tags'),
+    includeTags: true,
     conditions: (0, _immutable.Map)({
       description: masterProductInfo.get('description'),
       barcode: masterProductInfo.get('barcode'),

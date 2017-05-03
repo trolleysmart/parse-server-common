@@ -29,6 +29,7 @@ function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, ex
 export function createCriteria() {
   return Map({
     fields: List.of('description', 'stapleTemplates'),
+    includeStapleTemplates: true,
     conditions: Map({
       description: uuid(),
     }),
@@ -38,6 +39,7 @@ export function createCriteria() {
 export function createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo) {
   return Map({
     fields: List.of('description', 'stapleTemplates'),
+    includeStapleTemplates: true,
     conditions: Map({
       description: stapleTemplateShoppingListInfo.get('description'),
       stapleTemplates: stapleTemplateShoppingListInfo.get('stapleTemplates'),

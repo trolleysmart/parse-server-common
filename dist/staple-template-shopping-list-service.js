@@ -149,6 +149,14 @@ var StapleTemplateShoppingListService = function () {
     value: function buildSearchQuery(criteria) {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList, criteria);
 
+      if (criteria.has('includeStapleTemplates')) {
+        var value = criteria.get('includeStapleTemplates');
+
+        if (value) {
+          query.include('stapleTemplates', value);
+        }
+      }
+
       if (!criteria.has('conditions')) {
         return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.StapleTemplateShoppingList, query, criteria);
       }
@@ -156,34 +164,60 @@ var StapleTemplateShoppingListService = function () {
       var conditions = criteria.get('conditions');
 
       if (conditions.has('description')) {
-        var value = conditions.get('description');
+        var _value = conditions.get('description');
 
-        if (value) {
-          query.equalTo('description', value);
+        if (_value) {
+          query.equalTo('description', _value);
         }
       }
 
       if (conditions.has('startsWith_description')) {
-        var _value = conditions.get('startsWith_description');
+        var _value2 = conditions.get('startsWith_description');
 
-        if (_value) {
-          query.startsWith('description', _value);
+        if (_value2) {
+          query.startsWith('description', _value2);
         }
       }
 
       if (conditions.has('contains_description')) {
-        var _value2 = conditions.get('contains_description');
+        var _value3 = conditions.get('contains_description');
 
-        if (_value2) {
-          query.contains('description', _value2);
+        if (_value3) {
+          query.contains('description', _value3);
         }
       }
 
-      if (conditions.has('templateIds')) {
-        var _value3 = conditions.get('templateIds');
+      if (conditions.has('stapleTemplate')) {
+        var _value4 = conditions.get('stapleTemplate');
 
-        if (_value3) {
-          query.containsAll('templates', _value3.toArray());
+        if (_value4) {
+          query.equalTo('stapleTemplates', _value4);
+        }
+      }
+
+      if (conditions.has('stapleTemplates')) {
+        var _value5 = conditions.get('stapleTemplates');
+
+        if (_value5) {
+          query.containedIn('stapleTemplates', _value5.toArray());
+        }
+      }
+
+      if (conditions.has('stapleTemplateId')) {
+        var _value6 = conditions.get('stapleTemplateId');
+
+        if (_value6) {
+          query.equalTo('stapleTemplates', _schema.StapleTemplate.createWithoutData(_value6));
+        }
+      }
+
+      if (conditions.has('stapleTemplateIds')) {
+        var _value7 = conditions.get('stapleTemplateIds');
+
+        if (_value7) {
+          query.containedIn('stapleTemplates', _value7.map(function (stapleTemplateId) {
+            return _schema.StapleTemplate.createWithoutData(stapleTemplateId);
+          }).toArray());
         }
       }
 

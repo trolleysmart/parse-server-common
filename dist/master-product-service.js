@@ -149,6 +149,14 @@ var MasterProductService = function () {
     value: function buildSearchQuery(criteria) {
       var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
 
+      if (criteria.has('includeTags')) {
+        var value = criteria.get('includeTags');
+
+        if (value) {
+          query.include('tags', value);
+        }
+      }
+
       if (!criteria.has('conditions')) {
         return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.MasterProduct, query, criteria);
       }
@@ -156,50 +164,76 @@ var MasterProductService = function () {
       var conditions = criteria.get('conditions');
 
       if (conditions.has('description')) {
-        var value = conditions.get('description');
+        var _value = conditions.get('description');
 
-        if (value) {
-          query.equalTo('description', value);
+        if (_value) {
+          query.equalTo('description', _value);
         }
       }
 
       if (conditions.has('startsWith_description')) {
-        var _value = conditions.get('startsWith_description');
+        var _value2 = conditions.get('startsWith_description');
 
-        if (_value) {
-          query.startsWith('description', _value);
+        if (_value2) {
+          query.startsWith('description', _value2);
         }
       }
 
       if (conditions.has('contains_description')) {
-        var _value2 = conditions.get('contains_description');
+        var _value3 = conditions.get('contains_description');
 
-        if (_value2) {
-          query.contains('description', _value2);
+        if (_value3) {
+          query.contains('description', _value3);
         }
       }
 
       if (conditions.has('barcode')) {
-        var _value3 = conditions.get('barcode');
+        var _value4 = conditions.get('barcode');
 
-        if (_value3) {
-          query.equalTo('barcode', _value3);
+        if (_value4) {
+          query.equalTo('barcode', _value4);
         }
       }
 
       if (conditions.has('imageUrl')) {
-        var _value4 = conditions.get('imageUrl');
+        var _value5 = conditions.get('imageUrl');
 
-        if (_value4) {
-          query.equalTo('imageUrl', _value4);
+        if (_value5) {
+          query.equalTo('imageUrl', _value5);
+        }
+      }
+
+      if (conditions.has('tag')) {
+        var _value6 = conditions.get('tag');
+
+        if (_value6) {
+          query.equalTo('tags', _value6);
         }
       }
 
       if (conditions.has('tags')) {
-        var _value5 = conditions.get('tags');
+        var _value7 = conditions.get('tags');
 
-        if (_value5) {
-          query.containsAll('tags', _value5.toArray());
+        if (_value7) {
+          query.containedIn('tags', _value7.toArray());
+        }
+      }
+
+      if (conditions.has('tagId')) {
+        var _value8 = conditions.get('tagId');
+
+        if (_value8) {
+          query.equalTo('tags', _schema.Tag.createWithoutData(_value8));
+        }
+      }
+
+      if (conditions.has('tagIds')) {
+        var _value9 = conditions.get('tagIds');
+
+        if (_value9) {
+          query.containedIn('tags', _value9.map(function (tagId) {
+            return _schema.Tag.createWithoutData(tagId);
+          }).toArray());
         }
       }
 

@@ -6,6 +6,7 @@ import {
   NewSearchResultReceivedEvent,
 } from './new-search-result-received-event';
 import {
+  StapleTemplate,
   StapleTemplateShoppingList,
 } from './schema';
 
@@ -115,6 +116,14 @@ class StapleTemplateShoppingListService {
   static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(StapleTemplateShoppingList, criteria);
 
+    if (criteria.has('includeStapleTemplates')) {
+      const value = criteria.get('includeStapleTemplates');
+
+      if (value) {
+        query.include('stapleTemplates', value);
+      }
+    }
+
     if (!criteria.has('conditions')) {
       return ParseWrapperService.createQueryIncludingObjectIds(StapleTemplateShoppingList, query, criteria);
     }
@@ -145,11 +154,36 @@ class StapleTemplateShoppingListService {
       }
     }
 
-    if (conditions.has('templateIds')) {
-      const value = conditions.get('templateIds');
+    if (conditions.has('stapleTemplate')) {
+      const value = conditions.get('stapleTemplate');
 
       if (value) {
-        query.containsAll('templates', value.toArray());
+        query.equalTo('stapleTemplates', value);
+      }
+    }
+
+    if (conditions.has('stapleTemplates')) {
+      const value = conditions.get('stapleTemplates');
+
+      if (value) {
+        query.containedIn('stapleTemplates', value.toArray());
+      }
+    }
+
+    if (conditions.has('stapleTemplateId')) {
+      const value = conditions.get('stapleTemplateId');
+
+      if (value) {
+        query.equalTo('stapleTemplates', StapleTemplate.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('stapleTemplateIds')) {
+      const value = conditions.get('stapleTemplateIds');
+
+      if (value) {
+        query.containedIn('stapleTemplates', value.map(stapleTemplateId => StapleTemplate.createWithoutData(stapleTemplateId))
+          .toArray());
       }
     }
 

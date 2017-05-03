@@ -33,6 +33,7 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
 export function createCriteria() {
   return Map({
     fields: List.of('description', 'barcode', 'imageUrl', 'tags'),
+    includeTags: true,
     conditions: Map({
       description: uuid(),
       barcode: uuid(),
@@ -44,6 +45,7 @@ export function createCriteria() {
 export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return Map({
     fields: List.of('description', 'barcode', 'imageUrl', 'tags'),
+    includeTags: true,
     conditions: Map({
       description: masterProductInfo.get('description'),
       barcode: masterProductInfo.get('barcode'),

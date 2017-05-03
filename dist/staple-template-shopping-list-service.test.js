@@ -33,6 +33,7 @@ function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, ex
 function createCriteria() {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('description', 'stapleTemplates'),
+    includeStapleTemplates: true,
     conditions: (0, _immutable.Map)({
       description: (0, _v2.default)()
     })
@@ -42,6 +43,7 @@ function createCriteria() {
 function createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo) {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('description', 'stapleTemplates'),
+    includeStapleTemplates: true,
     conditions: (0, _immutable.Map)({
       description: stapleTemplateShoppingListInfo.get('description'),
       stapleTemplates: stapleTemplateShoppingListInfo.get('stapleTemplates')
