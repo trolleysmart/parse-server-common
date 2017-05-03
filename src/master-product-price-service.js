@@ -179,6 +179,14 @@ class MasterProductPriceService {
       }
     }
 
+    if (conditions.has('specialType')) {
+      const value = conditions.get('specialType');
+
+      if (value) {
+        query.equalTo('priceDetails.specialType', value);
+      }
+    }
+
     if (conditions.has('masterProductDescription')) {
       const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
       const value = conditions.get('masterProductDescription');
