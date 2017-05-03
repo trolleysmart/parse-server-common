@@ -219,62 +219,70 @@ var MasterProductPriceService = function () {
         }
       }
 
+      if (conditions.has('specialTypes')) {
+        var _value8 = conditions.get('specialTypes');
+
+        if (_value8 && !_value8.isEmpty()) {
+          query.containsAll('priceDetails.specialType', _value8.toArray());
+        }
+      }
+
       if (conditions.has('masterProductDescription')) {
         var masterProductQuery = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
-        var _value8 = conditions.get('masterProductDescription');
+        var _value9 = conditions.get('masterProductDescription');
 
-        if (_value8) {
-          masterProductQuery.equalTo('description', _value8);
+        if (_value9) {
+          masterProductQuery.equalTo('description', _value9);
           query.matchesQuery('masterProduct', masterProductQuery);
         }
       }
 
       if (conditions.has('startsWith_masterProductDescription')) {
         var _masterProductQuery = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
-        var _value9 = conditions.get('startsWith_masterProductDescription');
+        var _value10 = conditions.get('startsWith_masterProductDescription');
 
-        if (_value9) {
-          _masterProductQuery.startsWith('description', _value9);
+        if (_value10) {
+          _masterProductQuery.startsWith('description', _value10);
           query.matchesQuery('masterProduct', _masterProductQuery);
         }
       }
 
       if (conditions.has('contains_masterProductDescription')) {
         var _masterProductQuery2 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
-        var _value10 = conditions.get('contains_masterProductDescription');
+        var _value11 = conditions.get('contains_masterProductDescription');
 
-        if (_value10) {
-          _masterProductQuery2.contains('description', _value10);
+        if (_value11) {
+          _masterProductQuery2.contains('description', _value11);
           query.matchesQuery('masterProduct', _masterProductQuery2);
         }
       }
 
       if (conditions.has('storeName')) {
         var _masterProductQuery3 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
-        var _value11 = conditions.get('storeName');
+        var _value12 = conditions.get('storeName');
 
-        if (_value11) {
-          _masterProductQuery3.equalTo('name', _value11);
+        if (_value12) {
+          _masterProductQuery3.equalTo('name', _value12);
           query.matchesQuery('store', _masterProductQuery3);
         }
       }
 
       if (conditions.has('startsWith_storeName')) {
         var _masterProductQuery4 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
-        var _value12 = conditions.get('startsWith_storeName');
+        var _value13 = conditions.get('startsWith_storeName');
 
-        if (_value12) {
-          _masterProductQuery4.startsWith('name', _value12);
+        if (_value13) {
+          _masterProductQuery4.startsWith('name', _value13);
           query.matchesQuery('store', _masterProductQuery4);
         }
       }
 
       if (conditions.has('contains_storeName')) {
         var _masterProductQuery5 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
-        var _value13 = conditions.get('contains_storeName');
+        var _value14 = conditions.get('contains_storeName');
 
-        if (_value13) {
-          _masterProductQuery5.contains('name', _value13);
+        if (_value14) {
+          _masterProductQuery5.contains('name', _value14);
           query.matchesQuery('store', _masterProductQuery5);
         }
       }

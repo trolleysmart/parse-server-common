@@ -187,6 +187,14 @@ class MasterProductPriceService {
       }
     }
 
+    if (conditions.has('specialTypes')) {
+      const value = conditions.get('specialTypes');
+
+      if (value && !value.isEmpty()) {
+        query.containsAll('priceDetails.specialType', value.toArray());
+      }
+    }
+
     if (conditions.has('masterProductDescription')) {
       const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
       const value = conditions.get('masterProductDescription');
