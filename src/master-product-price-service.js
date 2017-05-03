@@ -117,6 +117,22 @@ class MasterProductPriceService {
   static buildSearchQuery(criteria) {
     const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
 
+    if (criteria.has('includeStore')) {
+      const value = criteria.get('includeStore');
+
+      if (value) {
+        query.include('store');
+      }
+    }
+
+    if (criteria.has('includeMasterProduct')) {
+      const value = criteria.get('includeMasterProduct');
+
+      if (value) {
+        query.include('masterProduct');
+      }
+    }
+
     if (!criteria.has('conditions')) {
       return ParseWrapperService.createQueryIncludingObjectIds(MasterProductPrice, query, criteria);
     }
@@ -163,14 +179,65 @@ class MasterProductPriceService {
       }
     }
 
-      /* if (conditions.has('description')) {
-       * const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
-       *   const value = conditions.get('description');
+    if (conditions.has('masterProductDescription')) {
+      const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
+      const value = conditions.get('masterProductDescription');
 
-       *   if (value) {
-       *     query.equalTo('description', value);
-       *   }
-       * }*/
+      if (value) {
+        masterProductQuery.equalTo('description', value);
+        query.matchesQuery('masterProduct', masterProductQuery);
+      }
+    }
+
+    if (conditions.has('startsWith_masterProductDescription')) {
+      const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
+      const value = conditions.get('startsWith_masterProductDescription');
+
+      if (value) {
+        masterProductQuery.startsWith('description', value);
+        query.matchesQuery('masterProduct', masterProductQuery);
+      }
+    }
+
+    if (conditions.has('contains_masterProductDescription')) {
+      const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
+      const value = conditions.get('contains_masterProductDescription');
+
+      if (value) {
+        masterProductQuery.contains('description', value);
+        query.matchesQuery('masterProduct', masterProductQuery);
+      }
+    }
+
+    if (conditions.has('storeName')) {
+      const masterProductQuery = ParseWrapperService.createQuery(Store, criteria);
+      const value = conditions.get('storeName');
+
+      if (value) {
+        masterProductQuery.equalTo('name', value);
+        query.matchesQuery('store', masterProductQuery);
+      }
+    }
+
+    if (conditions.has('startsWith_storeName')) {
+      const masterProductQuery = ParseWrapperService.createQuery(Store, criteria);
+      const value = conditions.get('startsWith_storeName');
+
+      if (value) {
+        masterProductQuery.startsWith('name', value);
+        query.matchesQuery('store', masterProductQuery);
+      }
+    }
+
+    if (conditions.has('contains_storeName')) {
+      const masterProductQuery = ParseWrapperService.createQuery(Store, criteria);
+      const value = conditions.get('contains_storeName');
+
+      if (value) {
+        masterProductQuery.contains('name', value);
+        query.matchesQuery('store', masterProductQuery);
+      }
+    }
 
     return ParseWrapperService.createQueryIncludingObjectIds(MasterProductPrice, query, criteria);
   }

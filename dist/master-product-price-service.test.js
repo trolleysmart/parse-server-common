@@ -39,6 +39,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 function createCriteria() {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    includeStore: true,
+    includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
       masterProductId: (0, _v2.default)(),
       storeId: (0, _v2.default)()
@@ -49,6 +51,8 @@ function createCriteria() {
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    includeStore: true,
+    includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
       masterProductId: masterProductId,
       storeId: storeId

@@ -153,7 +153,7 @@ var StapleTemplateShoppingListService = function () {
         var value = criteria.get('includeStapleTemplates');
 
         if (value) {
-          query.include('stapleTemplates', value);
+          query.include('stapleTemplates');
         }
       }
 

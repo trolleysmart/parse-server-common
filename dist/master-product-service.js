@@ -153,7 +153,7 @@ var MasterProductService = function () {
         var value = criteria.get('includeTags');
 
         if (value) {
-          query.include('tags', value);
+          query.include('tags');
         }
       }
 

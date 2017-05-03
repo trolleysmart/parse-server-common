@@ -41,6 +41,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 export function createCriteria() {
   return Map({
     fields: List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    includeStore: true,
+    includeMasterProduct: true,
     conditions: Map({
       masterProductId: uuid(),
       storeId: uuid(),
@@ -51,6 +53,8 @@ export function createCriteria() {
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return Map({
     fields: List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    includeStore: true,
+    includeMasterProduct: true,
     conditions: Map({
       masterProductId,
       storeId,
