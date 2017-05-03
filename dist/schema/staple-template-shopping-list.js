@@ -13,6 +13,8 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
+var _stapleTemmplate = require('./staple-temmplate');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,7 +39,22 @@ var StapleTemplateShoppingList = function (_BaseObject) {
     key: 'updateInfoInternal',
     value: function updateInfoInternal(object, info) {
       object.set('description', info.get('description'));
-      object.set('templates', info.get('templates').toJS());
+
+      if (info.has('stapleTemplateIds')) {
+        var stapleTemplateIds = info.get('stapleTemplateIds');
+
+        if (!stapleTemplateIds.isEmpty()) {
+          object.set('stapleTemplates', stapleTemplateIds.map(function (stapleTemplateId) {
+            return _stapleTemmplate.StapleTemplate.createWithoutData(stapleTemplateId);
+          }).toArray());
+        }
+      } else if (info.has('stapleTemplates')) {
+        var stapleTemplates = info.get('stapleTemplates');
+
+        if (!stapleTemplates.isEmpty()) {
+          object.set('stapleTemplates', stapleTemplates.toArray());
+        }
+      }
     }
   }]);
 
@@ -63,12 +80,18 @@ var StapleTemplateShoppingList = function (_BaseObject) {
   }, {
     key: 'getInfo',
     value: function getInfo() {
-      var templates = _immutable2.default.fromJS(this.getObject().get('templates'));
+      var stapleTemplateObjects = this.getObject().get('stapleTemplates');
+      var stapleTemplates = stapleTemplateObjects ? _immutable2.default.fromJS(stapleTemplateObjects).map(function (stapleTemplate) {
+        return new _stapleTemmplate.StapleTemplate(stapleTemplate).getInfo();
+      }) : undefined;
 
       return (0, _immutable.Map)({
         id: this.getId(),
         description: this.getObject().get('description'),
-        templates: templates
+        stapleTemplates: stapleTemplates,
+        stapleTemplateIds: stapleTemplates ? stapleTemplates.map(function (stapleTemplate) {
+          return stapleTemplate.get('id');
+        }) : (0, _immutable.List)()
       });
     }
   }]);

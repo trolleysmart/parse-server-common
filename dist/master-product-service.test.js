@@ -14,13 +14,13 @@ var _v2 = _interopRequireDefault(_v);
 
 require('../bootstrap');
 
-var _schema = require('./schema');
-
 var _masterProductService = require('./master-product-service');
 
 var _masterProduct = require('./schema/master-product.test');
 
 var _tag = require('./schema/tag.test');
+
+var _schema = require('./schema');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

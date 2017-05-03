@@ -10,31 +10,37 @@ import {
 import {
   createStapleTemplateShoppingListInfo,
 } from './schema/staple-template-shopping-list.test';
+import {
+  createStapleTemplateInfo,
+} from './schema/staple-template.test';
+import {
+  StapleTemplate,
+} from './schema';
 
-function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId) {
-  expect(masterProductInfo.get('id'))
-    .toBe(masterProductId);
-  expect(masterProductInfo.get('description'))
-    .toBe(expectedMasterProductInfo.get('description'));
-  expect(masterProductInfo.get('templates'))
-    .toEqual(expectedMasterProductInfo.get('templates'));
+function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId) {
+  expect(stapleTemplateShoppingListInfo.get('id'))
+    .toBe(stapleTemplateShoppingListId);
+  expect(stapleTemplateShoppingListInfo.get('description'))
+    .toBe(expectedStapleTemplateShoppingListInfo.get('description'));
+  expect(stapleTemplateShoppingListInfo.get('stapleTemplateIds'))
+    .toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplateIds'));
 }
 
 export function createCriteria() {
   return Map({
-    fields: List.of('description', 'templates'),
+    fields: List.of('description', 'stapleTemplates'),
     conditions: Map({
       description: uuid(),
     }),
   });
 }
 
-export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
+export function createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo) {
   return Map({
-    fields: List.of('description', 'templates'),
+    fields: List.of('description', 'stapleTemplates'),
     conditions: Map({
-      description: masterProductInfo.get('description'),
-      templateIds: masterProductInfo.get('templates'),
+      description: stapleTemplateShoppingListInfo.get('description'),
+      stapleTemplates: stapleTemplateShoppingListInfo.get('stapleTemplates'),
     }),
   });
 }
@@ -54,17 +60,26 @@ describe('create', () => {
   });
 
   test('should create the staple template shopping list', (done) => {
-    const expectedMasterProductInfo = createStapleTemplateShoppingListInfo();
-    let masterProductId;
+    let expectedStapleTemplateShoppingListInfo;
+    let stapleTemplateShoppingListId;
 
-    StapleTemplateShoppingListService.create(expectedMasterProductInfo)
-      .then((id) => {
-        masterProductId = id;
+    Promise.all([StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(), StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(),
+    ])
+      .then((results) => {
+        expectedStapleTemplateShoppingListInfo = createStapleTemplateShoppingListInfo(List.of(results[0].id, results[1].id));
 
-        return StapleTemplateShoppingListService.read(masterProductId);
+        return StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo);
       })
-      .then((masterProductInfo) => {
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
+      .then((id) => {
+        stapleTemplateShoppingListId = id;
+
+        return StapleTemplateShoppingListService.read(stapleTemplateShoppingListId);
+      })
+      .then((stapleTemplateShoppingListInfo) => {
+        expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo,
+          stapleTemplateShoppingListId);
         done();
       })
       .catch((error) => {
@@ -76,28 +91,37 @@ describe('create', () => {
 
 describe('read', () => {
   test('should reject if the provided staple template shopping list Id does not exist', (done) => {
-    const masterProductId = uuid();
+    const stapleTemplateShoppingListId = uuid();
 
-    StapleTemplateShoppingListService.read(masterProductId)
+    StapleTemplateShoppingListService.read(stapleTemplateShoppingListId)
       .catch((error) => {
         expect(error)
-          .toBe(`No staple template shopping list found with Id: ${masterProductId}`);
+          .toBe(`No staple template shopping list found with Id: ${stapleTemplateShoppingListId}`);
         done();
       });
   });
 
   test('should read the existing staple template shopping list', (done) => {
-    const expectedMasterProductInfo = createStapleTemplateShoppingListInfo();
-    let masterProductId;
+    let expectedStapleTemplateShoppingListInfo;
+    let stapleTemplateShoppingListId;
 
-    StapleTemplateShoppingListService.create(expectedMasterProductInfo)
-      .then((id) => {
-        masterProductId = id;
+    Promise.all([StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(), StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(),
+    ])
+      .then((results) => {
+        expectedStapleTemplateShoppingListInfo = createStapleTemplateShoppingListInfo(List.of(results[0].id, results[1].id));
 
-        return StapleTemplateShoppingListService.read(masterProductId);
+        return StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo);
       })
-      .then((masterProductInfo) => {
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
+      .then((id) => {
+        stapleTemplateShoppingListId = id;
+
+        return StapleTemplateShoppingListService.read(stapleTemplateShoppingListId);
+      })
+      .then((stapleTemplateShoppingListInfo) => {
+        expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo,
+          stapleTemplateShoppingListId);
         done();
       })
       .catch((error) => {
@@ -109,30 +133,30 @@ describe('read', () => {
 
 describe('update', () => {
   test('should reject if the provided staple template shopping list Id does not exist', (done) => {
-    const masterProductId = uuid();
+    const stapleTemplateShoppingListId = uuid();
 
     StapleTemplateShoppingListService.update(createStapleTemplateShoppingListInfo()
-        .set('id', masterProductId))
+        .set('id', stapleTemplateShoppingListId))
       .catch((error) => {
         expect(error)
-          .toBe(`No staple template shopping list found with Id: ${masterProductId}`);
+          .toBe(`No staple template shopping list found with Id: ${stapleTemplateShoppingListId}`);
         done();
       });
   });
 
   test('should return the Id of the updated staple template shopping list', (done) => {
-    let masterProductId;
+    let stapleTemplateShoppingListId;
 
     StapleTemplateShoppingListService.create(createStapleTemplateShoppingListInfo())
       .then((id) => {
-        masterProductId = id;
+        stapleTemplateShoppingListId = id;
 
         return StapleTemplateShoppingListService.update(createStapleTemplateShoppingListInfo()
-          .set('id', masterProductId));
+          .set('id', stapleTemplateShoppingListId));
       })
       .then((id) => {
         expect(id)
-          .toBe(masterProductId);
+          .toBe(stapleTemplateShoppingListId);
         done();
       })
       .catch((error) => {
@@ -142,18 +166,27 @@ describe('update', () => {
   });
 
   test('should update the existing staple template shopping list', (done) => {
-    const expectedMasterProductInfo = createStapleTemplateShoppingListInfo();
-    let masterProductId;
+    let expectedStapleTemplateShoppingListInfo;
+    let stapleTemplateShoppingListId;
 
-    StapleTemplateShoppingListService.create(createStapleTemplateShoppingListInfo())
-      .then(id => StapleTemplateShoppingListService.update(expectedMasterProductInfo.set('id', id)))
-      .then((id) => {
-        masterProductId = id;
+    Promise.all([StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(), StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(),
+      StapleTemplateShoppingListService.create(createStapleTemplateShoppingListInfo()),
+    ])
+      .then((results) => {
+        expectedStapleTemplateShoppingListInfo = createStapleTemplateShoppingListInfo(List.of(results[0].id, results[1].id));
 
-        return StapleTemplateShoppingListService.read(masterProductId);
+        return StapleTemplateShoppingListService.update(expectedStapleTemplateShoppingListInfo.set('id', results[2]));
       })
-      .then((masterProductInfo) => {
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
+      .then((id) => {
+        stapleTemplateShoppingListId = id;
+
+        return StapleTemplateShoppingListService.read(stapleTemplateShoppingListId);
+      })
+      .then((stapleTemplateShoppingListInfo) => {
+        expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo,
+          stapleTemplateShoppingListId);
         done();
       })
       .catch((error) => {
@@ -165,28 +198,28 @@ describe('update', () => {
 
 describe('delete', () => {
   test('should reject if the provided staple template shopping list Id does not exist', (done) => {
-    const masterProductId = uuid();
+    const stapleTemplateShoppingListId = uuid();
 
-    StapleTemplateShoppingListService.delete(masterProductId)
+    StapleTemplateShoppingListService.delete(stapleTemplateShoppingListId)
       .catch((error) => {
         expect(error)
-          .toBe(`No staple template shopping list found with Id: ${masterProductId}`);
+          .toBe(`No staple template shopping list found with Id: ${stapleTemplateShoppingListId}`);
         done();
       });
   });
 
   test('should delete the existing staple template shopping list', (done) => {
-    let masterProductId;
+    let stapleTemplateShoppingListId;
 
     StapleTemplateShoppingListService.create(createStapleTemplateShoppingListInfo())
       .then((id) => {
-        masterProductId = id;
-        return StapleTemplateShoppingListService.delete(masterProductId);
+        stapleTemplateShoppingListId = id;
+        return StapleTemplateShoppingListService.delete(stapleTemplateShoppingListId);
       })
-      .then(() => StapleTemplateShoppingListService.read(masterProductId))
+      .then(() => StapleTemplateShoppingListService.read(stapleTemplateShoppingListId))
       .catch((error) => {
         expect(error)
-          .toBe(`No staple template shopping list found with Id: ${masterProductId}`);
+          .toBe(`No staple template shopping list found with Id: ${stapleTemplateShoppingListId}`);
         done();
       });
   });
@@ -195,13 +228,13 @@ describe('delete', () => {
 describe('search', () => {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', (done) => {
     const result = StapleTemplateShoppingListService.searchAll(createCriteria());
-    let masterProducts = List();
+    let stapleTemplateShoppingLists = List();
 
-    result.event.subscribe((masterProduct) => {
-      masterProducts = masterProducts.push(masterProduct);
+    result.event.subscribe((stapleTemplateShoppingList) => {
+      stapleTemplateShoppingLists = stapleTemplateShoppingLists.push(stapleTemplateShoppingList);
     });
     result.promise.then(() => {
-      expect(masterProducts.size)
+      expect(stapleTemplateShoppingLists.size)
           .toBe(0);
       done();
     })
@@ -212,21 +245,31 @@ describe('search', () => {
   });
 
   test('should return the staple template shopping lists matches the criteria', (done) => {
-    const expectedMasterProductInfo = createStapleTemplateShoppingListInfo();
-    let masterProductId;
+    let expectedStapleTemplateShoppingListInfo;
+    let stapleTemplateShoppingListId;
 
-    StapleTemplateShoppingListService.create(expectedMasterProductInfo)
-      .then((id) => {
-        masterProductId = id;
+    Promise.all([StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(), StapleTemplate.spawn(createStapleTemplateInfo())
+        .save(),
+    ])
+      .then((results) => {
+        expectedStapleTemplateShoppingListInfo = createStapleTemplateShoppingListInfo(List.of(results[0].id, results[1].id));
 
-        return StapleTemplateShoppingListService.search(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
+        return StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo);
       })
-      .then((masterProductInfos) => {
-        expect(masterProductInfos.size)
+      .then((id) => {
+        stapleTemplateShoppingListId = id;
+
+        return StapleTemplateShoppingListService.search(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(
+          expectedStapleTemplateShoppingListInfo));
+      })
+      .then((stapleTemplateShoppingListInfos) => {
+        expect(stapleTemplateShoppingListInfos.size)
           .toBe(1);
 
-        const masterProductInfo = masterProductInfos.first();
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
+        const stapleTemplateShoppingListInfo = stapleTemplateShoppingListInfos.first();
+        expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo,
+          stapleTemplateShoppingListId);
         done();
       })
       .catch((error) => {
@@ -239,8 +282,8 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', (done) => {
     StapleTemplateShoppingListService.search(createCriteria())
-      .then((masterProductInfos) => {
-        expect(masterProductInfos.size)
+      .then((stapleTemplateShoppingListInfos) => {
+        expect(stapleTemplateShoppingListInfos.size)
           .toBe(0);
         done();
       })
@@ -251,21 +294,22 @@ describe('searchAll', () => {
   });
 
   test('should return the staple template shopping lists matches the criteria', (done) => {
-    const expectedMasterProductInfo = createStapleTemplateShoppingListInfo();
+    const expectedStapleTemplateShoppingListInfo = createStapleTemplateShoppingListInfo();
 
-    Promise.all([StapleTemplateShoppingListService.create(expectedMasterProductInfo), StapleTemplateShoppingListService.create(
-        expectedMasterProductInfo)])
+    Promise.all([StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo), StapleTemplateShoppingListService.create(
+        expectedStapleTemplateShoppingListInfo)])
       .then((ids) => {
-        const masterProductIds = List.of(ids[0], ids[1]);
-        const result = StapleTemplateShoppingListService.searchAll(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
-        let masterProducts = List();
+        const stapleTemplateShoppingListIds = List.of(ids[0], ids[1]);
+        const result = StapleTemplateShoppingListService.searchAll(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(
+          expectedStapleTemplateShoppingListInfo));
+        let stapleTemplateShoppingLists = List();
 
-        result.event.subscribe((masterProduct) => {
-          masterProducts = masterProducts.push(masterProduct);
+        result.event.subscribe((stapleTemplateShoppingList) => {
+          stapleTemplateShoppingLists = stapleTemplateShoppingLists.push(stapleTemplateShoppingList);
         });
         result.promise.then(() => {
-          expect(masterProducts.size)
-              .toBe(masterProductIds.size);
+          expect(stapleTemplateShoppingLists.size)
+              .toBe(stapleTemplateShoppingListIds.size);
           done();
         })
           .catch((error) => {
@@ -295,10 +339,11 @@ describe('exists', () => {
   });
 
   test('should return true if any staple template shopping list match provided criteria', (done) => {
-    const masterProductInfo = createStapleTemplateShoppingListInfo();
+    const stapleTemplateShoppingListInfo = createStapleTemplateShoppingListInfo();
 
-    StapleTemplateShoppingListService.create(masterProductInfo)
-      .then(() => StapleTemplateShoppingListService.exists(createCriteriaUsingProvidedMasterProductInfo(masterProductInfo)))
+    StapleTemplateShoppingListService.create(stapleTemplateShoppingListInfo)
+      .then(() => StapleTemplateShoppingListService.exists(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(
+        stapleTemplateShoppingListInfo)))
       .then((response) => {
         expect(response)
           .toBeTruthy();

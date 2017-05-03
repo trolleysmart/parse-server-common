@@ -16,11 +16,14 @@ var _stapleTemplateShoppingList = require('./staple-template-shopping-list');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createStapleTemplateShoppingListInfo() {
-  return (0, _immutable.Map)({
-    description: (0, _v2.default)(),
-    templates: _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
+function createStapleTemplateShoppingListInfo(stapleTemplateIds) {
+  var info = (0, _immutable.Map)({
+    description: (0, _v2.default)()
   });
+
+  return stapleTemplateIds ? info.merge({
+    stapleTemplateIds: stapleTemplateIds
+  }) : info;
 }
 
 function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo) {
@@ -29,7 +32,7 @@ function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo) {
 
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo) {
   expect(stapleTemplateShoppingListInfo.get('name')).toBe(expectedStapleTemplateShoppingListInfo.get('name'));
-  expect(stapleTemplateShoppingListInfo.get('templates')).toEqual(expectedStapleTemplateShoppingListInfo.get('templates'));
+  expect(stapleTemplateShoppingListInfo.get('stapleTemplates')).toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplates'));
 }
 
 describe('constructor', function () {

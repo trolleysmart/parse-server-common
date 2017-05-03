@@ -5,9 +5,6 @@ import {
 import uuid from 'uuid/v4';
 import '../bootstrap';
 import {
-  Tag,
-} from './schema';
-import {
   MasterProductService,
 } from './master-product-service';
 import {
@@ -16,6 +13,9 @@ import {
 import {
   createTagInfo,
 } from './schema/tag.test';
+import {
+  Tag,
+} from './schema';
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId) {
   expect(masterProductInfo.get('id'))

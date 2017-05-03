@@ -1,5 +1,4 @@
 import {
-  List,
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
