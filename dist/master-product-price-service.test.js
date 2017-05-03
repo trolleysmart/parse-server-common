@@ -30,8 +30,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
-  expect(masterProductPriceInfo.get('masterProduct').getId()).toBe(masterProductId);
-  expect(masterProductPriceInfo.get('store').getId()).toBe(storeId);
+  expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
+  expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('capturedDate')).toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
 }

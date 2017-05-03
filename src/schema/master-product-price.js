@@ -51,9 +51,9 @@ class MasterProductPrice extends BaseObject {
 
     return Map({
       id: this.getId(),
-      masterProduct,
+      masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),
-      store,
+      store: store.getInfo(),
       storeId: store.getId(),
       priceDetails: Immutable.fromJS(this.getObject()
         .get('priceDetails')),

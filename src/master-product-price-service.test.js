@@ -26,11 +26,9 @@ import {
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id'))
     .toBe(masterProductPriceId);
-  expect(masterProductPriceInfo.get('masterProduct')
-      .getId())
+  expect(masterProductPriceInfo.get('masterProductId'))
     .toBe(masterProductId);
-  expect(masterProductPriceInfo.get('store')
-      .getId())
+  expect(masterProductPriceInfo.get('storeId'))
     .toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails'))
     .toEqual(expectedMasterProductPriceInfo.get('priceDetails'));

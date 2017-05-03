@@ -30,14 +30,8 @@ export function createMasterProductPrice(masterProductPriceInfo) {
 }
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo) {
-  expect(masterProductPriceInfo.get('masterProduct')
-      .getId())
-    .toBe(expectedMasterProductPriceInfo.get('masterProductId'));
   expect(masterProductPriceInfo.get('masterProductId'))
     .toBe(expectedMasterProductPriceInfo.get('masterProductId'));
-  expect(masterProductPriceInfo.get('store')
-      .getId())
-    .toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('storeId'))
     .toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('priceDetails'))

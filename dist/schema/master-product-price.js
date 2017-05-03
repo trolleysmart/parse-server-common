@@ -74,9 +74,9 @@ var MasterProductPrice = function (_BaseObject) {
 
       return (0, _immutable.Map)({
         id: this.getId(),
-        masterProduct: masterProduct,
+        masterProduct: masterProduct.getInfo(),
         masterProductId: masterProduct.getId(),
-        store: store,
+        store: store.getInfo(),
         storeId: store.getId(),
         priceDetails: _immutable2.default.fromJS(this.getObject().get('priceDetails')),
         capturedDate: this.getObject().get('capturedDate')
