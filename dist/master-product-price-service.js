@@ -219,11 +219,11 @@ var MasterProductPriceService = function () {
         }
       }
 
-      if (conditions.has('specialTypes')) {
-        var _value8 = conditions.get('specialTypes');
+      if (conditions.has('not_specialType')) {
+        var _value8 = conditions.get('not_specialType');
 
-        if (_value8 && !_value8.isEmpty()) {
-          query.containsAll('priceDetails.specialType', _value8.toArray());
+        if (_value8) {
+          query.notEqualTo('priceDetails.specialType', _value8);
         }
       }
 

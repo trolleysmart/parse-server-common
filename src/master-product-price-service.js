@@ -187,11 +187,11 @@ class MasterProductPriceService {
       }
     }
 
-    if (conditions.has('specialTypes')) {
-      const value = conditions.get('specialTypes');
+    if (conditions.has('not_specialType')) {
+      const value = conditions.get('not_specialType');
 
-      if (value && !value.isEmpty()) {
-        query.containsAll('priceDetails.specialType', value.toArray());
+      if (value) {
+        query.notEqualTo('priceDetails.specialType', value);
       }
     }
 
