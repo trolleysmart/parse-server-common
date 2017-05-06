@@ -1,6 +1,6 @@
 {
   "name": "smart-grocery-parse-server-common",
-  "version": "0.1.88",
+  "version": "0.1.89",
   "description": "Smart Grocery Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "dependencies": {
     "babel-preset-stage-0": "^6.24.1",
     "immutable": "^3.8.1",
-    "micro-business-parse-server-common": "^0.1.44"
+    "micro-business-parse-server-common": "^0.1.47"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
