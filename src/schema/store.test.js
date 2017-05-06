@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  Store,
-} from './store';
+import Store from './store';
 
 export function createStoreInfo() {
   return Map({

@@ -4,15 +4,9 @@ import {
 } from 'immutable';
 import uuid from 'uuid/v4';
 import '../bootstrap';
-import {
-  MasterProductService,
-} from './master-product-service';
-import {
-  MasterProductPriceService,
-} from './master-product-price-service';
-import {
-  StoreService,
-} from './store-service';
+import MasterProductService from './master-product-service';
+import MasterProductPriceService from './master-product-price-service';
+import StoreService from './store-service';
 import {
   createMasterProductInfo,
 } from './schema/master-product.test';

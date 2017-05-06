@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TagService = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -15,184 +12,156 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _newSearchResultReceivedEvent = require('./new-search-result-received-event');
 
+var _newSearchResultReceivedEvent2 = _interopRequireDefault(_newSearchResultReceivedEvent);
+
 var _schema = require('./schema');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var TagService = function () {
-  function TagService() {
-    _classCallCheck(this, TagService);
+var TagService = function TagService() {
+  _classCallCheck(this, TagService);
+};
+
+TagService.create = function (info) {
+  return new Promise(function (resolve, reject) {
+    _schema.Tag.spawn(info).save().then(function (result) {
+      return resolve(result.id);
+    }).catch(function (error) {
+      return reject(error);
+    });
+  });
+};
+
+TagService.read = function (id) {
+  return new Promise(function (resolve, reject) {
+    _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag).equalTo('objectId', id).limit(1).find().then(function (results) {
+      if (results.length === 0) {
+        reject('No tag found with Id: ' + id);
+      } else {
+        resolve(new _schema.Tag(results[0]).getInfo());
+      }
+    }).catch(function (error) {
+      return reject(error);
+    });
+  });
+};
+
+TagService.update = function (info) {
+  return new Promise(function (resolve, reject) {
+    _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag).equalTo('objectId', info.get('id')).limit(1).find().then(function (results) {
+      if (results.length === 0) {
+        reject('No tag found with Id: ' + info.get('id'));
+      } else {
+        var object = new _schema.Tag(results[0]);
+
+        object.updateInfo(info).saveObject().then(function () {
+          return resolve(object.getId());
+        }).catch(function (error) {
+          return reject(error);
+        });
+      }
+    }).catch(function (error) {
+      return reject(error);
+    });
+  });
+};
+
+TagService.delete = function (id) {
+  return new Promise(function (resolve, reject) {
+    _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag).equalTo('objectId', id).limit(1).find().then(function (results) {
+      if (results.length === 0) {
+        reject('No tag found with Id: ' + id);
+      } else {
+        results[0].destroy().then(function () {
+          return resolve();
+        }).catch(function (error) {
+          return reject(error);
+        });
+      }
+    }).catch(function (error) {
+      return reject(error);
+    });
+  });
+};
+
+TagService.search = function (criteria) {
+  return new Promise(function (resolve, reject) {
+    return TagService.buildSearchQuery(criteria).find().then(function (results) {
+      return resolve(_immutable2.default.fromJS(results).map(function (_) {
+        return new _schema.Tag(_).getInfo();
+      }));
+    }).catch(function (error) {
+      return reject(error);
+    });
+  });
+};
+
+TagService.searchAll = function (criteria) {
+  var event = new _newSearchResultReceivedEvent2.default();
+  var promise = TagService.buildSearchQuery(criteria).each(function (_) {
+    return event.raise(new _schema.Tag(_).getInfo());
+  });
+
+  return {
+    event: event,
+    promise: promise
+  };
+};
+
+TagService.exists = function (criteria) {
+  return new Promise(function (resolve, reject) {
+    return TagService.buildSearchQuery(criteria).count().then(function (total) {
+      return resolve(total > 0);
+    }).catch(function (error) {
+      return reject(error);
+    });
+  });
+};
+
+TagService.buildSearchQuery = function (criteria) {
+  var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag, criteria);
+
+  if (!criteria.has('conditions')) {
+    return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Tag, query, criteria);
   }
 
-  _createClass(TagService, null, [{
-    key: 'create',
-    value: function create(info) {
-      return new Promise(function (resolve, reject) {
-        _schema.Tag.spawn(info).save().then(function (result) {
-          return resolve(result.id);
-        }).catch(function (error) {
-          return reject(error);
-        });
-      });
+  var conditions = criteria.get('conditions');
+
+  if (conditions.has('name')) {
+    var value = conditions.get('name');
+
+    if (value) {
+      query.equalTo('name', value);
     }
-  }, {
-    key: 'read',
-    value: function read(id) {
-      return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
+  }
 
-        query.equalTo('objectId', id);
-        query.limit(1);
+  if (conditions.has('startsWith_name')) {
+    var _value = conditions.get('startsWith_name');
 
-        query.find().then(function (results) {
-          if (results.length === 0) {
-            reject('No tag found with Id: ' + id);
-          } else {
-            resolve(new _schema.Tag(results[0]).getInfo());
-          }
-        }).catch(function (error) {
-          return reject(error);
-        });
-      });
+    if (_value) {
+      query.startsWith('name', _value);
     }
-  }, {
-    key: 'update',
-    value: function update(info) {
-      return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
+  }
 
-        query.equalTo('objectId', info.get('id'));
-        query.limit(1);
+  if (conditions.has('contains_name')) {
+    var _value2 = conditions.get('contains_name');
 
-        query.find().then(function (results) {
-          if (results.length === 0) {
-            reject('No tag found with Id: ' + info.get('id'));
-          } else {
-            var object = new _schema.Tag(results[0]);
-
-            object.updateInfo(info).saveObject().then(function () {
-              return resolve(object.getId());
-            }).catch(function (error) {
-              return reject(error);
-            });
-          }
-        }).catch(function (error) {
-          return reject(error);
-        });
-      });
+    if (_value2) {
+      query.contains('name', _value2);
     }
-  }, {
-    key: 'delete',
-    value: function _delete(id) {
-      return new Promise(function (resolve, reject) {
-        var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag);
+  }
 
-        query.equalTo('objectId', id);
-        query.limit(1);
+  if (conditions.has('weight')) {
+    var _value3 = conditions.get('weight');
 
-        query.find().then(function (results) {
-          if (results.length === 0) {
-            reject('No tag found with Id: ' + id);
-          } else {
-            results[0].destroy().then(function () {
-              return resolve();
-            }).catch(function (error) {
-              return reject(error);
-            });
-          }
-        }).catch(function (error) {
-          return reject(error);
-        });
-      });
+    if (_value3) {
+      query.equalTo('weight', _value3);
     }
-  }, {
-    key: 'search',
-    value: function search(criteria) {
-      return new Promise(function (resolve, reject) {
-        return TagService.buildSearchQuery(criteria).find().then(function (results) {
-          return resolve(_immutable2.default.fromJS(results).map(function (_) {
-            return new _schema.Tag(_).getInfo();
-          }));
-        }).catch(function (error) {
-          return reject(error);
-        });
-      });
-    }
-  }, {
-    key: 'searchAll',
-    value: function searchAll(criteria) {
-      var event = new _newSearchResultReceivedEvent.NewSearchResultReceivedEvent();
-      var promise = TagService.buildSearchQuery(criteria).each(function (_) {
-        return event.raise(new _schema.Tag(_).getInfo());
-      });
+  }
 
-      return {
-        event: event,
-        promise: promise
-      };
-    }
-  }, {
-    key: 'exists',
-    value: function exists(criteria) {
-      return new Promise(function (resolve, reject) {
-        return TagService.buildSearchQuery(criteria).count().then(function (total) {
-          return resolve(total > 0);
-        }).catch(function (error) {
-          return reject(error);
-        });
-      });
-    }
-  }, {
-    key: 'buildSearchQuery',
-    value: function buildSearchQuery(criteria) {
-      var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag, criteria);
+  return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Tag, query, criteria);
+};
 
-      if (!criteria.has('conditions')) {
-        return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Tag, query, criteria);
-      }
-
-      var conditions = criteria.get('conditions');
-
-      if (conditions.has('name')) {
-        var value = conditions.get('name');
-
-        if (value) {
-          query.equalTo('name', value);
-        }
-      }
-
-      if (conditions.has('startsWith_name')) {
-        var _value = conditions.get('startsWith_name');
-
-        if (_value) {
-          query.startsWith('name', _value);
-        }
-      }
-
-      if (conditions.has('contains_name')) {
-        var _value2 = conditions.get('contains_name');
-
-        if (_value2) {
-          query.contains('name', _value2);
-        }
-      }
-
-      if (conditions.has('weight')) {
-        var _value3 = conditions.get('weight');
-
-        if (_value3) {
-          query.equalTo('weight', _value3);
-        }
-      }
-
-      return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Tag, query, criteria);
-    }
-  }]);
-
-  return TagService;
-}();
-
-exports.TagService = TagService;
 exports.default = TagService;

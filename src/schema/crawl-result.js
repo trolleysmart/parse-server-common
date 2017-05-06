@@ -4,12 +4,10 @@ import Immutable, {
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
-import {
-  CrawlSession,
-} from './crawl-session';
+import CrawlSession from './crawl-session';
 
-class CrawlResult extends BaseObject {
-  static spawn(info) {
+export default class CrawlResult extends BaseObject {
+  static spawn = (info) => {
     const object = new CrawlResult();
 
     CrawlResult.updateInfoInternal(object, info);
@@ -17,7 +15,7 @@ class CrawlResult extends BaseObject {
     return object;
   }
 
-  static updateInfoInternal(object, info) {
+  static updateInfoInternal = (object, info) => {
     object.set('crawlSession', CrawlSession.createWithoutData(info.get('crawlSessionId')));
     object.set('resultSet', info.get('resultSet')
       .toJS());
@@ -25,12 +23,9 @@ class CrawlResult extends BaseObject {
 
   constructor(object) {
     super(object, 'CrawlResult');
-
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getInfo = this.getInfo.bind(this);
   }
 
-  updateInfo(info) {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     CrawlResult.updateInfoInternal(object, info);
@@ -38,7 +33,7 @@ class CrawlResult extends BaseObject {
     return this;
   }
 
-  getInfo() {
+  getInfo = () => {
     const crawlSession = new CrawlSession(this.getObject()
       .get('crawlSession'));
 
@@ -51,9 +46,3 @@ class CrawlResult extends BaseObject {
     });
   }
 }
-
-export {
-  CrawlResult,
-};
-
-export default CrawlResult;

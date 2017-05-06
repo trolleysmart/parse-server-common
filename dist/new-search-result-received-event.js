@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NewSearchResultReceivedEvent = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _events = require('events');
 
@@ -22,37 +19,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var NewSearchResultReceivedEvent = function (_EventEmitter) {
   _inherits(NewSearchResultReceivedEvent, _EventEmitter);
 
-  _createClass(NewSearchResultReceivedEvent, null, [{
-    key: 'newSearchResultReceived',
-    value: function newSearchResultReceived() {
-      return 'newSearchResultReceived';
-    }
-  }]);
-
   function NewSearchResultReceivedEvent() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, NewSearchResultReceivedEvent);
 
-    var _this = _possibleConstructorReturn(this, (NewSearchResultReceivedEvent.__proto__ || Object.getPrototypeOf(NewSearchResultReceivedEvent)).call(this));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.raise = _this.raise.bind(_this);
-    _this.subscribe = _this.subscribe.bind(_this);
-    return _this;
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NewSearchResultReceivedEvent.__proto__ || Object.getPrototypeOf(NewSearchResultReceivedEvent)).call.apply(_ref, [this].concat(args))), _this), _this.raise = function (searchResult) {
+      _this.emit(NewSearchResultReceivedEvent.newSearchResultReceivedEventName, searchResult);
+    }, _this.subscribe = function (callback) {
+      _this.on(NewSearchResultReceivedEvent.newSearchResultReceivedEventName, callback);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
-
-  _createClass(NewSearchResultReceivedEvent, [{
-    key: 'raise',
-    value: function raise(searchResult) {
-      this.emit(NewSearchResultReceivedEvent.newSearchResultReceived(), searchResult);
-    }
-  }, {
-    key: 'subscribe',
-    value: function subscribe(callback) {
-      this.on(NewSearchResultReceivedEvent.newSearchResultReceived(), callback);
-    }
-  }]);
 
   return NewSearchResultReceivedEvent;
 }(_events2.default);
 
-exports.NewSearchResultReceivedEvent = NewSearchResultReceivedEvent;
+NewSearchResultReceivedEvent.newSearchResultReceivedEventName = 'newSearchResultReceived';
 exports.default = NewSearchResultReceivedEvent;

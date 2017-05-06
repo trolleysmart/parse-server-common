@@ -10,6 +10,8 @@ require('../bootstrap');
 
 var _tagService = require('./tag-service');
 
+var _tagService2 = _interopRequireDefault(_tagService);
+
 var _tag = require('./schema/tag.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -42,7 +44,7 @@ function createCriteriaUsingProvidedTagInfo(tagInfo) {
 
 describe('create', function () {
   test('should return the created tag Id', function (done) {
-    _tagService.TagService.create((0, _tag.createTagInfo)()).then(function (result) {
+    _tagService2.default.create((0, _tag.createTagInfo)()).then(function (result) {
       expect(result).toBeDefined();
       done();
     }).catch(function (error) {
@@ -55,10 +57,10 @@ describe('create', function () {
     var expectedTagInfo = (0, _tag.createTagInfo)();
     var tagId = void 0;
 
-    _tagService.TagService.create(expectedTagInfo).then(function (id) {
+    _tagService2.default.create(expectedTagInfo).then(function (id) {
       tagId = id;
 
-      return _tagService.TagService.read(tagId);
+      return _tagService2.default.read(tagId);
     }).then(function (tagInfo) {
       expectTagInfo(tagInfo, expectedTagInfo, tagId);
       done();
@@ -73,7 +75,7 @@ describe('read', function () {
   test('should reject if the provided tag Id does not exist', function (done) {
     var tagId = (0, _v2.default)();
 
-    _tagService.TagService.read(tagId).catch(function (error) {
+    _tagService2.default.read(tagId).catch(function (error) {
       expect(error).toBe('No tag found with Id: ' + tagId);
       done();
     });
@@ -83,10 +85,10 @@ describe('read', function () {
     var expectedTagInfo = (0, _tag.createTagInfo)();
     var tagId = void 0;
 
-    _tagService.TagService.create(expectedTagInfo).then(function (id) {
+    _tagService2.default.create(expectedTagInfo).then(function (id) {
       tagId = id;
 
-      return _tagService.TagService.read(tagId);
+      return _tagService2.default.read(tagId);
     }).then(function (tagInfo) {
       expectTagInfo(tagInfo, expectedTagInfo, tagId);
       done();
@@ -101,7 +103,7 @@ describe('update', function () {
   test('should reject if the provided tag Id does not exist', function (done) {
     var tagId = (0, _v2.default)();
 
-    _tagService.TagService.update((0, _tag.createTagInfo)().set('id', tagId)).catch(function (error) {
+    _tagService2.default.update((0, _tag.createTagInfo)().set('id', tagId)).catch(function (error) {
       expect(error).toBe('No tag found with Id: ' + tagId);
       done();
     });
@@ -110,10 +112,10 @@ describe('update', function () {
   test('should return the Id of the updated tag', function (done) {
     var tagId = void 0;
 
-    _tagService.TagService.create((0, _tag.createTagInfo)()).then(function (id) {
+    _tagService2.default.create((0, _tag.createTagInfo)()).then(function (id) {
       tagId = id;
 
-      return _tagService.TagService.update((0, _tag.createTagInfo)().set('id', tagId));
+      return _tagService2.default.update((0, _tag.createTagInfo)().set('id', tagId));
     }).then(function (id) {
       expect(id).toBe(tagId);
       done();
@@ -127,12 +129,12 @@ describe('update', function () {
     var expectedTagInfo = (0, _tag.createTagInfo)();
     var tagId = void 0;
 
-    _tagService.TagService.create((0, _tag.createTagInfo)()).then(function (id) {
-      return _tagService.TagService.update(expectedTagInfo.set('id', id));
+    _tagService2.default.create((0, _tag.createTagInfo)()).then(function (id) {
+      return _tagService2.default.update(expectedTagInfo.set('id', id));
     }).then(function (id) {
       tagId = id;
 
-      return _tagService.TagService.read(tagId);
+      return _tagService2.default.read(tagId);
     }).then(function (tagInfo) {
       expectTagInfo(tagInfo, expectedTagInfo, tagId);
       done();
@@ -147,7 +149,7 @@ describe('delete', function () {
   test('should reject if the provided tag Id does not exist', function (done) {
     var tagId = (0, _v2.default)();
 
-    _tagService.TagService.delete(tagId).catch(function (error) {
+    _tagService2.default.delete(tagId).catch(function (error) {
       expect(error).toBe('No tag found with Id: ' + tagId);
       done();
     });
@@ -156,11 +158,11 @@ describe('delete', function () {
   test('should delete the existing tag', function (done) {
     var tagId = void 0;
 
-    _tagService.TagService.create((0, _tag.createTagInfo)()).then(function (id) {
+    _tagService2.default.create((0, _tag.createTagInfo)()).then(function (id) {
       tagId = id;
-      return _tagService.TagService.delete(tagId);
+      return _tagService2.default.delete(tagId);
     }).then(function () {
-      return _tagService.TagService.read(tagId);
+      return _tagService2.default.read(tagId);
     }).catch(function (error) {
       expect(error).toBe('No tag found with Id: ' + tagId);
       done();
@@ -170,7 +172,7 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no tag if provided criteria matches no tag', function (done) {
-    _tagService.TagService.search(createCriteria()).then(function (tags) {
+    _tagService2.default.search(createCriteria()).then(function (tags) {
       expect(tags.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -183,10 +185,10 @@ describe('search', function () {
     var expectedTagInfo = (0, _tag.createTagInfo)();
     var tagId = void 0;
 
-    _tagService.TagService.create(expectedTagInfo).then(function (id) {
+    _tagService2.default.create(expectedTagInfo).then(function (id) {
       tagId = id;
 
-      return _tagService.TagService.search(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
+      return _tagService2.default.search(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
     }).then(function (tagInfos) {
       expect(tagInfos.size).toBe(1);
 
@@ -202,7 +204,7 @@ describe('search', function () {
 
 describe('searchAll', function () {
   test('should return no tag if provided criteria matches no tag', function (done) {
-    var result = _tagService.TagService.searchAll(createCriteria());
+    var result = _tagService2.default.searchAll(createCriteria());
     var tags = (0, _immutable.List)();
 
     result.event.subscribe(function (tag) {
@@ -220,9 +222,9 @@ describe('searchAll', function () {
   test('should return the tags matches the criteria', function (done) {
     var expectedTagInfo = (0, _tag.createTagInfo)();
 
-    Promise.all([_tagService.TagService.create(expectedTagInfo), _tagService.TagService.create(expectedTagInfo)]).then(function (ids) {
+    Promise.all([_tagService2.default.create(expectedTagInfo), _tagService2.default.create(expectedTagInfo)]).then(function (ids) {
       var tagIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _tagService.TagService.searchAll(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
+      var result = _tagService2.default.searchAll(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
       var tags = (0, _immutable.List)();
 
       result.event.subscribe(function (tag) {
@@ -244,7 +246,7 @@ describe('searchAll', function () {
 
 describe('exists', function () {
   test('should return false if no tag match provided criteria', function (done) {
-    _tagService.TagService.exists(createCriteria()).then(function (response) {
+    _tagService2.default.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -256,8 +258,8 @@ describe('exists', function () {
   test('should return true if any tag match provided criteria', function (done) {
     var tagInfo = (0, _tag.createTagInfo)();
 
-    _tagService.TagService.create(tagInfo).then(function () {
-      return _tagService.TagService.exists(createCriteriaUsingProvidedTagInfo(tagInfo));
+    _tagService2.default.create(tagInfo).then(function () {
+      return _tagService2.default.exists(createCriteriaUsingProvidedTagInfo(tagInfo));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

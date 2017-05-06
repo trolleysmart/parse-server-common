@@ -7,9 +7,7 @@ import {
   UserService,
 } from 'micro-business-parse-server-common';
 import '../bootstrap';
-import {
-  StapleShoppingListService,
-} from './staple-shopping-list-service';
+import StapleShoppingListService from './staple-shopping-list-service';
 import {
   createStapleShoppingListInfo,
 } from './schema/staple-shopping-list.test';

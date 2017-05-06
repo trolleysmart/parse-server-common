@@ -4,9 +4,7 @@ import {
 } from 'immutable';
 import uuid from 'uuid/v4';
 import '../bootstrap';
-import {
-  CrawlSessionService,
-} from './crawl-session-service';
+import CrawlSessionService from './crawl-session-service';
 import {
   createCrawlSessionInfo,
 } from './schema/crawl-session.test';

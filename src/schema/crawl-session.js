@@ -5,8 +5,8 @@ import {
   BaseObject,
 } from 'micro-business-parse-server-common';
 
-class CrawlSession extends BaseObject {
-  static spawn(info) {
+export default class CrawlSession extends BaseObject {
+  static spawn = (info) => {
     const object = new CrawlSession();
 
     CrawlSession.updateInfoInternal(object, info);
@@ -14,7 +14,7 @@ class CrawlSession extends BaseObject {
     return object;
   }
 
-  static updateInfoInternal(object, info) {
+  static updateInfoInternal = (object, info) => {
     object.set('sessionKey', info.get('sessionKey'));
     object.set('startDateTime', info.get('startDateTime'));
     object.set('endDateTime', info.get('endDateTime'));
@@ -26,12 +26,9 @@ class CrawlSession extends BaseObject {
 
   constructor(object) {
     super(object, 'CrawlSession');
-
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getInfo = this.getInfo.bind(this);
   }
 
-  updateInfo(info) {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     CrawlSession.updateInfoInternal(object, info);
@@ -39,23 +36,15 @@ class CrawlSession extends BaseObject {
     return this;
   }
 
-  getInfo() {
-    return Map({
-      id: this.getId(),
-      sessionKey: this.getObject()
+  getInfo = () => Map({
+    id: this.getId(),
+    sessionKey: this.getObject()
         .get('sessionKey'),
-      startDateTime: this.getObject()
+    startDateTime: this.getObject()
         .get('startDateTime'),
-      endDateTime: this.getObject()
+    endDateTime: this.getObject()
         .get('endDateTime'),
-      additionalInfo: Immutable.fromJS(this.getObject()
+    additionalInfo: Immutable.fromJS(this.getObject()
         .get('additionalInfo')),
-    });
-  }
+  })
 }
-
-export {
-  CrawlSession,
-};
-
-export default CrawlSession;

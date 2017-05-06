@@ -4,9 +4,7 @@ import {
 } from 'immutable';
 import uuid from 'uuid/v4';
 import '../bootstrap';
-import {
-  TagService,
-} from './tag-service';
+import TagService from './tag-service';
 import {
   createTagInfo,
 } from './schema/tag.test';

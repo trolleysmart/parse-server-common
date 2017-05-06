@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  StapleShoppingList,
-} from './staple-shopping-list';
+import StapleShoppingList from './staple-shopping-list';
 
 export function createStapleShoppingListInfo(userId) {
   return Map({

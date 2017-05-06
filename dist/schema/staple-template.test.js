@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _stapleTemmplate = require('./staple-temmplate');
 
+var _stapleTemmplate2 = _interopRequireDefault(_stapleTemmplate);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createStapleTemplateInfo() {
@@ -23,7 +25,7 @@ function createStapleTemplateInfo() {
 }
 
 function createStapleTemplate(stapleTemplateInfo) {
-  return _stapleTemmplate.StapleTemplate.spawn(stapleTemplateInfo || createStapleTemplateInfo());
+  return _stapleTemmplate2.default.spawn(stapleTemplateInfo || createStapleTemplateInfo());
 }
 
 function expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo) {
@@ -48,15 +50,15 @@ describe('static public methods', function () {
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _stapleTemmplate.StapleTemplate.spawn(createStapleTemplateInfo());
+    var object = _stapleTemmplate2.default.spawn(createStapleTemplateInfo());
 
-    expect(new _stapleTemmplate.StapleTemplate(object).getObject()).toBe(object);
+    expect(new _stapleTemmplate2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createStapleTemplate();
 
-    expect(new _stapleTemmplate.StapleTemplate(object).getId()).toBe(object.id);
+    expect(new _stapleTemmplate2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

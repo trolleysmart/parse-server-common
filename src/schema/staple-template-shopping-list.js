@@ -5,12 +5,10 @@ import Immutable, {
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
-import {
-  StapleTemplate,
-} from './staple-temmplate';
+import StapleTemplate from './staple-temmplate';
 
-class StapleTemplateShoppingList extends BaseObject {
-  static spawn(info) {
+export default class StapleTemplateShoppingList extends BaseObject {
+  static spawn = (info) => {
     const object = new StapleTemplateShoppingList();
 
     StapleTemplateShoppingList.updateInfoInternal(object, info);
@@ -18,7 +16,7 @@ class StapleTemplateShoppingList extends BaseObject {
     return object;
   }
 
-  static updateInfoInternal(object, info) {
+  static updateInfoInternal = (object, info) => {
     object.set('description', info.get('description'));
 
     if (info.has('stapleTemplateIds')) {
@@ -39,12 +37,9 @@ class StapleTemplateShoppingList extends BaseObject {
 
   constructor(object) {
     super(object, 'StapleTemplateShoppingList');
-
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getInfo = this.getInfo.bind(this);
   }
 
-  updateInfo(info) {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     StapleTemplateShoppingList.updateInfoInternal(object, info);
@@ -52,7 +47,7 @@ class StapleTemplateShoppingList extends BaseObject {
     return this;
   }
 
-  getInfo() {
+  getInfo = () => {
     const stapleTemplateObjects = this.getObject()
       .get('stapleTemplates');
     const stapleTemplates = stapleTemplateObjects ? Immutable.fromJS(stapleTemplateObjects)
@@ -68,9 +63,3 @@ class StapleTemplateShoppingList extends BaseObject {
     });
   }
 }
-
-export {
-  StapleTemplateShoppingList,
-};
-
-export default StapleTemplateShoppingList;

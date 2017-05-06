@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Tag = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -20,55 +17,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Tag = function (_BaseObject) {
   _inherits(Tag, _BaseObject);
 
-  _createClass(Tag, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new Tag();
-
-      Tag.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('name', info.get('name'));
-      object.set('weight', info.get('weight'));
-    }
-  }]);
-
   function Tag(object) {
     _classCallCheck(this, Tag);
 
     var _this = _possibleConstructorReturn(this, (Tag.__proto__ || Object.getPrototypeOf(Tag)).call(this, object, 'Tag'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(Tag, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      Tag.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        name: this.getObject().get('name'),
-        weight: this.getObject().get('weight')
-      });
-    }
-  }]);
 
   return Tag;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.Tag = Tag;
+Tag.spawn = function (info) {
+  var object = new Tag();
+
+  Tag.updateInfoInternal(object, info);
+
+  return object;
+};
+
+Tag.updateInfoInternal = function (object, info) {
+  object.set('name', info.get('name'));
+  object.set('weight', info.get('weight'));
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    Tag.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      name: _this2.getObject().get('name'),
+      weight: _this2.getObject().get('weight')
+    });
+  };
+};
+
 exports.default = Tag;

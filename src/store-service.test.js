@@ -4,9 +4,7 @@ import {
 } from 'immutable';
 import uuid from 'uuid/v4';
 import '../bootstrap';
-import {
-  StoreService,
-} from './store-service';
+import StoreService from './store-service';
 import {
   createStoreInfo,
 } from './schema/store.test';

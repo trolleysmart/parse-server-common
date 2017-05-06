@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CrawlSession = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -24,62 +21,57 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CrawlSession = function (_BaseObject) {
   _inherits(CrawlSession, _BaseObject);
 
-  _createClass(CrawlSession, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new CrawlSession();
-
-      CrawlSession.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('sessionKey', info.get('sessionKey'));
-      object.set('startDateTime', info.get('startDateTime'));
-      object.set('endDateTime', info.get('endDateTime'));
-
-      var additionalInfo = info.get('additionalInfo');
-
-      object.set('additionalInfo', additionalInfo ? additionalInfo.toJS() : undefined);
-    }
-  }]);
-
   function CrawlSession(object) {
     _classCallCheck(this, CrawlSession);
 
     var _this = _possibleConstructorReturn(this, (CrawlSession.__proto__ || Object.getPrototypeOf(CrawlSession)).call(this, object, 'CrawlSession'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(CrawlSession, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      CrawlSession.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        sessionKey: this.getObject().get('sessionKey'),
-        startDateTime: this.getObject().get('startDateTime'),
-        endDateTime: this.getObject().get('endDateTime'),
-        additionalInfo: _immutable2.default.fromJS(this.getObject().get('additionalInfo'))
-      });
-    }
-  }]);
 
   return CrawlSession;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.CrawlSession = CrawlSession;
+CrawlSession.spawn = function (info) {
+  var object = new CrawlSession();
+
+  CrawlSession.updateInfoInternal(object, info);
+
+  return object;
+};
+
+CrawlSession.updateInfoInternal = function (object, info) {
+  object.set('sessionKey', info.get('sessionKey'));
+  object.set('startDateTime', info.get('startDateTime'));
+  object.set('endDateTime', info.get('endDateTime'));
+
+  var additionalInfo = info.get('additionalInfo');
+
+  object.set('additionalInfo', additionalInfo ? additionalInfo.toJS() : undefined);
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    CrawlSession.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      sessionKey: _this2.getObject().get('sessionKey'),
+      startDateTime: _this2.getObject().get('startDateTime'),
+      endDateTime: _this2.getObject().get('endDateTime'),
+      additionalInfo: _immutable2.default.fromJS(_this2.getObject().get('additionalInfo'))
+    });
+  };
+};
+
 exports.default = CrawlSession;

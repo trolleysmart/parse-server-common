@@ -10,6 +10,8 @@ require('../bootstrap');
 
 var _stapleTemplateService = require('./staple-template-service');
 
+var _stapleTemplateService2 = _interopRequireDefault(_stapleTemplateService);
+
 var _stapleTemplate = require('./schema/staple-template.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -39,7 +41,7 @@ function createCriteriaUsingProvidedStapleTemplateInfo(stapleTemplateInfo) {
 
 describe('create', function () {
   test('should return the created staple template Id', function (done) {
-    _stapleTemplateService.StapleTemplateService.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (result) {
+    _stapleTemplateService2.default.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (result) {
       expect(result).toBeDefined();
       done();
     }).catch(function (error) {
@@ -52,10 +54,10 @@ describe('create', function () {
     var expectedStapleTemplateInfo = (0, _stapleTemplate.createStapleTemplateInfo)();
     var stapleTemplateId = void 0;
 
-    _stapleTemplateService.StapleTemplateService.create(expectedStapleTemplateInfo).then(function (id) {
+    _stapleTemplateService2.default.create(expectedStapleTemplateInfo).then(function (id) {
       stapleTemplateId = id;
 
-      return _stapleTemplateService.StapleTemplateService.read(stapleTemplateId);
+      return _stapleTemplateService2.default.read(stapleTemplateId);
     }).then(function (stapleTemplateInfo) {
       expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
       done();
@@ -70,7 +72,7 @@ describe('read', function () {
   test('should reject if the provided staple template Id does not exist', function (done) {
     var stapleTemplateId = (0, _v2.default)();
 
-    _stapleTemplateService.StapleTemplateService.read(stapleTemplateId).catch(function (error) {
+    _stapleTemplateService2.default.read(stapleTemplateId).catch(function (error) {
       expect(error).toBe('No staple template found with Id: ' + stapleTemplateId);
       done();
     });
@@ -80,10 +82,10 @@ describe('read', function () {
     var expectedStapleTemplateInfo = (0, _stapleTemplate.createStapleTemplateInfo)();
     var stapleTemplateId = void 0;
 
-    _stapleTemplateService.StapleTemplateService.create(expectedStapleTemplateInfo).then(function (id) {
+    _stapleTemplateService2.default.create(expectedStapleTemplateInfo).then(function (id) {
       stapleTemplateId = id;
 
-      return _stapleTemplateService.StapleTemplateService.read(stapleTemplateId);
+      return _stapleTemplateService2.default.read(stapleTemplateId);
     }).then(function (stapleTemplateInfo) {
       expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
       done();
@@ -98,7 +100,7 @@ describe('update', function () {
   test('should reject if the provided staple template Id does not exist', function (done) {
     var stapleTemplateId = (0, _v2.default)();
 
-    _stapleTemplateService.StapleTemplateService.update((0, _stapleTemplate.createStapleTemplateInfo)().set('id', stapleTemplateId)).catch(function (error) {
+    _stapleTemplateService2.default.update((0, _stapleTemplate.createStapleTemplateInfo)().set('id', stapleTemplateId)).catch(function (error) {
       expect(error).toBe('No staple template found with Id: ' + stapleTemplateId);
       done();
     });
@@ -107,10 +109,10 @@ describe('update', function () {
   test('should return the Id of the updated stapleTemplate', function (done) {
     var stapleTemplateId = void 0;
 
-    _stapleTemplateService.StapleTemplateService.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (id) {
+    _stapleTemplateService2.default.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (id) {
       stapleTemplateId = id;
 
-      return _stapleTemplateService.StapleTemplateService.update((0, _stapleTemplate.createStapleTemplateInfo)().set('id', stapleTemplateId));
+      return _stapleTemplateService2.default.update((0, _stapleTemplate.createStapleTemplateInfo)().set('id', stapleTemplateId));
     }).then(function (id) {
       expect(id).toBe(stapleTemplateId);
       done();
@@ -124,12 +126,12 @@ describe('update', function () {
     var expectedStapleTemplateInfo = (0, _stapleTemplate.createStapleTemplateInfo)();
     var stapleTemplateId = void 0;
 
-    _stapleTemplateService.StapleTemplateService.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (id) {
-      return _stapleTemplateService.StapleTemplateService.update(expectedStapleTemplateInfo.set('id', id));
+    _stapleTemplateService2.default.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (id) {
+      return _stapleTemplateService2.default.update(expectedStapleTemplateInfo.set('id', id));
     }).then(function (id) {
       stapleTemplateId = id;
 
-      return _stapleTemplateService.StapleTemplateService.read(stapleTemplateId);
+      return _stapleTemplateService2.default.read(stapleTemplateId);
     }).then(function (stapleTemplateInfo) {
       expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
       done();
@@ -144,7 +146,7 @@ describe('delete', function () {
   test('should reject if the provided staple template Id does not exist', function (done) {
     var stapleTemplateId = (0, _v2.default)();
 
-    _stapleTemplateService.StapleTemplateService.delete(stapleTemplateId).catch(function (error) {
+    _stapleTemplateService2.default.delete(stapleTemplateId).catch(function (error) {
       expect(error).toBe('No staple template found with Id: ' + stapleTemplateId);
       done();
     });
@@ -153,11 +155,11 @@ describe('delete', function () {
   test('should delete the existing stapleTemplate', function (done) {
     var stapleTemplateId = void 0;
 
-    _stapleTemplateService.StapleTemplateService.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (id) {
+    _stapleTemplateService2.default.create((0, _stapleTemplate.createStapleTemplateInfo)()).then(function (id) {
       stapleTemplateId = id;
-      return _stapleTemplateService.StapleTemplateService.delete(stapleTemplateId);
+      return _stapleTemplateService2.default.delete(stapleTemplateId);
     }).then(function () {
-      return _stapleTemplateService.StapleTemplateService.read(stapleTemplateId);
+      return _stapleTemplateService2.default.read(stapleTemplateId);
     }).catch(function (error) {
       expect(error).toBe('No staple template found with Id: ' + stapleTemplateId);
       done();
@@ -167,7 +169,7 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no staple template if provided criteria matches no stapleTemplate', function (done) {
-    _stapleTemplateService.StapleTemplateService.search(createCriteria()).then(function (stapleTemplates) {
+    _stapleTemplateService2.default.search(createCriteria()).then(function (stapleTemplates) {
       expect(stapleTemplates.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -180,10 +182,10 @@ describe('search', function () {
     var expectedStapleTemplateInfo = (0, _stapleTemplate.createStapleTemplateInfo)();
     var stapleTemplateId = void 0;
 
-    _stapleTemplateService.StapleTemplateService.create(expectedStapleTemplateInfo).then(function (id) {
+    _stapleTemplateService2.default.create(expectedStapleTemplateInfo).then(function (id) {
       stapleTemplateId = id;
 
-      return _stapleTemplateService.StapleTemplateService.search(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
+      return _stapleTemplateService2.default.search(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
     }).then(function (stapleTemplateInfos) {
       expect(stapleTemplateInfos.size).toBe(1);
 
@@ -199,7 +201,7 @@ describe('search', function () {
 
 describe('searchAll', function () {
   test('should return no staple template if provided criteria matches no stapleTemplate', function (done) {
-    var result = _stapleTemplateService.StapleTemplateService.searchAll(createCriteria());
+    var result = _stapleTemplateService2.default.searchAll(createCriteria());
     var stapleTemplates = (0, _immutable.List)();
 
     result.event.subscribe(function (stapleTemplate) {
@@ -217,9 +219,9 @@ describe('searchAll', function () {
   test('should return the stapleTemplates matches the criteria', function (done) {
     var expectedStapleTemplateInfo = (0, _stapleTemplate.createStapleTemplateInfo)();
 
-    Promise.all([_stapleTemplateService.StapleTemplateService.create(expectedStapleTemplateInfo), _stapleTemplateService.StapleTemplateService.create(expectedStapleTemplateInfo)]).then(function (ids) {
+    Promise.all([_stapleTemplateService2.default.create(expectedStapleTemplateInfo), _stapleTemplateService2.default.create(expectedStapleTemplateInfo)]).then(function (ids) {
       var stapleTemplateIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _stapleTemplateService.StapleTemplateService.searchAll(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
+      var result = _stapleTemplateService2.default.searchAll(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
       var stapleTemplates = (0, _immutable.List)();
 
       result.event.subscribe(function (stapleTemplate) {
@@ -241,7 +243,7 @@ describe('searchAll', function () {
 
 describe('exists', function () {
   test('should return false if no staple template match provided criteria', function (done) {
-    _stapleTemplateService.StapleTemplateService.exists(createCriteria()).then(function (response) {
+    _stapleTemplateService2.default.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -253,8 +255,8 @@ describe('exists', function () {
   test('should return true if any staple template match provided criteria', function (done) {
     var stapleTemplateInfo = (0, _stapleTemplate.createStapleTemplateInfo)();
 
-    _stapleTemplateService.StapleTemplateService.create(stapleTemplateInfo).then(function () {
-      return _stapleTemplateService.StapleTemplateService.exists(createCriteriaUsingProvidedStapleTemplateInfo(stapleTemplateInfo));
+    _stapleTemplateService2.default.create(stapleTemplateInfo).then(function () {
+      return _stapleTemplateService2.default.exists(createCriteriaUsingProvidedStapleTemplateInfo(stapleTemplateInfo));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

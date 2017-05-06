@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  CrawlResult,
-} from './crawl-result';
+import CrawlResult from './crawl-result';
 import {
   createCrawlSession,
 } from './crawl-session.test';

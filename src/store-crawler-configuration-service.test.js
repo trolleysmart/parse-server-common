@@ -4,9 +4,7 @@ import {
 } from 'immutable';
 import uuid from 'uuid/v4';
 import '../bootstrap';
-import {
-  StoreCrawlerConfigurationService,
-} from './store-crawler-configuration-service';
+import StoreCrawlerConfigurationService from './store-crawler-configuration-service';
 import {
   createStoreCrawlerConfigurationInfo,
 } from './schema/store-crawler-configuration.test';

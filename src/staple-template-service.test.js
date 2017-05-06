@@ -4,9 +4,7 @@ import {
 } from 'immutable';
 import uuid from 'uuid/v4';
 import '../bootstrap';
-import {
-  StapleTemplateService,
-} from './staple-template-service';
+import StapleTemplateService from './staple-template-service';
 import {
   createStapleTemplateInfo,
 } from './schema/staple-template.test';

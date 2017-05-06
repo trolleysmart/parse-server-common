@@ -16,9 +16,15 @@ require('../bootstrap');
 
 var _masterProductService = require('./master-product-service');
 
+var _masterProductService2 = _interopRequireDefault(_masterProductService);
+
 var _masterProductPriceService = require('./master-product-price-service');
 
+var _masterProductPriceService2 = _interopRequireDefault(_masterProductPriceService);
+
 var _storeService = require('./store-service');
+
+var _storeService2 = _interopRequireDefault(_storeService);
 
 var _masterProduct = require('./schema/master-product.test');
 
@@ -62,11 +68,11 @@ function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInf
 
 describe('create', function () {
   test('should return the created master product price Id', function (done) {
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       var masterProductId = results[0];
       var storeId = results[1];
 
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
+      return _masterProductPriceService2.default.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
     }).then(function (result) {
       expect(result).toBeDefined();
       done();
@@ -82,17 +88,17 @@ describe('create', function () {
     var masterProductPriceId = void 0;
     var expectedMasterProductPriceInfo = void 0;
 
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       masterProductId = results[0];
       storeId = results[1];
 
       expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
-      return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
+      return _masterProductPriceService2.default.create(expectedMasterProductPriceInfo);
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId);
+      return _masterProductPriceService2.default.read(masterProductPriceId);
     }).then(function (masterProductPriceInfo) {
       expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
       done();
@@ -107,7 +113,7 @@ describe('read', function () {
   test('should reject if the provided master product price Id does not exist', function (done) {
     var masterProductPriceId = (0, _v2.default)();
 
-    _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId).catch(function (error) {
+    _masterProductPriceService2.default.read(masterProductPriceId).catch(function (error) {
       expect(error).toBe('No master product price found with Id: ' + masterProductPriceId);
       done();
     });
@@ -119,16 +125,16 @@ describe('read', function () {
     var masterProductPriceId = void 0;
     var expectedMasterProductPriceInfo = void 0;
 
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       masterProductId = results[0];
       storeId = results[1];
       expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
-      return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
+      return _masterProductPriceService2.default.create(expectedMasterProductPriceInfo);
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId);
+      return _masterProductPriceService2.default.read(masterProductPriceId);
     }).then(function (masterProductPriceInfo) {
       expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
       done();
@@ -143,7 +149,7 @@ describe('update', function () {
   test('should reject if the provided master product price Id does not exist', function (done) {
     var masterProductPriceId = (0, _v2.default)();
 
-    _masterProductPriceService.MasterProductPriceService.update((0, _masterProductPrice.createMasterProductPriceInfo)().set('id', masterProductPriceId)).catch(function (error) {
+    _masterProductPriceService2.default.update((0, _masterProductPrice.createMasterProductPriceInfo)().set('id', masterProductPriceId)).catch(function (error) {
       expect(error).toBe('No master product price found with Id: ' + masterProductPriceId);
       done();
     });
@@ -152,15 +158,15 @@ describe('update', function () {
   test('should return the Id of the updated master product price', function (done) {
     var masterProductPriceId = void 0;
 
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       var masterProductId = results[0];
       var storeId = results[1];
 
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
+      return _masterProductPriceService2.default.create((0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.update((0, _masterProductPrice.createMasterProductPriceInfo)().set('id', masterProductPriceId));
+      return _masterProductPriceService2.default.update((0, _masterProductPrice.createMasterProductPriceInfo)().set('id', masterProductPriceId));
     }).then(function (id) {
       expect(id).toBe(masterProductPriceId);
       done();
@@ -176,20 +182,20 @@ describe('update', function () {
     var expectedStoreId = void 0;
     var masterProductPriceId = void 0;
 
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       expectedMasterProductId = results[0];
       expectedStoreId = results[1];
       expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(expectedMasterProductId, expectedStoreId);
 
-      return _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)());
+      return _masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)());
     }).then(function (id) {
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
+      return _masterProductPriceService2.default.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
     }).then(function (id) {
-      return _masterProductPriceService.MasterProductPriceService.update(expectedMasterProductPriceInfo.set('id', id));
+      return _masterProductPriceService2.default.update(expectedMasterProductPriceInfo.set('id', id));
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId);
+      return _masterProductPriceService2.default.read(masterProductPriceId);
     }).then(function (masterProductPriceInfo) {
       expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, expectedMasterProductId, expectedStoreId);
       done();
@@ -204,7 +210,7 @@ describe('delete', function () {
   test('should reject if the provided master product price Id does not exist', function (done) {
     var masterProductPriceId = (0, _v2.default)();
 
-    _masterProductPriceService.MasterProductPriceService.delete(masterProductPriceId).catch(function (error) {
+    _masterProductPriceService2.default.delete(masterProductPriceId).catch(function (error) {
       expect(error).toBe('No master product price found with Id: ' + masterProductPriceId);
       done();
     });
@@ -213,13 +219,13 @@ describe('delete', function () {
   test('should delete the existing master product price', function (done) {
     var masterProductPriceId = void 0;
 
-    _masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
-      return _masterProductPriceService.MasterProductPriceService.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
+    _masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()).then(function (id) {
+      return _masterProductPriceService2.default.create((0, _masterProductPrice.createMasterProductPriceInfo)(id));
     }).then(function (id) {
       masterProductPriceId = id;
-      return _masterProductPriceService.MasterProductPriceService.delete(masterProductPriceId);
+      return _masterProductPriceService2.default.delete(masterProductPriceId);
     }).then(function () {
-      return _masterProductPriceService.MasterProductPriceService.read(masterProductPriceId);
+      return _masterProductPriceService2.default.read(masterProductPriceId);
     }).catch(function (error) {
       expect(error).toBe('No master product price found with Id: ' + masterProductPriceId);
       done();
@@ -229,7 +235,7 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no master product price if provided criteria matches no master product price', function (done) {
-    _masterProductPriceService.MasterProductPriceService.search(createCriteria()).then(function (masterProductPriceInfos) {
+    _masterProductPriceService2.default.search(createCriteria()).then(function (masterProductPriceInfos) {
       expect(masterProductPriceInfos.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -244,16 +250,16 @@ describe('search', function () {
     var masterProductId = void 0;
     var storeId = void 0;
 
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       masterProductId = results[0];
       storeId = results[1];
       expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
-      return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
+      return _masterProductPriceService2.default.create(expectedMasterProductPriceInfo);
     }).then(function (id) {
       masterProductPriceId = id;
 
-      return _masterProductPriceService.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
+      return _masterProductPriceService2.default.search(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
     }).then(function (masterProductPriceInfos) {
       expect(masterProductPriceInfos.size).toBe(1);
 
@@ -269,7 +275,7 @@ describe('search', function () {
 
 describe('searchAll', function () {
   test('should return no master product price if provided criteria matches no master product price', function (done) {
-    var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteria());
+    var result = _masterProductPriceService2.default.searchAll(createCriteria());
     var masterProductPrices = (0, _immutable.List)();
 
     result.event.subscribe(function (masterProductPrice) {
@@ -289,15 +295,15 @@ describe('searchAll', function () {
     var storeId = void 0;
     var expectedMasterProductPriceInfo = void 0;
 
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       masterProductId = results[0];
       storeId = results[1];
       expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
-      return Promise.all([_masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo), _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo)]);
+      return Promise.all([_masterProductPriceService2.default.create(expectedMasterProductPriceInfo), _masterProductPriceService2.default.create(expectedMasterProductPriceInfo)]);
     }).then(function (ids) {
       var masterProductPriceIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _masterProductPriceService.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
+      var result = _masterProductPriceService2.default.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
       var masterProductPrices = (0, _immutable.List)();
 
       result.event.subscribe(function (masterProductPrice) {
@@ -319,7 +325,7 @@ describe('searchAll', function () {
 
 describe('exists', function () {
   test('should return false if no master product price match provided criteria', function (done) {
-    _masterProductPriceService.MasterProductPriceService.exists(createCriteria()).then(function (response) {
+    _masterProductPriceService2.default.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -333,15 +339,15 @@ describe('exists', function () {
     var masterProductId = void 0;
     var storeId = void 0;
 
-    Promise.all([_masterProductService.MasterProductService.create((0, _masterProduct.createMasterProductInfo)()), _storeService.StoreService.create((0, _store.createStoreInfo)())]).then(function (results) {
+    Promise.all([_masterProductService2.default.create((0, _masterProduct.createMasterProductInfo)()), _storeService2.default.create((0, _store.createStoreInfo)())]).then(function (results) {
       masterProductId = results[0];
       storeId = results[1];
 
       expectedMasterProductPriceInfo = (0, _masterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
 
-      return _masterProductPriceService.MasterProductPriceService.create(expectedMasterProductPriceInfo);
+      return _masterProductPriceService2.default.create(expectedMasterProductPriceInfo);
     }).then(function () {
-      return _masterProductPriceService.MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
+      return _masterProductPriceService2.default.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

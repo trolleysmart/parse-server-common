@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _stapleTemplateShoppingList = require('./staple-template-shopping-list');
 
+var _stapleTemplateShoppingList2 = _interopRequireDefault(_stapleTemplateShoppingList);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createStapleTemplateShoppingListInfo(stapleTemplateIds) {
@@ -27,7 +29,7 @@ function createStapleTemplateShoppingListInfo(stapleTemplateIds) {
 }
 
 function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo) {
-  return _stapleTemplateShoppingList.StapleTemplateShoppingList.spawn(stapleTemplateShoppingListInfo || createStapleTemplateShoppingListInfo());
+  return _stapleTemplateShoppingList2.default.spawn(stapleTemplateShoppingListInfo || createStapleTemplateShoppingListInfo());
 }
 
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo) {
@@ -53,15 +55,15 @@ describe('static public methods', function () {
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _stapleTemplateShoppingList.StapleTemplateShoppingList.spawn(createStapleTemplateShoppingListInfo());
+    var object = _stapleTemplateShoppingList2.default.spawn(createStapleTemplateShoppingListInfo());
 
-    expect(new _stapleTemplateShoppingList.StapleTemplateShoppingList(object).getObject()).toBe(object);
+    expect(new _stapleTemplateShoppingList2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createStapleTemplateShoppingList();
 
-    expect(new _stapleTemplateShoppingList.StapleTemplateShoppingList(object).getId()).toBe(object.id);
+    expect(new _stapleTemplateShoppingList2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

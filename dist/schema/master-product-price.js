@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MasterProductPrice = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -15,7 +12,11 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _masterProduct = require('./master-product');
 
+var _masterProduct2 = _interopRequireDefault(_masterProduct);
+
 var _store = require('./store');
+
+var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,64 +29,59 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MasterProductPrice = function (_BaseObject) {
   _inherits(MasterProductPrice, _BaseObject);
 
-  _createClass(MasterProductPrice, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new MasterProductPrice();
-
-      MasterProductPrice.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('masterProduct', _masterProduct.MasterProduct.createWithoutData(info.get('masterProductId')));
-      object.set('store', _store.Store.createWithoutData(info.get('storeId')));
-      object.set('priceDetails', info.get('priceDetails').toJS());
-      object.set('capturedDate', info.get('capturedDate'));
-    }
-  }]);
-
   function MasterProductPrice(object) {
     _classCallCheck(this, MasterProductPrice);
 
     var _this = _possibleConstructorReturn(this, (MasterProductPrice.__proto__ || Object.getPrototypeOf(MasterProductPrice)).call(this, object, 'MasterProductPrice'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(MasterProductPrice, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      MasterProductPrice.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      var masterProduct = new _masterProduct.MasterProduct(this.getObject().get('masterProduct'));
-      var store = new _store.Store(this.getObject().get('store'));
-
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        masterProduct: masterProduct.getInfo(),
-        masterProductId: masterProduct.getId(),
-        store: store.getInfo(),
-        storeId: store.getId(),
-        priceDetails: _immutable2.default.fromJS(this.getObject().get('priceDetails')),
-        capturedDate: this.getObject().get('capturedDate')
-      });
-    }
-  }]);
 
   return MasterProductPrice;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.MasterProductPrice = MasterProductPrice;
+MasterProductPrice.spawn = function (info) {
+  var object = new MasterProductPrice();
+
+  MasterProductPrice.updateInfoInternal(object, info);
+
+  return object;
+};
+
+MasterProductPrice.updateInfoInternal = function (object, info) {
+  object.set('masterProduct', _masterProduct2.default.createWithoutData(info.get('masterProductId')));
+  object.set('store', _store2.default.createWithoutData(info.get('storeId')));
+  object.set('priceDetails', info.get('priceDetails').toJS());
+  object.set('capturedDate', info.get('capturedDate'));
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    MasterProductPrice.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    var masterProduct = new _masterProduct2.default(_this2.getObject().get('masterProduct'));
+    var store = new _store2.default(_this2.getObject().get('store'));
+
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      masterProduct: masterProduct.getInfo(),
+      masterProductId: masterProduct.getId(),
+      store: store.getInfo(),
+      storeId: store.getId(),
+      priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),
+      capturedDate: _this2.getObject().get('capturedDate')
+    });
+  };
+};
+
 exports.default = MasterProductPrice;

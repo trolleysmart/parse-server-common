@@ -16,6 +16,8 @@ require('../bootstrap');
 
 var _stapleTemplateShoppingListService = require('./staple-template-shopping-list-service');
 
+var _stapleTemplateShoppingListService2 = _interopRequireDefault(_stapleTemplateShoppingListService);
+
 var _stapleTemplateShoppingList = require('./schema/staple-template-shopping-list.test');
 
 var _stapleTemplate = require('./schema/staple-template.test');
@@ -53,7 +55,7 @@ function createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplat
 
 describe('create', function () {
   test('should return the created staple template shopping list Id', function (done) {
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)()).then(function (result) {
+    _stapleTemplateShoppingListService2.default.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)()).then(function (result) {
       expect(result).toBeDefined();
       done();
     }).catch(function (error) {
@@ -69,11 +71,11 @@ describe('create', function () {
     Promise.all([_schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save(), _schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save()]).then(function (results) {
       expectedStapleTemplateShoppingListInfo = (0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)(_immutable.List.of(results[0].id, results[1].id));
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo);
+      return _stapleTemplateShoppingListService2.default.create(expectedStapleTemplateShoppingListInfo);
     }).then(function (id) {
       stapleTemplateShoppingListId = id;
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.read(stapleTemplateShoppingListId);
+      return _stapleTemplateShoppingListService2.default.read(stapleTemplateShoppingListId);
     }).then(function (stapleTemplateShoppingListInfo) {
       expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId);
       done();
@@ -88,7 +90,7 @@ describe('read', function () {
   test('should reject if the provided staple template shopping list Id does not exist', function (done) {
     var stapleTemplateShoppingListId = (0, _v2.default)();
 
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.read(stapleTemplateShoppingListId).catch(function (error) {
+    _stapleTemplateShoppingListService2.default.read(stapleTemplateShoppingListId).catch(function (error) {
       expect(error).toBe('No staple template shopping list found with Id: ' + stapleTemplateShoppingListId);
       done();
     });
@@ -101,11 +103,11 @@ describe('read', function () {
     Promise.all([_schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save(), _schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save()]).then(function (results) {
       expectedStapleTemplateShoppingListInfo = (0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)(_immutable.List.of(results[0].id, results[1].id));
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo);
+      return _stapleTemplateShoppingListService2.default.create(expectedStapleTemplateShoppingListInfo);
     }).then(function (id) {
       stapleTemplateShoppingListId = id;
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.read(stapleTemplateShoppingListId);
+      return _stapleTemplateShoppingListService2.default.read(stapleTemplateShoppingListId);
     }).then(function (stapleTemplateShoppingListInfo) {
       expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId);
       done();
@@ -120,7 +122,7 @@ describe('update', function () {
   test('should reject if the provided staple template shopping list Id does not exist', function (done) {
     var stapleTemplateShoppingListId = (0, _v2.default)();
 
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.update((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)().set('id', stapleTemplateShoppingListId)).catch(function (error) {
+    _stapleTemplateShoppingListService2.default.update((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)().set('id', stapleTemplateShoppingListId)).catch(function (error) {
       expect(error).toBe('No staple template shopping list found with Id: ' + stapleTemplateShoppingListId);
       done();
     });
@@ -129,10 +131,10 @@ describe('update', function () {
   test('should return the Id of the updated staple template shopping list', function (done) {
     var stapleTemplateShoppingListId = void 0;
 
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)()).then(function (id) {
+    _stapleTemplateShoppingListService2.default.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)()).then(function (id) {
       stapleTemplateShoppingListId = id;
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.update((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)().set('id', stapleTemplateShoppingListId));
+      return _stapleTemplateShoppingListService2.default.update((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)().set('id', stapleTemplateShoppingListId));
     }).then(function (id) {
       expect(id).toBe(stapleTemplateShoppingListId);
       done();
@@ -146,14 +148,14 @@ describe('update', function () {
     var expectedStapleTemplateShoppingListInfo = void 0;
     var stapleTemplateShoppingListId = void 0;
 
-    Promise.all([_schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save(), _schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save(), _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)())]).then(function (results) {
+    Promise.all([_schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save(), _schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save(), _stapleTemplateShoppingListService2.default.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)())]).then(function (results) {
       expectedStapleTemplateShoppingListInfo = (0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)(_immutable.List.of(results[0].id, results[1].id));
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.update(expectedStapleTemplateShoppingListInfo.set('id', results[2]));
+      return _stapleTemplateShoppingListService2.default.update(expectedStapleTemplateShoppingListInfo.set('id', results[2]));
     }).then(function (id) {
       stapleTemplateShoppingListId = id;
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.read(stapleTemplateShoppingListId);
+      return _stapleTemplateShoppingListService2.default.read(stapleTemplateShoppingListId);
     }).then(function (stapleTemplateShoppingListInfo) {
       expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId);
       done();
@@ -168,7 +170,7 @@ describe('delete', function () {
   test('should reject if the provided staple template shopping list Id does not exist', function (done) {
     var stapleTemplateShoppingListId = (0, _v2.default)();
 
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.delete(stapleTemplateShoppingListId).catch(function (error) {
+    _stapleTemplateShoppingListService2.default.delete(stapleTemplateShoppingListId).catch(function (error) {
       expect(error).toBe('No staple template shopping list found with Id: ' + stapleTemplateShoppingListId);
       done();
     });
@@ -177,11 +179,11 @@ describe('delete', function () {
   test('should delete the existing staple template shopping list', function (done) {
     var stapleTemplateShoppingListId = void 0;
 
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)()).then(function (id) {
+    _stapleTemplateShoppingListService2.default.create((0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)()).then(function (id) {
       stapleTemplateShoppingListId = id;
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.delete(stapleTemplateShoppingListId);
+      return _stapleTemplateShoppingListService2.default.delete(stapleTemplateShoppingListId);
     }).then(function () {
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.read(stapleTemplateShoppingListId);
+      return _stapleTemplateShoppingListService2.default.read(stapleTemplateShoppingListId);
     }).catch(function (error) {
       expect(error).toBe('No staple template shopping list found with Id: ' + stapleTemplateShoppingListId);
       done();
@@ -191,7 +193,7 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', function (done) {
-    var result = _stapleTemplateShoppingListService.StapleTemplateShoppingListService.searchAll(createCriteria());
+    var result = _stapleTemplateShoppingListService2.default.searchAll(createCriteria());
     var stapleTemplateShoppingLists = (0, _immutable.List)();
 
     result.event.subscribe(function (stapleTemplateShoppingList) {
@@ -213,11 +215,11 @@ describe('search', function () {
     Promise.all([_schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save(), _schema.StapleTemplate.spawn((0, _stapleTemplate.createStapleTemplateInfo)()).save()]).then(function (results) {
       expectedStapleTemplateShoppingListInfo = (0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)(_immutable.List.of(results[0].id, results[1].id));
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo);
+      return _stapleTemplateShoppingListService2.default.create(expectedStapleTemplateShoppingListInfo);
     }).then(function (id) {
       stapleTemplateShoppingListId = id;
 
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.search(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(expectedStapleTemplateShoppingListInfo));
+      return _stapleTemplateShoppingListService2.default.search(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(expectedStapleTemplateShoppingListInfo));
     }).then(function (stapleTemplateShoppingListInfos) {
       expect(stapleTemplateShoppingListInfos.size).toBe(1);
 
@@ -233,7 +235,7 @@ describe('search', function () {
 
 describe('searchAll', function () {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', function (done) {
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.search(createCriteria()).then(function (stapleTemplateShoppingListInfos) {
+    _stapleTemplateShoppingListService2.default.search(createCriteria()).then(function (stapleTemplateShoppingListInfos) {
       expect(stapleTemplateShoppingListInfos.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -245,9 +247,9 @@ describe('searchAll', function () {
   test('should return the staple template shopping lists matches the criteria', function (done) {
     var expectedStapleTemplateShoppingListInfo = (0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)();
 
-    Promise.all([_stapleTemplateShoppingListService.StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo), _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create(expectedStapleTemplateShoppingListInfo)]).then(function (ids) {
+    Promise.all([_stapleTemplateShoppingListService2.default.create(expectedStapleTemplateShoppingListInfo), _stapleTemplateShoppingListService2.default.create(expectedStapleTemplateShoppingListInfo)]).then(function (ids) {
       var stapleTemplateShoppingListIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _stapleTemplateShoppingListService.StapleTemplateShoppingListService.searchAll(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(expectedStapleTemplateShoppingListInfo));
+      var result = _stapleTemplateShoppingListService2.default.searchAll(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(expectedStapleTemplateShoppingListInfo));
       var stapleTemplateShoppingLists = (0, _immutable.List)();
 
       result.event.subscribe(function (stapleTemplateShoppingList) {
@@ -269,7 +271,7 @@ describe('searchAll', function () {
 
 describe('exists', function () {
   test('should return false if no staple template shopping list match provided criteria', function (done) {
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.exists(createCriteria()).then(function (response) {
+    _stapleTemplateShoppingListService2.default.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -281,8 +283,8 @@ describe('exists', function () {
   test('should return true if any staple template shopping list match provided criteria', function (done) {
     var stapleTemplateShoppingListInfo = (0, _stapleTemplateShoppingList.createStapleTemplateShoppingListInfo)();
 
-    _stapleTemplateShoppingListService.StapleTemplateShoppingListService.create(stapleTemplateShoppingListInfo).then(function () {
-      return _stapleTemplateShoppingListService.StapleTemplateShoppingListService.exists(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo));
+    _stapleTemplateShoppingListService2.default.create(stapleTemplateShoppingListInfo).then(function () {
+      return _stapleTemplateShoppingListService2.default.exists(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  MasterProduct,
-} from './master-product';
+import MasterProduct from './master-product';
 
 export function createMasterProductInfo(tagIds) {
   const info = Map({

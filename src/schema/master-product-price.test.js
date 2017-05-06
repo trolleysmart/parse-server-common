@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  MasterProductPrice,
-} from './master-product-price';
+import MasterProductPrice from './master-product-price';
 import {
   createMasterProduct,
 } from './master-product.test';

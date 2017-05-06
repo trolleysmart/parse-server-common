@@ -6,8 +6,8 @@ import {
   ParseWrapperService,
 } from 'micro-business-parse-server-common';
 
-class ShoppingList extends BaseObject {
-  static spawn(info) {
+export default class ShoppingList extends BaseObject {
+  static spawn = (info) => {
     const object = new ShoppingList();
 
     ShoppingList.updateInfoInternal(object, info);
@@ -15,7 +15,7 @@ class ShoppingList extends BaseObject {
     return object;
   }
 
-  static updateInfoInternal(object, info) {
+  static updateInfoInternal = (object, info) => {
     object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
     object.set('items', info.get('items')
       .toJS());
@@ -23,12 +23,9 @@ class ShoppingList extends BaseObject {
 
   constructor(object) {
     super(object, 'ShoppingList');
-
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getInfo = this.getInfo.bind(this);
   }
 
-  updateInfo(info) {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     ShoppingList.updateInfoInternal(object, info);
@@ -36,20 +33,12 @@ class ShoppingList extends BaseObject {
     return this;
   }
 
-  getInfo() {
-    return Map({
-      id: this.getId(),
-      userId: this.getObject()
+  getInfo = () => Map({
+    id: this.getId(),
+    userId: this.getObject()
         .get('user')
         .id,
-      items: Immutable.fromJS(this.getObject()
+    items: Immutable.fromJS(this.getObject()
         .get('items')),
-    });
-  }
+  })
 }
-
-export {
-  ShoppingList,
-};
-
-export default ShoppingList;

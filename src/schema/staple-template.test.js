@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  StapleTemplate,
-} from './staple-temmplate';
+import StapleTemplate from './staple-temmplate';
 
 export function createStapleTemplateInfo() {
   return Map({

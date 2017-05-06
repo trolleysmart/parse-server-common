@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _masterProductPrice = require('./master-product-price');
 
+var _masterProductPrice2 = _interopRequireDefault(_masterProductPrice);
+
 var _masterProduct = require('./master-product.test');
 
 var _store = require('./store.test');
@@ -32,7 +34,7 @@ function createMasterProductPriceInfo(masterProductId, storeId) {
 }
 
 function createMasterProductPrice(masterProductPriceInfo) {
-  return _masterProductPrice.MasterProductPrice.spawn(masterProductPriceInfo || createMasterProductPriceInfo());
+  return _masterProductPrice2.default.spawn(masterProductPriceInfo || createMasterProductPriceInfo());
 }
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo) {
@@ -62,13 +64,13 @@ describe('public methods', function () {
   test('getObject should return provided object', function () {
     var object = createMasterProductPrice();
 
-    expect(new _masterProductPrice.MasterProductPrice(object).getObject()).toBe(object);
+    expect(new _masterProductPrice2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createMasterProductPrice();
 
-    expect(new _masterProductPrice.MasterProductPrice(object).getId()).toBe(object.id);
+    expect(new _masterProductPrice2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

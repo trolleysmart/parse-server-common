@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _store = require('./store');
 
+var _store2 = _interopRequireDefault(_store);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createStoreInfo() {
@@ -23,7 +25,7 @@ function createStoreInfo() {
 }
 
 function createStore(storeInfo) {
-  return _store.Store.spawn(storeInfo || createStoreInfo());
+  return _store2.default.spawn(storeInfo || createStoreInfo());
 }
 
 function expectStoreInfo(storeInfo, expectedStoreInfo) {
@@ -48,15 +50,15 @@ describe('static public methods', function () {
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _store.Store.spawn(createStoreInfo());
+    var object = _store2.default.spawn(createStoreInfo());
 
-    expect(new _store.Store(object).getObject()).toBe(object);
+    expect(new _store2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createStore();
 
-    expect(new _store.Store(object).getId()).toBe(object.id);
+    expect(new _store2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _crawlResult = require('./crawl-result');
 
+var _crawlResult2 = _interopRequireDefault(_crawlResult);
+
 var _crawlSession = require('./crawl-session.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28,7 +30,7 @@ function createCrawlResultInfo(crawlSessionId) {
 }
 
 function createCrawlResult(crawlSessionPriceInfo) {
-  return _crawlResult.CrawlResult.spawn(crawlSessionPriceInfo || createCrawlResultInfo());
+  return _crawlResult2.default.spawn(crawlSessionPriceInfo || createCrawlResultInfo());
 }
 
 function expectCrawlResultInfo(crawlSessionPriceInfo, expectedCrawlResultInfo) {
@@ -57,13 +59,13 @@ describe('public methods', function () {
   test('getObject should return provided object', function () {
     var object = createCrawlResult();
 
-    expect(new _crawlResult.CrawlResult(object).getObject()).toBe(object);
+    expect(new _crawlResult2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createCrawlResult();
 
-    expect(new _crawlResult.CrawlResult(object).getId()).toBe(object.id);
+    expect(new _crawlResult2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

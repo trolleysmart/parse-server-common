@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _masterProduct = require('./master-product');
 
+var _masterProduct2 = _interopRequireDefault(_masterProduct);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createMasterProductInfo(tagIds) {
@@ -29,7 +31,7 @@ function createMasterProductInfo(tagIds) {
 }
 
 function createMasterProduct(masterProductInfo) {
-  return _masterProduct.MasterProduct.spawn(masterProductInfo || createMasterProductInfo());
+  return _masterProduct2.default.spawn(masterProductInfo || createMasterProductInfo());
 }
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
@@ -59,13 +61,13 @@ describe('public methods', function () {
   test('getObject should return provided object', function () {
     var object = createMasterProduct();
 
-    expect(new _masterProduct.MasterProduct(object).getObject()).toBe(object);
+    expect(new _masterProduct2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createMasterProduct();
 
-    expect(new _masterProduct.MasterProduct(object).getId()).toBe(object.id);
+    expect(new _masterProduct2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

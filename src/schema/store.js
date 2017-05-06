@@ -5,8 +5,8 @@ import {
   BaseObject,
 } from 'micro-business-parse-server-common';
 
-class Store extends BaseObject {
-  static spawn(info) {
+export default class Store extends BaseObject {
+  static spawn = (info) => {
     const object = new Store();
 
     Store.updateInfoInternal(object, info);
@@ -14,18 +14,15 @@ class Store extends BaseObject {
     return object;
   }
 
-  static updateInfoInternal(object, info) {
+  static updateInfoInternal = (object, info) => {
     object.set('name', info.get('name'));
   }
 
   constructor(object) {
     super(object, 'Store');
-
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getInfo = this.getInfo.bind(this);
   }
 
-  updateInfo(info) {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     Store.updateInfoInternal(object, info);
@@ -33,17 +30,9 @@ class Store extends BaseObject {
     return this;
   }
 
-  getInfo() {
-    return Map({
-      id: this.getId(),
-      name: this.getObject()
+  getInfo = () => Map({
+    id: this.getId(),
+    name: this.getObject()
         .get('name'),
-    });
-  }
+  })
 }
-
-export {
-  Store,
-};
-
-export default Store;

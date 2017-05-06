@@ -7,9 +7,7 @@ import {
   UserService,
 } from 'micro-business-parse-server-common';
 import '../bootstrap';
-import {
-  ShoppingListService,
-} from './shopping-list-service';
+import ShoppingListService from './shopping-list-service';
 import {
   createShoppingListInfo,
 } from './schema/shopping-list.test';

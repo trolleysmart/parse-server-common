@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MasterProduct = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -14,6 +11,8 @@ var _immutable2 = _interopRequireDefault(_immutable);
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _tag = require('./tag');
+
+var _tag2 = _interopRequireDefault(_tag);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,82 +25,77 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MasterProduct = function (_BaseObject) {
   _inherits(MasterProduct, _BaseObject);
 
-  _createClass(MasterProduct, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new MasterProduct();
-
-      MasterProduct.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('description', info.get('description'));
-      object.set('barcode', info.get('barcode'));
-      object.set('imageUrl', info.get('imageUrl'));
-
-      if (info.has('tagIds')) {
-        var tagIds = info.get('tagIds');
-
-        if (!tagIds.isEmpty()) {
-          object.set('tags', tagIds.map(function (tagId) {
-            return _tag.Tag.createWithoutData(tagId);
-          }).toArray());
-        }
-      } else if (info.has('tags')) {
-        var tags = info.get('tags');
-
-        if (!tags.isEmpty()) {
-          object.set('tags', tags.toArray());
-        }
-      }
-    }
-  }]);
-
   function MasterProduct(object) {
     _classCallCheck(this, MasterProduct);
 
     var _this = _possibleConstructorReturn(this, (MasterProduct.__proto__ || Object.getPrototypeOf(MasterProduct)).call(this, object, 'MasterProduct'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(MasterProduct, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      MasterProduct.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      var tagObjects = this.getObject().get('tags');
-      var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
-        return new _tag.Tag(tag).getInfo();
-      }) : undefined;
-
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        description: this.getObject().get('description'),
-        barcode: this.getObject().get('barcode'),
-        imageUrl: this.getObject().get('imageUrl'),
-        tags: tags,
-        tagIds: tags ? tags.map(function (tag) {
-          return tag.get('id');
-        }) : (0, _immutable.List)()
-      });
-    }
-  }]);
 
   return MasterProduct;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.MasterProduct = MasterProduct;
+MasterProduct.spawn = function (info) {
+  var object = new MasterProduct();
+
+  MasterProduct.updateInfoInternal(object, info);
+
+  return object;
+};
+
+MasterProduct.updateInfoInternal = function (object, info) {
+  object.set('description', info.get('description'));
+  object.set('barcode', info.get('barcode'));
+  object.set('imageUrl', info.get('imageUrl'));
+
+  if (info.has('tagIds')) {
+    var tagIds = info.get('tagIds');
+
+    if (!tagIds.isEmpty()) {
+      object.set('tags', tagIds.map(function (tagId) {
+        return _tag2.default.createWithoutData(tagId);
+      }).toArray());
+    }
+  } else if (info.has('tags')) {
+    var tags = info.get('tags');
+
+    if (!tags.isEmpty()) {
+      object.set('tags', tags.toArray());
+    }
+  }
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    MasterProduct.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    var tagObjects = _this2.getObject().get('tags');
+    var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
+      return new _tag2.default(tag).getInfo();
+    }) : undefined;
+
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      description: _this2.getObject().get('description'),
+      barcode: _this2.getObject().get('barcode'),
+      imageUrl: _this2.getObject().get('imageUrl'),
+      tags: tags,
+      tagIds: tags ? tags.map(function (tag) {
+        return tag.get('id');
+      }) : (0, _immutable.List)()
+    });
+  };
+};
+
 exports.default = MasterProduct;

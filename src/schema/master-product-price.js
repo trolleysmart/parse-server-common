@@ -4,15 +4,11 @@ import Immutable, {
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
-import {
-  MasterProduct,
-} from './master-product';
-import {
-  Store,
-} from './store';
+import MasterProduct from './master-product';
+import Store from './store';
 
-class MasterProductPrice extends BaseObject {
-  static spawn(info) {
+export default class MasterProductPrice extends BaseObject {
+  static spawn = (info) => {
     const object = new MasterProductPrice();
 
     MasterProductPrice.updateInfoInternal(object, info);
@@ -20,7 +16,7 @@ class MasterProductPrice extends BaseObject {
     return object;
   }
 
-  static updateInfoInternal(object, info) {
+  static updateInfoInternal = (object, info) => {
     object.set('masterProduct', MasterProduct.createWithoutData(info.get('masterProductId')));
     object.set('store', Store.createWithoutData(info.get('storeId')));
     object.set('priceDetails', info.get('priceDetails')
@@ -30,12 +26,9 @@ class MasterProductPrice extends BaseObject {
 
   constructor(object) {
     super(object, 'MasterProductPrice');
-
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getInfo = this.getInfo.bind(this);
   }
 
-  updateInfo(info) {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     MasterProductPrice.updateInfoInternal(object, info);
@@ -43,7 +36,7 @@ class MasterProductPrice extends BaseObject {
     return this;
   }
 
-  getInfo() {
+  getInfo = () => {
     const masterProduct = new MasterProduct(this.getObject()
       .get('masterProduct'));
     const store = new Store(this.getObject()
@@ -62,9 +55,3 @@ class MasterProductPrice extends BaseObject {
     });
   }
 }
-
-export {
-  MasterProductPrice,
-};
-
-export default MasterProductPrice;

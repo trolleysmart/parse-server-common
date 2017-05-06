@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  StoreCrawlerConfiguration,
-} from './store-crawler-configuration';
+import StoreCrawlerConfiguration from './store-crawler-configuration';
 
 export function createStoreCrawlerConfigurationInfo() {
   return Map({

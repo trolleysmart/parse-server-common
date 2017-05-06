@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _tag = require('./tag');
 
+var _tag2 = _interopRequireDefault(_tag);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createTagInfo() {
@@ -24,7 +26,7 @@ function createTagInfo() {
 }
 
 function createTag(tagInfo) {
-  return _tag.Tag.spawn(tagInfo || createTagInfo());
+  return _tag2.default.spawn(tagInfo || createTagInfo());
 }
 
 function expectTagInfo(tagInfo, expectedTagInfo) {
@@ -50,15 +52,15 @@ describe('static public methods', function () {
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _tag.Tag.spawn(createTagInfo());
+    var object = _tag2.default.spawn(createTagInfo());
 
-    expect(new _tag.Tag(object).getObject()).toBe(object);
+    expect(new _tag2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createTag();
 
-    expect(new _tag.Tag(object).getId()).toBe(object.id);
+    expect(new _tag2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

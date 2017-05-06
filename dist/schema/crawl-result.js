@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CrawlResult = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -14,6 +11,8 @@ var _immutable2 = _interopRequireDefault(_immutable);
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _crawlSession = require('./crawl-session');
+
+var _crawlSession2 = _interopRequireDefault(_crawlSession);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,58 +25,53 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CrawlResult = function (_BaseObject) {
   _inherits(CrawlResult, _BaseObject);
 
-  _createClass(CrawlResult, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new CrawlResult();
-
-      CrawlResult.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('crawlSession', _crawlSession.CrawlSession.createWithoutData(info.get('crawlSessionId')));
-      object.set('resultSet', info.get('resultSet').toJS());
-    }
-  }]);
-
   function CrawlResult(object) {
     _classCallCheck(this, CrawlResult);
 
     var _this = _possibleConstructorReturn(this, (CrawlResult.__proto__ || Object.getPrototypeOf(CrawlResult)).call(this, object, 'CrawlResult'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(CrawlResult, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      CrawlResult.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      var crawlSession = new _crawlSession.CrawlSession(this.getObject().get('crawlSession'));
-
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        crawlSession: crawlSession,
-        crawlSessionId: crawlSession.getId(),
-        resultSet: _immutable2.default.fromJS(this.getObject().get('resultSet'))
-      });
-    }
-  }]);
 
   return CrawlResult;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.CrawlResult = CrawlResult;
+CrawlResult.spawn = function (info) {
+  var object = new CrawlResult();
+
+  CrawlResult.updateInfoInternal(object, info);
+
+  return object;
+};
+
+CrawlResult.updateInfoInternal = function (object, info) {
+  object.set('crawlSession', _crawlSession2.default.createWithoutData(info.get('crawlSessionId')));
+  object.set('resultSet', info.get('resultSet').toJS());
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    CrawlResult.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    var crawlSession = new _crawlSession2.default(_this2.getObject().get('crawlSession'));
+
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      crawlSession: crawlSession,
+      crawlSessionId: crawlSession.getId(),
+      resultSet: _immutable2.default.fromJS(_this2.getObject().get('resultSet'))
+    });
+  };
+};
+
 exports.default = CrawlResult;

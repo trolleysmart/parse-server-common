@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _storeCrawlerConfiguration = require('./store-crawler-configuration');
 
+var _storeCrawlerConfiguration2 = _interopRequireDefault(_storeCrawlerConfiguration);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createStoreCrawlerConfigurationInfo() {
@@ -26,7 +28,7 @@ function createStoreCrawlerConfigurationInfo() {
 }
 
 function createStoreCrawlerConfiguration(storeCrawlerConfigurationInfo) {
-  return _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(storeCrawlerConfigurationInfo || createStoreCrawlerConfigurationInfo());
+  return _storeCrawlerConfiguration2.default.spawn(storeCrawlerConfigurationInfo || createStoreCrawlerConfigurationInfo());
 }
 
 function expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expectedStoreCrawlerConfigurationInfo) {
@@ -52,15 +54,15 @@ describe('static public methods', function () {
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _storeCrawlerConfiguration.StoreCrawlerConfiguration.spawn(createStoreCrawlerConfigurationInfo());
+    var object = _storeCrawlerConfiguration2.default.spawn(createStoreCrawlerConfigurationInfo());
 
-    expect(new _storeCrawlerConfiguration.StoreCrawlerConfiguration(object).getObject()).toBe(object);
+    expect(new _storeCrawlerConfiguration2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createStoreCrawlerConfiguration();
 
-    expect(new _storeCrawlerConfiguration.StoreCrawlerConfiguration(object).getId()).toBe(object.id);
+    expect(new _storeCrawlerConfiguration2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {

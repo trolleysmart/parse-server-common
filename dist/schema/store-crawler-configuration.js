@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StoreCrawlerConfiguration = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -24,55 +21,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var StoreCrawlerConfiguration = function (_BaseObject) {
   _inherits(StoreCrawlerConfiguration, _BaseObject);
 
-  _createClass(StoreCrawlerConfiguration, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new StoreCrawlerConfiguration();
-
-      StoreCrawlerConfiguration.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('key', info.get('key'));
-      object.set('config', info.get('config').toJS());
-    }
-  }]);
-
   function StoreCrawlerConfiguration(object) {
     _classCallCheck(this, StoreCrawlerConfiguration);
 
     var _this = _possibleConstructorReturn(this, (StoreCrawlerConfiguration.__proto__ || Object.getPrototypeOf(StoreCrawlerConfiguration)).call(this, object, 'StoreCrawlerConfiguration'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(StoreCrawlerConfiguration, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      StoreCrawlerConfiguration.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        key: this.getObject().get('key'),
-        config: _immutable2.default.fromJS(this.getObject().get('config'))
-      });
-    }
-  }]);
 
   return StoreCrawlerConfiguration;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.StoreCrawlerConfiguration = StoreCrawlerConfiguration;
+StoreCrawlerConfiguration.spawn = function (info) {
+  var object = new StoreCrawlerConfiguration();
+
+  StoreCrawlerConfiguration.updateInfoInternal(object, info);
+
+  return object;
+};
+
+StoreCrawlerConfiguration.updateInfoInternal = function (object, info) {
+  object.set('key', info.get('key'));
+  object.set('config', info.get('config').toJS());
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    StoreCrawlerConfiguration.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      key: _this2.getObject().get('key'),
+      config: _immutable2.default.fromJS(_this2.getObject().get('config'))
+    });
+  };
+};
+
 exports.default = StoreCrawlerConfiguration;

@@ -2,9 +2,7 @@ import {
   Map,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  Tag,
-} from './tag';
+import Tag from './tag';
 
 export function createTagInfo() {
   return Map({

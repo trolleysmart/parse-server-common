@@ -12,6 +12,8 @@ require('../bootstrap');
 
 var _shoppingListService = require('./shopping-list-service');
 
+var _shoppingListService2 = _interopRequireDefault(_shoppingListService);
+
 var _shoppingList = require('./schema/shopping-list.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -55,7 +57,7 @@ beforeEach(function () {
 
 describe('create', function () {
   test('should return the created shopping list Id', function (done) {
-    _shoppingListService.ShoppingListService.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (result) {
+    _shoppingListService2.default.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (result) {
       expect(result).toBeDefined();
       done();
     }).catch(function (error) {
@@ -68,10 +70,10 @@ describe('create', function () {
     var expectedShoppingListInfo = (0, _shoppingList.createShoppingListInfo)(userId);
     var shoppingListId = void 0;
 
-    _shoppingListService.ShoppingListService.create(expectedShoppingListInfo).then(function (id) {
+    _shoppingListService2.default.create(expectedShoppingListInfo).then(function (id) {
       shoppingListId = id;
 
-      return _shoppingListService.ShoppingListService.read(shoppingListId);
+      return _shoppingListService2.default.read(shoppingListId);
     }).then(function (shoppingListInfo) {
       expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
       done();
@@ -86,7 +88,7 @@ describe('read', function () {
   test('should reject if the provided shopping list Id does not exist', function (done) {
     var shoppingListId = (0, _v2.default)();
 
-    _shoppingListService.ShoppingListService.read(shoppingListId).catch(function (error) {
+    _shoppingListService2.default.read(shoppingListId).catch(function (error) {
       expect(error).toBe('No shopping list found with Id: ' + shoppingListId);
       done();
     });
@@ -96,10 +98,10 @@ describe('read', function () {
     var expectedStoreInfo = (0, _shoppingList.createShoppingListInfo)(userId);
     var shoppingListId = void 0;
 
-    _shoppingListService.ShoppingListService.create(expectedStoreInfo).then(function (id) {
+    _shoppingListService2.default.create(expectedStoreInfo).then(function (id) {
       shoppingListId = id;
 
-      return _shoppingListService.ShoppingListService.read(shoppingListId);
+      return _shoppingListService2.default.read(shoppingListId);
     }).then(function (shoppingListInfo) {
       expectShoppingListInfo(shoppingListInfo, expectedStoreInfo, shoppingListId);
       done();
@@ -114,7 +116,7 @@ describe('update', function () {
   test('should reject if the provided shopping list Id does not exist', function (done) {
     var shoppingListId = (0, _v2.default)();
 
-    _shoppingListService.ShoppingListService.update((0, _shoppingList.createShoppingListInfo)(userId).set('id', shoppingListId)).catch(function (error) {
+    _shoppingListService2.default.update((0, _shoppingList.createShoppingListInfo)(userId).set('id', shoppingListId)).catch(function (error) {
       expect(error).toBe('No shopping list found with Id: ' + shoppingListId);
       done();
     });
@@ -123,10 +125,10 @@ describe('update', function () {
   test('should return the Id of the updated shopping list', function (done) {
     var shoppingListId = void 0;
 
-    _shoppingListService.ShoppingListService.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (id) {
+    _shoppingListService2.default.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (id) {
       shoppingListId = id;
 
-      return _shoppingListService.ShoppingListService.update((0, _shoppingList.createShoppingListInfo)(userId).set('id', shoppingListId));
+      return _shoppingListService2.default.update((0, _shoppingList.createShoppingListInfo)(userId).set('id', shoppingListId));
     }).then(function (id) {
       expect(id).toBe(shoppingListId);
       done();
@@ -140,12 +142,12 @@ describe('update', function () {
     var expectedShoppingListInfo = (0, _shoppingList.createShoppingListInfo)(userId);
     var shoppingListId = void 0;
 
-    _shoppingListService.ShoppingListService.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (id) {
-      return _shoppingListService.ShoppingListService.update(expectedShoppingListInfo.set('id', id));
+    _shoppingListService2.default.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (id) {
+      return _shoppingListService2.default.update(expectedShoppingListInfo.set('id', id));
     }).then(function (id) {
       shoppingListId = id;
 
-      return _shoppingListService.ShoppingListService.read(shoppingListId);
+      return _shoppingListService2.default.read(shoppingListId);
     }).then(function (storeInfo) {
       expectShoppingListInfo(storeInfo, expectedShoppingListInfo, shoppingListId);
       done();
@@ -160,7 +162,7 @@ describe('delete', function () {
   test('should reject if the provided shopping list Id does not exist', function (done) {
     var shoppingListId = (0, _v2.default)();
 
-    _shoppingListService.ShoppingListService.delete(shoppingListId).catch(function (error) {
+    _shoppingListService2.default.delete(shoppingListId).catch(function (error) {
       expect(error).toBe('No shopping list found with Id: ' + shoppingListId);
       done();
     });
@@ -169,11 +171,11 @@ describe('delete', function () {
   test('should delete the existing shopping list', function (done) {
     var shoppingListId = void 0;
 
-    _shoppingListService.ShoppingListService.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (id) {
+    _shoppingListService2.default.create((0, _shoppingList.createShoppingListInfo)(userId)).then(function (id) {
       shoppingListId = id;
-      return _shoppingListService.ShoppingListService.delete(shoppingListId);
+      return _shoppingListService2.default.delete(shoppingListId);
     }).then(function () {
-      return _shoppingListService.ShoppingListService.read(shoppingListId);
+      return _shoppingListService2.default.read(shoppingListId);
     }).catch(function (error) {
       expect(error).toBe('No shopping list found with Id: ' + shoppingListId);
       done();
@@ -183,7 +185,7 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no shopping list if provided criteria matches no shopping list', function (done) {
-    _shoppingListService.ShoppingListService.search(createCriteria()).then(function (stores) {
+    _shoppingListService2.default.search(createCriteria()).then(function (stores) {
       expect(stores.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -196,10 +198,10 @@ describe('search', function () {
     var expectedShoppingListInfo = (0, _shoppingList.createShoppingListInfo)(userId);
     var shoppingListId = void 0;
 
-    _shoppingListService.ShoppingListService.create(expectedShoppingListInfo).then(function (id) {
+    _shoppingListService2.default.create(expectedShoppingListInfo).then(function (id) {
       shoppingListId = id;
 
-      return _shoppingListService.ShoppingListService.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
+      return _shoppingListService2.default.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
     }).then(function (shoppingListInfos) {
       expect(shoppingListInfos.size).toBe(1);
 
@@ -215,7 +217,7 @@ describe('search', function () {
 
 describe('searchAll', function () {
   test('should return no shopping list if provided criteria matches no shopping list', function (done) {
-    _shoppingListService.ShoppingListService.search(createCriteria()).then(function (shoppingListInfos) {
+    _shoppingListService2.default.search(createCriteria()).then(function (shoppingListInfos) {
       expect(shoppingListInfos.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -227,9 +229,9 @@ describe('searchAll', function () {
   test('should return the shopping list matches the criteria', function (done) {
     var expectedShoppingListInfo = (0, _shoppingList.createShoppingListInfo)(userId);
 
-    Promise.all([_shoppingListService.ShoppingListService.create(expectedShoppingListInfo), _shoppingListService.ShoppingListService.create(expectedShoppingListInfo)]).then(function (ids) {
+    Promise.all([_shoppingListService2.default.create(expectedShoppingListInfo), _shoppingListService2.default.create(expectedShoppingListInfo)]).then(function (ids) {
       var shoppingListIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _shoppingListService.ShoppingListService.searchAll(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
+      var result = _shoppingListService2.default.searchAll(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
       var shoppingLists = (0, _immutable.List)();
 
       result.event.subscribe(function (shoppingList) {
@@ -251,7 +253,7 @@ describe('searchAll', function () {
 
 describe('exists', function () {
   test('should return false if no shopping list match provided criteria', function (done) {
-    _shoppingListService.ShoppingListService.exists(createCriteria()).then(function (response) {
+    _shoppingListService2.default.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -263,8 +265,8 @@ describe('exists', function () {
   test('should return true if any shopping list match provided criteria', function (done) {
     var shoppingListInfo = (0, _shoppingList.createShoppingListInfo)(userId);
 
-    _shoppingListService.ShoppingListService.create(shoppingListInfo).then(function () {
-      return _shoppingListService.ShoppingListService.exists(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo));
+    _shoppingListService2.default.create(shoppingListInfo).then(function () {
+      return _shoppingListService2.default.exists(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

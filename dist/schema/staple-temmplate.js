@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StapleTemplate = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -20,53 +17,48 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var StapleTemplate = function (_BaseObject) {
   _inherits(StapleTemplate, _BaseObject);
 
-  _createClass(StapleTemplate, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new StapleTemplate();
-
-      StapleTemplate.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('name', info.get('name'));
-    }
-  }]);
-
   function StapleTemplate(object) {
     _classCallCheck(this, StapleTemplate);
 
     var _this = _possibleConstructorReturn(this, (StapleTemplate.__proto__ || Object.getPrototypeOf(StapleTemplate)).call(this, object, 'StapleTemplate'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(StapleTemplate, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      StapleTemplate.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        name: this.getObject().get('name')
-      });
-    }
-  }]);
 
   return StapleTemplate;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.StapleTemplate = StapleTemplate;
+StapleTemplate.spawn = function (info) {
+  var object = new StapleTemplate();
+
+  StapleTemplate.updateInfoInternal(object, info);
+
+  return object;
+};
+
+StapleTemplate.updateInfoInternal = function (object, info) {
+  object.set('name', info.get('name'));
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    StapleTemplate.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      name: _this2.getObject().get('name')
+    });
+  };
+};
+
 exports.default = StapleTemplate;

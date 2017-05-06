@@ -3,9 +3,7 @@ import {
   List,
 } from 'immutable';
 import uuid from 'uuid/v4';
-import {
-  ShoppingList,
-} from './shopping-list';
+import ShoppingList from './shopping-list';
 
 export function createShoppingListInfo(userId) {
   return Map({

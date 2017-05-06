@@ -16,7 +16,11 @@ require('../bootstrap');
 
 var _crawlSessionService = require('./crawl-session-service');
 
+var _crawlSessionService2 = _interopRequireDefault(_crawlSessionService);
+
 var _crawlResultService = require('./crawl-result-service');
+
+var _crawlResultService2 = _interopRequireDefault(_crawlResultService);
 
 var _crawlSession = require('./schema/crawl-session.test');
 
@@ -50,8 +54,8 @@ function createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId) {
 
 describe('create', function () {
   test('should return the created crawl result Id', function (done) {
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
-      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      return _crawlResultService2.default.create((0, _crawlResult.createCrawlResultInfo)(id));
     }).then(function (result) {
       expect(result).toBeDefined();
       done();
@@ -66,15 +70,15 @@ describe('create', function () {
     var crawlResultId = void 0;
     var expectedCrawlResultInfo = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
       expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
 
-      return _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo);
+      return _crawlResultService2.default.create(expectedCrawlResultInfo);
     }).then(function (id) {
       crawlResultId = id;
 
-      return _crawlResultService.CrawlResultService.read(crawlResultId);
+      return _crawlResultService2.default.read(crawlResultId);
     }).then(function (crawlResultInfo) {
       expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, crawlSessionId);
       done();
@@ -89,7 +93,7 @@ describe('read', function () {
   test('should reject if the provided crawl result Id does not exist', function (done) {
     var crawlResultId = (0, _v2.default)();
 
-    _crawlResultService.CrawlResultService.read(crawlResultId).catch(function (error) {
+    _crawlResultService2.default.read(crawlResultId).catch(function (error) {
       expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
       done();
     });
@@ -100,15 +104,15 @@ describe('read', function () {
     var crawlResultId = void 0;
     var expectedCrawlResultInfo = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
       expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
 
-      return _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo);
+      return _crawlResultService2.default.create(expectedCrawlResultInfo);
     }).then(function (id) {
       crawlResultId = id;
 
-      return _crawlResultService.CrawlResultService.read(crawlResultId);
+      return _crawlResultService2.default.read(crawlResultId);
     }).then(function (crawlResultInfo) {
       expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, crawlSessionId);
       done();
@@ -123,7 +127,7 @@ describe('update', function () {
   test('should reject if the provided crawl result Id does not exist', function (done) {
     var crawlResultId = (0, _v2.default)();
 
-    _crawlResultService.CrawlResultService.update((0, _crawlResult.createCrawlResultInfo)().set('id', crawlResultId)).catch(function (error) {
+    _crawlResultService2.default.update((0, _crawlResult.createCrawlResultInfo)().set('id', crawlResultId)).catch(function (error) {
       expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
       done();
     });
@@ -132,12 +136,12 @@ describe('update', function () {
   test('should return the Id of the updated crawl result', function (done) {
     var crawlResultId = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
-      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      return _crawlResultService2.default.create((0, _crawlResult.createCrawlResultInfo)(id));
     }).then(function (id) {
       crawlResultId = id;
 
-      return _crawlResultService.CrawlResultService.update((0, _crawlResult.createCrawlResultInfo)().set('id', crawlResultId));
+      return _crawlResultService2.default.update((0, _crawlResult.createCrawlResultInfo)().set('id', crawlResultId));
     }).then(function (id) {
       expect(id).toBe(crawlResultId);
       done();
@@ -152,19 +156,19 @@ describe('update', function () {
     var expectedCrawlSessionId = void 0;
     var crawlResultId = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       expectedCrawlSessionId = id;
       expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(expectedCrawlSessionId);
 
-      return _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)());
+      return _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)());
     }).then(function (id) {
-      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+      return _crawlResultService2.default.create((0, _crawlResult.createCrawlResultInfo)(id));
     }).then(function (id) {
-      return _crawlResultService.CrawlResultService.update(expectedCrawlResultInfo.set('id', id));
+      return _crawlResultService2.default.update(expectedCrawlResultInfo.set('id', id));
     }).then(function (id) {
       crawlResultId = id;
 
-      return _crawlResultService.CrawlResultService.read(crawlResultId);
+      return _crawlResultService2.default.read(crawlResultId);
     }).then(function (crawlResultInfo) {
       expectCrawlResultInfo(crawlResultInfo, expectedCrawlResultInfo, crawlResultId, expectedCrawlSessionId);
       done();
@@ -179,7 +183,7 @@ describe('delete', function () {
   test('should reject if the provided crawl result Id does not exist', function (done) {
     var crawlResultId = (0, _v2.default)();
 
-    _crawlResultService.CrawlResultService.delete(crawlResultId).catch(function (error) {
+    _crawlResultService2.default.delete(crawlResultId).catch(function (error) {
       expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
       done();
     });
@@ -188,13 +192,13 @@ describe('delete', function () {
   test('should delete the existing crawl result', function (done) {
     var crawlResultId = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
-      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+      return _crawlResultService2.default.create((0, _crawlResult.createCrawlResultInfo)(id));
     }).then(function (id) {
       crawlResultId = id;
-      return _crawlResultService.CrawlResultService.delete(crawlResultId);
+      return _crawlResultService2.default.delete(crawlResultId);
     }).then(function () {
-      return _crawlResultService.CrawlResultService.read(crawlResultId);
+      return _crawlResultService2.default.read(crawlResultId);
     }).catch(function (error) {
       expect(error).toBe('No crawl result found with Id: ' + crawlResultId);
       done();
@@ -204,7 +208,7 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no crawl result if provided criteria matches no crawl result', function (done) {
-    _crawlResultService.CrawlResultService.search(createCriteria()).then(function (crawlResultInfos) {
+    _crawlResultService2.default.search(createCriteria()).then(function (crawlResultInfos) {
       expect(crawlResultInfos.size).toBe(0);
       done();
     }).catch(function (error) {
@@ -218,15 +222,15 @@ describe('search', function () {
     var crawlResultId = void 0;
     var crawlSessionId = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
       expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(id);
 
-      return _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo);
+      return _crawlResultService2.default.create(expectedCrawlResultInfo);
     }).then(function (id) {
       crawlResultId = id;
 
-      return _crawlResultService.CrawlResultService.search(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+      return _crawlResultService2.default.search(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
     }).then(function (crawlResultInfos) {
       expect(crawlResultInfos.size).toBe(1);
 
@@ -242,7 +246,7 @@ describe('search', function () {
 
 describe('searchAll', function () {
   test('should return no crawl result if provided criteria matches no crawl result', function (done) {
-    var result = _crawlResultService.CrawlResultService.searchAll(createCriteria());
+    var result = _crawlResultService2.default.searchAll(createCriteria());
     var crawlResults = (0, _immutable.List)();
 
     result.event.subscribe(function (crawlResult) {
@@ -261,14 +265,14 @@ describe('searchAll', function () {
     var crawlSessionId = void 0;
     var expectedCrawlResultInfo = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
       expectedCrawlResultInfo = (0, _crawlResult.createCrawlResultInfo)(crawlSessionId);
 
-      return Promise.all([_crawlResultService.CrawlResultService.create(expectedCrawlResultInfo), _crawlResultService.CrawlResultService.create(expectedCrawlResultInfo)]);
+      return Promise.all([_crawlResultService2.default.create(expectedCrawlResultInfo), _crawlResultService2.default.create(expectedCrawlResultInfo)]);
     }).then(function (ids) {
       var crawlResultIds = _immutable.List.of(ids[0], ids[1]);
-      var result = _crawlResultService.CrawlResultService.searchAll(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+      var result = _crawlResultService2.default.searchAll(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
       var crawlResults = (0, _immutable.List)();
 
       result.event.subscribe(function (crawlResult) {
@@ -290,7 +294,7 @@ describe('searchAll', function () {
 
 describe('exists', function () {
   test('should return false if no crawl result match provided criteria', function (done) {
-    _crawlResultService.CrawlResultService.exists(createCriteria()).then(function (response) {
+    _crawlResultService2.default.exists(createCriteria()).then(function (response) {
       expect(response).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -302,12 +306,12 @@ describe('exists', function () {
   test('should return true if any crawl resuult match provided criteria', function (done) {
     var crawlSessionId = void 0;
 
-    _crawlSessionService.CrawlSessionService.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
+    _crawlSessionService2.default.create((0, _crawlSession.createCrawlSessionInfo)()).then(function (id) {
       crawlSessionId = id;
 
-      return _crawlResultService.CrawlResultService.create((0, _crawlResult.createCrawlResultInfo)(id));
+      return _crawlResultService2.default.create((0, _crawlResult.createCrawlResultInfo)(id));
     }).then(function () {
-      return _crawlResultService.CrawlResultService.exists(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+      return _crawlResultService2.default.exists(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
     }).then(function (response) {
       expect(response).toBeTruthy();
       done();

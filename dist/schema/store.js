@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Store = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _immutable = require('immutable');
 
@@ -20,53 +17,48 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Store = function (_BaseObject) {
   _inherits(Store, _BaseObject);
 
-  _createClass(Store, null, [{
-    key: 'spawn',
-    value: function spawn(info) {
-      var object = new Store();
-
-      Store.updateInfoInternal(object, info);
-
-      return object;
-    }
-  }, {
-    key: 'updateInfoInternal',
-    value: function updateInfoInternal(object, info) {
-      object.set('name', info.get('name'));
-    }
-  }]);
-
   function Store(object) {
     _classCallCheck(this, Store);
 
     var _this = _possibleConstructorReturn(this, (Store.__proto__ || Object.getPrototypeOf(Store)).call(this, object, 'Store'));
 
-    _this.updateInfo = _this.updateInfo.bind(_this);
-    _this.getInfo = _this.getInfo.bind(_this);
+    _initialiseProps.call(_this);
+
     return _this;
   }
-
-  _createClass(Store, [{
-    key: 'updateInfo',
-    value: function updateInfo(info) {
-      var object = this.getObject();
-
-      Store.updateInfoInternal(object, info);
-
-      return this;
-    }
-  }, {
-    key: 'getInfo',
-    value: function getInfo() {
-      return (0, _immutable.Map)({
-        id: this.getId(),
-        name: this.getObject().get('name')
-      });
-    }
-  }]);
 
   return Store;
 }(_microBusinessParseServerCommon.BaseObject);
 
-exports.Store = Store;
+Store.spawn = function (info) {
+  var object = new Store();
+
+  Store.updateInfoInternal(object, info);
+
+  return object;
+};
+
+Store.updateInfoInternal = function (object, info) {
+  object.set('name', info.get('name'));
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.updateInfo = function (info) {
+    var object = _this2.getObject();
+
+    Store.updateInfoInternal(object, info);
+
+    return _this2;
+  };
+
+  this.getInfo = function () {
+    return (0, _immutable.Map)({
+      id: _this2.getId(),
+      name: _this2.getObject().get('name')
+    });
+  };
+};
+
 exports.default = Store;

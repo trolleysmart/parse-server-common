@@ -5,12 +5,10 @@ import Immutable, {
 import {
   BaseObject,
 } from 'micro-business-parse-server-common';
-import {
-  Tag,
-} from './tag';
+import Tag from './tag';
 
-class MasterProduct extends BaseObject {
-  static spawn(info) {
+export default class MasterProduct extends BaseObject {
+  static spawn = (info) => {
     const object = new MasterProduct();
 
     MasterProduct.updateInfoInternal(object, info);
@@ -18,7 +16,7 @@ class MasterProduct extends BaseObject {
     return object;
   }
 
-  static updateInfoInternal(object, info) {
+  static updateInfoInternal = (object, info) => {
     object.set('description', info.get('description'));
     object.set('barcode', info.get('barcode'));
     object.set('imageUrl', info.get('imageUrl'));
@@ -41,12 +39,9 @@ class MasterProduct extends BaseObject {
 
   constructor(object) {
     super(object, 'MasterProduct');
-
-    this.updateInfo = this.updateInfo.bind(this);
-    this.getInfo = this.getInfo.bind(this);
   }
 
-  updateInfo(info) {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     MasterProduct.updateInfoInternal(object, info);
@@ -54,7 +49,7 @@ class MasterProduct extends BaseObject {
     return this;
   }
 
-  getInfo() {
+  getInfo = () => {
     const tagObjects = this.getObject().get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects)
       .map(tag => new Tag(tag)
@@ -73,9 +68,3 @@ class MasterProduct extends BaseObject {
     });
   }
 }
-
-export {
-  MasterProduct,
-};
-
-export default MasterProduct;

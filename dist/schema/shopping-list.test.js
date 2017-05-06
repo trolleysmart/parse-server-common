@@ -14,6 +14,8 @@ var _v2 = _interopRequireDefault(_v);
 
 var _shoppingList = require('./shopping-list');
 
+var _shoppingList2 = _interopRequireDefault(_shoppingList);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createShoppingListInfo(userId) {
@@ -24,7 +26,7 @@ function createShoppingListInfo(userId) {
 }
 
 function createShoppingList(shoppingListInfo) {
-  return _shoppingList.ShoppingList.spawn(shoppingListInfo || createShoppingListInfo());
+  return _shoppingList2.default.spawn(shoppingListInfo || createShoppingListInfo());
 }
 
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo) {
@@ -50,15 +52,15 @@ describe('static public methods', function () {
 
 describe('public methods', function () {
   test('getObject should return provided object', function () {
-    var object = _shoppingList.ShoppingList.spawn(createShoppingListInfo());
+    var object = _shoppingList2.default.spawn(createShoppingListInfo());
 
-    expect(new _shoppingList.ShoppingList(object).getObject()).toBe(object);
+    expect(new _shoppingList2.default(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', function () {
     var object = createShoppingList();
 
-    expect(new _shoppingList.ShoppingList(object).getId()).toBe(object.id);
+    expect(new _shoppingList2.default(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', function () {
