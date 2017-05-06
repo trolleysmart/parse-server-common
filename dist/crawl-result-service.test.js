@@ -253,9 +253,11 @@ describe('searchAll', function () {
       crawlResults = crawlResults.push(crawlResult);
     });
     result.promise.then(function () {
+      result.event.unsubscribeAll();
       expect(crawlResults.size).toBe(0);
       done();
     }).catch(function (error) {
+      result.event.unsubscribeAll();
       fail(error);
       done();
     });
@@ -279,9 +281,11 @@ describe('searchAll', function () {
         crawlResults = crawlResults.push(crawlResult);
       });
       result.promise.then(function () {
+        result.event.unsubscribeAll();
         expect(crawlResults.size).toBe(crawlResultIds.size);
         done();
       }).catch(function (error) {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });

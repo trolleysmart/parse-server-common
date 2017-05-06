@@ -239,11 +239,13 @@ describe('searchAll', () => {
       tags = tags.push(tag);
     });
     result.promise.then(() => {
+      result.event.unsubscribeAll();
       expect(tags.size)
           .toBe(0);
       done();
     })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -262,11 +264,13 @@ describe('searchAll', () => {
           tags = tags.push(tag);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(tags.size)
               .toBe(tagIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });

@@ -34,6 +34,10 @@ var NewSearchResultReceivedEvent = function (_EventEmitter) {
       _this.emit(NewSearchResultReceivedEvent.newSearchResultReceivedEventName, searchResult);
     }, _this.subscribe = function (callback) {
       _this.on(NewSearchResultReceivedEvent.newSearchResultReceivedEventName, callback);
+    }, _this.unsubscribe = function (callback) {
+      _this.removeListener(NewSearchResultReceivedEvent.newSearchResultReceivedEventName, callback);
+    }, _this.unsubscribeAll = function () {
+      _this.removeAllListeners(NewSearchResultReceivedEvent.newSearchResultReceivedEventName);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 

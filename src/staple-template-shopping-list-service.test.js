@@ -227,17 +227,12 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', (done) => {
-    const result = StapleTemplateShoppingListService.searchAll(createCriteria());
-    let stapleTemplateShoppingLists = List();
-
-    result.event.subscribe((stapleTemplateShoppingList) => {
-      stapleTemplateShoppingLists = stapleTemplateShoppingLists.push(stapleTemplateShoppingList);
-    });
-    result.promise.then(() => {
-      expect(stapleTemplateShoppingLists.size)
+    StapleTemplateShoppingListService.search(createCriteria())
+      .then((stapleTemplateShoppingListInfos) => {
+        expect(stapleTemplateShoppingListInfos.size)
           .toBe(0);
-      done();
-    })
+        done();
+      })
       .catch((error) => {
         fail(error);
         done();
@@ -281,13 +276,20 @@ describe('search', () => {
 
 describe('searchAll', () => {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', (done) => {
-    StapleTemplateShoppingListService.search(createCriteria())
-      .then((stapleTemplateShoppingListInfos) => {
-        expect(stapleTemplateShoppingListInfos.size)
+    const result = StapleTemplateShoppingListService.searchAll(createCriteria());
+    let stapleTemplateShoppingLists = List();
+
+    result.event.subscribe((stapleTemplateShoppingList) => {
+      stapleTemplateShoppingLists = stapleTemplateShoppingLists.push(stapleTemplateShoppingList);
+    });
+    result.promise.then(() => {
+      result.event.unsubscribeAll();
+      expect(stapleTemplateShoppingLists.size)
           .toBe(0);
-        done();
-      })
+      done();
+    })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -308,11 +310,13 @@ describe('searchAll', () => {
           stapleTemplateShoppingLists = stapleTemplateShoppingLists.push(stapleTemplateShoppingList);
         });
         result.promise.then(() => {
+      result.event.unsubscribeAll();
           expect(stapleTemplateShoppingLists.size)
               .toBe(stapleTemplateShoppingListIds.size);
           done();
         })
           .catch((error) => {
+      result.event.unsubscribeAll();
             fail(error);
             done();
           });

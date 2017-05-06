@@ -241,11 +241,13 @@ describe('searchAll', () => {
       crawlSessions = crawlSessions.push(crawlSession);
     });
     result.promise.then(() => {
+      result.event.unsubscribeAll();
       expect(crawlSessions.size)
           .toBe(0);
       done();
     })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -264,11 +266,13 @@ describe('searchAll', () => {
           crawlSessions = crawlSessions.push(crawlSession);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(crawlSessions.size)
               .toBe(crawlSessionIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });

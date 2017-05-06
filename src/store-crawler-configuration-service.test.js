@@ -244,11 +244,13 @@ describe('searchAll', () => {
       storeCrawlerConfigurations = storeCrawlerConfigurations.push(storeCrawlerConfiguration);
     });
     result.promise.then(() => {
+      result.event.unsubscribeAll();
       expect(storeCrawlerConfigurations.size)
           .toBe(0);
       done();
     })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -269,11 +271,13 @@ describe('searchAll', () => {
           storeCrawlerConfigurations = storeCrawlerConfigurations.push(storeCrawlerConfiguration);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(storeCrawlerConfigurations.size)
               .toBe(storeCrawlerConfigurationIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });

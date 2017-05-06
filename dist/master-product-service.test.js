@@ -199,14 +199,8 @@ describe('delete', function () {
 
 describe('search', function () {
   test('should return no master product if provided criteria matches no master product', function (done) {
-    var result = _masterProductService2.default.searchAll(createCriteria());
-    var masterProducts = (0, _immutable.List)();
-
-    result.event.subscribe(function (masterProduct) {
-      masterProducts = masterProducts.push(masterProduct);
-    });
-    result.promise.then(function () {
-      expect(masterProducts.size).toBe(0);
+    _masterProductService2.default.search(createCriteria()).then(function (masterProductInfos) {
+      expect(masterProductInfos.size).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -241,10 +235,18 @@ describe('search', function () {
 
 describe('searchAll', function () {
   test('should return no master product if provided criteria matches no master product', function (done) {
-    _masterProductService2.default.search(createCriteria()).then(function (masterProductInfos) {
-      expect(masterProductInfos.size).toBe(0);
+    var result = _masterProductService2.default.searchAll(createCriteria());
+    var masterProducts = (0, _immutable.List)();
+
+    result.event.subscribe(function (masterProduct) {
+      masterProducts = masterProducts.push(masterProduct);
+    });
+    result.promise.then(function () {
+      result.event.unsubscribeAll();
+      expect(masterProducts.size).toBe(0);
       done();
     }).catch(function (error) {
+      result.event.unsubscribeAll();
       fail(error);
       done();
     });
@@ -262,9 +264,11 @@ describe('searchAll', function () {
         masterProducts = masterProducts.push(masterProduct);
       });
       result.promise.then(function () {
+        result.event.unsubscribeAll();
         expect(masterProducts.size).toBe(masterProductIds.size);
         done();
       }).catch(function (error) {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });

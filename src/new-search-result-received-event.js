@@ -10,4 +10,12 @@ export default class NewSearchResultReceivedEvent extends EventEmitter {
   subscribe = (callback) => {
     this.on(NewSearchResultReceivedEvent.newSearchResultReceivedEventName, callback);
   }
+
+  unsubscribe = (callback) => {
+    this.removeListener(NewSearchResultReceivedEvent.newSearchResultReceivedEventName, callback);
+  }
+
+  unsubscribeAll = () => {
+    this.removeAllListeners(NewSearchResultReceivedEvent.newSearchResultReceivedEventName);
+  }
 }

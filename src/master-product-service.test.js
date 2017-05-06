@@ -232,17 +232,12 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no master product if provided criteria matches no master product', (done) => {
-    const result = MasterProductService.searchAll(createCriteria());
-    let masterProducts = List();
-
-    result.event.subscribe((masterProduct) => {
-      masterProducts = masterProducts.push(masterProduct);
-    });
-    result.promise.then(() => {
-      expect(masterProducts.size)
+    MasterProductService.search(createCriteria())
+      .then((masterProductInfos) => {
+        expect(masterProductInfos.size)
           .toBe(0);
-      done();
-    })
+        done();
+      })
       .catch((error) => {
         fail(error);
         done();
@@ -284,13 +279,20 @@ describe('search', () => {
 
 describe('searchAll', () => {
   test('should return no master product if provided criteria matches no master product', (done) => {
-    MasterProductService.search(createCriteria())
-      .then((masterProductInfos) => {
-        expect(masterProductInfos.size)
+    const result = MasterProductService.searchAll(createCriteria());
+    let masterProducts = List();
+
+    result.event.subscribe((masterProduct) => {
+      masterProducts = masterProducts.push(masterProduct);
+    });
+    result.promise.then(() => {
+      result.event.unsubscribeAll();
+      expect(masterProducts.size)
           .toBe(0);
-        done();
-      })
+      done();
+    })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -309,11 +311,13 @@ describe('searchAll', () => {
           masterProducts = masterProducts.push(masterProduct);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(masterProducts.size)
               .toBe(masterProductIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });

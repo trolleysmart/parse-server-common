@@ -208,9 +208,11 @@ describe('searchAll', function () {
       stores = stores.push(store);
     });
     result.promise.then(function () {
+      result.event.unsubscribeAll();
       expect(stores.size).toBe(0);
       done();
     }).catch(function (error) {
+      result.event.unsubscribeAll();
       fail(error);
       done();
     });
@@ -228,9 +230,11 @@ describe('searchAll', function () {
         stores = stores.push(store);
       });
       result.promise.then(function () {
+        result.event.unsubscribeAll();
         expect(stores.size).toBe(storeIds.size);
         done();
       }).catch(function (error) {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });

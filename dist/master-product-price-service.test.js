@@ -282,9 +282,11 @@ describe('searchAll', function () {
       masterProductPrices = masterProductPrices.push(masterProductPrice);
     });
     result.promise.then(function () {
+      result.event.unsubscribeAll();
       expect(masterProductPrices.size).toBe(0);
       done();
     }).catch(function (error) {
+      result.event.unsubscribeAll();
       fail(error);
       done();
     });
@@ -310,9 +312,11 @@ describe('searchAll', function () {
         masterProductPrices = masterProductPrices.push(masterProductPrice);
       });
       result.promise.then(function () {
+        result.event.unsubscribeAll();
         expect(masterProductPrices.size).toBe(masterProductPriceIds.size);
         done();
       }).catch(function (error) {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });

@@ -308,11 +308,13 @@ describe('searchAll', () => {
       masterProductPrices = masterProductPrices.push(masterProductPrice);
     });
     result.promise.then(() => {
+      result.event.unsubscribeAll();
       expect(masterProductPrices.size)
           .toBe(0);
       done();
     })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -342,11 +344,13 @@ describe('searchAll', () => {
           masterProductPrices = masterProductPrices.push(masterProductPrice);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(masterProductPrices.size)
               .toBe(masterProductPriceIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });

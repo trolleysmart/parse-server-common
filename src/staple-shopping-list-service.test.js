@@ -244,13 +244,22 @@ describe('search', () => {
 
 describe('searchAll', () => {
   test('should return no staple shopping list if provided criteria matches no staple shopping list', (done) => {
-    StapleShoppingListService.search(createCriteria())
-      .then((shoppingListInfos) => {
-        expect(shoppingListInfos.size)
+    const result = StapleShoppingListService.searchAll(createCriteria());
+    let shoppingLists = List();
+
+    result.event.subscribe((shoppingList) => {
+      shoppingLists = shoppingLists.push(shoppingList);
+    });
+
+    result.promise.then(() => {
+      result.event.unsubscribeAll();
+      result.event.unsubscribeAll();
+      expect(shoppingLists.size)
           .toBe(0);
-        done();
-      })
+      done();
+    })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -269,11 +278,13 @@ describe('searchAll', () => {
           shoppingLists = shoppingLists.push(shoppingList);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(shoppingLists.size)
               .toBe(shoppingListIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });

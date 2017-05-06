@@ -208,9 +208,11 @@ describe('searchAll', function () {
       stapleTemplates = stapleTemplates.push(stapleTemplate);
     });
     result.promise.then(function () {
+      result.event.unsubscribeAll();
       expect(stapleTemplates.size).toBe(0);
       done();
     }).catch(function (error) {
+      result.event.unsubscribeAll();
       fail(error);
       done();
     });
@@ -228,9 +230,11 @@ describe('searchAll', function () {
         stapleTemplates = stapleTemplates.push(stapleTemplate);
       });
       result.promise.then(function () {
+        result.event.unsubscribeAll();
         expect(stapleTemplates.size).toBe(stapleTemplateIds.size);
         done();
       }).catch(function (error) {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });

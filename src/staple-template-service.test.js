@@ -235,11 +235,13 @@ describe('searchAll', () => {
       stapleTemplates = stapleTemplates.push(stapleTemplate);
     });
     result.promise.then(() => {
+      result.event.unsubscribeAll();
       expect(stapleTemplates.size)
           .toBe(0);
       done();
     })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -258,11 +260,13 @@ describe('searchAll', () => {
           stapleTemplates = stapleTemplates.push(stapleTemplate);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(stapleTemplates.size)
               .toBe(stapleTemplateIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });

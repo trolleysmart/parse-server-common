@@ -217,9 +217,11 @@ describe('searchAll', function () {
       crawlSessions = crawlSessions.push(crawlSession);
     });
     result.promise.then(function () {
+      result.event.unsubscribeAll();
       expect(crawlSessions.size).toBe(0);
       done();
     }).catch(function (error) {
+      result.event.unsubscribeAll();
       fail(error);
       done();
     });
@@ -237,9 +239,11 @@ describe('searchAll', function () {
         crawlSessions = crawlSessions.push(crawlSession);
       });
       result.promise.then(function () {
+        result.event.unsubscribeAll();
         expect(crawlSessions.size).toBe(crawlSessionIds.size);
         done();
       }).catch(function (error) {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });

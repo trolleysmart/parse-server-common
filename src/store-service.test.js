@@ -235,11 +235,13 @@ describe('searchAll', () => {
       stores = stores.push(store);
     });
     result.promise.then(() => {
+      result.event.unsubscribeAll();
       expect(stores.size)
           .toBe(0);
       done();
     })
       .catch((error) => {
+        result.event.unsubscribeAll();
         fail(error);
         done();
       });
@@ -258,11 +260,13 @@ describe('searchAll', () => {
           stores = stores.push(store);
         });
         result.promise.then(() => {
+          result.event.unsubscribeAll();
           expect(stores.size)
               .toBe(storeIds.size);
           done();
         })
           .catch((error) => {
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });
