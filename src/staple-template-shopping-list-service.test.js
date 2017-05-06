@@ -310,13 +310,13 @@ describe('searchAll', () => {
           stapleTemplateShoppingLists = stapleTemplateShoppingLists.push(stapleTemplateShoppingList);
         });
         result.promise.then(() => {
-      result.event.unsubscribeAll();
+          result.event.unsubscribeAll();
           expect(stapleTemplateShoppingLists.size)
               .toBe(stapleTemplateShoppingListIds.size);
           done();
         })
           .catch((error) => {
-      result.event.unsubscribeAll();
+            result.event.unsubscribeAll();
             fail(error);
             done();
           });
