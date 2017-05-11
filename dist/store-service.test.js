@@ -19,11 +19,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
   expect(storeInfo.get('id')).toBe(storeId);
   expect(storeInfo.get('name')).toBe(expectedStoreInfo.get('name'));
+  expect(storeInfo.get('imageUrl')).toBe(expectedStoreInfo.get('imageUrl'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name'),
+    fields: _immutable.List.of('name', 'imageUrl'),
     conditions: (0, _immutable.Map)({
       name: (0, _v2.default)()
     })
@@ -32,7 +33,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedStoreInfo(storeInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name'),
+    fields: _immutable.List.of('name', 'imageUrl'),
     conditions: (0, _immutable.Map)({
       name: storeInfo.get('name')
     })

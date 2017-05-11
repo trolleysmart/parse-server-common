@@ -14,11 +14,13 @@ function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
     .toBe(storeId);
   expect(storeInfo.get('name'))
     .toBe(expectedStoreInfo.get('name'));
+  expect(storeInfo.get('imageUrl'))
+    .toBe(expectedStoreInfo.get('imageUrl'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('name'),
+    fields: List.of('name', 'imageUrl'),
     conditions: Map({
       name: uuid(),
     }),
@@ -27,7 +29,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedStoreInfo(storeInfo) {
   return Map({
-    fields: List.of('name'),
+    fields: List.of('name', 'imageUrl'),
     conditions: Map({
       name: storeInfo.get('name'),
     }),

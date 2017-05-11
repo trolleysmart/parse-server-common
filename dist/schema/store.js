@@ -40,6 +40,7 @@ Store.spawn = function (info) {
 
 Store.updateInfoInternal = function (object, info) {
   object.set('name', info.get('name'));
+  object.set('imageUrl', info.get('imageUrl'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -56,7 +57,8 @@ var _initialiseProps = function _initialiseProps() {
   this.getInfo = function () {
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      name: _this2.getObject().get('name')
+      name: _this2.getObject().get('name'),
+      imageUrl: _this2.getObject().get('imageUrl')
     });
   };
 };

@@ -7,6 +7,7 @@ import Store from './store';
 export function createStoreInfo() {
   return Map({
     name: uuid(),
+    imageUrl: uuid(),
   });
 }
 
@@ -17,6 +18,8 @@ export function createStore(storeInfo) {
 function expectStoreInfo(storeInfo, expectedStoreInfo) {
   expect(storeInfo.get('name'))
     .toBe(expectedStoreInfo.get('name'));
+  expect(storeInfo.get('imageUrl'))
+    .toBe(expectedStoreInfo.get('imageUrl'));
 }
 
 describe('constructor', () => {
