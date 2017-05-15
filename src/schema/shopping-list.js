@@ -5,6 +5,8 @@ import {
   BaseObject,
   ParseWrapperService,
 } from 'micro-business-parse-server-common';
+import StapleShoppingList from './staple-shopping-list';
+import MasterProductPrice from './master-product-price';
 
 export default class ShoppingList extends BaseObject {
   static spawn = (info) => {
@@ -17,8 +19,38 @@ export default class ShoppingList extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
-    object.set('items', info.get('items')
-      .toJS());
+
+    if (info.has('stapleShoppingListIds')) {
+      const stapleShoppingListIds = info.get('stapleShoppingListIds');
+
+      if (!stapleShoppingListIds.isEmpty()) {
+        object.set('stapleShoppingList', stapleShoppingListIds.map(stapleShoppingListId => StapleShoppingList.createWithoutData(
+            stapleShoppingListId))
+          .toArray());
+      }
+    } else if (info.has('stapleShoppingList')) {
+      const stapleShoppingList = info.get('stapleShoppingList');
+
+      if (!stapleShoppingList.isEmpty()) {
+        object.set('stapleShoppingList', stapleShoppingList.toArray());
+      }
+    }
+
+    if (info.has('masterProductPriceIds')) {
+      const masterProductPriceIds = info.get('masterProductPriceIds');
+
+      if (!masterProductPriceIds.isEmpty()) {
+        object.set('masterProductPrices', masterProductPriceIds.map(masterProductPriceId => MasterProductPrice.createWithoutData(
+            masterProductPriceId))
+          .toArray());
+      }
+    } else if (info.has('masterProductPrices')) {
+      const masterProductPrices = info.get('masterProductPrices');
+
+      if (!masterProductPrices.isEmpty()) {
+        object.set('masterProductPrices', masterProductPrices.toArray());
+      }
+    }
   }
 
   constructor(object) {
@@ -36,9 +68,9 @@ export default class ShoppingList extends BaseObject {
   getInfo = () => Map({
     id: this.getId(),
     userId: this.getObject()
-        .get('user')
-        .id,
+      .get('user')
+      .id,
     items: Immutable.fromJS(this.getObject()
-        .get('items')),
+      .get('items')),
   })
 }

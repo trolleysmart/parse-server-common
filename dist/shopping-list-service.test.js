@@ -21,12 +21,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId) {
   expect(shoppingListInfo.get('id')).toBe(shoppingListId);
   expect(shoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
-  expect(shoppingListInfo.get('items')).toEqual(expectedShoppingListInfo.get('items'));
+  expect(shoppingListInfo.get('stapleShoppingList')).toEqual(expectedShoppingListInfo.get('stapleShoppingList'));
+  expect(shoppingListInfo.get('masterProductPrices')).toEqual(expectedShoppingListInfo.get('masterProductPrices'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('user', 'items'),
+    fields: _immutable.List.of('user', 'stapleShoppingList', 'masterProductPrices'),
     conditions: (0, _immutable.Map)({
       userId: (0, _v2.default)()
     })
@@ -35,7 +36,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('user', 'items'),
+    fields: _immutable.List.of('user', 'stapleShoppingList', 'masterProductPrices'),
     conditions: (0, _immutable.Map)({
       userId: shoppingListInfo.get('userId')
     })

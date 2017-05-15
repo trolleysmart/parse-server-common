@@ -95,6 +95,22 @@ export default class ShoppingListService {
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(ShoppingList, criteria);
 
+    if (criteria.has('includeStapleShoppingList')) {
+      const value = criteria.get('includeStapleShoppingList');
+
+      if (value) {
+        query.include('stapleShoppingList');
+      }
+    }
+
+    if (criteria.has('includeMasterProductPrices')) {
+      const value = criteria.get('includeMasterProductPrices');
+
+      if (value) {
+        query.include('masterProductPrices');
+      }
+    }
+
     if (!criteria.has('conditions')) {
       return ParseWrapperService.createQueryIncludingObjectIds(ShoppingList, query, criteria);
     }

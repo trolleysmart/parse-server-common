@@ -10,6 +10,14 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
+var _stapleShoppingList = require('./staple-shopping-list');
+
+var _stapleShoppingList2 = _interopRequireDefault(_stapleShoppingList);
+
+var _masterProductPrice = require('./master-product-price');
+
+var _masterProductPrice2 = _interopRequireDefault(_masterProductPrice);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -44,7 +52,38 @@ ShoppingList.spawn = function (info) {
 
 ShoppingList.updateInfoInternal = function (object, info) {
   object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(info.get('userId')));
-  object.set('items', info.get('items').toJS());
+
+  if (info.has('stapleShoppingListIds')) {
+    var stapleShoppingListIds = info.get('stapleShoppingListIds');
+
+    if (!stapleShoppingListIds.isEmpty()) {
+      object.set('stapleShoppingList', stapleShoppingListIds.map(function (stapleShoppingListId) {
+        return _stapleShoppingList2.default.createWithoutData(stapleShoppingListId);
+      }).toArray());
+    }
+  } else if (info.has('stapleShoppingList')) {
+    var stapleShoppingList = info.get('stapleShoppingList');
+
+    if (!stapleShoppingList.isEmpty()) {
+      object.set('stapleShoppingList', stapleShoppingList.toArray());
+    }
+  }
+
+  if (info.has('masterProductPriceIds')) {
+    var masterProductPriceIds = info.get('masterProductPriceIds');
+
+    if (!masterProductPriceIds.isEmpty()) {
+      object.set('masterProductPrices', masterProductPriceIds.map(function (masterProductPriceId) {
+        return _masterProductPrice2.default.createWithoutData(masterProductPriceId);
+      }).toArray());
+    }
+  } else if (info.has('masterProductPrices')) {
+    var masterProductPrices = info.get('masterProductPrices');
+
+    if (!masterProductPrices.isEmpty()) {
+      object.set('masterProductPrices', masterProductPrices.toArray());
+    }
+  }
 };
 
 var _initialiseProps = function _initialiseProps() {

@@ -17,13 +17,15 @@ function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shop
     .toBe(shoppingListId);
   expect(shoppingListInfo.get('userId'))
     .toBe(expectedShoppingListInfo.get('userId'));
-  expect(shoppingListInfo.get('items'))
-    .toEqual(expectedShoppingListInfo.get('items'));
+  expect(shoppingListInfo.get('stapleShoppingList'))
+    .toEqual(expectedShoppingListInfo.get('stapleShoppingList'));
+  expect(shoppingListInfo.get('masterProductPrices'))
+    .toEqual(expectedShoppingListInfo.get('masterProductPrices'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('user', 'items'),
+    fields: List.of('user', 'stapleShoppingList', 'masterProductPrices'),
     conditions: Map({
       userId: uuid(),
     }),
@@ -32,7 +34,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo) {
   return Map({
-    fields: List.of('user', 'items'),
+    fields: List.of('user', 'stapleShoppingList', 'masterProductPrices'),
     conditions: Map({
       userId: shoppingListInfo.get('userId'),
     }),
@@ -251,11 +253,11 @@ describe('searchAll', () => {
       shoppingLists = shoppingLists.push(shoppingList);
     });
     result.promise.then(() => {
-      result.event.unsubscribeAll();
-      expect(shoppingLists.size)
+        result.event.unsubscribeAll();
+        expect(shoppingLists.size)
           .toBe(0);
-      done();
-    })
+        done();
+      })
       .catch((error) => {
         result.event.unsubscribeAll();
         fail(error);
@@ -276,11 +278,11 @@ describe('searchAll', () => {
           shoppingLists = shoppingLists.push(shoppingList);
         });
         result.promise.then(() => {
-          result.event.unsubscribeAll();
-          expect(shoppingLists.size)
+            result.event.unsubscribeAll();
+            expect(shoppingLists.size)
               .toBe(shoppingListIds.size);
-          done();
-        })
+            done();
+          })
           .catch((error) => {
             result.event.unsubscribeAll();
             fail(error);

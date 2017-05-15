@@ -123,6 +123,22 @@ ShoppingListService.exists = function (criteria) {
 ShoppingListService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList, criteria);
 
+  if (criteria.has('includeStapleShoppingList')) {
+    var value = criteria.get('includeStapleShoppingList');
+
+    if (value) {
+      query.include('stapleShoppingList');
+    }
+  }
+
+  if (criteria.has('includeMasterProductPrices')) {
+    var _value = criteria.get('includeMasterProductPrices');
+
+    if (_value) {
+      query.include('masterProductPrices');
+    }
+  }
+
   if (!criteria.has('conditions')) {
     return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.ShoppingList, query, criteria);
   }
@@ -130,10 +146,10 @@ ShoppingListService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('userId')) {
-    var value = conditions.get('userId');
+    var _value2 = conditions.get('userId');
 
-    if (value) {
-      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(value));
+    if (_value2) {
+      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(_value2));
     }
   }
 

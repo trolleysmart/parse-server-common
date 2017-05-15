@@ -31,7 +31,8 @@ function createShoppingList(shoppingListInfo) {
 
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo) {
   expect(shoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
-  expect(shoppingListInfo.get('items')).toEqual(expectedShoppingListInfo.get('items'));
+  expect(shoppingListInfo.get('stapleShoppingList')).toEqual(expectedShoppingListInfo.get('stapleShoppingList'));
+  expect(shoppingListInfo.get('masterProductPrices')).toEqual(expectedShoppingListInfo.get('masterProductPrices'));
 }
 
 describe('constructor', function () {
@@ -75,11 +76,11 @@ describe('public methods', function () {
   });
 
   test('getInfo should return provided info', function () {
-    var storeInfo = createShoppingListInfo();
-    var object = createShoppingList(storeInfo);
+    var shoppingListInfo = createShoppingListInfo();
+    var object = createShoppingList(shoppingListInfo);
     var info = object.getInfo();
 
     expect(info.get('id')).toBe(object.getId());
-    expectShoppingListInfo(info, storeInfo);
+    expectShoppingListInfo(info, shoppingListInfo);
   });
 });
