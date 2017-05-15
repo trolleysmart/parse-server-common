@@ -42,7 +42,7 @@ function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo) {
 let userId;
 
 beforeEach(() => new Promise((resolve, reject) => {
-  UserService.signUpWithEmailAndPassword(`${uuid()}@email.com`, '123456')
+  UserService.signUpWithUsernameAndPassword(`${uuid()}@email.com`, '123456')
     .then((user) => {
       userId = user.id;
       resolve();

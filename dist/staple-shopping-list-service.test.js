@@ -46,7 +46,7 @@ var userId = void 0;
 
 beforeEach(function () {
   return new Promise(function (resolve, reject) {
-    _microBusinessParseServerCommon.UserService.signUpWithEmailAndPassword((0, _v2.default)() + '@email.com', '123456').then(function (user) {
+    _microBusinessParseServerCommon.UserService.signUpWithUsernameAndPassword((0, _v2.default)() + '@email.com', '123456').then(function (user) {
       userId = user.id;
       resolve();
     }).catch(function (error) {
