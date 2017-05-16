@@ -1,6 +1,6 @@
 {
   "name": "smart-grocery-parse-server-common",
-  "version": "0.1.97",
+  "version": "0.1.98",
   "description": "Smart Grocery Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -43,6 +43,7 @@
   "jest": {
     "rootDir": "./src"
   },
+  "pre-commit": "lint:staged",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org:microbusiness/smart-grocery-parse-server-common.git"
