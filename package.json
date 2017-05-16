@@ -1,6 +1,6 @@
 {
   "name": "smart-grocery-parse-server-common",
-  "version": "0.1.95",
+  "version": "0.1.96",
   "description": "Smart Grocery Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -49,7 +49,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --write --single-quote true --trailing-comma all --print-width 80",
+      "prettier --write --single-quote true --trailing-comma all --print-width 150",
       "git add"
     ]
   }

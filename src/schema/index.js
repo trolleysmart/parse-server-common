@@ -1,39 +1,13 @@
-import CrawlResult from './crawl-result';
-import CrawlSession from './crawl-session';
-import MasterProduct from './master-product';
-import MasterProductPrice from './master-product-price';
-import Store from './store';
-import StoreCrawlerConfiguration from './store-crawler-configuration';
-import ShoppingList from './shopping-list';
-import StapleShoppingList from './staple-shopping-list';
-import StapleTemplate from './staple-temmplate';
-import StapleTemplateShoppingList from './staple-template-shopping-list';
-import Tag from './tag';
+// @flow
 
-export {
-  CrawlResult,
-  CrawlSession,
-  MasterProduct,
-  MasterProductPrice,
-  Store,
-  StoreCrawlerConfiguration,
-  ShoppingList,
-  StapleShoppingList,
-  StapleTemplate,
-  StapleTemplateShoppingList,
-  Tag,
-};
-
-export default {
-  CrawlResult,
-  CrawlSession,
-  MasterProduct,
-  MasterProductPrice,
-  Store,
-  StoreCrawlerConfiguration,
-  ShoppingList,
-  StapleShoppingList,
-  StapleTemplate,
-  StapleTemplateShoppingList,
-  Tag,
-};
+export CrawlResult from './CrawlResult';
+export CrawlSession from './CrawlSession';
+export MasterProduct from './MasterProduct';
+export MasterProductPrice from './MasterProductPrice';
+export ShoppingList from './ShoppingList';
+export StapleShoppingList from './StapleShoppingList';
+export StapleTemplate from './StapleTemplate';
+export StapleTemplateShoppingList from './StapleTemplateShoppingList';
+export StoreCrawlerConfiguration from './StoreCrawlerConfiguration';
+export Store from './Store';
+export Tag from './Tag';

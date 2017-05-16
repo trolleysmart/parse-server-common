@@ -3,75 +3,62 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Tag = exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.StoreCrawlerConfiguration = exports.Store = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
+exports.Tag = exports.Store = exports.StoreCrawlerConfiguration = exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
 
-var _crawlResult = require('./crawl-result');
+var _CrawlResult2 = require('./CrawlResult');
 
-var _crawlResult2 = _interopRequireDefault(_crawlResult);
+var _CrawlResult3 = _interopRequireDefault(_CrawlResult2);
 
-var _crawlSession = require('./crawl-session');
+var _CrawlSession2 = require('./CrawlSession');
 
-var _crawlSession2 = _interopRequireDefault(_crawlSession);
+var _CrawlSession3 = _interopRequireDefault(_CrawlSession2);
 
-var _masterProduct = require('./master-product');
+var _MasterProduct2 = require('./MasterProduct');
 
-var _masterProduct2 = _interopRequireDefault(_masterProduct);
+var _MasterProduct3 = _interopRequireDefault(_MasterProduct2);
 
-var _masterProductPrice = require('./master-product-price');
+var _MasterProductPrice2 = require('./MasterProductPrice');
 
-var _masterProductPrice2 = _interopRequireDefault(_masterProductPrice);
+var _MasterProductPrice3 = _interopRequireDefault(_MasterProductPrice2);
 
-var _store = require('./store');
+var _ShoppingList2 = require('./ShoppingList');
 
-var _store2 = _interopRequireDefault(_store);
+var _ShoppingList3 = _interopRequireDefault(_ShoppingList2);
 
-var _storeCrawlerConfiguration = require('./store-crawler-configuration');
+var _StapleShoppingList2 = require('./StapleShoppingList');
 
-var _storeCrawlerConfiguration2 = _interopRequireDefault(_storeCrawlerConfiguration);
+var _StapleShoppingList3 = _interopRequireDefault(_StapleShoppingList2);
 
-var _shoppingList = require('./shopping-list');
+var _StapleTemplate2 = require('./StapleTemplate');
 
-var _shoppingList2 = _interopRequireDefault(_shoppingList);
+var _StapleTemplate3 = _interopRequireDefault(_StapleTemplate2);
 
-var _stapleShoppingList = require('./staple-shopping-list');
+var _StapleTemplateShoppingList2 = require('./StapleTemplateShoppingList');
 
-var _stapleShoppingList2 = _interopRequireDefault(_stapleShoppingList);
+var _StapleTemplateShoppingList3 = _interopRequireDefault(_StapleTemplateShoppingList2);
 
-var _stapleTemmplate = require('./staple-temmplate');
+var _StoreCrawlerConfiguration2 = require('./StoreCrawlerConfiguration');
 
-var _stapleTemmplate2 = _interopRequireDefault(_stapleTemmplate);
+var _StoreCrawlerConfiguration3 = _interopRequireDefault(_StoreCrawlerConfiguration2);
 
-var _stapleTemplateShoppingList = require('./staple-template-shopping-list');
+var _Store2 = require('./Store');
 
-var _stapleTemplateShoppingList2 = _interopRequireDefault(_stapleTemplateShoppingList);
+var _Store3 = _interopRequireDefault(_Store2);
 
-var _tag = require('./tag');
+var _Tag2 = require('./Tag');
 
-var _tag2 = _interopRequireDefault(_tag);
+var _Tag3 = _interopRequireDefault(_Tag2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.CrawlResult = _crawlResult2.default;
-exports.CrawlSession = _crawlSession2.default;
-exports.MasterProduct = _masterProduct2.default;
-exports.MasterProductPrice = _masterProductPrice2.default;
-exports.Store = _store2.default;
-exports.StoreCrawlerConfiguration = _storeCrawlerConfiguration2.default;
-exports.ShoppingList = _shoppingList2.default;
-exports.StapleShoppingList = _stapleShoppingList2.default;
-exports.StapleTemplate = _stapleTemmplate2.default;
-exports.StapleTemplateShoppingList = _stapleTemplateShoppingList2.default;
-exports.Tag = _tag2.default;
-exports.default = {
-  CrawlResult: _crawlResult2.default,
-  CrawlSession: _crawlSession2.default,
-  MasterProduct: _masterProduct2.default,
-  MasterProductPrice: _masterProductPrice2.default,
-  Store: _store2.default,
-  StoreCrawlerConfiguration: _storeCrawlerConfiguration2.default,
-  ShoppingList: _shoppingList2.default,
-  StapleShoppingList: _stapleShoppingList2.default,
-  StapleTemplate: _stapleTemmplate2.default,
-  StapleTemplateShoppingList: _stapleTemplateShoppingList2.default,
-  Tag: _tag2.default
-};
+exports.CrawlResult = _CrawlResult3.default;
+exports.CrawlSession = _CrawlSession3.default;
+exports.MasterProduct = _MasterProduct3.default;
+exports.MasterProductPrice = _MasterProductPrice3.default;
+exports.ShoppingList = _ShoppingList3.default;
+exports.StapleShoppingList = _StapleShoppingList3.default;
+exports.StapleTemplate = _StapleTemplate3.default;
+exports.StapleTemplateShoppingList = _StapleTemplateShoppingList3.default;
+exports.StoreCrawlerConfiguration = _StoreCrawlerConfiguration3.default;
+exports.Store = _Store3.default;
+exports.Tag = _Tag3.default;
