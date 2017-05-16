@@ -1,12 +1,18 @@
 // @flow
 
-import Immutable, { Map } from 'immutable';
-import { BaseObject, ParseWrapperService } from 'micro-business-parse-server-common';
+import Immutable, {
+  Map,
+  List,
+} from 'immutable';
+import {
+  BaseObject,
+  ParseWrapperService,
+} from 'micro-business-parse-server-common';
 import StapleShoppingList from './StapleShoppingList';
 import MasterProductPrice from './MasterProductPrice';
 
 export default class ShoppingList extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new ShoppingList();
 
     ShoppingList.updateInfoInternal(object, info);
@@ -23,7 +29,8 @@ export default class ShoppingList extends BaseObject {
       if (!stapleShoppingListIds.isEmpty()) {
         object.set(
           'stapleShoppingList',
-          stapleShoppingListIds.map(stapleShoppingListId => StapleShoppingList.createWithoutData(stapleShoppingListId)).toArray(),
+          stapleShoppingListIds.map(stapleShoppingListId => StapleShoppingList.createWithoutData(stapleShoppingListId))
+          .toArray(),
         );
       }
     } else if (info.has('stapleShoppingList')) {
@@ -40,7 +47,8 @@ export default class ShoppingList extends BaseObject {
       if (!masterProductPriceIds.isEmpty()) {
         object.set(
           'masterProductPrices',
-          masterProductPriceIds.map(masterProductPriceId => MasterProductPrice.createWithoutData(masterProductPriceId)).toArray(),
+          masterProductPriceIds.map(masterProductPriceId => MasterProductPrice.createWithoutData(masterProductPriceId))
+          .toArray(),
         );
       }
     } else if (info.has('masterProductPrices')) {
@@ -56,7 +64,7 @@ export default class ShoppingList extends BaseObject {
     super(object, 'ShoppingList');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     ShoppingList.updateInfoInternal(object, info);
@@ -64,10 +72,33 @@ export default class ShoppingList extends BaseObject {
     return this;
   };
 
-  getInfo = () =>
-    Map({
+  getInfo = () => {
+    const masterProductPricesObjects = this.getObject()
+      .get('masterProductPrices');
+    const masterProductPrices = masterProductPricesObjects ?
+      Immutable.fromJS(masterProductPricesObjects)
+      .map(masterProductPrice => new MasterProductPrice(masterProductPrice)
+        .getInfo()) :
+      undefined;
+
+    const stapleShoppingListObjects = this.getObject()
+      .get('stapleShoppingList');
+    const stapleShoppingList = stapleShoppingListObjects ?
+      Immutable.fromJS(stapleShoppingListObjects)
+      .map(stapleShoppingListItem => new StapleShoppingList(stapleShoppingListItem)
+        .getInfo()) :
+      undefined;
+
+    return Map({
       id: this.getId(),
-      userId: this.getObject().get('user').id,
-      items: Immutable.fromJS(this.getObject().get('items')),
+      userId: this.getObject()
+        .get('user')
+        .id,
+      masterProductPrices,
+      masterProductPriceIds: masterProductPrices ? masterProductPrices.map(masterProductPrice => masterProductPrice.get('id')) : List(),
+      stapleShoppingList,
+      stapleShoppingListIds: stapleShoppingList ? stapleShoppingList.map(stapleShoppingListItem => stapleShoppingListItem.get('id')) : List(),
     });
+  }
+
 }

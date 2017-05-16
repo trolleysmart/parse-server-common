@@ -98,10 +98,27 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
+    var masterProductPricesObjects = _this2.getObject().get('masterProductPrices');
+    var masterProductPrices = masterProductPricesObjects ? _immutable2.default.fromJS(masterProductPricesObjects).map(function (masterProductPrice) {
+      return new _MasterProductPrice2.default(masterProductPrice).getInfo();
+    }) : undefined;
+
+    var stapleShoppingListObjects = _this2.getObject().get('stapleShoppingList');
+    var stapleShoppingList = stapleShoppingListObjects ? _immutable2.default.fromJS(stapleShoppingListObjects).map(function (stapleShoppingListItem) {
+      return new _StapleShoppingList2.default(stapleShoppingListItem).getInfo();
+    }) : undefined;
+
     return (0, _immutable.Map)({
       id: _this2.getId(),
       userId: _this2.getObject().get('user').id,
-      items: _immutable2.default.fromJS(_this2.getObject().get('items'))
+      masterProductPrices: masterProductPrices,
+      masterProductPriceIds: masterProductPrices ? masterProductPrices.map(function (masterProductPrice) {
+        return masterProductPrice.get('id');
+      }) : (0, _immutable.List)(),
+      stapleShoppingList: stapleShoppingList,
+      stapleShoppingListIds: stapleShoppingList ? stapleShoppingList.map(function (stapleShoppingListItem) {
+        return stapleShoppingListItem.get('id');
+      }) : (0, _immutable.List)()
     });
   };
 };
