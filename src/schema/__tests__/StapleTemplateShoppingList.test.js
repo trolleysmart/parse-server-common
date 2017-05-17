@@ -11,8 +11,8 @@ export function createStapleTemplateShoppingListInfo(stapleTemplateIds) {
 
   return stapleTemplateIds
     ? info.merge({
-        stapleTemplateIds,
-      })
+      stapleTemplateIds,
+    })
     : info;
 }
 

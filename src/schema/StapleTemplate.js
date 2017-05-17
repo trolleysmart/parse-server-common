@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
 export default class StapleTemplate extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new StapleTemplate();
 
     StapleTemplate.updateInfoInternal(object, info);
@@ -20,7 +20,7 @@ export default class StapleTemplate extends BaseObject {
     super(object, 'StapleTemplate');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     StapleTemplate.updateInfoInternal(object, info);

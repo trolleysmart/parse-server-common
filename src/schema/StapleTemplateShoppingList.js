@@ -5,7 +5,7 @@ import { BaseObject } from 'micro-business-parse-server-common';
 import StapleTemplate from './StapleTemplate';
 
 export default class StapleTemplateShoppingList extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new StapleTemplateShoppingList();
 
     StapleTemplateShoppingList.updateInfoInternal(object, info);
@@ -35,7 +35,7 @@ export default class StapleTemplateShoppingList extends BaseObject {
     super(object, 'StapleTemplateShoppingList');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     StapleTemplateShoppingList.updateInfoInternal(object, info);

@@ -4,7 +4,7 @@ import Immutable, { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
 export default class CrawlSession extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new CrawlSession();
 
     CrawlSession.updateInfoInternal(object, info);
@@ -26,7 +26,7 @@ export default class CrawlSession extends BaseObject {
     super(object, 'CrawlSession');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     CrawlSession.updateInfoInternal(object, info);

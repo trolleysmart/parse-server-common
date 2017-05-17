@@ -17,7 +17,7 @@ export default class CrawlSessionService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No crawl session found with Id: ${id}`);
           } else {
@@ -33,7 +33,7 @@ export default class CrawlSessionService {
         .equalTo('objectId', info.get('id'))
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No crawl session found with Id: ${info.get('id')}`);
           } else {
@@ -51,7 +51,7 @@ export default class CrawlSessionService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No crawl session found with Id: ${id}`);
           } else {
@@ -69,7 +69,7 @@ export default class CrawlSessionService {
         .catch(error => reject(error)),
     );
 
-  static searchAll = criteria => {
+  static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = CrawlSessionService.buildSearchQuery(criteria).each(_ => event.raise(new CrawlSession(_).getInfo()));
 
@@ -84,7 +84,7 @@ export default class CrawlSessionService {
       CrawlSessionService.buildSearchQuery(criteria).count().then(total => resolve(total > 0)).catch(error => reject(error)),
     );
 
-  static buildSearchQuery = criteria => {
+  static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(CrawlSession, criteria);
 
     if (!criteria.has('conditions')) {

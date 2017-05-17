@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
 export default class Store extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new Store();
 
     Store.updateInfoInternal(object, info);
@@ -21,7 +21,7 @@ export default class Store extends BaseObject {
     super(object, 'Store');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     Store.updateInfoInternal(object, info);

@@ -41,32 +41,32 @@ export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductP
 }
 
 describe('create', () => {
-  test('should return the created master product price Id', done => {
+  test('should return the created master product price Id', (done) => {
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         const masterProductId = results[0];
         const storeId = results[1];
 
         return MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId));
       })
-      .then(result => {
+      .then((result) => {
         expect(result).toBeDefined();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should create the master product price', done => {
+  test('should create the master product price', (done) => {
     let masterProductId;
     let storeId;
     let masterProductPriceId;
     let expectedMasterProductPriceInfo;
 
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         masterProductId = results[0];
         storeId = results[1];
 
@@ -74,16 +74,16 @@ describe('create', () => {
 
         return MasterProductPriceService.create(expectedMasterProductPriceInfo);
       })
-      .then(id => {
+      .then((id) => {
         masterProductPriceId = id;
 
         return MasterProductPriceService.read(masterProductPriceId);
       })
-      .then(masterProductPriceInfo => {
+      .then((masterProductPriceInfo) => {
         expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -91,39 +91,39 @@ describe('create', () => {
 });
 
 describe('read', () => {
-  test('should reject if the provided master product price Id does not exist', done => {
+  test('should reject if the provided master product price Id does not exist', (done) => {
     const masterProductPriceId = uuid();
 
-    MasterProductPriceService.read(masterProductPriceId).catch(error => {
+    MasterProductPriceService.read(masterProductPriceId).catch((error) => {
       expect(error).toBe(`No master product price found with Id: ${masterProductPriceId}`);
       done();
     });
   });
 
-  test('should read the existing master product price', done => {
+  test('should read the existing master product price', (done) => {
     let masterProductId;
     let storeId;
     let masterProductPriceId;
     let expectedMasterProductPriceInfo;
 
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         masterProductId = results[0];
         storeId = results[1];
         expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
 
         return MasterProductPriceService.create(expectedMasterProductPriceInfo);
       })
-      .then(id => {
+      .then((id) => {
         masterProductPriceId = id;
 
         return MasterProductPriceService.read(masterProductPriceId);
       })
-      .then(masterProductPriceInfo => {
+      .then((masterProductPriceInfo) => {
         expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -131,48 +131,48 @@ describe('read', () => {
 });
 
 describe('update', () => {
-  test('should reject if the provided master product price Id does not exist', done => {
+  test('should reject if the provided master product price Id does not exist', (done) => {
     const masterProductPriceId = uuid();
 
-    MasterProductPriceService.update(createMasterProductPriceInfo().set('id', masterProductPriceId)).catch(error => {
+    MasterProductPriceService.update(createMasterProductPriceInfo().set('id', masterProductPriceId)).catch((error) => {
       expect(error).toBe(`No master product price found with Id: ${masterProductPriceId}`);
       done();
     });
   });
 
-  test('should return the Id of the updated master product price', done => {
+  test('should return the Id of the updated master product price', (done) => {
     let masterProductPriceId;
 
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         const masterProductId = results[0];
         const storeId = results[1];
 
         return MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId));
       })
-      .then(id => {
+      .then((id) => {
         masterProductPriceId = id;
 
         return MasterProductPriceService.update(createMasterProductPriceInfo().set('id', masterProductPriceId));
       })
-      .then(id => {
+      .then((id) => {
         expect(id).toBe(masterProductPriceId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should update the existing master product price', done => {
+  test('should update the existing master product price', (done) => {
     let expectedMasterProductPriceInfo;
     let expectedMasterProductId;
     let expectedStoreId;
     let masterProductPriceId;
 
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         expectedMasterProductId = results[0];
         expectedStoreId = results[1];
         expectedMasterProductPriceInfo = createMasterProductPriceInfo(expectedMasterProductId, expectedStoreId);
@@ -181,12 +181,12 @@ describe('update', () => {
       })
       .then(id => MasterProductPriceService.create(createMasterProductPriceInfo(id)))
       .then(id => MasterProductPriceService.update(expectedMasterProductPriceInfo.set('id', id)))
-      .then(id => {
+      .then((id) => {
         masterProductPriceId = id;
 
         return MasterProductPriceService.read(masterProductPriceId);
       })
-      .then(masterProductPriceInfo => {
+      .then((masterProductPriceInfo) => {
         expectMasterProductPriceInfo(
           masterProductPriceInfo,
           expectedMasterProductPriceInfo,
@@ -196,7 +196,7 @@ describe('update', () => {
         );
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -204,26 +204,26 @@ describe('update', () => {
 });
 
 describe('delete', () => {
-  test('should reject if the provided master product price Id does not exist', done => {
+  test('should reject if the provided master product price Id does not exist', (done) => {
     const masterProductPriceId = uuid();
 
-    MasterProductPriceService.delete(masterProductPriceId).catch(error => {
+    MasterProductPriceService.delete(masterProductPriceId).catch((error) => {
       expect(error).toBe(`No master product price found with Id: ${masterProductPriceId}`);
       done();
     });
   });
 
-  test('should delete the existing master product price', done => {
+  test('should delete the existing master product price', (done) => {
     let masterProductPriceId;
 
     MasterProductService.create(createMasterProductInfo())
       .then(id => MasterProductPriceService.create(createMasterProductPriceInfo(id)))
-      .then(id => {
+      .then((id) => {
         masterProductPriceId = id;
         return MasterProductPriceService.delete(masterProductPriceId);
       })
       .then(() => MasterProductPriceService.read(masterProductPriceId))
-      .catch(error => {
+      .catch((error) => {
         expect(error).toBe(`No master product price found with Id: ${masterProductPriceId}`);
         done();
       });
@@ -231,47 +231,47 @@ describe('delete', () => {
 });
 
 describe('search', () => {
-  test('should return no master product price if provided criteria matches no master product price', done => {
+  test('should return no master product price if provided criteria matches no master product price', (done) => {
     MasterProductPriceService.search(createCriteria())
-      .then(masterProductPriceInfos => {
+      .then((masterProductPriceInfos) => {
         expect(masterProductPriceInfos.size).toBe(0);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should return the master products price matches the criteria', done => {
+  test('should return the master products price matches the criteria', (done) => {
     let expectedMasterProductPriceInfo;
     let masterProductPriceId;
     let masterProductId;
     let storeId;
 
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         masterProductId = results[0];
         storeId = results[1];
         expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
 
         return MasterProductPriceService.create(expectedMasterProductPriceInfo);
       })
-      .then(id => {
+      .then((id) => {
         masterProductPriceId = id;
 
         return MasterProductPriceService.search(
           createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
         );
       })
-      .then(masterProductPriceInfos => {
+      .then((masterProductPriceInfos) => {
         expect(masterProductPriceInfos.size).toBe(1);
 
         const masterProductPriceInfo = masterProductPriceInfos.first();
         expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -279,11 +279,11 @@ describe('search', () => {
 });
 
 describe('searchAll', () => {
-  test('should return no master product price if provided criteria matches no master product price', done => {
+  test('should return no master product price if provided criteria matches no master product price', (done) => {
     const result = MasterProductPriceService.searchAll(createCriteria());
     let masterProductPrices = List();
 
-    result.event.subscribe(masterProductPrice => {
+    result.event.subscribe((masterProductPrice) => {
       masterProductPrices = masterProductPrices.push(masterProductPrice);
     });
     result.promise
@@ -292,20 +292,20 @@ describe('searchAll', () => {
         expect(masterProductPrices.size).toBe(0);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         result.event.unsubscribeAll();
         fail(error);
         done();
       });
   });
 
-  test('should return the master products price matches the criteria', done => {
+  test('should return the master products price matches the criteria', (done) => {
     let masterProductId;
     let storeId;
     let expectedMasterProductPriceInfo;
 
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         masterProductId = results[0];
         storeId = results[1];
         expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
@@ -315,14 +315,14 @@ describe('searchAll', () => {
           MasterProductPriceService.create(expectedMasterProductPriceInfo),
         ]);
       })
-      .then(ids => {
+      .then((ids) => {
         const masterProductPriceIds = List.of(ids[0], ids[1]);
         const result = MasterProductPriceService.searchAll(
           createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
         );
         let masterProductPrices = List();
 
-        result.event.subscribe(masterProductPrice => {
+        result.event.subscribe((masterProductPrice) => {
           masterProductPrices = masterProductPrices.push(masterProductPrice);
         });
         result.promise
@@ -331,13 +331,13 @@ describe('searchAll', () => {
             expect(masterProductPrices.size).toBe(masterProductPriceIds.size);
             done();
           })
-          .catch(error => {
+          .catch((error) => {
             result.event.unsubscribeAll();
             fail(error);
             done();
           });
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -345,25 +345,25 @@ describe('searchAll', () => {
 });
 
 describe('exists', () => {
-  test('should return false if no master product price match provided criteria', done => {
+  test('should return false if no master product price match provided criteria', (done) => {
     MasterProductPriceService.exists(createCriteria())
-      .then(response => {
+      .then((response) => {
         expect(response).toBeFalsy();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should return true if any master product price match provided criteria', done => {
+  test('should return true if any master product price match provided criteria', (done) => {
     let expectedMasterProductPriceInfo;
     let masterProductId;
     let storeId;
 
     Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then(results => {
+      .then((results) => {
         masterProductId = results[0];
         storeId = results[1];
 
@@ -374,11 +374,11 @@ describe('exists', () => {
       .then(() =>
         MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId)),
       )
-      .then(response => {
+      .then((response) => {
         expect(response).toBeTruthy();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });

@@ -17,7 +17,7 @@ export default class MasterProductPriceService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No master product price found with Id: ${id}`);
           } else {
@@ -33,7 +33,7 @@ export default class MasterProductPriceService {
         .equalTo('objectId', info.get('id'))
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No master product price found with Id: ${info.get('id')}`);
           } else {
@@ -51,7 +51,7 @@ export default class MasterProductPriceService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No master product price found with Id: ${id}`);
           } else {
@@ -69,7 +69,7 @@ export default class MasterProductPriceService {
         .catch(error => reject(error)),
     );
 
-  static searchAll = criteria => {
+  static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = MasterProductPriceService.buildSearchQuery(criteria).each(_ => event.raise(new MasterProductPrice(_).getInfo()));
 
@@ -84,7 +84,7 @@ export default class MasterProductPriceService {
       MasterProductPriceService.buildSearchQuery(criteria).count().then(total => resolve(total > 0)).catch(error => reject(error)),
     );
 
-  static buildSearchQuery = criteria => {
+  static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
 
     if (criteria.has('includeStore')) {

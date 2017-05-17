@@ -6,7 +6,7 @@ import MasterProduct from './MasterProduct';
 import Store from './Store';
 
 export default class MasterProductPrice extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new MasterProductPrice();
 
     MasterProductPrice.updateInfoInternal(object, info);
@@ -25,7 +25,7 @@ export default class MasterProductPrice extends BaseObject {
     super(object, 'MasterProductPrice');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     MasterProductPrice.updateInfoInternal(object, info);

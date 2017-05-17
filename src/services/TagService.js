@@ -17,7 +17,7 @@ export default class TagService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No tag found with Id: ${id}`);
           } else {
@@ -33,7 +33,7 @@ export default class TagService {
         .equalTo('objectId', info.get('id'))
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No tag found with Id: ${info.get('id')}`);
           } else {
@@ -51,7 +51,7 @@ export default class TagService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No tag found with Id: ${id}`);
           } else {
@@ -69,7 +69,7 @@ export default class TagService {
         .catch(error => reject(error)),
     );
 
-  static searchAll = criteria => {
+  static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = TagService.buildSearchQuery(criteria).each(_ => event.raise(new Tag(_).getInfo()));
 
@@ -82,7 +82,7 @@ export default class TagService {
   static exists = criteria =>
     new Promise((resolve, reject) => TagService.buildSearchQuery(criteria).count().then(total => resolve(total > 0)).catch(error => reject(error)));
 
-  static buildSearchQuery = criteria => {
+  static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(Tag, criteria);
 
     if (!criteria.has('conditions')) {

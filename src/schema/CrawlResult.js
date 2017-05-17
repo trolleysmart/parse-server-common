@@ -5,7 +5,7 @@ import { BaseObject } from 'micro-business-parse-server-common';
 import CrawlSession from './CrawlSession';
 
 export default class CrawlResult extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new CrawlResult();
 
     CrawlResult.updateInfoInternal(object, info);
@@ -22,7 +22,7 @@ export default class CrawlResult extends BaseObject {
     super(object, 'CrawlResult');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     CrawlResult.updateInfoInternal(object, info);

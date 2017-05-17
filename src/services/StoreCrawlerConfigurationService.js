@@ -17,7 +17,7 @@ export default class StoreCrawlerConfigurationService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No store crawler configuration found with Id: ${id}`);
           } else {
@@ -33,7 +33,7 @@ export default class StoreCrawlerConfigurationService {
         .equalTo('objectId', info.get('id'))
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No store crawler configuration found with Id: ${info.get('id')}`);
           } else {
@@ -51,7 +51,7 @@ export default class StoreCrawlerConfigurationService {
         .equalTo('objectId', id)
         .limit(1)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No store crawler configuration found with Id: ${id}`);
           } else {
@@ -69,7 +69,7 @@ export default class StoreCrawlerConfigurationService {
         .catch(error => reject(error)),
     );
 
-  static searchAll = criteria => {
+  static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = StoreCrawlerConfigurationService.buildSearchQuery(criteria).each(_ => event.raise(new StoreCrawlerConfiguration(_).getInfo()));
 
@@ -84,7 +84,7 @@ export default class StoreCrawlerConfigurationService {
       StoreCrawlerConfigurationService.buildSearchQuery(criteria).count().then(total => resolve(total > 0)).catch(error => reject(error)),
     );
 
-  static buildSearchQuery = criteria => {
+  static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StoreCrawlerConfiguration, criteria);
 
     if (!criteria.has('conditions')) {

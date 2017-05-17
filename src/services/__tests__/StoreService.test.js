@@ -31,33 +31,33 @@ function createCriteriaUsingProvidedStoreInfo(storeInfo) {
 }
 
 describe('create', () => {
-  test('should return the created store Id', done => {
+  test('should return the created store Id', (done) => {
     StoreService.create(createStoreInfo())
-      .then(result => {
+      .then((result) => {
         expect(result).toBeDefined();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should create the store', done => {
+  test('should create the store', (done) => {
     const expectedStoreInfo = createStoreInfo();
     let storeId;
 
     StoreService.create(expectedStoreInfo)
-      .then(id => {
+      .then((id) => {
         storeId = id;
 
         return StoreService.read(storeId);
       })
-      .then(storeInfo => {
+      .then((storeInfo) => {
         expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -65,30 +65,30 @@ describe('create', () => {
 });
 
 describe('read', () => {
-  test('should reject if the provided store Id does not exist', done => {
+  test('should reject if the provided store Id does not exist', (done) => {
     const storeId = uuid();
 
-    StoreService.read(storeId).catch(error => {
+    StoreService.read(storeId).catch((error) => {
       expect(error).toBe(`No store found with Id: ${storeId}`);
       done();
     });
   });
 
-  test('should read the existing store', done => {
+  test('should read the existing store', (done) => {
     const expectedStoreInfo = createStoreInfo();
     let storeId;
 
     StoreService.create(expectedStoreInfo)
-      .then(id => {
+      .then((id) => {
         storeId = id;
 
         return StoreService.read(storeId);
       })
-      .then(storeInfo => {
+      .then((storeInfo) => {
         expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -96,50 +96,50 @@ describe('read', () => {
 });
 
 describe('update', () => {
-  test('should reject if the provided store Id does not exist', done => {
+  test('should reject if the provided store Id does not exist', (done) => {
     const storeId = uuid();
 
-    StoreService.update(createStoreInfo().set('id', storeId)).catch(error => {
+    StoreService.update(createStoreInfo().set('id', storeId)).catch((error) => {
       expect(error).toBe(`No store found with Id: ${storeId}`);
       done();
     });
   });
 
-  test('should return the Id of the updated store', done => {
+  test('should return the Id of the updated store', (done) => {
     let storeId;
 
     StoreService.create(createStoreInfo())
-      .then(id => {
+      .then((id) => {
         storeId = id;
 
         return StoreService.update(createStoreInfo().set('id', storeId));
       })
-      .then(id => {
+      .then((id) => {
         expect(id).toBe(storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should update the existing store', done => {
+  test('should update the existing store', (done) => {
     const expectedStoreInfo = createStoreInfo();
     let storeId;
 
     StoreService.create(createStoreInfo())
       .then(id => StoreService.update(expectedStoreInfo.set('id', id)))
-      .then(id => {
+      .then((id) => {
         storeId = id;
 
         return StoreService.read(storeId);
       })
-      .then(storeInfo => {
+      .then((storeInfo) => {
         expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -147,25 +147,25 @@ describe('update', () => {
 });
 
 describe('delete', () => {
-  test('should reject if the provided store Id does not exist', done => {
+  test('should reject if the provided store Id does not exist', (done) => {
     const storeId = uuid();
 
-    StoreService.delete(storeId).catch(error => {
+    StoreService.delete(storeId).catch((error) => {
       expect(error).toBe(`No store found with Id: ${storeId}`);
       done();
     });
   });
 
-  test('should delete the existing store', done => {
+  test('should delete the existing store', (done) => {
     let storeId;
 
     StoreService.create(createStoreInfo())
-      .then(id => {
+      .then((id) => {
         storeId = id;
         return StoreService.delete(storeId);
       })
       .then(() => StoreService.read(storeId))
-      .catch(error => {
+      .catch((error) => {
         expect(error).toBe(`No store found with Id: ${storeId}`);
         done();
       });
@@ -173,36 +173,36 @@ describe('delete', () => {
 });
 
 describe('search', () => {
-  test('should return no store if provided criteria matches no store', done => {
+  test('should return no store if provided criteria matches no store', (done) => {
     StoreService.search(createCriteria())
-      .then(stores => {
+      .then((stores) => {
         expect(stores.size).toBe(0);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should return the stores matches the criteria', done => {
+  test('should return the stores matches the criteria', (done) => {
     const expectedStoreInfo = createStoreInfo();
     let storeId;
 
     StoreService.create(expectedStoreInfo)
-      .then(id => {
+      .then((id) => {
         storeId = id;
 
         return StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
       })
-      .then(storeInfos => {
+      .then((storeInfos) => {
         expect(storeInfos.size).toBe(1);
 
         const storeInfo = storeInfos.first();
         expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -210,11 +210,11 @@ describe('search', () => {
 });
 
 describe('searchAll', () => {
-  test('should return no store if provided criteria matches no store', done => {
+  test('should return no store if provided criteria matches no store', (done) => {
     const result = StoreService.searchAll(createCriteria());
     let stores = List();
 
-    result.event.subscribe(store => {
+    result.event.subscribe((store) => {
       stores = stores.push(store);
     });
     result.promise
@@ -223,23 +223,23 @@ describe('searchAll', () => {
         expect(stores.size).toBe(0);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         result.event.unsubscribeAll();
         fail(error);
         done();
       });
   });
 
-  test('should return the stores matches the criteria', done => {
+  test('should return the stores matches the criteria', (done) => {
     const expectedStoreInfo = createStoreInfo();
 
     Promise.all([StoreService.create(expectedStoreInfo), StoreService.create(expectedStoreInfo)])
-      .then(ids => {
+      .then((ids) => {
         const storeIds = List.of(ids[0], ids[1]);
         const result = StoreService.searchAll(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
         let stores = List();
 
-        result.event.subscribe(store => {
+        result.event.subscribe((store) => {
           stores = stores.push(store);
         });
         result.promise
@@ -248,13 +248,13 @@ describe('searchAll', () => {
             expect(stores.size).toBe(storeIds.size);
             done();
           })
-          .catch(error => {
+          .catch((error) => {
             result.event.unsubscribeAll();
             fail(error);
             done();
           });
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -262,28 +262,28 @@ describe('searchAll', () => {
 });
 
 describe('exists', () => {
-  test('should return false if no store match provided criteria', done => {
+  test('should return false if no store match provided criteria', (done) => {
     StoreService.exists(createCriteria())
-      .then(response => {
+      .then((response) => {
         expect(response).toBeFalsy();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should return true if any store match provided criteria', done => {
+  test('should return true if any store match provided criteria', (done) => {
     const storeInfo = createStoreInfo();
 
     StoreService.create(storeInfo)
       .then(() => StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo)))
-      .then(response => {
+      .then((response) => {
         expect(response).toBeTruthy();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });

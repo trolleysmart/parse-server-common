@@ -5,7 +5,7 @@ import { BaseObject } from 'micro-business-parse-server-common';
 import Tag from './Tag';
 
 export default class MasterProduct extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new MasterProduct();
 
     MasterProduct.updateInfoInternal(object, info);
@@ -37,7 +37,7 @@ export default class MasterProduct extends BaseObject {
     super(object, 'MasterProduct');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     MasterProduct.updateInfoInternal(object, info);

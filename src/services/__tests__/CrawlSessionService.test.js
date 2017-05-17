@@ -33,33 +33,33 @@ export function createCriteriaUsingProvidedCrawlSessionInfo(crawlSessionInfo) {
 }
 
 describe('create', () => {
-  test('should return the created crawl session Id', done => {
+  test('should return the created crawl session Id', (done) => {
     CrawlSessionService.create(createCrawlSessionInfo())
-      .then(result => {
+      .then((result) => {
         expect(result).toBeDefined();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should create the crawl session', done => {
+  test('should create the crawl session', (done) => {
     const expectedCrawlSessionInfo = createCrawlSessionInfo();
     let crawlSessionId;
 
     CrawlSessionService.create(expectedCrawlSessionInfo)
-      .then(id => {
+      .then((id) => {
         crawlSessionId = id;
 
         return CrawlSessionService.read(crawlSessionId);
       })
-      .then(crawlSessionInfo => {
+      .then((crawlSessionInfo) => {
         expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -67,30 +67,30 @@ describe('create', () => {
 });
 
 describe('read', () => {
-  test('should reject if the provided crawl session Id does not exist', done => {
+  test('should reject if the provided crawl session Id does not exist', (done) => {
     const crawlSessionId = uuid();
 
-    CrawlSessionService.read(crawlSessionId).catch(error => {
+    CrawlSessionService.read(crawlSessionId).catch((error) => {
       expect(error).toBe(`No crawl session found with Id: ${crawlSessionId}`);
       done();
     });
   });
 
-  test('should read the existing crawl session', done => {
+  test('should read the existing crawl session', (done) => {
     const expectedCrawlSessionInfo = createCrawlSessionInfo();
     let crawlSessionId;
 
     CrawlSessionService.create(expectedCrawlSessionInfo)
-      .then(id => {
+      .then((id) => {
         crawlSessionId = id;
 
         return CrawlSessionService.read(crawlSessionId);
       })
-      .then(crawlSessionInfo => {
+      .then((crawlSessionInfo) => {
         expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -98,50 +98,50 @@ describe('read', () => {
 });
 
 describe('update', () => {
-  test('should reject if the provided crawl session Id does not exist', done => {
+  test('should reject if the provided crawl session Id does not exist', (done) => {
     const crawlSessionId = uuid();
 
-    CrawlSessionService.update(createCrawlSessionInfo().set('id', crawlSessionId)).catch(error => {
+    CrawlSessionService.update(createCrawlSessionInfo().set('id', crawlSessionId)).catch((error) => {
       expect(error).toBe(`No crawl session found with Id: ${crawlSessionId}`);
       done();
     });
   });
 
-  test('should return the Id of the updated crawl session', done => {
+  test('should return the Id of the updated crawl session', (done) => {
     let crawlSessionId;
 
     CrawlSessionService.create(createCrawlSessionInfo())
-      .then(id => {
+      .then((id) => {
         crawlSessionId = id;
 
         return CrawlSessionService.update(createCrawlSessionInfo().set('id', crawlSessionId));
       })
-      .then(id => {
+      .then((id) => {
         expect(id).toBe(crawlSessionId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should update the existing crawl session', done => {
+  test('should update the existing crawl session', (done) => {
     const expectedCrawlSessionInfo = createCrawlSessionInfo();
     let crawlSessionId;
 
     CrawlSessionService.create(createCrawlSessionInfo())
       .then(id => CrawlSessionService.update(expectedCrawlSessionInfo.set('id', id)))
-      .then(id => {
+      .then((id) => {
         crawlSessionId = id;
 
         return CrawlSessionService.read(crawlSessionId);
       })
-      .then(crawlSessionInfo => {
+      .then((crawlSessionInfo) => {
         expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -149,25 +149,25 @@ describe('update', () => {
 });
 
 describe('delete', () => {
-  test('should reject if the provided crawl session Id does not exist', done => {
+  test('should reject if the provided crawl session Id does not exist', (done) => {
     const crawlSessionId = uuid();
 
-    CrawlSessionService.delete(crawlSessionId).catch(error => {
+    CrawlSessionService.delete(crawlSessionId).catch((error) => {
       expect(error).toBe(`No crawl session found with Id: ${crawlSessionId}`);
       done();
     });
   });
 
-  test('should delete the existing crawl session', done => {
+  test('should delete the existing crawl session', (done) => {
     let crawlSessionId;
 
     CrawlSessionService.create(createCrawlSessionInfo())
-      .then(id => {
+      .then((id) => {
         crawlSessionId = id;
         return CrawlSessionService.delete(crawlSessionId);
       })
       .then(() => CrawlSessionService.read(crawlSessionId))
-      .catch(error => {
+      .catch((error) => {
         expect(error).toBe(`No crawl session found with Id: ${crawlSessionId}`);
         done();
       });
@@ -175,36 +175,36 @@ describe('delete', () => {
 });
 
 describe('search', () => {
-  test('should return no crawl session if provided criteria matches no crawl session', done => {
+  test('should return no crawl session if provided criteria matches no crawl session', (done) => {
     CrawlSessionService.search(createCriteria())
-      .then(crawlSessionInfos => {
+      .then((crawlSessionInfos) => {
         expect(crawlSessionInfos.size).toBe(0);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should return the crawl sessions matches the criteria', done => {
+  test('should return the crawl sessions matches the criteria', (done) => {
     const expectedCrawlSessionInfo = createCrawlSessionInfo();
     let crawlSessionId;
 
     CrawlSessionService.create(expectedCrawlSessionInfo)
-      .then(id => {
+      .then((id) => {
         crawlSessionId = id;
 
         return CrawlSessionService.search(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
       })
-      .then(crawlSessionInfos => {
+      .then((crawlSessionInfos) => {
         expect(crawlSessionInfos.size).toBe(1);
 
         const crawlSessionInfo = crawlSessionInfos.first();
         expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -212,11 +212,11 @@ describe('search', () => {
 });
 
 describe('searchAll', () => {
-  test('should return no crawl session if provided criteria matches no crawl session', done => {
+  test('should return no crawl session if provided criteria matches no crawl session', (done) => {
     const result = CrawlSessionService.searchAll(createCriteria());
     let crawlSessions = List();
 
-    result.event.subscribe(crawlSession => {
+    result.event.subscribe((crawlSession) => {
       crawlSessions = crawlSessions.push(crawlSession);
     });
     result.promise
@@ -225,23 +225,23 @@ describe('searchAll', () => {
         expect(crawlSessions.size).toBe(0);
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         result.event.unsubscribeAll();
         fail(error);
         done();
       });
   });
 
-  test('should return the crawl sessions matches the criteria', done => {
+  test('should return the crawl sessions matches the criteria', (done) => {
     const expectedCrawlSessionInfo = createCrawlSessionInfo();
 
     Promise.all([CrawlSessionService.create(expectedCrawlSessionInfo), CrawlSessionService.create(expectedCrawlSessionInfo)])
-      .then(ids => {
+      .then((ids) => {
         const crawlSessionIds = List.of(ids[0], ids[1]);
         const result = CrawlSessionService.searchAll(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
         let crawlSessions = List();
 
-        result.event.subscribe(crawlSession => {
+        result.event.subscribe((crawlSession) => {
           crawlSessions = crawlSessions.push(crawlSession);
         });
         result.promise
@@ -250,13 +250,13 @@ describe('searchAll', () => {
             expect(crawlSessions.size).toBe(crawlSessionIds.size);
             done();
           })
-          .catch(error => {
+          .catch((error) => {
             result.event.unsubscribeAll();
             fail(error);
             done();
           });
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
@@ -264,28 +264,28 @@ describe('searchAll', () => {
 });
 
 describe('exists', () => {
-  test('should return false if no crawl session match provided criteria', done => {
+  test('should return false if no crawl session match provided criteria', (done) => {
     CrawlSessionService.exists(createCriteria())
-      .then(response => {
+      .then((response) => {
         expect(response).toBeFalsy();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });
   });
 
-  test('should return true if any crawl session match provided criteria', done => {
+  test('should return true if any crawl session match provided criteria', (done) => {
     const crawlSessionInfo = createCrawlSessionInfo();
 
     CrawlSessionService.create(crawlSessionInfo)
       .then(() => CrawlSessionService.exists(createCriteriaUsingProvidedCrawlSessionInfo(crawlSessionInfo)))
-      .then(response => {
+      .then((response) => {
         expect(response).toBeTruthy();
         done();
       })
-      .catch(error => {
+      .catch((error) => {
         fail(error);
         done();
       });

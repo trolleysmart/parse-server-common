@@ -4,7 +4,7 @@ import Immutable, { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
 export default class StoreCrawlerConfiguration extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new StoreCrawlerConfiguration();
 
     StoreCrawlerConfiguration.updateInfoInternal(object, info);
@@ -21,7 +21,7 @@ export default class StoreCrawlerConfiguration extends BaseObject {
     super(object, 'StoreCrawlerConfiguration');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     StoreCrawlerConfiguration.updateInfoInternal(object, info);

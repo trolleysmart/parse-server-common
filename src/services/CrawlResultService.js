@@ -1,75 +1,58 @@
 // @flow
 
 import Immutable from 'immutable';
-import { ParseWrapperService } from 'micro-business-parse-server-common';
+import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { CrawlResult, CrawlSession } from '../schema';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class CrawlResultService {
-  static create = info =>
-    new Promise((resolve, reject) => {
-      CrawlResult.spawn(info).save().then(result => resolve(result.id)).catch(error => reject(error));
-    });
+  static create = async (info) => {
+    const result = await CrawlResult.spawn(info).save();
 
-  static read = id =>
-    new Promise((resolve, reject) => {
-      ParseWrapperService.createQuery(CrawlResult)
-        .equalTo('objectId', id)
-        .limit(1)
-        .find()
-        .then(results => {
-          if (results.length === 0) {
-            reject(`No crawl result found with Id: ${id}`);
-          } else {
-            resolve(new CrawlResult(results[0]).getInfo());
-          }
-        })
-        .catch(error => reject(error));
-    });
+    return result.id;
+  };
 
-  static update = info =>
-    new Promise((resolve, reject) => {
-      ParseWrapperService.createQuery(CrawlResult)
-        .equalTo('objectId', info.get('id'))
-        .limit(1)
-        .find()
-        .then(results => {
-          if (results.length === 0) {
-            reject(`No crawl result found with Id: ${info.get('id')}`);
-          } else {
-            const object = new CrawlResult(results[0]);
+  static read = async (id) => {
+    const results = await ParseWrapperService.createQuery(CrawlResult).equalTo('objectId', id).limit(1).find();
 
-            object.updateInfo(info).saveObject().then(() => resolve(object.getId())).catch(error => reject(error));
-          }
-        })
-        .catch(error => reject(error));
-    });
+    if (results.length === 0) {
+      throw new Exception(`No crawl result found with Id: ${id}`);
+    }
 
-  static delete = id =>
-    new Promise((resolve, reject) => {
-      ParseWrapperService.createQuery(CrawlResult)
-        .equalTo('objectId', id)
-        .limit(1)
-        .find()
-        .then(results => {
-          if (results.length === 0) {
-            reject(`No crawl result found with Id: ${id}`);
-          } else {
-            results[0].destroy().then(() => resolve()).catch(error => reject(error));
-          }
-        })
-        .catch(error => reject(error));
-    });
+    return new CrawlResult(results[0]).getInfo();
+  };
 
-  static search = criteria =>
-    new Promise((resolve, reject) =>
-      CrawlResultService.buildSearchQuery(criteria)
-        .find()
-        .then(results => resolve(Immutable.fromJS(results).map(_ => new CrawlResult(_).getInfo())))
-        .catch(error => reject(error)),
-    );
+  static update = async (info) => {
+    const results = await ParseWrapperService.createQuery(CrawlResult).equalTo('objectId', info.get('id')).limit(1).find();
 
-  static searchAll = criteria => {
+    if (results.length === 0) {
+      throw new Exception(`No crawl result found with Id: ${info.get('id')}`);
+    } else {
+      const object = new CrawlResult(results[0]);
+
+      await object.updateInfo(info).saveObject();
+
+      return object.getId();
+    }
+  };
+
+  static delete = async (id) => {
+    const results = await ParseWrapperService.createQuery(CrawlResult).equalTo('objectId', id).limit(1).find();
+
+    if (results.length === 0) {
+      throw new Exception(`No crawl result found with Id: ${id}`);
+    } else {
+      await results[0].destroy();
+    }
+  };
+
+  static search = async (criteria) => {
+    const results = await CrawlResultService.buildSearchQuery(criteria).find();
+
+    return Immutable.fromJS(results).map(_ => new CrawlResult(_).getInfo());
+  };
+
+  static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = CrawlResultService.buildSearchQuery(criteria).each(_ => event.raise(new CrawlResult(_).getInfo()));
 
@@ -79,12 +62,13 @@ export default class CrawlResultService {
     };
   };
 
-  static exists = criteria =>
-    new Promise((resolve, reject) =>
-      CrawlResultService.buildSearchQuery(criteria).count().then(total => resolve(total > 0)).catch(error => reject(error)),
-    );
+  static exists = async (criteria) => {
+    const total = await CrawlResultService.buildSearchQuery(criteria).count();
 
-  static buildSearchQuery = criteria => {
+    return total > 0;
+  };
+
+  static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(CrawlResult, criteria);
 
     if (!criteria.has('conditions')) {

@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import { BaseObject, ParseWrapperService } from 'micro-business-parse-server-common';
 
 export default class StapleShoppingList extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new StapleShoppingList();
 
     StapleShoppingList.updateInfoInternal(object, info);
@@ -21,7 +21,7 @@ export default class StapleShoppingList extends BaseObject {
     super(object, 'StapleShoppingList');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     const object = this.getObject();
 
     StapleShoppingList.updateInfoInternal(object, info);

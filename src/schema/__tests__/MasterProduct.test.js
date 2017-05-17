@@ -13,8 +13,8 @@ export function createMasterProductInfo(tagIds) {
 
   return tagIds
     ? info.merge({
-        tagIds,
-      })
+      tagIds,
+    })
     : info;
 }
 
