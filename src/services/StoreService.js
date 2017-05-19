@@ -84,11 +84,6 @@ export default class StoreService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(Store, criteria);
-
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(Store, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('name')) {
@@ -115,6 +110,6 @@ export default class StoreService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(Store, query, criteria);
+    return query;
   };
 }

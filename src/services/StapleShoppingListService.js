@@ -86,11 +86,6 @@ export default class StapleShoppingListService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleShoppingList, criteria);
-
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(StapleShoppingList, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('userId')) {
@@ -101,6 +96,6 @@ export default class StapleShoppingListService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(StapleShoppingList, query, criteria);
+    return query;
   };
 }

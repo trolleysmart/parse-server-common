@@ -122,11 +122,6 @@ StoreCrawlerConfigurationService.exists = function (criteria) {
 
 StoreCrawlerConfigurationService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreCrawlerConfiguration, criteria);
-
-  if (!criteria.has('conditions')) {
-    return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.StoreCrawlerConfiguration, query, criteria);
-  }
-
   var conditions = criteria.get('conditions');
 
   if (conditions.has('key')) {
@@ -137,7 +132,7 @@ StoreCrawlerConfigurationService.buildSearchQuery = function (criteria) {
     }
   }
 
-  return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.StoreCrawlerConfiguration, query, criteria);
+  return query;
 };
 
 exports.default = StoreCrawlerConfigurationService;

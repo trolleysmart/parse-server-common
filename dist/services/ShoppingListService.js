@@ -139,10 +139,6 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (!criteria.has('conditions')) {
-    return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.ShoppingList, query, criteria);
-  }
-
   var conditions = criteria.get('conditions');
 
   if (conditions.has('userId')) {
@@ -153,7 +149,7 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.ShoppingList, query, criteria);
+  return query;
 };
 
 exports.default = ShoppingListService;

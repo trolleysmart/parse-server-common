@@ -237,11 +237,6 @@ CrawlResultService.exists = function () {
 
 CrawlResultService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult, criteria);
-
-  if (!criteria.has('conditions')) {
-    return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.CrawlResult, query, criteria);
-  }
-
   var conditions = criteria.get('conditions');
 
   if (conditions.has('crawlSessionId')) {
@@ -252,7 +247,7 @@ CrawlResultService.buildSearchQuery = function (criteria) {
     }
   }
 
-  return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.CrawlResult, query, criteria);
+  return query;
 };
 
 exports.default = CrawlResultService;

@@ -122,11 +122,6 @@ StoreService.exists = function (criteria) {
 
 StoreService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
-
-  if (!criteria.has('conditions')) {
-    return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Store, query, criteria);
-  }
-
   var conditions = criteria.get('conditions');
 
   if (conditions.has('name')) {
@@ -153,7 +148,7 @@ StoreService.buildSearchQuery = function (criteria) {
     }
   }
 
-  return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Store, query, criteria);
+  return query;
 };
 
 exports.default = StoreService;

@@ -86,11 +86,6 @@ export default class StapleTemplateService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleTemplate, criteria);
-
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(StapleTemplate, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('name')) {
@@ -117,6 +112,6 @@ export default class StapleTemplateService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(StapleTemplate, query, criteria);
+    return query;
   };
 }

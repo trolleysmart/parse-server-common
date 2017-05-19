@@ -103,10 +103,6 @@ export default class ShoppingListService {
       }
     }
 
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(ShoppingList, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('userId')) {
@@ -117,6 +113,6 @@ export default class ShoppingListService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(ShoppingList, query, criteria);
+    return query;
   };
 }

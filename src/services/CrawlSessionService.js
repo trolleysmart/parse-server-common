@@ -86,11 +86,6 @@ export default class CrawlSessionService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(CrawlSession, criteria);
-
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(CrawlSession, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('sessionKey')) {
@@ -165,6 +160,6 @@ export default class CrawlSessionService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(CrawlSession, query, criteria);
+    return query;
   };
 }

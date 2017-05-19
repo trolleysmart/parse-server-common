@@ -122,11 +122,6 @@ CrawlSessionService.exists = function (criteria) {
 
 CrawlSessionService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession, criteria);
-
-  if (!criteria.has('conditions')) {
-    return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.CrawlSession, query, criteria);
-  }
-
   var conditions = criteria.get('conditions');
 
   if (conditions.has('sessionKey')) {
@@ -201,7 +196,7 @@ CrawlSessionService.buildSearchQuery = function (criteria) {
     }
   }
 
-  return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.CrawlSession, query, criteria);
+  return query;
 };
 
 exports.default = CrawlSessionService;

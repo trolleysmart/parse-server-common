@@ -84,11 +84,6 @@ export default class TagService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(Tag, criteria);
-
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(Tag, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('name')) {
@@ -123,6 +118,6 @@ export default class TagService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(Tag, query, criteria);
+    return query;
   };
 }

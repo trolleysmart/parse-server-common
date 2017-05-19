@@ -95,10 +95,6 @@ export default class StapleTemplateShoppingListService {
       }
     }
 
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(StapleTemplateShoppingList, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('description')) {
@@ -157,6 +153,6 @@ export default class StapleTemplateShoppingListService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(StapleTemplateShoppingList, query, criteria);
+    return query;
   };
 }

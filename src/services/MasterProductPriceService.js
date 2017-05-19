@@ -103,10 +103,6 @@ export default class MasterProductPriceService {
       }
     }
 
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(MasterProductPrice, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('masterProductId')) {
@@ -225,6 +221,6 @@ export default class MasterProductPriceService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(MasterProductPrice, query, criteria);
+    return query;
   };
 }

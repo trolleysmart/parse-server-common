@@ -122,11 +122,6 @@ TagService.exists = function (criteria) {
 
 TagService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag, criteria);
-
-  if (!criteria.has('conditions')) {
-    return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Tag, query, criteria);
-  }
-
   var conditions = criteria.get('conditions');
 
   if (conditions.has('name')) {
@@ -161,7 +156,7 @@ TagService.buildSearchQuery = function (criteria) {
     }
   }
 
-  return _microBusinessParseServerCommon.ParseWrapperService.createQueryIncludingObjectIds(_schema.Tag, query, criteria);
+  return query;
 };
 
 exports.default = TagService;

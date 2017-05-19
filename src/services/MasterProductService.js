@@ -95,10 +95,6 @@ export default class MasterProductService {
       }
     }
 
-    if (!criteria.has('conditions')) {
-      return ParseWrapperService.createQueryIncludingObjectIds(MasterProduct, query, criteria);
-    }
-
     const conditions = criteria.get('conditions');
 
     if (conditions.has('description')) {
@@ -173,6 +169,6 @@ export default class MasterProductService {
       }
     }
 
-    return ParseWrapperService.createQueryIncludingObjectIds(MasterProduct, query, criteria);
+    return query;
   };
 }
