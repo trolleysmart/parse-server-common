@@ -131,6 +131,10 @@ MasterProductService.buildSearchQuery = function (criteria) {
     }
   }
 
+  if (!criteria.has('conditions')) {
+    return query;
+  }
+
   var conditions = criteria.get('conditions');
 
   if (conditions.has('description')) {

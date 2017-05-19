@@ -122,6 +122,11 @@ StapleTemplateService.exists = function (criteria) {
 
 StapleTemplateService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplate, criteria);
+
+  if (!criteria.has('conditions')) {
+    return query;
+  }
+
   var conditions = criteria.get('conditions');
 
   if (conditions.has('name')) {

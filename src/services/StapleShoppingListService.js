@@ -86,6 +86,11 @@ export default class StapleShoppingListService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleShoppingList, criteria);
+
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
     const conditions = criteria.get('conditions');
 
     if (conditions.has('userId')) {

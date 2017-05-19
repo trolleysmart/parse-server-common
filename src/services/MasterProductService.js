@@ -95,6 +95,10 @@ export default class MasterProductService {
       }
     }
 
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
     const conditions = criteria.get('conditions');
 
     if (conditions.has('description')) {

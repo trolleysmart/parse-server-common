@@ -122,6 +122,11 @@ CrawlSessionService.exists = function (criteria) {
 
 CrawlSessionService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession, criteria);
+
+  if (!criteria.has('conditions')) {
+    return query;
+  }
+
   var conditions = criteria.get('conditions');
 
   if (conditions.has('sessionKey')) {

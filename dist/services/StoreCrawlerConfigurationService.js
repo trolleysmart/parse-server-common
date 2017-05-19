@@ -122,6 +122,11 @@ StoreCrawlerConfigurationService.exists = function (criteria) {
 
 StoreCrawlerConfigurationService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreCrawlerConfiguration, criteria);
+
+  if (!criteria.has('conditions')) {
+    return query;
+  }
+
   var conditions = criteria.get('conditions');
 
   if (conditions.has('key')) {

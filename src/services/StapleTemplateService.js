@@ -86,6 +86,11 @@ export default class StapleTemplateService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleTemplate, criteria);
+
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
     const conditions = criteria.get('conditions');
 
     if (conditions.has('name')) {

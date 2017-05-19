@@ -70,6 +70,11 @@ export default class CrawlResultService {
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(CrawlResult, criteria);
+
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
     const conditions = criteria.get('conditions');
 
     if (conditions.has('crawlSessionId')) {
