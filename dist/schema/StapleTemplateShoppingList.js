@@ -52,7 +52,9 @@ StapleTemplateShoppingList.updateInfoInternal = function (object, info) {
   if (info.has('stapleTemplateIds')) {
     var stapleTemplateIds = info.get('stapleTemplateIds');
 
-    if (!stapleTemplateIds.isEmpty()) {
+    if (stapleTemplateIds.isEmpty()) {
+      object.set('stapleTemplates', []);
+    } else {
       object.set('stapleTemplates', stapleTemplateIds.map(function (stapleTemplateId) {
         return _StapleTemplate2.default.createWithoutData(stapleTemplateId);
       }).toArray());
@@ -60,7 +62,9 @@ StapleTemplateShoppingList.updateInfoInternal = function (object, info) {
   } else if (info.has('stapleTemplates')) {
     var stapleTemplates = info.get('stapleTemplates');
 
-    if (!stapleTemplates.isEmpty()) {
+    if (stapleTemplates.isEmpty()) {
+      object.set('stapleTemplates', []);
+    } else {
       object.set('stapleTemplates', stapleTemplates.toArray());
     }
   }

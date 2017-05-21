@@ -19,13 +19,17 @@ export default class StapleTemplateShoppingList extends BaseObject {
     if (info.has('stapleTemplateIds')) {
       const stapleTemplateIds = info.get('stapleTemplateIds');
 
-      if (!stapleTemplateIds.isEmpty()) {
+      if (stapleTemplateIds.isEmpty()) {
+        object.set('stapleTemplates', []);
+      } else {
         object.set('stapleTemplates', stapleTemplateIds.map(stapleTemplateId => StapleTemplate.createWithoutData(stapleTemplateId)).toArray());
       }
     } else if (info.has('stapleTemplates')) {
       const stapleTemplates = info.get('stapleTemplates');
 
-      if (!stapleTemplates.isEmpty()) {
+      if (stapleTemplates.isEmpty()) {
+        object.set('stapleTemplates', []);
+      } else {
         object.set('stapleTemplates', stapleTemplates.toArray());
       }
     }

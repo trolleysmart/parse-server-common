@@ -54,7 +54,9 @@ MasterProduct.updateInfoInternal = function (object, info) {
   if (info.has('tagIds')) {
     var tagIds = info.get('tagIds');
 
-    if (!tagIds.isEmpty()) {
+    if (tagIds.isEmpty()) {
+      object.set('tags', []);
+    } else {
       object.set('tags', tagIds.map(function (tagId) {
         return _Tag2.default.createWithoutData(tagId);
       }).toArray());
@@ -62,7 +64,9 @@ MasterProduct.updateInfoInternal = function (object, info) {
   } else if (info.has('tags')) {
     var tags = info.get('tags');
 
-    if (!tags.isEmpty()) {
+    if (tags.isEmpty()) {
+      object.set('tags', []);
+    } else {
       object.set('tags', tags.toArray());
     }
   }

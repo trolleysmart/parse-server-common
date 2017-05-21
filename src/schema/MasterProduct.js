@@ -21,13 +21,17 @@ export default class MasterProduct extends BaseObject {
     if (info.has('tagIds')) {
       const tagIds = info.get('tagIds');
 
-      if (!tagIds.isEmpty()) {
+      if (tagIds.isEmpty()) {
+        object.set('tags', []);
+      } else {
         object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId)).toArray());
       }
     } else if (info.has('tags')) {
       const tags = info.get('tags');
 
-      if (!tags.isEmpty()) {
+      if (tags.isEmpty()) {
+        object.set('tags', []);
+      } else {
         object.set('tags', tags.toArray());
       }
     }
