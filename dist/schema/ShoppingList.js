@@ -57,7 +57,7 @@ ShoppingList.updateInfoInternal = function (object, info) {
     var stapleShoppingListIds = info.get('stapleShoppingListIds');
 
     if (stapleShoppingListIds.isEmpty()) {
-      object.set('stapleShoppingList', undefined);
+      object.set('stapleShoppingList', []);
     } else {
       object.set('stapleShoppingList', stapleShoppingListIds.map(function (stapleShoppingListId) {
         return _StapleShoppingList2.default.createWithoutData(stapleShoppingListId);
@@ -67,7 +67,7 @@ ShoppingList.updateInfoInternal = function (object, info) {
     var stapleShoppingList = info.get('stapleShoppingList');
 
     if (stapleShoppingList.isEmpty()) {
-      object.set('stapleShoppingList', undefined);
+      object.set('stapleShoppingList', []);
     } else {
       object.set('stapleShoppingList', stapleShoppingList.toArray());
     }
@@ -77,7 +77,7 @@ ShoppingList.updateInfoInternal = function (object, info) {
     var masterProductPriceIds = info.get('masterProductPriceIds');
 
     if (masterProductPriceIds.isEmpty()) {
-      object.set('masterProductPrices', undefined);
+      object.set('masterProductPrices', []);
     } else {
       object.set('masterProductPrices', masterProductPriceIds.map(function (masterProductPriceId) {
         return _MasterProductPrice2.default.createWithoutData(masterProductPriceId);
@@ -87,7 +87,7 @@ ShoppingList.updateInfoInternal = function (object, info) {
     var masterProductPrices = info.get('masterProductPrices');
 
     if (masterProductPrices.isEmpty()) {
-      object.set('masterProductPrices', undefined);
+      object.set('masterProductPrices', []);
     } else {
       object.set('masterProductPrices', masterProductPrices.toArray());
     }
