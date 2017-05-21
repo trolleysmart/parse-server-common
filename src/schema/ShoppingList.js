@@ -44,7 +44,9 @@ export default class ShoppingList extends BaseObject {
     if (info.has('masterProductPriceIds')) {
       const masterProductPriceIds = info.get('masterProductPriceIds');
 
-      if (!masterProductPriceIds.isEmpty()) {
+        if (masterProductPriceIds.isEmpty()) {
+        object.set('masterProductPrices',undefined);
+        } else {
         object.set(
           'masterProductPrices',
           masterProductPriceIds.map(masterProductPriceId => MasterProductPrice.createWithoutData(masterProductPriceId))
