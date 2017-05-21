@@ -21,7 +21,7 @@ export default class ShoppingList extends BaseObject {
       const stapleShoppingListIds = info.get('stapleShoppingListIds');
 
       if (stapleShoppingListIds.isEmpty()) {
-        object.set('stapleShoppingList', undefined);
+        object.set('stapleShoppingList', []);
       } else {
         object.set(
           'stapleShoppingList',
@@ -32,7 +32,7 @@ export default class ShoppingList extends BaseObject {
       const stapleShoppingList = info.get('stapleShoppingList');
 
       if (stapleShoppingList.isEmpty()) {
-        object.set('stapleShoppingList', undefined);
+        object.set('stapleShoppingList', []);
       } else {
         object.set('stapleShoppingList', stapleShoppingList.toArray());
       }
@@ -42,7 +42,7 @@ export default class ShoppingList extends BaseObject {
       const masterProductPriceIds = info.get('masterProductPriceIds');
 
       if (masterProductPriceIds.isEmpty()) {
-        object.set('masterProductPrices', undefined);
+        object.set('masterProductPrices', []);
       } else {
         object.set(
           'masterProductPrices',
@@ -53,7 +53,7 @@ export default class ShoppingList extends BaseObject {
       const masterProductPrices = info.get('masterProductPrices');
 
       if (masterProductPrices.isEmpty()) {
-        object.set('masterProductPrices', undefined);
+        object.set('masterProductPrices', []);
       } else {
         object.set('masterProductPrices', masterProductPrices.toArray());
       }
