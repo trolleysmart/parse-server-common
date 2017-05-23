@@ -1,6 +1,6 @@
 // @flow
 
-import Immutable, { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import { BaseObject, ParseWrapperService } from 'micro-business-parse-server-common';
 import StapleShoppingList from './StapleShoppingList';
 import MasterProductPrice from './MasterProductPrice';
@@ -17,46 +17,24 @@ export default class ShoppingList extends BaseObject {
   static updateInfoInternal = (object, info) => {
     object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
 
-    if (info.has('stapleShoppingListIds')) {
-      const stapleShoppingListIds = info.get('stapleShoppingListIds');
+    if (info.has('stapleShoppingListId')) {
+      const stapleShoppingListId = info.get('stapleShoppingListId');
 
-      if (stapleShoppingListIds.isEmpty()) {
-        object.set('stapleShoppingList', []);
-      } else {
-        object.set(
-          'stapleShoppingList',
-          stapleShoppingListIds.map(stapleShoppingListId => StapleShoppingList.createWithoutData(stapleShoppingListId)).toArray(),
-        );
-      }
+      object.set('stapleShoppingList', StapleShoppingList.createWithoutData(stapleShoppingListId));
     } else if (info.has('stapleShoppingList')) {
       const stapleShoppingList = info.get('stapleShoppingList');
 
-      if (stapleShoppingList.isEmpty()) {
-        object.set('stapleShoppingList', []);
-      } else {
-        object.set('stapleShoppingList', stapleShoppingList.toArray());
-      }
+      object.set('stapleShoppingList', stapleShoppingList);
     }
 
-    if (info.has('masterProductPriceIds')) {
-      const masterProductPriceIds = info.get('masterProductPriceIds');
+    if (info.has('masterProductPriceId')) {
+      const masterProductPriceId = info.get('masterProductPriceId');
 
-      if (masterProductPriceIds.isEmpty()) {
-        object.set('masterProductPrices', []);
-      } else {
-        object.set(
-          'masterProductPrices',
-          masterProductPriceIds.map(masterProductPriceId => MasterProductPrice.createWithoutData(masterProductPriceId)).toArray(),
-        );
-      }
-    } else if (info.has('masterProductPrices')) {
-      const masterProductPrices = info.get('masterProductPrices');
+      object.set('masterProductPrice', MasterProductPrice.createWithoutData(masterProductPriceId));
+    } else if (info.has('masterProductPrice')) {
+      const masterProductPrice = info.get('masterProductPrice');
 
-      if (masterProductPrices.isEmpty()) {
-        object.set('masterProductPrices', []);
-      } else {
-        object.set('masterProductPrices', masterProductPrices.toArray());
-      }
+      object.set('masterProductPrice', masterProductPrice);
     }
   };
 
@@ -73,23 +51,19 @@ export default class ShoppingList extends BaseObject {
   };
 
   getInfo = () => {
-    const masterProductPricesObjects = this.getObject().get('masterProductPrices');
-    const masterProductPrices = masterProductPricesObjects
-      ? Immutable.fromJS(masterProductPricesObjects).map(masterProductPrice => new MasterProductPrice(masterProductPrice).getInfo())
-      : undefined;
+    const stapleShoppingListObject = this.getObject().get('stapleShoppingList');
+    const stapleShoppingList = stapleShoppingListObject ? new StapleShoppingList(stapleShoppingListObject).getInfo() : undefined;
 
-    const stapleShoppingListObjects = this.getObject().get('stapleShoppingList');
-    const stapleShoppingList = stapleShoppingListObjects
-      ? Immutable.fromJS(stapleShoppingListObjects).map(stapleShoppingListItem => new StapleShoppingList(stapleShoppingListItem).getInfo())
-      : undefined;
+    const masterProductPricesObject = this.getObject().get('masterProductPrice');
+    const masterProductPrice = masterProductPricesObject ? new MasterProductPrice(masterProductPriceObject).getInfo() : undefined;
 
     return Map({
       id: this.getId(),
       userId: this.getObject().get('user').id,
-      masterProductPrices,
-      masterProductPriceIds: masterProductPrices ? masterProductPrices.map(masterProductPrice => masterProductPrice.get('id')) : List(),
+      masterProductPrice,
+      masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined,
       stapleShoppingList,
-      stapleShoppingListIds: stapleShoppingList ? stapleShoppingList.map(stapleShoppingListItem => stapleShoppingListItem.get('id')) : List(),
+      stapleShoppingListId: stapleShoppingList ? stapleShoppingListItem.get('id') : undefined,
     });
   };
 }
