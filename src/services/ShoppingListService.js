@@ -109,6 +109,22 @@ export default class ShoppingListService {
 
     const conditions = criteria.get('conditions');
 
+    if (conditions.has('includeItemsMarkedAsDone')) {
+      const value = conditions.get('includeItemsMarkedAsDone');
+
+      if (value) {
+        query.exists('doneDate');
+      }
+    }
+
+    if (conditions.has('excludeItemsMarkedAsDone')) {
+      const value = conditions.get('excludeItemsMarkedAsDone');
+
+      if (value) {
+        query.doesNotexists('doneDate');
+      }
+    }
+
     if (conditions.has('userId')) {
       const value = conditions.get('userId');
 

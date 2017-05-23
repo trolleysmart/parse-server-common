@@ -131,11 +131,11 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (criteria.has('includeMasterProductPrices')) {
-    var _value = criteria.get('includeMasterProductPrices');
+  if (criteria.has('includeMasterProductPrice')) {
+    var _value = criteria.get('includeMasterProductPrice');
 
     if (_value) {
-      query.include('masterProductPrices');
+      query.include('masterProductPrice');
     }
   }
 
@@ -145,11 +145,43 @@ ShoppingListService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
-  if (conditions.has('userId')) {
-    var _value2 = conditions.get('userId');
+  if (conditions.has('includeItemsMarkedAsDone')) {
+    var _value2 = conditions.get('includeItemsMarkedAsDone');
 
     if (_value2) {
-      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(_value2));
+      query.exists('doneDate');
+    }
+  }
+
+  if (conditions.has('excludeItemsMarkedAsDone')) {
+    var _value3 = conditions.get('excludeItemsMarkedAsDone');
+
+    if (_value3) {
+      query.doesNotexists('doneDate');
+    }
+  }
+
+  if (conditions.has('userId')) {
+    var _value4 = conditions.get('userId');
+
+    if (_value4) {
+      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(_value4));
+    }
+  }
+
+  if (conditions.has('stapleShoppingListId')) {
+    var _value5 = conditions.get('stapleShoppingListId');
+
+    if (_value5) {
+      query.equalTo('stapleShoppingList', _schema.StapleShoppingList.createWithoutData(_value5));
+    }
+  }
+
+  if (conditions.has('masterProductPriceId')) {
+    var _value6 = conditions.get('masterProductPriceId');
+
+    if (_value6) {
+      query.equalTo('masterProductPrice', _schema.MasterProductPrice.createWithoutData(_value6));
     }
   }
 

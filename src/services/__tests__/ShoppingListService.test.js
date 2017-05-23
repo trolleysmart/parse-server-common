@@ -12,32 +12,35 @@ import { createStapleShoppingListInfo } from '../../schema/__tests__/StapleShopp
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId, stapleShoppingListId, masterProductPriceId) {
   expect(shoppingListInfo.get('id')).toBe(shoppingListId);
   expect(shoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
+  expect(shoppingListInfo.get('doneDate')).toEqual(expectedShoppingListInfo.get('doneDate'));
   expect(shoppingListInfo.get('stapleShoppingListId')).toEqual(stapleShoppingListId);
   expect(shoppingListInfo.get('masterProductPriceId')).toEqual(masterProductPriceId);
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('user', 'stapleShoppingList', 'masterProductPrice'),
+    fields: List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice'),
     includeStapleShoppingList: true,
     includeMasterProductPrice: true,
     conditions: Map({
       userId: uuid(),
       stapleShoppingListId: uuid(),
       masterProductPriceIdL: uuid(),
+      includeItemsMarkedAsDone: true,
     }),
   });
 }
 
 function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId) {
   return Map({
-    fields: List.of('user', 'stapleShoppingList', 'masterProductPrice'),
+    fields: List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice'),
     includeStapleShoppingList: true,
     includeMasterProductPrice: true,
     conditions: Map({
       userId: shoppingListInfo.get('userId'),
       stapleShoppingListId,
       masterProductPriceId,
+      includeItemsMarkedAsDone: true,
     }),
   });
 }

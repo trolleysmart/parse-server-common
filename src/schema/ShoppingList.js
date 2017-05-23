@@ -16,6 +16,7 @@ export default class ShoppingList extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
+    object.set('doneDate', info.get('doneDate'));
 
     if (info.has('stapleShoppingListId')) {
       const stapleShoppingListId = info.get('stapleShoppingListId');
@@ -60,6 +61,7 @@ export default class ShoppingList extends BaseObject {
     return Map({
       id: this.getId(),
       userId: user ? user.id : undefined,
+      doneDate: this.getObject().get('doneDate'),
       stapleShoppingList,
       stapleShoppingListId: stapleShoppingList ? stapleShoppingList.get('id') : undefined,
       masterProductPrice,

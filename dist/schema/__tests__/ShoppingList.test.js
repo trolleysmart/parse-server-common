@@ -12,14 +12,20 @@ var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
+var _MasterProductPrice = require('./MasterProductPrice.test');
+
+var _StapleShoppingList = require('./StapleShoppingList.test');
+
 var _ = require('../');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createShoppingListInfo(userId) {
+function createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId) {
   return (0, _immutable.Map)({
     userId: userId || (0, _v2.default)(),
-    items: _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
+    doneDate: new Date(),
+    stapleShoppingListId: stapleShoppingListId || (0, _StapleShoppingList.createStapleShoppingList)(userId).getId(),
+    masterProductPriceId: masterProductPriceId || (0, _MasterProductPrice.createMasterProductPrice)(userId).getId()
   });
 }
 
@@ -29,8 +35,9 @@ function createShoppingList(shoppingListInfo) {
 
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo) {
   expect(shoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
-  expect(shoppingListInfo.get('stapleShoppingList')).toEqual(expectedShoppingListInfo.get('stapleShoppingList'));
-  expect(shoppingListInfo.get('masterProductPrices')).toEqual(expectedShoppingListInfo.get('masterProductPrices'));
+  expect(shoppingListInfo.get('doneDate')).toBe(expectedShoppingListInfo.get('doneDate'));
+  expect(shoppingListInfo.get('stapleShoppingListId')).toBe(expectedShoppingListInfo.get('stapleShoppingListId'));
+  expect(shoppingListInfo.get('masterProductPriceId')).toBe(expectedShoppingListInfo.get('masterProductPriceId'));
 }
 
 describe('constructor', function () {

@@ -55,9 +55,11 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
+    var user = _this2.getObject().get('user');
+
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      userId: _this2.getObject().get('user').id,
+      userId: user ? user.id : undefined,
       description: _this2.getObject().get('description')
     });
   };

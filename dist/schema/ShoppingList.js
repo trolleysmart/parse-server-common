@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _immutable2 = _interopRequireDefault(_immutable);
-
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _StapleShoppingList = require('./StapleShoppingList');
@@ -52,45 +50,26 @@ ShoppingList.spawn = function (info) {
 
 ShoppingList.updateInfoInternal = function (object, info) {
   object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(info.get('userId')));
+  object.set('doneDate', info.get('doneDate'));
 
-  if (info.has('stapleShoppingListIds')) {
-    var stapleShoppingListIds = info.get('stapleShoppingListIds');
+  if (info.has('stapleShoppingListId')) {
+    var stapleShoppingListId = info.get('stapleShoppingListId');
 
-    if (stapleShoppingListIds.isEmpty()) {
-      object.set('stapleShoppingList', []);
-    } else {
-      object.set('stapleShoppingList', stapleShoppingListIds.map(function (stapleShoppingListId) {
-        return _StapleShoppingList2.default.createWithoutData(stapleShoppingListId);
-      }).toArray());
-    }
+    object.set('stapleShoppingList', _StapleShoppingList2.default.createWithoutData(stapleShoppingListId));
   } else if (info.has('stapleShoppingList')) {
     var stapleShoppingList = info.get('stapleShoppingList');
 
-    if (stapleShoppingList.isEmpty()) {
-      object.set('stapleShoppingList', []);
-    } else {
-      object.set('stapleShoppingList', stapleShoppingList.toArray());
-    }
+    object.set('stapleShoppingList', stapleShoppingList);
   }
 
-  if (info.has('masterProductPriceIds')) {
-    var masterProductPriceIds = info.get('masterProductPriceIds');
+  if (info.has('masterProductPriceId')) {
+    var masterProductPriceId = info.get('masterProductPriceId');
 
-    if (masterProductPriceIds.isEmpty()) {
-      object.set('masterProductPrices', []);
-    } else {
-      object.set('masterProductPrices', masterProductPriceIds.map(function (masterProductPriceId) {
-        return _MasterProductPrice2.default.createWithoutData(masterProductPriceId);
-      }).toArray());
-    }
-  } else if (info.has('masterProductPrices')) {
-    var masterProductPrices = info.get('masterProductPrices');
+    object.set('masterProductPrice', _MasterProductPrice2.default.createWithoutData(masterProductPriceId));
+  } else if (info.has('masterProductPrice')) {
+    var masterProductPrice = info.get('masterProductPrice');
 
-    if (masterProductPrices.isEmpty()) {
-      object.set('masterProductPrices', []);
-    } else {
-      object.set('masterProductPrices', masterProductPrices.toArray());
-    }
+    object.set('masterProductPrice', masterProductPrice);
   }
 };
 
@@ -106,27 +85,20 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
-    var masterProductPricesObjects = _this2.getObject().get('masterProductPrices');
-    var masterProductPrices = masterProductPricesObjects ? _immutable2.default.fromJS(masterProductPricesObjects).map(function (masterProductPrice) {
-      return new _MasterProductPrice2.default(masterProductPrice).getInfo();
-    }) : undefined;
-
-    var stapleShoppingListObjects = _this2.getObject().get('stapleShoppingList');
-    var stapleShoppingList = stapleShoppingListObjects ? _immutable2.default.fromJS(stapleShoppingListObjects).map(function (stapleShoppingListItem) {
-      return new _StapleShoppingList2.default(stapleShoppingListItem).getInfo();
-    }) : undefined;
+    var user = _this2.getObject().get('user');
+    var stapleShoppingListObject = _this2.getObject().get('stapleShoppingList');
+    var stapleShoppingList = stapleShoppingListObject ? new _StapleShoppingList2.default(stapleShoppingListObject).getInfo() : undefined;
+    var masterProductPriceObject = _this2.getObject().get('masterProductPrice');
+    var masterProductPrice = masterProductPriceObject ? new _MasterProductPrice2.default(masterProductPriceObject).getInfo() : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      userId: _this2.getObject().get('user').id,
-      masterProductPrices: masterProductPrices,
-      masterProductPriceIds: masterProductPrices ? masterProductPrices.map(function (masterProductPrice) {
-        return masterProductPrice.get('id');
-      }) : (0, _immutable.List)(),
+      userId: user ? user.id : undefined,
+      doneDate: _this2.getObject().get('doneDate'),
       stapleShoppingList: stapleShoppingList,
-      stapleShoppingListIds: stapleShoppingList ? stapleShoppingList.map(function (stapleShoppingListItem) {
-        return stapleShoppingListItem.get('id');
-      }) : (0, _immutable.List)()
+      stapleShoppingListId: stapleShoppingList ? stapleShoppingList.get('id') : undefined,
+      masterProductPrice: masterProductPrice,
+      masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined
     });
   };
 };

@@ -9,6 +9,7 @@ import { ShoppingList } from '../';
 export function createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId) {
   return Map({
     userId: userId || uuid(),
+    doneDate: new Date(),
     stapleShoppingListId: stapleShoppingListId || createStapleShoppingList(userId).getId(),
     masterProductPriceId: masterProductPriceId || createMasterProductPrice(userId).getId(),
   });
@@ -20,6 +21,7 @@ export function createShoppingList(shoppingListInfo) {
 
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo) {
   expect(shoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
+  expect(shoppingListInfo.get('doneDate')).toBe(expectedShoppingListInfo.get('doneDate'));
   expect(shoppingListInfo.get('stapleShoppingListId')).toBe(expectedShoppingListInfo.get('stapleShoppingListId'));
   expect(shoppingListInfo.get('masterProductPriceId')).toBe(expectedShoppingListInfo.get('masterProductPriceId'));
 }
