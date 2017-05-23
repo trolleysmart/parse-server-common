@@ -29,10 +29,13 @@ export default class StapleShoppingList extends BaseObject {
     return this;
   };
 
-  getInfo = () =>
-    Map({
+  getInfo = () => {
+    const user = this.getObject().get('user');
+
+    return Map({
       id: this.getId(),
-      userId: this.getObject().get('user').id,
+      userId: user ? user.id : undefined,
       description: this.getObject().get('description'),
     });
+  };
 }

@@ -2,7 +2,7 @@
 
 import Immutable from 'immutable';
 import { ParseWrapperService } from 'micro-business-parse-server-common';
-import { ShoppingList } from '../schema';
+import { MasterProductPrice, ShoppingList, StapleShoppingList } from '../schema';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class ShoppingListService {
@@ -95,11 +95,11 @@ export default class ShoppingListService {
       }
     }
 
-    if (criteria.has('includeMasterProductPrices')) {
-      const value = criteria.get('includeMasterProductPrices');
+    if (criteria.has('includeMasterProductPrice')) {
+      const value = criteria.get('includeMasterProductPrice');
 
       if (value) {
-        query.include('masterProductPrices');
+        query.include('masterProductPrice');
       }
     }
 
@@ -114,6 +114,22 @@ export default class ShoppingListService {
 
       if (value) {
         query.equalTo('user', ParseWrapperService.createUserWithoutData(value));
+      }
+    }
+
+    if (conditions.has('stapleShoppingListId')) {
+      const value = conditions.get('stapleShoppingListId');
+
+      if (value) {
+        query.equalTo('stapleShoppingList', StapleShoppingList.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('masterProductPriceId')) {
+      const value = conditions.get('masterProductPriceId');
+
+      if (value) {
+        query.equalTo('masterProductPrice', MasterProductPrice.createWithoutData(value));
       }
     }
 

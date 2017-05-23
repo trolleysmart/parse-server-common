@@ -33,17 +33,11 @@ function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo) {
 
 let userId;
 
-beforeEach(
-  () =>
-    new Promise((resolve, reject) => {
-      UserService.signUpWithUsernameAndPassword(`${uuid()}@email.com`, '123456')
-        .then((user) => {
-          userId = user.id;
-          resolve();
-        })
-        .catch(error => reject(error));
-    }),
-);
+beforeEach(async () => {
+  const user = await UserService.signUpWithUsernameAndPassword(`${uuid()}@email.com`, '123456');
+
+  userId = user.get('id');
+});
 
 describe('create', () => {
   test('should return the created staple shopping list Id', (done) => {

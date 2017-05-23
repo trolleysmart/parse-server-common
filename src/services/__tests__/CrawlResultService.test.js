@@ -55,8 +55,8 @@ describe('read', () => {
 
     try {
       await CrawlResultService.read(crawlResultId);
-    } catch (error) {
-      expect(error.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
     }
   });
 
@@ -76,8 +76,8 @@ describe('update', () => {
 
     try {
       await CrawlResultService.update(createCrawlResultInfo().set('id', crawlResultId));
-    } catch (error) {
-      expect(error.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
     }
   });
 
@@ -107,8 +107,8 @@ describe('delete', () => {
 
     try {
       await CrawlResultService.delete(crawlResultId);
-    } catch (error) {
-      expect(error.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
     }
   });
 
@@ -120,8 +120,8 @@ describe('delete', () => {
       crawlResultId = await CrawlResultService.create(createCrawlResultInfo(id));
       await CrawlResultService.delete(crawlResultId);
       await CrawlResultService.read(crawlResultId);
-    } catch (error) {
-      expect(error.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
     }
   });
 });

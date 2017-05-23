@@ -1,13 +1,16 @@
 // @flow
 
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import uuid from 'uuid/v4';
+import { createMasterProductPrice } from './MasterProductPrice.test';
+import { createStapleShoppingList } from './StapleShoppingList.test';
 import { ShoppingList } from '../';
 
-export function createShoppingListInfo(userId) {
+export function createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId) {
   return Map({
     userId: userId || uuid(),
-    items: List.of(uuid(), uuid()),
+    stapleShoppingListId: stapleShoppingListId || createStapleShoppingList(userId).getId(),
+    masterProductPriceId: masterProductPriceId || createMasterProductPrice(userId).getId(),
   });
 }
 
@@ -17,8 +20,8 @@ export function createShoppingList(shoppingListInfo) {
 
 function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo) {
   expect(shoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
-  expect(shoppingListInfo.get('stapleShoppingList')).toEqual(expectedShoppingListInfo.get('stapleShoppingList'));
-  expect(shoppingListInfo.get('masterProductPrices')).toEqual(expectedShoppingListInfo.get('masterProductPrices'));
+  expect(shoppingListInfo.get('stapleShoppingListId')).toBe(expectedShoppingListInfo.get('stapleShoppingListId'));
+  expect(shoppingListInfo.get('masterProductPriceId')).toBe(expectedShoppingListInfo.get('masterProductPriceId'));
 }
 
 describe('constructor', () => {

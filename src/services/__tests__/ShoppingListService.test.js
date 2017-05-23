@@ -4,304 +4,245 @@ import { List, Map } from 'immutable';
 import uuid from 'uuid/v4';
 import { UserService } from 'micro-business-parse-server-common';
 import '../../../bootstrap';
-import { ShoppingListService } from '../';
+import { MasterProductPriceService, ShoppingListService, StapleShoppingListService } from '../';
+import { createMasterProductPriceInfo } from '../../schema/__tests__/MasterProductPrice.test';
 import { createShoppingListInfo } from '../../schema/__tests__/ShoppingList.test';
+import { createStapleShoppingListInfo } from '../../schema/__tests__/StapleShoppingList.test';
 
-function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId) {
+function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId, stapleShoppingListId, masterProductPriceId) {
   expect(shoppingListInfo.get('id')).toBe(shoppingListId);
   expect(shoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
-  expect(shoppingListInfo.get('stapleShoppingList')).toEqual(expectedShoppingListInfo.get('stapleShoppingList'));
-  expect(shoppingListInfo.get('masterProductPrices')).toEqual(expectedShoppingListInfo.get('masterProductPrices'));
+  expect(shoppingListInfo.get('stapleShoppingListId')).toEqual(stapleShoppingListId);
+  expect(shoppingListInfo.get('masterProductPriceId')).toEqual(masterProductPriceId);
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('user', 'stapleShoppingList', 'masterProductPrices'),
+    fields: List.of('user', 'stapleShoppingList', 'masterProductPrice'),
+    includeStapleShoppingList: true,
+    includeMasterProductPrice: true,
     conditions: Map({
       userId: uuid(),
+      stapleShoppingListId: uuid(),
+      masterProductPriceIdL: uuid(),
     }),
   });
 }
 
-function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo) {
+function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId) {
   return Map({
-    fields: List.of('user', 'stapleShoppingList', 'masterProductPrices'),
+    fields: List.of('user', 'stapleShoppingList', 'masterProductPrice'),
+    includeStapleShoppingList: true,
+    includeMasterProductPrice: true,
     conditions: Map({
       userId: shoppingListInfo.get('userId'),
+      stapleShoppingListId,
+      masterProductPriceId,
     }),
   });
 }
 
 let userId;
 
-beforeEach(
-  () =>
-    new Promise((resolve, reject) => {
-      UserService.signUpWithUsernameAndPassword(`${uuid()}@email.com`, '123456')
-        .then((user) => {
-          userId = user.id;
-          resolve();
-        })
-        .catch(error => reject(error));
-    }),
-);
+beforeEach(async () => {
+  const user = await UserService.signUpWithUsernameAndPassword(`${uuid()}@email.com`, '123456');
+
+  userId = user.get('id');
+});
 
 describe('create', () => {
-  test('should return the created shopping list Id', (done) => {
-    ShoppingListService.create(createShoppingListInfo(userId))
-      .then((result) => {
-        expect(result).toBeDefined();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return the created shopping list Id', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const result = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId));
+
+    expect(result).toBeDefined();
   });
 
-  test('should create the shopping list', (done) => {
-    const expectedShoppingListInfo = createShoppingListInfo(userId);
-    let shoppingListId;
+  test('should create the shopping list', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
+    const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo);
+    const shoppingListInfo = await ShoppingListService.read(shoppingListId);
 
-    ShoppingListService.create(expectedShoppingListInfo)
-      .then((id) => {
-        shoppingListId = id;
-
-        return ShoppingListService.read(shoppingListId);
-      })
-      .then((shoppingListInfo) => {
-        expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId, stapleShoppingListId, masterProductPriceId);
   });
 });
 
 describe('read', () => {
-  test('should reject if the provided shopping list Id does not exist', (done) => {
+  test('should reject if the provided shopping list Id does not exist', async () => {
     const shoppingListId = uuid();
 
-    ShoppingListService.read(shoppingListId).catch((error) => {
-      expect(error).toBe(`No shopping list found with Id: ${shoppingListId}`);
-      done();
-    });
+    try {
+      await ShoppingListService.read(shoppingListId);
+    } catch (ex) {
+      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+    }
   });
 
-  test('should read the existing shopping list', (done) => {
-    const expectedStoreInfo = createShoppingListInfo(userId);
-    let shoppingListId;
+  test('should read the existing shopping list', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const expectedStoreInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
+    const shoppingListId = await ShoppingListService.create(expectedStoreInfo);
+    const shoppingListInfo = await ShoppingListService.read(shoppingListId);
 
-    ShoppingListService.create(expectedStoreInfo)
-      .then((id) => {
-        shoppingListId = id;
-
-        return ShoppingListService.read(shoppingListId);
-      })
-      .then((shoppingListInfo) => {
-        expectShoppingListInfo(shoppingListInfo, expectedStoreInfo, shoppingListId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectShoppingListInfo(shoppingListInfo, expectedStoreInfo, shoppingListId, stapleShoppingListId, masterProductPriceId);
   });
 });
 
 describe('update', () => {
-  test('should reject if the provided shopping list Id does not exist', (done) => {
+  test('should reject if the provided shopping list Id does not exist', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListId = uuid();
 
-    ShoppingListService.update(createShoppingListInfo(userId).set('id', shoppingListId)).catch((error) => {
-      expect(error).toBe(`No shopping list found with Id: ${shoppingListId}`);
-      done();
-    });
+    try {
+      await ShoppingListService.update(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId).set('id', shoppingListId));
+    } catch (ex) {
+      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+    }
   });
 
-  test('should return the Id of the updated shopping list', (done) => {
-    let shoppingListId;
+  test('should return the Id of the updated shopping list', async () => {
+    const stapleShoppingListId1 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId1 = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId2 = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId1, masterProductPriceId1));
+    const id = await ShoppingListService.update(
+      createShoppingListInfo(userId, stapleShoppingListId2, masterProductPriceId2).set('id', shoppingListId),
+    );
 
-    ShoppingListService.create(createShoppingListInfo(userId))
-      .then((id) => {
-        shoppingListId = id;
-
-        return ShoppingListService.update(createShoppingListInfo(userId).set('id', shoppingListId));
-      })
-      .then((id) => {
-        expect(id).toBe(shoppingListId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expect(id).toBe(shoppingListId);
   });
 
-  test('should update the existing shopping list', (done) => {
-    const expectedShoppingListInfo = createShoppingListInfo(userId);
-    let shoppingListId;
+  test('should update the existing shopping list', async () => {
+    const stapleShoppingListId1 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId1 = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId1, masterProductPriceId1);
+    const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId2 = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const id = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId2, masterProductPriceId2));
+    const shoppingListId = await ShoppingListService.update(expectedShoppingListInfo.set('id', id));
+    const shoppingListInfo = await ShoppingListService.read(shoppingListId);
 
-    ShoppingListService.create(createShoppingListInfo(userId))
-      .then(id => ShoppingListService.update(expectedShoppingListInfo.set('id', id)))
-      .then((id) => {
-        shoppingListId = id;
-
-        return ShoppingListService.read(shoppingListId);
-      })
-      .then((storeInfo) => {
-        expectShoppingListInfo(storeInfo, expectedShoppingListInfo, shoppingListId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId, stapleShoppingListId1, masterProductPriceId1);
   });
 });
 
 describe('delete', () => {
-  test('should reject if the provided shopping list Id does not exist', (done) => {
+  test('should reject if the provided shopping list Id does not exist', async () => {
     const shoppingListId = uuid();
 
-    ShoppingListService.delete(shoppingListId).catch((error) => {
-      expect(error).toBe(`No shopping list found with Id: ${shoppingListId}`);
-      done();
-    });
+    try {
+      await ShoppingListService.delete(shoppingListId);
+    } catch (ex) {
+      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+    }
   });
 
-  test('should delete the existing shopping list', (done) => {
-    let shoppingListId;
+  test('should delete the existing shopping list', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId));
+    await ShoppingListService.delete(shoppingListId);
 
-    ShoppingListService.create(createShoppingListInfo(userId))
-      .then((id) => {
-        shoppingListId = id;
-        return ShoppingListService.delete(shoppingListId);
-      })
-      .then(() => ShoppingListService.read(shoppingListId))
-      .catch((error) => {
-        expect(error).toBe(`No shopping list found with Id: ${shoppingListId}`);
-        done();
-      });
+    try {
+      await ShoppingListService.read(shoppingListId);
+    } catch (ex) {
+      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+    }
   });
 });
 
 describe('search', () => {
-  test('should return no shopping list if provided criteria matches no shopping list', (done) => {
-    ShoppingListService.search(createCriteria())
-      .then((stores) => {
-        expect(stores.size).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return no shopping list if provided criteria matches no shopping list', async () => {
+    const shoppingList = await ShoppingListService.search(createCriteria());
+
+    expect(shoppingList.count()).toBe(0);
   });
 
-  test('should return the shopping lists matches the criteria', (done) => {
-    const expectedShoppingListInfo = createShoppingListInfo(userId);
-    let shoppingListId;
+  test('should return the shopping lists matches the criteria', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
+    const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo);
+    const shoppingListInfos = await ShoppingListService.search(
+      createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId),
+    );
 
-    ShoppingListService.create(expectedShoppingListInfo)
-      .then((id) => {
-        shoppingListId = id;
+    expect(shoppingListInfos.count()).toBe(1);
 
-        return ShoppingListService.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
-      })
-      .then((shoppingListInfos) => {
-        expect(shoppingListInfos.size).toBe(1);
-
-        const shoppingListInfo = shoppingListInfos.first();
-        expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    const shoppingListInfo = shoppingListInfos.first();
+    expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId, stapleShoppingListId, masterProductPriceId);
   });
 });
 
 describe('searchAll', () => {
-  test('should return no shopping list if provided criteria matches no shopping list', (done) => {
+  test('should return no shopping list if provided criteria matches no shopping list', async () => {
     const result = ShoppingListService.searchAll(createCriteria());
-    let shoppingLists = List();
+    let shoppingList = List();
 
-    result.event.subscribe((shoppingList) => {
-      shoppingLists = shoppingLists.push(shoppingList);
+    result.event.subscribe((info) => {
+      shoppingList = shoppingList.push(info);
     });
-    result.promise
-      .then(() => {
-        result.event.unsubscribeAll();
-        expect(shoppingLists.size).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        result.event.unsubscribeAll();
-        fail(error);
-        done();
-      });
+
+    try {
+      await result.promise;
+    } finally {
+      result.event.unsubscribeAll();
+    }
+
+    expect(shoppingList.count()).toBe(0);
   });
 
-  test('should return the shopping list matches the criteria', (done) => {
-    const expectedShoppingListInfo = createShoppingListInfo(userId);
+  test('should return the shopping list matches the criteria', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 
-    Promise.all([ShoppingListService.create(expectedShoppingListInfo), ShoppingListService.create(expectedShoppingListInfo)])
-      .then((ids) => {
-        const shoppingListIds = List.of(ids[0], ids[1]);
-        const result = ShoppingListService.searchAll(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
-        let shoppingLists = List();
+    await ShoppingListService.create(expectedShoppingListInfo);
+    await ShoppingListService.create(expectedShoppingListInfo);
 
-        result.event.subscribe((shoppingList) => {
-          shoppingLists = shoppingLists.push(shoppingList);
-        });
-        result.promise
-          .then(() => {
-            result.event.unsubscribeAll();
-            expect(shoppingLists.size).toBe(shoppingListIds.size);
-            done();
-          })
-          .catch((error) => {
-            result.event.unsubscribeAll();
-            fail(error);
-            done();
-          });
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    const result = ShoppingListService.searchAll(
+      createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId),
+    );
+    let shoppingList = List();
+
+    result.event.subscribe((info) => {
+      shoppingList = shoppingList.push(info);
+    });
+
+    try {
+      await result.promsie;
+    } finally {
+      result.event.unsubscribeAll();
+    }
+
+    expect(shoppingList.count()).toBe(2);
   });
 });
 
 describe('exists', () => {
-  test('should return false if no shopping list match provided criteria', (done) => {
-    ShoppingListService.exists(createCriteria())
-      .then((response) => {
-        expect(response).toBeFalsy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return false if no shopping list match provided criteria', async () => {
+    const response = await ShoppingListService.exists(createCriteria());
+
+    expect(response).toBeFalsy();
   });
 
-  test('should return true if any shopping list match provided criteria', (done) => {
-    const shoppingListInfo = createShoppingListInfo(userId);
+  test('should return true if any shopping list match provided criteria', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const shoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 
-    ShoppingListService.create(shoppingListInfo)
-      .then(() => ShoppingListService.exists(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo)))
-      .then((response) => {
-        expect(response).toBeTruthy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    await ShoppingListService.create(shoppingListInfo);
+
+    const response = await ShoppingListService.exists(
+      createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId),
+    );
+
+    expect(response).toBeTruthy();
   });
 });

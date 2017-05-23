@@ -51,19 +51,19 @@ export default class ShoppingList extends BaseObject {
   };
 
   getInfo = () => {
+    const user = this.getObject().get('user');
     const stapleShoppingListObject = this.getObject().get('stapleShoppingList');
     const stapleShoppingList = stapleShoppingListObject ? new StapleShoppingList(stapleShoppingListObject).getInfo() : undefined;
-
-    const masterProductPricesObject = this.getObject().get('masterProductPrice');
-    const masterProductPrice = masterProductPricesObject ? new MasterProductPrice(masterProductPriceObject).getInfo() : undefined;
+    const masterProductPriceObject = this.getObject().get('masterProductPrice');
+    const masterProductPrice = masterProductPriceObject ? new MasterProductPrice(masterProductPriceObject).getInfo() : undefined;
 
     return Map({
       id: this.getId(),
-      userId: this.getObject().get('user').id,
+      userId: user ? user.id : undefined,
+      stapleShoppingList,
+      stapleShoppingListId: stapleShoppingList ? stapleShoppingList.get('id') : undefined,
       masterProductPrice,
       masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined,
-      stapleShoppingList,
-      stapleShoppingListId: stapleShoppingList ? stapleShoppingListItem.get('id') : undefined,
     });
   };
 }
