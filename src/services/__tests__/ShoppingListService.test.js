@@ -185,9 +185,7 @@ describe('searchAll', () => {
     const result = ShoppingListService.searchAll(createCriteria());
     let shoppingList = List();
 
-    result.event.subscribe((info) => {
-      shoppingList = shoppingList.push(info);
-    });
+    result.event.subscribe(info => (shoppingList = shoppingList.push(info)));
 
     try {
       await result.promise;
@@ -211,14 +209,12 @@ describe('searchAll', () => {
     );
     let shoppingList = List();
 
-    result.event.subscribe((info) => {
-      shoppingList = shoppingList.push(info);
-    });
+    result.event.subscribe(info => (shoppingList = shoppingList.push(info)));
 
     try {
-      await result.promsie;
+      await result.promise;
     } finally {
-      result.event.unsubscribeAll();
+      /* result.event.unsubscribeAll();*/
     }
 
     expect(shoppingList.count()).toBe(2);
