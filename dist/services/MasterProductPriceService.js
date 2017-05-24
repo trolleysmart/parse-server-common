@@ -131,10 +131,13 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     }
   }
 
+  var includeMasterProductDetails = false;
+
   if (criteria.has('includeMasterProduct')) {
     var _value = criteria.get('includeMasterProduct');
 
     if (_value) {
+      includeMasterProductDetails = true;
       query.include('masterProduct');
     }
   }
@@ -207,6 +210,11 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
 
     if (_value9) {
       masterProductQuery.equalTo('description', _value9);
+
+      if (includeMasterProductDetails) {
+        masterProductQuery.ascending('description', _value9);
+      }
+
       query.matchesQuery('masterProduct', masterProductQuery);
     }
   }
@@ -217,6 +225,11 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
 
     if (_value10) {
       _masterProductQuery.startsWith('description', _value10);
+
+      if (includeMasterProductDetails) {
+        _masterProductQuery.ascending('description', _value10);
+      }
+
       query.matchesQuery('masterProduct', _masterProductQuery);
     }
   }
@@ -227,6 +240,11 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
 
     if (_value11) {
       _masterProductQuery2.contains('description', _value11);
+
+      if (includeMasterProductDetails) {
+        _masterProductQuery2.ascending('description', _value11);
+      }
+
       query.matchesQuery('masterProduct', _masterProductQuery2);
     }
   }

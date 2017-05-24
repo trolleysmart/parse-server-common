@@ -95,10 +95,13 @@ export default class MasterProductPriceService {
       }
     }
 
+    let includeMasterProductDetails = false;
+
     if (criteria.has('includeMasterProduct')) {
       const value = criteria.get('includeMasterProduct');
 
       if (value) {
+        includeMasterProductDetails = true;
         query.include('masterProduct');
       }
     }
@@ -171,6 +174,11 @@ export default class MasterProductPriceService {
 
       if (value) {
         masterProductQuery.equalTo('description', value);
+
+        if (includeMasterProductDetails) {
+          masterProductQuery.ascending('description', value);
+        }
+
         query.matchesQuery('masterProduct', masterProductQuery);
       }
     }
@@ -181,6 +189,11 @@ export default class MasterProductPriceService {
 
       if (value) {
         masterProductQuery.startsWith('description', value);
+
+        if (includeMasterProductDetails) {
+          masterProductQuery.ascending('description', value);
+        }
+
         query.matchesQuery('masterProduct', masterProductQuery);
       }
     }
@@ -191,6 +204,11 @@ export default class MasterProductPriceService {
 
       if (value) {
         masterProductQuery.contains('description', value);
+
+        if (includeMasterProductDetails) {
+          masterProductQuery.ascending('description', value);
+        }
+
         query.matchesQuery('masterProduct', masterProductQuery);
       }
     }
