@@ -121,7 +121,7 @@ export default class ShoppingListService {
       const value = conditions.get('excludeItemsMarkedAsDone');
 
       if (value) {
-        query.doesNotExists('doneDate');
+        query.doesNotExist('doneDate');
       }
     }
 
