@@ -161,27 +161,43 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('userId')) {
-    var _value4 = conditions.get('userId');
+  if (conditions.has('includeStapleShoppingListOnly')) {
+    var _value4 = conditions.get('includeStapleShoppingListOnly');
 
     if (_value4) {
-      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(_value4));
+      query.exists('stapleShoppingList');
+    }
+  }
+
+  if (conditions.has('includeSpecialsOnly')) {
+    var _value5 = conditions.get('includeSpecialsOnly');
+
+    if (_value5) {
+      query.exists('masterProductPrice');
+    }
+  }
+
+  if (conditions.has('userId')) {
+    var _value6 = conditions.get('userId');
+
+    if (_value6) {
+      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(_value6));
     }
   }
 
   if (conditions.has('stapleShoppingListId')) {
-    var _value5 = conditions.get('stapleShoppingListId');
+    var _value7 = conditions.get('stapleShoppingListId');
 
-    if (_value5) {
-      query.equalTo('stapleShoppingList', _schema.StapleShoppingList.createWithoutData(_value5));
+    if (_value7) {
+      query.equalTo('stapleShoppingList', _schema.StapleShoppingList.createWithoutData(_value7));
     }
   }
 
   if (conditions.has('masterProductPriceId')) {
-    var _value6 = conditions.get('masterProductPriceId');
+    var _value8 = conditions.get('masterProductPriceId');
 
-    if (_value6) {
-      query.equalTo('masterProductPrice', _schema.MasterProductPrice.createWithoutData(_value6));
+    if (_value8) {
+      query.equalTo('masterProductPrice', _schema.MasterProductPrice.createWithoutData(_value8));
     }
   }
 

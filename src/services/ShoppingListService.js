@@ -125,6 +125,22 @@ export default class ShoppingListService {
       }
     }
 
+    if (conditions.has('includeStapleShoppingListOnly')) {
+      const value = conditions.get('includeStapleShoppingListOnly');
+
+      if (value) {
+        query.exists('stapleShoppingList');
+      }
+    }
+
+    if (conditions.has('includeSpecialsOnly')) {
+      const value = conditions.get('includeSpecialsOnly');
+
+      if (value) {
+        query.exists('masterProductPrice');
+      }
+    }
+
     if (conditions.has('userId')) {
       const value = conditions.get('userId');
 
