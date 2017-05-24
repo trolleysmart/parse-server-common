@@ -91,7 +91,7 @@ var _initialiseProps = function _initialiseProps() {
     var masterProductPriceObject = _this2.getObject().get('masterProductPrice');
     var masterProductPrice = masterProductPriceObject ? new _MasterProductPrice2.default(masterProductPriceObject).getInfo() : undefined;
 
-    return (0, _immutable.Map)({
+    var info = (0, _immutable.Map)({
       id: _this2.getId(),
       userId: user ? user.id : undefined,
       doneDate: _this2.getObject().get('doneDate'),
@@ -100,6 +100,22 @@ var _initialiseProps = function _initialiseProps() {
       masterProductPrice: masterProductPrice,
       masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined
     });
+
+    if (stapleShoppingList) {
+      info = info.merge((0, _immutable.Map)({
+        stapleShoppingList: stapleShoppingList,
+        stapleShoppingListId: stapleShoppingList ? stapleShoppingList.get('id') : undefined
+      }));
+    }
+
+    if (masterProductPrice) {
+      info = info.merge((0, _immutable.Map)({
+        masterProductPrice: masterProductPrice,
+        masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined
+      }));
+    }
+
+    return info;
   };
 };
 

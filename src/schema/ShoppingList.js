@@ -58,7 +58,7 @@ export default class ShoppingList extends BaseObject {
     const masterProductPriceObject = this.getObject().get('masterProductPrice');
     const masterProductPrice = masterProductPriceObject ? new MasterProductPrice(masterProductPriceObject).getInfo() : undefined;
 
-    return Map({
+    let info = Map({
       id: this.getId(),
       userId: user ? user.id : undefined,
       doneDate: this.getObject().get('doneDate'),
@@ -67,5 +67,25 @@ export default class ShoppingList extends BaseObject {
       masterProductPrice,
       masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined,
     });
+
+    if (stapleShoppingList) {
+      info = info.merge(
+        Map({
+          stapleShoppingList,
+          stapleShoppingListId: stapleShoppingList ? stapleShoppingList.get('id') : undefined,
+        }),
+      );
+    }
+
+    if (masterProductPrice) {
+      info = info.merge(
+        Map({
+          masterProductPrice,
+          masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined,
+        }),
+      );
+    }
+
+    return info;
   };
 }

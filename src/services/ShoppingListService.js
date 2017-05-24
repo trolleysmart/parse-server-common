@@ -133,8 +133,8 @@ export default class ShoppingListService {
       }
     }
 
-    if (conditions.has('includeSpecialsOnly')) {
-      const value = conditions.get('includeSpecialsOnly');
+    if (conditions.has('includeMasterProductPriceOnly')) {
+      const value = conditions.get('includeMasterProductPriceOnly');
 
       if (value) {
         query.exists('masterProductPrice');

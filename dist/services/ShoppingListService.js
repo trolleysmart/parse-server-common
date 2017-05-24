@@ -169,8 +169,8 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('includeSpecialsOnly')) {
-    var _value5 = conditions.get('includeSpecialsOnly');
+  if (conditions.has('includeMasterProductPriceOnly')) {
+    var _value5 = conditions.get('includeMasterProductPriceOnly');
 
     if (_value5) {
       query.exists('masterProductPrice');
