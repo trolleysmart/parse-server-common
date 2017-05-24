@@ -16,6 +16,7 @@ export default class MasterProductPrice extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('masterProduct', MasterProduct.createWithoutData(info.get('masterProductId')));
+    object.set('masterProductDescription', info.get('masterProductDescription'));
     object.set('store', Store.createWithoutData(info.get('storeId')));
     object.set('priceDetails', info.get('priceDetails').toJS());
     object.set('capturedDate', info.get('capturedDate'));
@@ -41,6 +42,7 @@ export default class MasterProductPrice extends BaseObject {
       id: this.getId(),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),
+      masterProductDescription: this.getObject().get('masterProductDescription'),
       store: store.getInfo(),
       storeId: store.getId(),
       priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),

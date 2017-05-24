@@ -52,6 +52,7 @@ MasterProductPrice.spawn = function (info) {
 
 MasterProductPrice.updateInfoInternal = function (object, info) {
   object.set('masterProduct', _MasterProduct2.default.createWithoutData(info.get('masterProductId')));
+  object.set('masterProductDescription', info.get('masterProductDescription'));
   object.set('store', _Store2.default.createWithoutData(info.get('storeId')));
   object.set('priceDetails', info.get('priceDetails').toJS());
   object.set('capturedDate', info.get('capturedDate'));
@@ -76,6 +77,7 @@ var _initialiseProps = function _initialiseProps() {
       id: _this2.getId(),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),
+      masterProductDescription: _this2.getObject().get('masterProductDescription'),
       store: store.getInfo(),
       storeId: store.getId(),
       priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),

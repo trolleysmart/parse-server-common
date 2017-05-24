@@ -11,6 +11,7 @@ import { createStoreInfo } from '../../schema/__tests__/Store.test';
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
+  expect(masterProductPriceInfo.get('masterProductDescription')).toEqual(expectedMasterProductPriceInfo.get('masterProductDescription'));
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('capturedDate')).toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
@@ -18,7 +19,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 export function createCriteria() {
   return Map({
-    fields: List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    fields: List.of('masterProduct', 'store', 'priceDetails', 'masterProductDescription', 'capturedDate'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -30,7 +31,7 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return Map({
-    fields: List.of('masterProduct', 'store', 'priceDetails', 'capturedDate'),
+    fields: List.of('masterProduct', 'store', 'priceDetails', 'masterProductDescription', 'capturedDate'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
