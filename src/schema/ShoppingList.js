@@ -62,10 +62,6 @@ export default class ShoppingList extends BaseObject {
       id: this.getId(),
       userId: user ? user.id : undefined,
       doneDate: this.getObject().get('doneDate'),
-      stapleShoppingList,
-      stapleShoppingListId: stapleShoppingList ? stapleShoppingList.get('id') : undefined,
-      masterProductPrice,
-      masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined,
     });
 
     if (stapleShoppingList) {

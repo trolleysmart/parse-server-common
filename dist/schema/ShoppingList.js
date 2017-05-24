@@ -94,11 +94,7 @@ var _initialiseProps = function _initialiseProps() {
     var info = (0, _immutable.Map)({
       id: _this2.getId(),
       userId: user ? user.id : undefined,
-      doneDate: _this2.getObject().get('doneDate'),
-      stapleShoppingList: stapleShoppingList,
-      stapleShoppingListId: stapleShoppingList ? stapleShoppingList.get('id') : undefined,
-      masterProductPrice: masterProductPrice,
-      masterProductPriceId: masterProductPrice ? masterProductPrice.get('id') : undefined
+      doneDate: _this2.getObject().get('doneDate')
     });
 
     if (stapleShoppingList) {
