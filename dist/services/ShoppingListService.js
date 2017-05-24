@@ -157,7 +157,7 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     var _value3 = conditions.get('excludeItemsMarkedAsDone');
 
     if (_value3) {
-      query.doesNotexists('doneDate');
+      query.doesNotExists('doneDate');
     }
   }
 
