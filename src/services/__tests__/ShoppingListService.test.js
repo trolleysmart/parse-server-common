@@ -80,7 +80,7 @@ describe('read', () => {
     try {
       await ShoppingListService.read(shoppingListId);
     } catch (ex) {
-      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 
@@ -104,7 +104,7 @@ describe('update', () => {
     try {
       await ShoppingListService.update(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId).set('id', shoppingListId));
     } catch (ex) {
-      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 
@@ -142,7 +142,7 @@ describe('delete', () => {
     try {
       await ShoppingListService.delete(shoppingListId);
     } catch (ex) {
-      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 
@@ -155,7 +155,7 @@ describe('delete', () => {
     try {
       await ShoppingListService.read(shoppingListId);
     } catch (ex) {
-      expect(ex).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 });
