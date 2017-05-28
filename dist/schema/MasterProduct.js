@@ -48,6 +48,7 @@ MasterProduct.spawn = function (info) {
 
 MasterProduct.updateInfoInternal = function (object, info) {
   object.set('description', info.get('description'));
+  object.set('lowerCaseDescription', info.get('description').toLowerCase());
   object.set('barcode', info.get('barcode'));
   object.set('imageUrl', info.get('imageUrl'));
 

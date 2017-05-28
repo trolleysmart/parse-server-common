@@ -141,7 +141,7 @@ MasterProductService.buildSearchQuery = function (criteria) {
     var _value = conditions.get('description');
 
     if (_value) {
-      query.equalTo('description', _value);
+      query.equalTo('lowerCaseDescription', _value.toLowerCase());
     }
   }
 
@@ -149,7 +149,7 @@ MasterProductService.buildSearchQuery = function (criteria) {
     var _value2 = conditions.get('startsWith_description');
 
     if (_value2) {
-      query.startsWith('description', _value2);
+      query.startsWith('lowerCaseDescription', _value2.toLowerCase());
     }
   }
 
@@ -157,7 +157,7 @@ MasterProductService.buildSearchQuery = function (criteria) {
     var _value3 = conditions.get('contains_description');
 
     if (_value3) {
-      query.contains('description', _value3);
+      query.contains('lowerCaseDescription', _value3.toLowerCase());
     }
   }
 

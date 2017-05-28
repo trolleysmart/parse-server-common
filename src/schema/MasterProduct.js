@@ -15,6 +15,7 @@ export default class MasterProduct extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('description', info.get('description'));
+    object.set('lowerCaseDescription', info.get('description').toLowerCase());
     object.set('barcode', info.get('barcode'));
     object.set('imageUrl', info.get('imageUrl'));
 

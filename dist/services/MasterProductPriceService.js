@@ -206,7 +206,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value9 = conditions.get('masterProductDescription');
 
     if (_value9) {
-      masterProductQuery.equalTo('description', _value9);
+      masterProductQuery.equalTo('lowerCaseDescription', _value9.toLowerCase());
       query.matchesQuery('masterProduct', masterProductQuery);
     }
   }
@@ -216,7 +216,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value10 = conditions.get('startsWith_masterProductDescription');
 
     if (_value10) {
-      _masterProductQuery.startsWith('description', _value10);
+      _masterProductQuery.startsWith('lowerCaseDescription', _value10.toLowerCase());
       query.matchesQuery('masterProduct', _masterProductQuery);
     }
   }
@@ -226,7 +226,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value11 = conditions.get('contains_masterProductDescription');
 
     if (_value11) {
-      _masterProductQuery2.contains('description', _value11);
+      _masterProductQuery2.contains('lowerCaseDescription', _value11.toLowerCase());
       query.matchesQuery('masterProduct', _masterProductQuery2);
     }
   }

@@ -105,7 +105,7 @@ export default class MasterProductService {
       const value = conditions.get('description');
 
       if (value) {
-        query.equalTo('description', value);
+        query.equalTo('lowerCaseDescription', value.toLowerCase());
       }
     }
 
@@ -113,7 +113,7 @@ export default class MasterProductService {
       const value = conditions.get('startsWith_description');
 
       if (value) {
-        query.startsWith('description', value);
+        query.startsWith('lowerCaseDescription', value.toLowerCase());
       }
     }
 
@@ -121,7 +121,7 @@ export default class MasterProductService {
       const value = conditions.get('contains_description');
 
       if (value) {
-        query.contains('description', value);
+        query.contains('lowerCaseDescription', value.toLowerCase());
       }
     }
 

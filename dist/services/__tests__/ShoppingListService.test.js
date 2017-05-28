@@ -177,7 +177,7 @@ describe('read', function () {
             _context4.prev = 6;
             _context4.t0 = _context4['catch'](1);
 
-            expect(_context4.t0).toBe('No shopping list found with Id: ' + shoppingListId);
+            expect(_context4.t0.getErrorMessage()).toBe('No shopping list found with Id: ' + shoppingListId);
 
           case 9:
           case 'end':
@@ -257,7 +257,7 @@ describe('update', function () {
             _context6.prev = 12;
             _context6.t0 = _context6['catch'](7);
 
-            expect(_context6.t0).toBe('No shopping list found with Id: ' + shoppingListId);
+            expect(_context6.t0.getErrorMessage()).toBe('No shopping list found with Id: ' + shoppingListId);
 
           case 15:
           case 'end':
@@ -390,7 +390,7 @@ describe('delete', function () {
             _context9.prev = 6;
             _context9.t0 = _context9['catch'](1);
 
-            expect(_context9.t0).toBe('No shopping list found with Id: ' + shoppingListId);
+            expect(_context9.t0.getErrorMessage()).toBe('No shopping list found with Id: ' + shoppingListId);
 
           case 9:
           case 'end':
@@ -437,7 +437,7 @@ describe('delete', function () {
             _context10.prev = 16;
             _context10.t0 = _context10['catch'](11);
 
-            expect(_context10.t0).toBe('No shopping list found with Id: ' + shoppingListId);
+            expect(_context10.t0.getErrorMessage()).toBe('No shopping list found with Id: ' + shoppingListId);
 
           case 19:
           case 'end':

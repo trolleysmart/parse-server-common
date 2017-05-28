@@ -170,7 +170,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('masterProductDescription');
 
       if (value) {
-        masterProductQuery.equalTo('description', value);
+        masterProductQuery.equalTo('lowerCaseDescription', value.toLowerCase());
         query.matchesQuery('masterProduct', masterProductQuery);
       }
     }
@@ -180,7 +180,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('startsWith_masterProductDescription');
 
       if (value) {
-        masterProductQuery.startsWith('description', value);
+        masterProductQuery.startsWith('lowerCaseDescription', value.toLowerCase());
         query.matchesQuery('masterProduct', masterProductQuery);
       }
     }
@@ -190,7 +190,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('contains_masterProductDescription');
 
       if (value) {
-        masterProductQuery.contains('description', value);
+        masterProductQuery.contains('lowerCaseDescription', value.toLowerCase());
         query.matchesQuery('masterProduct', masterProductQuery);
       }
     }
