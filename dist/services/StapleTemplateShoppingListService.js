@@ -145,51 +145,59 @@ StapleTemplateShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('startsWith_description')) {
-    var _value2 = conditions.get('startsWith_description');
+  if (conditions.has('description')) {
+    var _value2 = conditions.get('description');
 
     if (_value2) {
-      query.startsWith('description', _value2);
+      query.equalTo('lowerCaseDescription', _value2.toLowerCase());
+    }
+  }
+
+  if (conditions.has('startsWith_description')) {
+    var _value3 = conditions.get('startsWith_description');
+
+    if (_value3) {
+      query.startsWith('lowerCaseDescription', _value3.toLowerCase());
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value3 = conditions.get('contains_description');
+    var _value4 = conditions.get('contains_description');
 
-    if (_value3) {
-      query.contains('description', _value3);
+    if (_value4) {
+      query.contains('lowerCaseDescription', _value4.toLowerCase());
     }
   }
 
   if (conditions.has('stapleTemplate')) {
-    var _value4 = conditions.get('stapleTemplate');
+    var _value5 = conditions.get('stapleTemplate');
 
-    if (_value4) {
-      query.equalTo('stapleTemplates', _value4);
+    if (_value5) {
+      query.equalTo('stapleTemplates', _value5);
     }
   }
 
   if (conditions.has('stapleTemplates')) {
-    var _value5 = conditions.get('stapleTemplates');
+    var _value6 = conditions.get('stapleTemplates');
 
-    if (_value5) {
-      query.containedIn('stapleTemplates', _value5.toArray());
+    if (_value6) {
+      query.containedIn('stapleTemplates', _value6.toArray());
     }
   }
 
   if (conditions.has('stapleTemplateId')) {
-    var _value6 = conditions.get('stapleTemplateId');
+    var _value7 = conditions.get('stapleTemplateId');
 
-    if (_value6) {
-      query.equalTo('stapleTemplates', _schema.StapleTemplate.createWithoutData(_value6));
+    if (_value7) {
+      query.equalTo('stapleTemplates', _schema.StapleTemplate.createWithoutData(_value7));
     }
   }
 
   if (conditions.has('stapleTemplateIds')) {
-    var _value7 = conditions.get('stapleTemplateIds');
+    var _value8 = conditions.get('stapleTemplateIds');
 
-    if (_value7) {
-      query.containedIn('stapleTemplates', _value7.map(function (stapleTemplateId) {
+    if (_value8) {
+      query.containedIn('stapleTemplates', _value8.map(function (stapleTemplateId) {
         return _schema.StapleTemplate.createWithoutData(stapleTemplateId);
       }).toArray());
     }

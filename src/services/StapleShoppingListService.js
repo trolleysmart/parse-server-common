@@ -101,6 +101,30 @@ export default class StapleShoppingListService {
       }
     }
 
+    if (conditions.has('description')) {
+      const value = conditions.get('description');
+
+      if (value) {
+        query.equalTo('lowerCaseDescription', value.toLowerCase());
+      }
+    }
+
+    if (conditions.has('startsWith_description')) {
+      const value = conditions.get('startsWith_description');
+
+      if (value) {
+        query.startsWith('lowerCaseDescription', value.toLowerCase());
+      }
+    }
+
+    if (conditions.has('contains_description')) {
+      const value = conditions.get('contains_description');
+
+      if (value) {
+        query.contains('lowerCaseDescription', value.toLowerCase());
+      }
+    }
+
     return query;
   };
 }

@@ -16,6 +16,7 @@ export default class StapleShoppingList extends BaseObject {
   static updateInfoInternal = (object, info) => {
     object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
     object.set('description', info.get('description'));
+    object.set('lowerCaseDescription', info.get('description').toLowerCase());
 
     if (info.has('tagIds')) {
       const tagIds = info.get('tagIds');

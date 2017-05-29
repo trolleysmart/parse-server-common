@@ -16,6 +16,7 @@ export default class StapleTemplateShoppingList extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('description', info.get('description'));
+    object.set('lowerCaseDescription', info.get('description').toLowerCase());
 
     if (info.has('stapleTemplateIds')) {
       const stapleTemplateIds = info.get('stapleTemplateIds');

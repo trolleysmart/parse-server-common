@@ -49,6 +49,7 @@ StapleShoppingList.spawn = function (info) {
 StapleShoppingList.updateInfoInternal = function (object, info) {
   object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(info.get('userId')));
   object.set('description', info.get('description'));
+  object.set('lowerCaseDescription', info.get('description').toLowerCase());
 
   if (info.has('tagIds')) {
     var tagIds = info.get('tagIds');

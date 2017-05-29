@@ -52,6 +52,7 @@ StapleTemplateShoppingList.spawn = function (info) {
 
 StapleTemplateShoppingList.updateInfoInternal = function (object, info) {
   object.set('description', info.get('description'));
+  object.set('lowerCaseDescription', info.get('description').toLowerCase());
 
   if (info.has('stapleTemplateIds')) {
     var stapleTemplateIds = info.get('stapleTemplateIds');

@@ -109,11 +109,19 @@ export default class StapleTemplateShoppingListService {
       }
     }
 
+    if (conditions.has('description')) {
+      const value = conditions.get('description');
+
+      if (value) {
+        query.equalTo('lowerCaseDescription', value.toLowerCase());
+      }
+    }
+
     if (conditions.has('startsWith_description')) {
       const value = conditions.get('startsWith_description');
 
       if (value) {
-        query.startsWith('description', value);
+        query.startsWith('lowerCaseDescription', value.toLowerCase());
       }
     }
 
@@ -121,7 +129,7 @@ export default class StapleTemplateShoppingListService {
       const value = conditions.get('contains_description');
 
       if (value) {
-        query.contains('description', value);
+        query.contains('lowerCaseDescription', value.toLowerCase());
       }
     }
 
