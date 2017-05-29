@@ -16,14 +16,18 @@ var _ = require('../');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createStapleTemplateShoppingListInfo(stapleTemplateIds) {
+function createStapleTemplateShoppingListInfo(stapleTemplateIds, tagIds) {
   var info = (0, _immutable.Map)({
     description: (0, _v2.default)()
   });
 
-  return stapleTemplateIds ? info.merge({
+  var infoWithStapleTemplateIds = stapleTemplateIds ? info.merge({
     stapleTemplateIds: stapleTemplateIds
   }) : info;
+
+  return tagIds ? infoWithStapleTemplateIds.merge({
+    tagIds: tagIds
+  }) : infoWithStapleTemplateIds;
 }
 
 function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo) {
@@ -33,6 +37,7 @@ function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo) {
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo) {
   expect(stapleTemplateShoppingListInfo.get('name')).toBe(expectedStapleTemplateShoppingListInfo.get('name'));
   expect(stapleTemplateShoppingListInfo.get('stapleTemplates')).toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplates'));
+  expect(stapleTemplateShoppingListInfo.get('tags')).toEqual(expectedStapleTemplateShoppingListInfo.get('tags'));
 }
 
 describe('constructor', function () {

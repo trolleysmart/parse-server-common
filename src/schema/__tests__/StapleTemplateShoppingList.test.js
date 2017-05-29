@@ -4,16 +4,22 @@ import { Map } from 'immutable';
 import uuid from 'uuid/v4';
 import { StapleTemplateShoppingList } from '../';
 
-export function createStapleTemplateShoppingListInfo(stapleTemplateIds) {
+export function createStapleTemplateShoppingListInfo(stapleTemplateIds, tagIds) {
   const info = Map({
     description: uuid(),
   });
 
-  return stapleTemplateIds
+  const infoWithStapleTemplateIds = stapleTemplateIds
     ? info.merge({
       stapleTemplateIds,
     })
     : info;
+
+  return tagIds
+    ? infoWithStapleTemplateIds.merge({
+      tagIds,
+    })
+    : infoWithStapleTemplateIds;
 }
 
 export function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo) {
@@ -23,6 +29,7 @@ export function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo)
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo) {
   expect(stapleTemplateShoppingListInfo.get('name')).toBe(expectedStapleTemplateShoppingListInfo.get('name'));
   expect(stapleTemplateShoppingListInfo.get('stapleTemplates')).toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplates'));
+  expect(stapleTemplateShoppingListInfo.get('tags')).toEqual(expectedStapleTemplateShoppingListInfo.get('tags'));
 }
 
 describe('constructor', () => {
