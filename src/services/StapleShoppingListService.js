@@ -87,6 +87,14 @@ export default class StapleShoppingListService {
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleShoppingList, criteria);
 
+    if (criteria.has('includeTags')) {
+      const value = criteria.get('includeTags');
+
+      if (value) {
+        query.include('tags');
+      }
+    }
+
     if (!criteria.has('conditions')) {
       return query;
     }

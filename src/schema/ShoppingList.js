@@ -28,6 +28,11 @@ export default class ShoppingList extends BaseObject {
       object.set('stapleShoppingList', stapleShoppingList);
     }
 
+    const stapleShoppingListDescription = info.get('stapleShoppingListDescription');
+
+    object.set('stapleShoppingListDescription', stapleShoppingListDescription);
+    object.set('lowerCaseStapleShoppingListDescription', stapleShoppingListDescription ? stapleShoppingListDescription.toLowerCase() : undefined);
+
     if (info.has('masterProductPriceId')) {
       const masterProductPriceId = info.get('masterProductPriceId');
 
@@ -37,6 +42,11 @@ export default class ShoppingList extends BaseObject {
 
       object.set('masterProductPrice', masterProductPrice);
     }
+
+    const masterProductDescription = info.get('masterProductDescription');
+
+    object.set('masterProductDescription', masterProductDescription);
+    object.set('lowerCaseMasterProductDescription', masterProductDescription ? masterProductDescription.toLowerCase() : undefined);
   };
 
   constructor(object) {
@@ -62,6 +72,8 @@ export default class ShoppingList extends BaseObject {
       id: this.getId(),
       userId: user ? user.id : undefined,
       doneDate: this.getObject().get('doneDate'),
+      stapleShoppingListDescription: this.getObject().get('stapleShoppingListDescription'),
+      masterProductDescription: this.getObject().get('masterProductDescription'),
     });
 
     if (stapleShoppingList) {

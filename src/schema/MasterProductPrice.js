@@ -16,8 +16,19 @@ export default class MasterProductPrice extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('masterProduct', MasterProduct.createWithoutData(info.get('masterProductId')));
-    object.set('masterProductDescription', info.get('masterProductDescription'));
+
+    const masterProductDescription = info.get('masterProductDescription');
+
+    object.set('masterProductDescription', masterProductDescription);
+    object.set('lowerCaseMasterProductDescription', masterProductDescription ? masterProductDescription.toLowerCase() : undefined);
+
     object.set('store', Store.createWithoutData(info.get('storeId')));
+
+    const storeName = info.get('storeName');
+
+    object.set('storeName', storeName);
+    object.set('lowerCaseStoreName', storeName ? storeName.toLowerCase() : undefined);
+
     object.set('priceDetails', info.get('priceDetails').toJS());
     object.set('capturedDate', info.get('capturedDate'));
   };
@@ -45,6 +56,7 @@ export default class MasterProductPrice extends BaseObject {
       masterProductDescription: this.getObject().get('masterProductDescription'),
       store: store.getInfo(),
       storeId: store.getId(),
+      storeName: this.getObject().get('storeName'),
       priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
       capturedDate: this.getObject().get('capturedDate'),
     });

@@ -202,62 +202,50 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
   }
 
   if (conditions.has('masterProductDescription')) {
-    var masterProductQuery = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
     var _value9 = conditions.get('masterProductDescription');
 
     if (_value9) {
-      masterProductQuery.equalTo('lowerCaseDescription', _value9.toLowerCase());
-      query.matchesQuery('masterProduct', masterProductQuery);
+      query.equalTo('lowerCaseMasterProductDescription', _value9.toLowerCase());
     }
   }
 
   if (conditions.has('startsWith_masterProductDescription')) {
-    var _masterProductQuery = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
     var _value10 = conditions.get('startsWith_masterProductDescription');
 
     if (_value10) {
-      _masterProductQuery.startsWith('lowerCaseDescription', _value10.toLowerCase());
-      query.matchesQuery('masterProduct', _masterProductQuery);
+      query.startsWith('lowerCaseMasterProductDescription', _value10.toLowerCase());
     }
   }
 
   if (conditions.has('contains_masterProductDescription')) {
-    var _masterProductQuery2 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct, criteria);
     var _value11 = conditions.get('contains_masterProductDescription');
 
     if (_value11) {
-      _masterProductQuery2.contains('lowerCaseDescription', _value11.toLowerCase());
-      query.matchesQuery('masterProduct', _masterProductQuery2);
+      query.contains('lowerCaseMasterProductDescription', _value11.toLowerCase());
     }
   }
 
   if (conditions.has('storeName')) {
-    var _masterProductQuery3 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
     var _value12 = conditions.get('storeName');
 
     if (_value12) {
-      _masterProductQuery3.equalTo('name', _value12);
-      query.matchesQuery('store', _masterProductQuery3);
+      query.equalTo('lowerCaseStoreName', _value12);
     }
   }
 
   if (conditions.has('startsWith_storeName')) {
-    var _masterProductQuery4 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
     var _value13 = conditions.get('startsWith_storeName');
 
     if (_value13) {
-      _masterProductQuery4.startsWith('name', _value13);
-      query.matchesQuery('store', _masterProductQuery4);
+      query.startsWith('lowerCaseStoreName', _value13);
     }
   }
 
   if (conditions.has('contains_storeName')) {
-    var _masterProductQuery5 = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
     var _value14 = conditions.get('contains_storeName');
 
     if (_value14) {
-      _masterProductQuery5.contains('name', _value14);
-      query.matchesQuery('store', _masterProductQuery5);
+      query.contains('lowerCaseStoreName', _value14);
     }
   }
 

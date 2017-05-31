@@ -141,11 +141,59 @@ export default class ShoppingListService {
       }
     }
 
+    if (conditions.has('stapleShoppingListDescription')) {
+      const value = conditions.get('stapleShoppingListDescription');
+
+      if (value) {
+        query.equalTo('lowerCaseStapleShoppingListDescription', value.toLowerCase());
+      }
+    }
+
+    if (conditions.has('startsWith_stapleShoppingListDescription')) {
+      const value = conditions.get('startsWith_stapleShoppingListDescription');
+
+      if (value) {
+        query.startsWith('lowerCaseStapleShoppingListDescription', value.toLowerCase());
+      }
+    }
+
+    if (conditions.has('contains_stapleShoppingListDescription')) {
+      const value = conditions.get('contains_stapleShoppingListDescription');
+
+      if (value) {
+        query.contains('lowerCaseStapleShoppingListDescription', value.toLowerCase());
+      }
+    }
+
     if (conditions.has('masterProductPriceId')) {
       const value = conditions.get('masterProductPriceId');
 
       if (value) {
         query.equalTo('masterProductPrice', MasterProductPrice.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('masterProductDescription')) {
+      const value = conditions.get('masterProductDescription');
+
+      if (value) {
+        query.equalTo('lowerCaseMasterProductDescription', value.toLowerCase());
+      }
+    }
+
+    if (conditions.has('startsWith_masterProductDescription')) {
+      const value = conditions.get('startsWith_masterProductDescription');
+
+      if (value) {
+        query.startsWith('lowerCaseMasterProductDescription', value.toLowerCase());
+      }
+    }
+
+    if (conditions.has('contains_masterProductDescription')) {
+      const value = conditions.get('contains_masterProductDescription');
+
+      if (value) {
+        query.contains('lowerCaseMasterProductDescription', value.toLowerCase());
       }
     }
 

@@ -95,6 +95,14 @@ export default class StapleTemplateShoppingListService {
       }
     }
 
+    if (criteria.has('includeTags')) {
+      const value = criteria.get('includeTags');
+
+      if (value) {
+        query.include('tags');
+      }
+    }
+
     if (!criteria.has('conditions')) {
       return query;
     }

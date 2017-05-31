@@ -28,11 +28,13 @@ function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shop
   expect(shoppingListInfo.get('doneDate')).toEqual(expectedShoppingListInfo.get('doneDate'));
   expect(shoppingListInfo.get('stapleShoppingListId')).toEqual(stapleShoppingListId);
   expect(shoppingListInfo.get('masterProductPriceId')).toEqual(masterProductPriceId);
+  expect(shoppingListInfo.get('stapleShoppingListDescription')).toBe(expectedShoppingListInfo.get('stapleShoppingListDescription'));
+  expect(shoppingListInfo.get('masterProductDescription')).toBe(expectedShoppingListInfo.get('masterProductDescription'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice'),
+    fields: _immutable.List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice', 'stapleShoppingListDescription', 'masterProductDescription'),
     includeStapleShoppingList: true,
     includeMasterProductPrice: true,
     conditions: (0, _immutable.Map)({
@@ -46,7 +48,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice'),
+    fields: _immutable.List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice', 'stapleShoppingListDescription', 'masterProductDescription'),
     includeStapleShoppingList: true,
     includeMasterProductPrice: true,
     conditions: (0, _immutable.Map)({

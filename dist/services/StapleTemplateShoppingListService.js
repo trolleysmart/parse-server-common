@@ -131,6 +131,14 @@ StapleTemplateShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
+  if (criteria.has('includeTags')) {
+    var _value = criteria.get('includeTags');
+
+    if (_value) {
+      query.include('tags');
+    }
+  }
+
   if (!criteria.has('conditions')) {
     return query;
   }
@@ -138,66 +146,66 @@ StapleTemplateShoppingListService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('description')) {
-    var _value = conditions.get('description');
+    var _value2 = conditions.get('description');
 
-    if (_value) {
-      query.equalTo('description', _value);
+    if (_value2) {
+      query.equalTo('description', _value2);
     }
   }
 
   if (conditions.has('description')) {
-    var _value2 = conditions.get('description');
+    var _value3 = conditions.get('description');
 
-    if (_value2) {
-      query.equalTo('lowerCaseDescription', _value2.toLowerCase());
+    if (_value3) {
+      query.equalTo('lowerCaseDescription', _value3.toLowerCase());
     }
   }
 
   if (conditions.has('startsWith_description')) {
-    var _value3 = conditions.get('startsWith_description');
+    var _value4 = conditions.get('startsWith_description');
 
-    if (_value3) {
-      query.startsWith('lowerCaseDescription', _value3.toLowerCase());
+    if (_value4) {
+      query.startsWith('lowerCaseDescription', _value4.toLowerCase());
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value4 = conditions.get('contains_description');
+    var _value5 = conditions.get('contains_description');
 
-    if (_value4) {
-      query.contains('lowerCaseDescription', _value4.toLowerCase());
+    if (_value5) {
+      query.contains('lowerCaseDescription', _value5.toLowerCase());
     }
   }
 
   if (conditions.has('stapleTemplate')) {
-    var _value5 = conditions.get('stapleTemplate');
+    var _value6 = conditions.get('stapleTemplate');
 
-    if (_value5) {
-      query.equalTo('stapleTemplates', _value5);
+    if (_value6) {
+      query.equalTo('stapleTemplates', _value6);
     }
   }
 
   if (conditions.has('stapleTemplates')) {
-    var _value6 = conditions.get('stapleTemplates');
+    var _value7 = conditions.get('stapleTemplates');
 
-    if (_value6) {
-      query.containedIn('stapleTemplates', _value6.toArray());
+    if (_value7) {
+      query.containedIn('stapleTemplates', _value7.toArray());
     }
   }
 
   if (conditions.has('stapleTemplateId')) {
-    var _value7 = conditions.get('stapleTemplateId');
+    var _value8 = conditions.get('stapleTemplateId');
 
-    if (_value7) {
-      query.equalTo('stapleTemplates', _schema.StapleTemplate.createWithoutData(_value7));
+    if (_value8) {
+      query.equalTo('stapleTemplates', _schema.StapleTemplate.createWithoutData(_value8));
     }
   }
 
   if (conditions.has('stapleTemplateIds')) {
-    var _value8 = conditions.get('stapleTemplateIds');
+    var _value9 = conditions.get('stapleTemplateIds');
 
-    if (_value8) {
-      query.containedIn('stapleTemplates', _value8.map(function (stapleTemplateId) {
+    if (_value9) {
+      query.containedIn('stapleTemplates', _value9.map(function (stapleTemplateId) {
         return _schema.StapleTemplate.createWithoutData(stapleTemplateId);
       }).toArray());
     }

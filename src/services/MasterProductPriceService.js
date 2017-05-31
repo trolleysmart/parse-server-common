@@ -166,62 +166,50 @@ export default class MasterProductPriceService {
     }
 
     if (conditions.has('masterProductDescription')) {
-      const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
       const value = conditions.get('masterProductDescription');
 
       if (value) {
-        masterProductQuery.equalTo('lowerCaseDescription', value.toLowerCase());
-        query.matchesQuery('masterProduct', masterProductQuery);
+        query.equalTo('lowerCaseMasterProductDescription', value.toLowerCase());
       }
     }
 
     if (conditions.has('startsWith_masterProductDescription')) {
-      const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
       const value = conditions.get('startsWith_masterProductDescription');
 
       if (value) {
-        masterProductQuery.startsWith('lowerCaseDescription', value.toLowerCase());
-        query.matchesQuery('masterProduct', masterProductQuery);
+        query.startsWith('lowerCaseMasterProductDescription', value.toLowerCase());
       }
     }
 
     if (conditions.has('contains_masterProductDescription')) {
-      const masterProductQuery = ParseWrapperService.createQuery(MasterProduct, criteria);
       const value = conditions.get('contains_masterProductDescription');
 
       if (value) {
-        masterProductQuery.contains('lowerCaseDescription', value.toLowerCase());
-        query.matchesQuery('masterProduct', masterProductQuery);
+        query.contains('lowerCaseMasterProductDescription', value.toLowerCase());
       }
     }
 
     if (conditions.has('storeName')) {
-      const masterProductQuery = ParseWrapperService.createQuery(Store, criteria);
       const value = conditions.get('storeName');
 
       if (value) {
-        masterProductQuery.equalTo('name', value);
-        query.matchesQuery('store', masterProductQuery);
+        query.equalTo('lowerCaseStoreName', value);
       }
     }
 
     if (conditions.has('startsWith_storeName')) {
-      const masterProductQuery = ParseWrapperService.createQuery(Store, criteria);
       const value = conditions.get('startsWith_storeName');
 
       if (value) {
-        masterProductQuery.startsWith('name', value);
-        query.matchesQuery('store', masterProductQuery);
+        query.startsWith('lowerCaseStoreName', value);
       }
     }
 
     if (conditions.has('contains_storeName')) {
-      const masterProductQuery = ParseWrapperService.createQuery(Store, criteria);
       const value = conditions.get('contains_storeName');
 
       if (value) {
-        masterProductQuery.contains('name', value);
-        query.matchesQuery('store', masterProductQuery);
+        query.contains('lowerCaseStoreName', value);
       }
     }
 

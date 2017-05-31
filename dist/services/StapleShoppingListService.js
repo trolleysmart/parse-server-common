@@ -123,6 +123,14 @@ StapleShoppingListService.exists = function (criteria) {
 StapleShoppingListService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList, criteria);
 
+  if (criteria.has('includeTags')) {
+    var value = criteria.get('includeTags');
+
+    if (value) {
+      query.include('tags');
+    }
+  }
+
   if (!criteria.has('conditions')) {
     return query;
   }
@@ -130,34 +138,34 @@ StapleShoppingListService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('userId')) {
-    var value = conditions.get('userId');
+    var _value = conditions.get('userId');
 
-    if (value) {
-      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(value));
+    if (_value) {
+      query.equalTo('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(_value));
     }
   }
 
   if (conditions.has('description')) {
-    var _value = conditions.get('description');
+    var _value2 = conditions.get('description');
 
-    if (_value) {
-      query.equalTo('lowerCaseDescription', _value.toLowerCase());
+    if (_value2) {
+      query.equalTo('lowerCaseDescription', _value2.toLowerCase());
     }
   }
 
   if (conditions.has('startsWith_description')) {
-    var _value2 = conditions.get('startsWith_description');
+    var _value3 = conditions.get('startsWith_description');
 
-    if (_value2) {
-      query.startsWith('lowerCaseDescription', _value2.toLowerCase());
+    if (_value3) {
+      query.startsWith('lowerCaseDescription', _value3.toLowerCase());
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value3 = conditions.get('contains_description');
+    var _value4 = conditions.get('contains_description');
 
-    if (_value3) {
-      query.contains('lowerCaseDescription', _value3.toLowerCase());
+    if (_value4) {
+      query.contains('lowerCaseDescription', _value4.toLowerCase());
     }
   }
 
