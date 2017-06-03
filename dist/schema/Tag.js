@@ -42,7 +42,6 @@ Tag.updateInfoInternal = function (object, info) {
   var key = info.get('key');
 
   object.set('key', key);
-  object.set('lowerCaseKey', key.toLowerCase());
 
   var description = info.get('description');
 

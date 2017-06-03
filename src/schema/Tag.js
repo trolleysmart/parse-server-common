@@ -16,7 +16,6 @@ export default class Tag extends BaseObject {
     const key = info.get('key');
 
     object.set('key', key);
-    object.set('lowerCaseKey', key.toLowerCase());
 
     const description = info.get('description');
 

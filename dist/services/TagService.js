@@ -133,55 +133,39 @@ TagService.buildSearchQuery = function (criteria) {
     var value = conditions.get('key');
 
     if (value) {
-      query.equalTo('lowerCaseKey', value);
-    }
-  }
-
-  if (conditions.has('startsWith_key')) {
-    var _value = conditions.get('startsWith_key');
-
-    if (_value) {
-      query.startsWith('lowerCaseKey', _value);
-    }
-  }
-
-  if (conditions.has('contains_key')) {
-    var _value2 = conditions.get('contains_key');
-
-    if (_value2) {
-      query.contains('lowerCaseKey', _value2);
+      query.equalTo('key', value);
     }
   }
 
   if (conditions.has('description')) {
-    var _value3 = conditions.get('description');
+    var _value = conditions.get('description');
 
-    if (_value3) {
-      query.equalTo('lowerCaseDescription', _value3);
+    if (_value) {
+      query.equalTo('lowerCaseDescription', _value);
     }
   }
 
   if (conditions.has('startsWith_description')) {
-    var _value4 = conditions.get('startsWith_description');
+    var _value2 = conditions.get('startsWith_description');
 
-    if (_value4) {
-      query.startsWith('lowerCaseDescription', _value4);
+    if (_value2) {
+      query.startsWith('lowerCaseDescription', _value2);
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value5 = conditions.get('contains_description');
+    var _value3 = conditions.get('contains_description');
 
-    if (_value5) {
-      query.contains('lowerCaseDescription', _value5);
+    if (_value3) {
+      query.contains('lowerCaseDescription', _value3);
     }
   }
 
   if (conditions.has('weight')) {
-    var _value6 = conditions.get('weight');
+    var _value4 = conditions.get('weight');
 
-    if (_value6) {
-      query.equalTo('weight', _value6);
+    if (_value4) {
+      query.equalTo('weight', _value4);
     }
   }
 

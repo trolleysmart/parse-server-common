@@ -95,23 +95,7 @@ export default class TagService {
       const value = conditions.get('key');
 
       if (value) {
-        query.equalTo('lowerCaseKey', value);
-      }
-    }
-
-    if (conditions.has('startsWith_key')) {
-      const value = conditions.get('startsWith_key');
-
-      if (value) {
-        query.startsWith('lowerCaseKey', value);
-      }
-    }
-
-    if (conditions.has('contains_key')) {
-      const value = conditions.get('contains_key');
-
-      if (value) {
-        query.contains('lowerCaseKey', value);
+        query.equalTo('key', value);
       }
     }
 
