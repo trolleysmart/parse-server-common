@@ -308,59 +308,35 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('stapleShoppingListDescription')) {
-    var _value8 = conditions.get('stapleShoppingListDescription');
+  if (conditions.has('masterProductPriceId')) {
+    var _value8 = conditions.get('masterProductPriceId');
 
     if (_value8) {
-      query.equalTo('lowerCaseStapleShoppingListDescription', _value8.toLowerCase());
+      query.equalTo('masterProductPrice', _schema.MasterProductPrice.createWithoutData(_value8));
     }
   }
 
-  if (conditions.has('startsWith_stapleShoppingListDescription')) {
-    var _value9 = conditions.get('startsWith_stapleShoppingListDescription');
+  if (conditions.has('description')) {
+    var _value9 = conditions.get('description');
 
     if (_value9) {
-      query.startsWith('lowerCaseStapleShoppingListDescription', _value9.toLowerCase());
+      query.equalTo('description', _value9.toLowerCase());
     }
   }
 
-  if (conditions.has('contains_stapleShoppingListDescription')) {
-    var _value10 = conditions.get('contains_stapleShoppingListDescription');
+  if (conditions.has('startsWith_description')) {
+    var _value10 = conditions.get('startsWith_description');
 
     if (_value10) {
-      query.contains('lowerCaseStapleShoppingListDescription', _value10.toLowerCase());
+      query.startsWith('description', _value10.toLowerCase());
     }
   }
 
-  if (conditions.has('masterProductPriceId')) {
-    var _value11 = conditions.get('masterProductPriceId');
+  if (conditions.has('contains_description')) {
+    var _value11 = conditions.get('contains_description');
 
     if (_value11) {
-      query.equalTo('masterProductPrice', _schema.MasterProductPrice.createWithoutData(_value11));
-    }
-  }
-
-  if (conditions.has('masterProductDescription')) {
-    var _value12 = conditions.get('masterProductDescription');
-
-    if (_value12) {
-      query.equalTo('lowerCaseMasterProductDescription', _value12.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_masterProductDescription')) {
-    var _value13 = conditions.get('startsWith_masterProductDescription');
-
-    if (_value13) {
-      query.startsWith('lowerCaseMasterProductDescription', _value13.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_masterProductDescription')) {
-    var _value14 = conditions.get('contains_masterProductDescription');
-
-    if (_value14) {
-      query.contains('lowerCaseMasterProductDescription', _value14.toLowerCase());
+      query.contains('description', _value11.toLowerCase());
     }
   }
 

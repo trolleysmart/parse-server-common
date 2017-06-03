@@ -51,20 +51,36 @@ MasterProductPrice.spawn = function (info) {
 };
 
 MasterProductPrice.updateInfoInternal = function (object, info) {
-  object.set('masterProduct', _MasterProduct2.default.createWithoutData(info.get('masterProductId')));
+  if (info.has('masterProductId')) {
+    var masterProductId = info.get('masterProductId');
 
-  var masterProductDescription = info.get('masterProductDescription');
+    if (masterProductId) {
+      object.set('masterProduct', _MasterProduct2.default.createWithoutData(masterProductId));
+    }
+  } else if (info.has('masterProduct')) {
+    var masterProduct = info.get('masterProduct');
 
-  object.set('masterProductDescription', masterProductDescription);
-  object.set('lowerCaseMasterProductDescription', masterProductDescription ? masterProductDescription.toLowerCase() : undefined);
+    if (masterProduct) {
+      object.set('masterProduct', masterProduct);
+    }
+  }
 
-  object.set('store', _Store2.default.createWithoutData(info.get('storeId')));
+  if (info.has('storeId')) {
+    var storeId = info.get('storeId');
 
-  var storeName = info.get('storeName');
+    if (storeId) {
+      object.set('store', _Store2.default.createWithoutData(storeId));
+    }
+  } else if (info.has('store')) {
+    var store = info.get('store');
 
-  object.set('storeName', storeName);
-  object.set('lowerCaseStoreName', storeName ? storeName.toLowerCase() : undefined);
+    if (store) {
+      object.set('store', store);
+    }
+  }
 
+  object.set('description', info.get('description'));
+  object.set('storeName', info.get('storeName'));
   object.set('priceDetails', info.get('priceDetails').toJS());
   object.set('capturedDate', info.get('capturedDate'));
 };
@@ -88,7 +104,7 @@ var _initialiseProps = function _initialiseProps() {
       id: _this2.getId(),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),
-      masterProductDescription: _this2.getObject().get('masterProductDescription'),
+      description: _this2.getObject().get('description'),
       store: store.getInfo(),
       storeId: store.getId(),
       storeName: _this2.getObject().get('storeName'),

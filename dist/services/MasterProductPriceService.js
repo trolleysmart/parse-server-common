@@ -201,27 +201,27 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('masterProductDescription')) {
-    var _value9 = conditions.get('masterProductDescription');
+  if (conditions.has('description')) {
+    var _value9 = conditions.get('description');
 
     if (_value9) {
-      query.equalTo('lowerCaseMasterProductDescription', _value9.toLowerCase());
+      query.equalTo('description', _value9.toLowerCase());
     }
   }
 
-  if (conditions.has('startsWith_masterProductDescription')) {
-    var _value10 = conditions.get('startsWith_masterProductDescription');
+  if (conditions.has('startsWith_description')) {
+    var _value10 = conditions.get('startsWith_description');
 
     if (_value10) {
-      query.startsWith('lowerCaseMasterProductDescription', _value10.toLowerCase());
+      query.startsWith('description', _value10.toLowerCase());
     }
   }
 
-  if (conditions.has('contains_masterProductDescription')) {
-    var _value11 = conditions.get('contains_masterProductDescription');
+  if (conditions.has('contains_description')) {
+    var _value11 = conditions.get('contains_description');
 
     if (_value11) {
-      query.contains('lowerCaseMasterProductDescription', _value11.toLowerCase());
+      query.contains('description', _value11.toLowerCase());
     }
   }
 
@@ -229,7 +229,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value12 = conditions.get('storeName');
 
     if (_value12) {
-      query.equalTo('lowerCaseStoreName', _value12);
+      query.equalTo('storeName', _value12);
     }
   }
 
@@ -237,7 +237,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value13 = conditions.get('startsWith_storeName');
 
     if (_value13) {
-      query.startsWith('lowerCaseStoreName', _value13);
+      query.startsWith('storeName', _value13);
     }
   }
 
@@ -245,7 +245,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value14 = conditions.get('contains_storeName');
 
     if (_value14) {
-      query.contains('lowerCaseStoreName', _value14);
+      query.contains('storeName', _value14);
     }
   }
 

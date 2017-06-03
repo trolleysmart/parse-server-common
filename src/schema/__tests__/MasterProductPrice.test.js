@@ -9,7 +9,7 @@ import { createStore } from './Store.test';
 export function createMasterProductPriceInfo(masterProductId, storeId) {
   return Map({
     masterProductId: masterProductId || createMasterProduct().getId(),
-    masterProductDescription: uuid(),
+    description: uuid(),
     storeName: uuid(),
     storeId: storeId || createStore().getId(),
     priceDetails: Map({
@@ -25,7 +25,7 @@ export function createMasterProductPrice(masterProductPriceInfo) {
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo) {
   expect(masterProductPriceInfo.get('masterProductId')).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
-  expect(masterProductPriceInfo.get('masterProductDescription')).toBe(expectedMasterProductPriceInfo.get('masterProductDescription'));
+  expect(masterProductPriceInfo.get('description')).toBe(expectedMasterProductPriceInfo.get('description'));
   expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));
   expect(masterProductPriceInfo.get('storeName')).toBe(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));

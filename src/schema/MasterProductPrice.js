@@ -15,20 +15,36 @@ export default class MasterProductPrice extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('masterProduct', MasterProduct.createWithoutData(info.get('masterProductId')));
+    if (info.has('masterProductId')) {
+      const masterProductId = info.get('masterProductId');
 
-    const masterProductDescription = info.get('masterProductDescription');
+      if (masterProductId) {
+        object.set('masterProduct', MasterProduct.createWithoutData(masterProductId));
+      }
+    } else if (info.has('masterProduct')) {
+      const masterProduct = info.get('masterProduct');
 
-    object.set('masterProductDescription', masterProductDescription);
-    object.set('lowerCaseMasterProductDescription', masterProductDescription ? masterProductDescription.toLowerCase() : undefined);
+      if (masterProduct) {
+        object.set('masterProduct', masterProduct);
+      }
+    }
 
-    object.set('store', Store.createWithoutData(info.get('storeId')));
+    if (info.has('storeId')) {
+      const storeId = info.get('storeId');
 
-    const storeName = info.get('storeName');
+      if (storeId) {
+        object.set('store', Store.createWithoutData(storeId));
+      }
+    } else if (info.has('store')) {
+      const store = info.get('store');
 
-    object.set('storeName', storeName);
-    object.set('lowerCaseStoreName', storeName ? storeName.toLowerCase() : undefined);
+      if (store) {
+        object.set('store', store);
+      }
+    }
 
+    object.set('description', info.get('description'));
+    object.set('storeName', info.get('storeName'));
     object.set('priceDetails', info.get('priceDetails').toJS());
     object.set('capturedDate', info.get('capturedDate'));
   };
@@ -53,7 +69,7 @@ export default class MasterProductPrice extends BaseObject {
       id: this.getId(),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),
-      masterProductDescription: this.getObject().get('masterProductDescription'),
+      description: this.getObject().get('description'),
       store: store.getInfo(),
       storeId: store.getId(),
       storeName: this.getObject().get('storeName'),

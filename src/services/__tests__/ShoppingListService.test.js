@@ -15,13 +15,12 @@ function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shop
   expect(shoppingListInfo.get('doneDate')).toEqual(expectedShoppingListInfo.get('doneDate'));
   expect(shoppingListInfo.get('stapleShoppingListId')).toEqual(stapleShoppingListId);
   expect(shoppingListInfo.get('masterProductPriceId')).toEqual(masterProductPriceId);
-  expect(shoppingListInfo.get('stapleShoppingListDescription')).toBe(expectedShoppingListInfo.get('stapleShoppingListDescription'));
-  expect(shoppingListInfo.get('masterProductDescription')).toBe(expectedShoppingListInfo.get('masterProductDescription'));
+  expect(shoppingListInfo.get('description')).toBe(expectedShoppingListInfo.get('description'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice', 'stapleShoppingListDescription', 'masterProductDescription'),
+    fields: List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice', 'description'),
     includeStapleShoppingList: true,
     includeMasterProductPrice: true,
     conditions: Map({
@@ -35,7 +34,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId) {
   return Map({
-    fields: List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice', 'stapleShoppingListDescription', 'masterProductDescription'),
+    fields: List.of('user', 'doneDate', 'stapleShoppingList', 'masterProductPrice', 'description'),
     includeStapleShoppingList: true,
     includeMasterProductPrice: true,
     conditions: Map({

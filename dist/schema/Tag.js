@@ -40,6 +40,7 @@ Tag.spawn = function (info) {
 
 Tag.updateInfoInternal = function (object, info) {
   object.set('name', info.get('name'));
+  object.set('lowerCaseName', info.get('name').toLowerCase());
   object.set('weight', info.get('weight'));
 };
 

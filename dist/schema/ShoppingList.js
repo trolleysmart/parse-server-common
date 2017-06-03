@@ -62,11 +62,6 @@ ShoppingList.updateInfoInternal = function (object, info) {
     object.set('stapleShoppingList', stapleShoppingList);
   }
 
-  var stapleShoppingListDescription = info.get('stapleShoppingListDescription');
-
-  object.set('stapleShoppingListDescription', stapleShoppingListDescription);
-  object.set('lowerCaseStapleShoppingListDescription', stapleShoppingListDescription ? stapleShoppingListDescription.toLowerCase() : undefined);
-
   if (info.has('masterProductPriceId')) {
     var masterProductPriceId = info.get('masterProductPriceId');
 
@@ -77,10 +72,9 @@ ShoppingList.updateInfoInternal = function (object, info) {
     object.set('masterProductPrice', masterProductPrice);
   }
 
-  var masterProductDescription = info.get('masterProductDescription');
+  var description = info.get('description');
 
-  object.set('masterProductDescription', masterProductDescription);
-  object.set('lowerCaseMasterProductDescription', masterProductDescription ? masterProductDescription.toLowerCase() : undefined);
+  object.set('description', description ? description.toLowerCase() : undefined);
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -105,8 +99,7 @@ var _initialiseProps = function _initialiseProps() {
       id: _this2.getId(),
       userId: user ? user.id : undefined,
       doneDate: _this2.getObject().get('doneDate'),
-      stapleShoppingListDescription: _this2.getObject().get('stapleShoppingListDescription'),
-      masterProductDescription: _this2.getObject().get('masterProductDescription')
+      description: _this2.getObject().get('description')
     });
 
     if (stapleShoppingList) {

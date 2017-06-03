@@ -27,7 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
-  expect(masterProductPriceInfo.get('masterProductDescription')).toEqual(expectedMasterProductPriceInfo.get('masterProductDescription'));
+  expect(masterProductPriceInfo.get('description')).toEqual(expectedMasterProductPriceInfo.get('description'));
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
@@ -36,7 +36,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'masterProductDescription', 'capturedDate'),
+    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'capturedDate'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
@@ -48,7 +48,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'masterProductDescription', 'capturedDate'),
+    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'capturedDate'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({

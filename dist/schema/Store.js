@@ -40,6 +40,7 @@ Store.spawn = function (info) {
 
 Store.updateInfoInternal = function (object, info) {
   object.set('name', info.get('name'));
+  object.set('lowerCaseName', info.get('name').toLowerCase());
   object.set('imageUrl', info.get('imageUrl'));
 };
 

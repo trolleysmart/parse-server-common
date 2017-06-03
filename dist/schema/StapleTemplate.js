@@ -40,6 +40,7 @@ StapleTemplate.spawn = function (info) {
 
 StapleTemplate.updateInfoInternal = function (object, info) {
   object.set('name', info.get('name'));
+  object.set('lowerCaseName', info.get('name').toLowerCase());
 };
 
 var _initialiseProps = function _initialiseProps() {

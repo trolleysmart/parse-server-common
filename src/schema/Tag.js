@@ -14,6 +14,7 @@ export default class Tag extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('name', info.get('name'));
+    object.set('lowerCaseName', info.get('name').toLowerCase());
     object.set('weight', info.get('weight'));
   };
 

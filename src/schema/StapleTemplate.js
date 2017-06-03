@@ -14,6 +14,7 @@ export default class StapleTemplate extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('name', info.get('name'));
+    object.set('lowerCaseName', info.get('name').toLowerCase());
   };
 
   constructor(object) {

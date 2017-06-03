@@ -165,27 +165,27 @@ export default class MasterProductPriceService {
       }
     }
 
-    if (conditions.has('masterProductDescription')) {
-      const value = conditions.get('masterProductDescription');
+    if (conditions.has('description')) {
+      const value = conditions.get('description');
 
       if (value) {
-        query.equalTo('lowerCaseMasterProductDescription', value.toLowerCase());
+        query.equalTo('description', value.toLowerCase());
       }
     }
 
-    if (conditions.has('startsWith_masterProductDescription')) {
-      const value = conditions.get('startsWith_masterProductDescription');
+    if (conditions.has('startsWith_description')) {
+      const value = conditions.get('startsWith_description');
 
       if (value) {
-        query.startsWith('lowerCaseMasterProductDescription', value.toLowerCase());
+        query.startsWith('description', value.toLowerCase());
       }
     }
 
-    if (conditions.has('contains_masterProductDescription')) {
-      const value = conditions.get('contains_masterProductDescription');
+    if (conditions.has('contains_description')) {
+      const value = conditions.get('contains_description');
 
       if (value) {
-        query.contains('lowerCaseMasterProductDescription', value.toLowerCase());
+        query.contains('description', value.toLowerCase());
       }
     }
 
@@ -193,7 +193,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('storeName');
 
       if (value) {
-        query.equalTo('lowerCaseStoreName', value);
+        query.equalTo('storeName', value);
       }
     }
 
@@ -201,7 +201,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('startsWith_storeName');
 
       if (value) {
-        query.startsWith('lowerCaseStoreName', value);
+        query.startsWith('storeName', value);
       }
     }
 
@@ -209,7 +209,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('contains_storeName');
 
       if (value) {
-        query.contains('lowerCaseStoreName', value);
+        query.contains('storeName', value);
       }
     }
 

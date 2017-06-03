@@ -141,30 +141,6 @@ export default class ShoppingListService {
       }
     }
 
-    if (conditions.has('stapleShoppingListDescription')) {
-      const value = conditions.get('stapleShoppingListDescription');
-
-      if (value) {
-        query.equalTo('lowerCaseStapleShoppingListDescription', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('startsWith_stapleShoppingListDescription')) {
-      const value = conditions.get('startsWith_stapleShoppingListDescription');
-
-      if (value) {
-        query.startsWith('lowerCaseStapleShoppingListDescription', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_stapleShoppingListDescription')) {
-      const value = conditions.get('contains_stapleShoppingListDescription');
-
-      if (value) {
-        query.contains('lowerCaseStapleShoppingListDescription', value.toLowerCase());
-      }
-    }
-
     if (conditions.has('masterProductPriceId')) {
       const value = conditions.get('masterProductPriceId');
 
@@ -173,27 +149,27 @@ export default class ShoppingListService {
       }
     }
 
-    if (conditions.has('masterProductDescription')) {
-      const value = conditions.get('masterProductDescription');
+    if (conditions.has('description')) {
+      const value = conditions.get('description');
 
       if (value) {
-        query.equalTo('lowerCaseMasterProductDescription', value.toLowerCase());
+        query.equalTo('description', value.toLowerCase());
       }
     }
 
-    if (conditions.has('startsWith_masterProductDescription')) {
-      const value = conditions.get('startsWith_masterProductDescription');
+    if (conditions.has('startsWith_description')) {
+      const value = conditions.get('startsWith_description');
 
       if (value) {
-        query.startsWith('lowerCaseMasterProductDescription', value.toLowerCase());
+        query.startsWith('description', value.toLowerCase());
       }
     }
 
-    if (conditions.has('contains_masterProductDescription')) {
-      const value = conditions.get('contains_masterProductDescription');
+    if (conditions.has('contains_description')) {
+      const value = conditions.get('contains_description');
 
       if (value) {
-        query.contains('lowerCaseMasterProductDescription', value.toLowerCase());
+        query.contains('description', value.toLowerCase());
       }
     }
 
