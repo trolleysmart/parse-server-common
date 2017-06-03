@@ -8,15 +8,17 @@ import { createTagInfo } from '../../schema/__tests__/Tag.test';
 
 function expectTagInfo(tagInfo, expectedTagInfo, tagId) {
   expect(tagInfo.get('id')).toBe(tagId);
-  expect(tagInfo.get('name')).toBe(expectedTagInfo.get('name'));
+  expect(tagInfo.get('key')).toBe(expectedTagInfo.get('key'));
+  expect(tagInfo.get('description')).toBe(expectedTagInfo.get('description'));
   expect(tagInfo.get('weight')).toBe(expectedTagInfo.get('weight'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('name', 'weight'),
+    fields: List.of('key', 'description', 'weight'),
     conditions: Map({
-      name: uuid(),
+      key: uuid(),
+      description: uuid(),
       weight: 1,
     }),
   });
@@ -24,9 +26,10 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedTagInfo(tagInfo) {
   return Map({
-    fields: List.of('name', 'weight'),
+    fields: List.of('key', 'description', 'weight'),
     conditions: Map({
-      name: tagInfo.get('name'),
+      key: tagInfo.get('key'),
+      description: tagInfo.get('description'),
       weigth: tagInfo.get('weight'),
     }),
   });

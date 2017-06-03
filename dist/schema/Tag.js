@@ -39,8 +39,16 @@ Tag.spawn = function (info) {
 };
 
 Tag.updateInfoInternal = function (object, info) {
-  object.set('name', info.get('name'));
-  object.set('lowerCaseName', info.get('name').toLowerCase());
+  var key = info.get('key');
+
+  object.set('key', key);
+  object.set('lowerCaseKey', key.toLowerCase());
+
+  var description = info.get('description');
+
+  object.set('description', description);
+  object.set('lowerCaseDescription', description ? description.toLowerCase() : undefined);
+
   object.set('weight', info.get('weight'));
 };
 
@@ -58,7 +66,8 @@ var _initialiseProps = function _initialiseProps() {
   this.getInfo = function () {
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      name: _this2.getObject().get('name'),
+      key: _this2.getObject().get('key'),
+      description: _this2.getObject().get('description'),
       weight: _this2.getObject().get('weight')
     });
   };

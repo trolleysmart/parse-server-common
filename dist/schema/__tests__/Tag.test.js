@@ -18,7 +18,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createTagInfo() {
   return (0, _immutable.Map)({
-    name: (0, _v2.default)(),
+    key: (0, _v2.default)(),
+    description: (0, _v2.default)(),
     weight: 1
   });
 }
@@ -28,7 +29,8 @@ function createTag(tagInfo) {
 }
 
 function expectTagInfo(tagInfo, expectedTagInfo) {
-  expect(tagInfo.get('name')).toBe(expectedTagInfo.get('name'));
+  expect(tagInfo.get('key')).toBe(expectedTagInfo.get('key'));
+  expect(tagInfo.get('description')).toBe(expectedTagInfo.get('description'));
   expect(tagInfo.get('weight')).toBe(expectedTagInfo.get('weight'));
 }
 

@@ -91,27 +91,51 @@ export default class TagService {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('name')) {
-      const value = conditions.get('name');
+    if (conditions.has('key')) {
+      const value = conditions.get('key');
 
       if (value) {
-        query.equalTo('name', value);
+        query.equalTo('lowerCaseKey', value);
       }
     }
 
-    if (conditions.has('startsWith_name')) {
-      const value = conditions.get('startsWith_name');
+    if (conditions.has('startsWith_key')) {
+      const value = conditions.get('startsWith_key');
 
       if (value) {
-        query.startsWith('name', value);
+        query.startsWith('lowerCaseKey', value);
       }
     }
 
-    if (conditions.has('contains_name')) {
-      const value = conditions.get('contains_name');
+    if (conditions.has('contains_key')) {
+      const value = conditions.get('contains_key');
 
       if (value) {
-        query.contains('name', value);
+        query.contains('lowerCaseKey', value);
+      }
+    }
+
+    if (conditions.has('description')) {
+      const value = conditions.get('description');
+
+      if (value) {
+        query.equalTo('lowerCaseDescription', value);
+      }
+    }
+
+    if (conditions.has('startsWith_description')) {
+      const value = conditions.get('startsWith_description');
+
+      if (value) {
+        query.startsWith('lowerCaseDescription', value);
+      }
+    }
+
+    if (conditions.has('contains_description')) {
+      const value = conditions.get('contains_description');
+
+      if (value) {
+        query.contains('lowerCaseDescription', value);
       }
     }
 

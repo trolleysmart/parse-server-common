@@ -16,15 +16,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function expectTagInfo(tagInfo, expectedTagInfo, tagId) {
   expect(tagInfo.get('id')).toBe(tagId);
-  expect(tagInfo.get('name')).toBe(expectedTagInfo.get('name'));
+  expect(tagInfo.get('key')).toBe(expectedTagInfo.get('key'));
+  expect(tagInfo.get('description')).toBe(expectedTagInfo.get('description'));
   expect(tagInfo.get('weight')).toBe(expectedTagInfo.get('weight'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'weight'),
+    fields: _immutable.List.of('key', 'description', 'weight'),
     conditions: (0, _immutable.Map)({
-      name: (0, _v2.default)(),
+      key: (0, _v2.default)(),
+      description: (0, _v2.default)(),
       weight: 1
     })
   });
@@ -32,9 +34,10 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedTagInfo(tagInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'weight'),
+    fields: _immutable.List.of('key', 'description', 'weight'),
     conditions: (0, _immutable.Map)({
-      name: tagInfo.get('name'),
+      key: tagInfo.get('key'),
+      description: tagInfo.get('description'),
       weigth: tagInfo.get('weight')
     })
   });
