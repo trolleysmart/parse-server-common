@@ -39,9 +39,7 @@ Tag.spawn = function (info) {
 };
 
 Tag.updateInfoInternal = function (object, info) {
-  var key = info.get('key');
-
-  object.set('key', key);
+  object.set('key', info.get('key'));
 
   var description = info.get('description');
 

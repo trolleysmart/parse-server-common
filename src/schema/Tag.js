@@ -13,9 +13,7 @@ export default class Tag extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    const key = info.get('key');
-
-    object.set('key', key);
+    object.set('key', info.get('key'));
 
     const description = info.get('description');
 

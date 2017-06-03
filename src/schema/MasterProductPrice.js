@@ -43,8 +43,14 @@ export default class MasterProductPrice extends BaseObject {
       }
     }
 
-    object.set('description', info.get('description'));
-    object.set('storeName', info.get('storeName'));
+    const description = info.get('description');
+
+    object.set('description', description ? description.toLowerCase() : undefined);
+
+    const storeName = info.get('storeName');
+
+    object.set('storeName', storeName ? storeName.toLowerCase() : undefined);
+
     object.set('priceDetails', info.get('priceDetails').toJS());
     object.set('capturedDate', info.get('capturedDate'));
   };
