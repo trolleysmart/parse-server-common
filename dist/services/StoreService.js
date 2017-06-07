@@ -152,6 +152,20 @@ StoreService.buildSearchQuery = function (criteria) {
     }
   }
 
+  if (conditions.has('contains_names')) {
+    var values = conditions.get('contains_names');
+
+    if (values && values.count() === 1) {
+      query.contains('name', values.first().toLowerCase());
+    } else if (values && values.count() > 1) {
+      query.matches('name', values.map(function (value) {
+        return '(?=.*' + value.toLowerCase() + ')';
+      }).reduce(function (reduction, value) {
+        return reduction + value;
+      }));
+    }
+  }
+
   return query;
 };
 

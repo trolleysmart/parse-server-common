@@ -113,14 +113,6 @@ export default class StapleTemplateShoppingListService {
       const value = conditions.get('description');
 
       if (value) {
-        query.equalTo('description', value);
-      }
-    }
-
-    if (conditions.has('description')) {
-      const value = conditions.get('description');
-
-      if (value) {
         query.equalTo('lowerCaseDescription', value.toLowerCase());
       }
     }
@@ -138,6 +130,16 @@ export default class StapleTemplateShoppingListService {
 
       if (value) {
         query.contains('lowerCaseDescription', value.toLowerCase());
+      }
+    }
+
+    if (conditions.has('contains_descriptions')) {
+      const values = conditions.get('contains_descriptions');
+
+      if (values && values.count() === 1) {
+        query.contains('lowerCaseDescription', values.first().toLowerCase());
+      } else if (values && values.count() > 1) {
+        query.matches('lowerCaseDescription', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
       }
     }
 

@@ -173,6 +173,16 @@ export default class ShoppingListService {
       }
     }
 
+    if (conditions.has('contains_descriptions')) {
+      const values = conditions.get('contains_descriptions');
+
+      if (values && values.count() === 1) {
+        query.contains('description', values.first().toLowerCase());
+      } else if (values && values.count() > 1) {
+        query.matches('description', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+      }
+    }
+
     return query;
   };
 }

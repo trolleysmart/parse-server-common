@@ -117,6 +117,16 @@ export default class StapleTemplateService {
       }
     }
 
+    if (conditions.has('contains_names')) {
+      const values = conditions.get('contains_names');
+
+      if (values && values.count() === 1) {
+        query.contains('name', values.first().toLowerCase());
+      } else if (values && values.count() > 1) {
+        query.matches('name', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+      }
+    }
+
     return query;
   };
 }

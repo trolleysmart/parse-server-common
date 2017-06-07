@@ -340,6 +340,20 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
+  if (conditions.has('contains_descriptions')) {
+    var values = conditions.get('contains_descriptions');
+
+    if (values && values.count() === 1) {
+      query.contains('description', values.first().toLowerCase());
+    } else if (values && values.count() > 1) {
+      query.matches('description', values.map(function (value) {
+        return '(?=.*' + value.toLowerCase() + ')';
+      }).reduce(function (reduction, value) {
+        return reduction + value;
+      }));
+    }
+  }
+
   return query;
 };
 

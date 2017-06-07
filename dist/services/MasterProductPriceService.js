@@ -225,6 +225,20 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     }
   }
 
+  if (conditions.has('contains_descriptions')) {
+    var values = conditions.get('contains_descriptions');
+
+    if (values && values.count() === 1) {
+      query.contains('description', values.first().toLowerCase());
+    } else if (values && values.count() > 1) {
+      query.matches('description', values.map(function (value) {
+        return '(?=.*' + value.toLowerCase() + ')';
+      }).reduce(function (reduction, value) {
+        return reduction + value;
+      }));
+    }
+  }
+
   if (conditions.has('storeName')) {
     var _value12 = conditions.get('storeName');
 
@@ -246,6 +260,20 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
 
     if (_value14) {
       query.contains('storeName', _value14);
+    }
+  }
+
+  if (conditions.has('contains_storeNames')) {
+    var _values = conditions.get('contains_storeNames');
+
+    if (_values && _values.count() === 1) {
+      query.contains('storeName', _values.first().toLowerCase());
+    } else if (_values && _values.count() > 1) {
+      query.matches('storeName', _values.map(function (value) {
+        return '(?=.*' + value.toLowerCase() + ')';
+      }).reduce(function (reduction, value) {
+        return reduction + value;
+      }));
     }
   }
 

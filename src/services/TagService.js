@@ -123,6 +123,16 @@ export default class TagService {
       }
     }
 
+    if (conditions.has('contains_descriptions')) {
+      const values = conditions.get('contains_descriptions');
+
+      if (values && values.count() === 1) {
+        query.contains('lowerCaseDescription', values.first().toLowerCase());
+      } else if (values && values.count() > 1) {
+        query.matches('lowerCaseDescription', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+      }
+    }
+
     if (conditions.has('weight')) {
       const value = conditions.get('weight');
 

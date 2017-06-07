@@ -189,6 +189,16 @@ export default class MasterProductPriceService {
       }
     }
 
+    if (conditions.has('contains_descriptions')) {
+      const values = conditions.get('contains_descriptions');
+
+      if (values && values.count() === 1) {
+        query.contains('description', values.first().toLowerCase());
+      } else if (values && values.count() > 1) {
+        query.matches('description', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+      }
+    }
+
     if (conditions.has('storeName')) {
       const value = conditions.get('storeName');
 
@@ -210,6 +220,16 @@ export default class MasterProductPriceService {
 
       if (value) {
         query.contains('storeName', value);
+      }
+    }
+
+    if (conditions.has('contains_storeNames')) {
+      const values = conditions.get('contains_storeNames');
+
+      if (values && values.count() === 1) {
+        query.contains('storeName', values.first().toLowerCase());
+      } else if (values && values.count() > 1) {
+        query.matches('storeName', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
       }
     }
 
