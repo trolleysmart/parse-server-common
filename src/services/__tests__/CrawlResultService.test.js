@@ -130,7 +130,7 @@ describe('search', () => {
   test('should return no crawl result if provided criteria matches no crawl result', async () => {
     const crawlResultInfos = await CrawlResultService.search(createCriteria());
 
-    expect(crawlResultInfos.size).toBe(0);
+    expect(crawlResultInfos.count()).toBe(0);
   });
 
   test('should return the crawl results matches the criteria', async () => {
@@ -154,12 +154,10 @@ describe('searchAll', () => {
     try {
       let crawlResults = List();
 
-      result.event.subscribe((crawlResult) => {
-        crawlResults = crawlResults.push(crawlResult);
-      });
+      result.event.subscribe(crawlResult => (crawlResults = crawlResults.push(crawlResult)));
 
       await result.promise;
-      expect(crawlResults.size).toBe(0);
+      expect(crawlResults.count()).toBe(0);
     } finally {
       result.event.unsubscribeAll();
     }
