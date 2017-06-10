@@ -176,7 +176,7 @@ describe('search', () => {
   test('should return no store if provided criteria matches no store', (done) => {
     StoreService.search(createCriteria())
       .then((stores) => {
-        expect(stores.size).toBe(0);
+        expect(stores.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -196,7 +196,7 @@ describe('search', () => {
         return StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
       })
       .then((storeInfos) => {
-        expect(storeInfos.size).toBe(1);
+        expect(storeInfos.count()).toBe(1);
 
         const storeInfo = storeInfos.first();
         expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
@@ -220,7 +220,7 @@ describe('searchAll', () => {
     result.promise
       .then(() => {
         result.event.unsubscribeAll();
-        expect(stores.size).toBe(0);
+        expect(stores.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -245,7 +245,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(stores.size).toBe(storeIds.size);
+            expect(stores.count()).toBe(storeIds.count());
             done();
           })
           .catch((error) => {

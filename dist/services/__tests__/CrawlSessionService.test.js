@@ -177,7 +177,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no crawl session if provided criteria matches no crawl session', function (done) {
     _.CrawlSessionService.search(createCriteria()).then(function (crawlSessionInfos) {
-      expect(crawlSessionInfos.size).toBe(0);
+      expect(crawlSessionInfos.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -194,7 +194,7 @@ describe('search', function () {
 
       return _.CrawlSessionService.search(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
     }).then(function (crawlSessionInfos) {
-      expect(crawlSessionInfos.size).toBe(1);
+      expect(crawlSessionInfos.count()).toBe(1);
 
       var crawlSessionInfo = crawlSessionInfos.first();
       expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
@@ -216,7 +216,7 @@ describe('searchAll', function () {
     });
     result.promise.then(function () {
       result.event.unsubscribeAll();
-      expect(crawlSessions.size).toBe(0);
+      expect(crawlSessions.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -238,7 +238,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(crawlSessions.size).toBe(crawlSessionIds.size);
+        expect(crawlSessions.count()).toBe(crawlSessionIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

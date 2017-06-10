@@ -198,7 +198,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no master product if provided criteria matches no master product', function (done) {
     _.MasterProductService.search(createCriteria()).then(function (masterProductInfos) {
-      expect(masterProductInfos.size).toBe(0);
+      expect(masterProductInfos.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -219,7 +219,7 @@ describe('search', function () {
 
       return _.MasterProductService.search(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
     }).then(function (masterProductInfos) {
-      expect(masterProductInfos.size).toBe(1);
+      expect(masterProductInfos.count()).toBe(1);
 
       var masterProductInfo = masterProductInfos.first();
       expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
@@ -241,7 +241,7 @@ describe('searchAll', function () {
     });
     result.promise.then(function () {
       result.event.unsubscribeAll();
-      expect(masterProducts.size).toBe(0);
+      expect(masterProducts.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -263,7 +263,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(masterProducts.size).toBe(masterProductIds.size);
+        expect(masterProducts.count()).toBe(masterProductIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

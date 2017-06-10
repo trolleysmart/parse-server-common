@@ -185,7 +185,7 @@ describe('search', () => {
   test('should return no staple shopping list if provided criteria matches no staple shopping list', (done) => {
     StapleShoppingListService.search(createCriteria())
       .then((stores) => {
-        expect(stores.size).toBe(0);
+        expect(stores.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -205,7 +205,7 @@ describe('search', () => {
         return StapleShoppingListService.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
       })
       .then((shoppingListInfos) => {
-        expect(shoppingListInfos.size).toBe(1);
+        expect(shoppingListInfos.count()).toBe(1);
 
         const shoppingListInfo = shoppingListInfos.first();
         expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
@@ -231,7 +231,7 @@ describe('searchAll', () => {
       .then(() => {
         result.event.unsubscribeAll();
         result.event.unsubscribeAll();
-        expect(shoppingLists.size).toBe(0);
+        expect(shoppingLists.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -256,7 +256,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(shoppingLists.size).toBe(shoppingListIds.size);
+            expect(shoppingLists.count()).toBe(shoppingListIds.count());
             done();
           })
           .catch((error) => {

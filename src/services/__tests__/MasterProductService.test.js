@@ -201,7 +201,7 @@ describe('search', () => {
   test('should return no master product if provided criteria matches no master product', (done) => {
     MasterProductService.search(createCriteria())
       .then((masterProductInfos) => {
-        expect(masterProductInfos.size).toBe(0);
+        expect(masterProductInfos.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -226,7 +226,7 @@ describe('search', () => {
         return MasterProductService.search(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
       })
       .then((masterProductInfos) => {
-        expect(masterProductInfos.size).toBe(1);
+        expect(masterProductInfos.count()).toBe(1);
 
         const masterProductInfo = masterProductInfos.first();
         expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
@@ -250,7 +250,7 @@ describe('searchAll', () => {
     result.promise
       .then(() => {
         result.event.unsubscribeAll();
-        expect(masterProducts.size).toBe(0);
+        expect(masterProducts.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -275,7 +275,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(masterProducts.size).toBe(masterProductIds.size);
+            expect(masterProducts.count()).toBe(masterProductIds.count());
             done();
           })
           .catch((error) => {

@@ -181,7 +181,7 @@ describe('search', () => {
   test('should return no tag if provided criteria matches no tag', (done) => {
     TagService.search(createCriteria())
       .then((tags) => {
-        expect(tags.size).toBe(0);
+        expect(tags.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -201,7 +201,7 @@ describe('search', () => {
         return TagService.search(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
       })
       .then((tagInfos) => {
-        expect(tagInfos.size).toBe(1);
+        expect(tagInfos.count()).toBe(1);
 
         const tagInfo = tagInfos.first();
         expectTagInfo(tagInfo, expectedTagInfo, tagId);
@@ -225,7 +225,7 @@ describe('searchAll', () => {
     result.promise
       .then(() => {
         result.event.unsubscribeAll();
-        expect(tags.size).toBe(0);
+        expect(tags.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -250,7 +250,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(tags.size).toBe(tagIds.size);
+            expect(tags.count()).toBe(tagIds.count());
             done();
           })
           .catch((error) => {

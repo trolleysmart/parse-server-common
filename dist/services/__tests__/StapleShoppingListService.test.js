@@ -198,7 +198,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no staple shopping list if provided criteria matches no staple shopping list', function (done) {
     _.StapleShoppingListService.search(createCriteria()).then(function (stores) {
-      expect(stores.size).toBe(0);
+      expect(stores.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -215,7 +215,7 @@ describe('search', function () {
 
       return _.StapleShoppingListService.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo));
     }).then(function (shoppingListInfos) {
-      expect(shoppingListInfos.size).toBe(1);
+      expect(shoppingListInfos.count()).toBe(1);
 
       var shoppingListInfo = shoppingListInfos.first();
       expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId);
@@ -239,7 +239,7 @@ describe('searchAll', function () {
     result.promise.then(function () {
       result.event.unsubscribeAll();
       result.event.unsubscribeAll();
-      expect(shoppingLists.size).toBe(0);
+      expect(shoppingLists.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -261,7 +261,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(shoppingLists.size).toBe(shoppingListIds.size);
+        expect(shoppingLists.count()).toBe(shoppingListIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

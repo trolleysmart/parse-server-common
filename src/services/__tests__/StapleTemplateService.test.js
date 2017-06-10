@@ -175,7 +175,7 @@ describe('search', () => {
   test('should return no staple template if provided criteria matches no stapleTemplate', (done) => {
     StapleTemplateService.search(createCriteria())
       .then((stapleTemplates) => {
-        expect(stapleTemplates.size).toBe(0);
+        expect(stapleTemplates.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -195,7 +195,7 @@ describe('search', () => {
         return StapleTemplateService.search(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
       })
       .then((stapleTemplateInfos) => {
-        expect(stapleTemplateInfos.size).toBe(1);
+        expect(stapleTemplateInfos.count()).toBe(1);
 
         const stapleTemplateInfo = stapleTemplateInfos.first();
         expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
@@ -219,7 +219,7 @@ describe('searchAll', () => {
     result.promise
       .then(() => {
         result.event.unsubscribeAll();
-        expect(stapleTemplates.size).toBe(0);
+        expect(stapleTemplates.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -244,7 +244,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(stapleTemplates.size).toBe(stapleTemplateIds.size);
+            expect(stapleTemplates.count()).toBe(stapleTemplateIds.count());
             done();
           })
           .catch((error) => {

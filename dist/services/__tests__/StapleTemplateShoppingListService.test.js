@@ -192,7 +192,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', function (done) {
     _.StapleTemplateShoppingListService.search(createCriteria()).then(function (stapleTemplateShoppingListInfos) {
-      expect(stapleTemplateShoppingListInfos.size).toBe(0);
+      expect(stapleTemplateShoppingListInfos.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -213,7 +213,7 @@ describe('search', function () {
 
       return _.StapleTemplateShoppingListService.search(createCriteriaUsingProvidedStapleTemplateShoppingListInfo(expectedStapleTemplateShoppingListInfo));
     }).then(function (stapleTemplateShoppingListInfos) {
-      expect(stapleTemplateShoppingListInfos.size).toBe(1);
+      expect(stapleTemplateShoppingListInfos.count()).toBe(1);
 
       var stapleTemplateShoppingListInfo = stapleTemplateShoppingListInfos.first();
       expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId);
@@ -235,7 +235,7 @@ describe('searchAll', function () {
     });
     result.promise.then(function () {
       result.event.unsubscribeAll();
-      expect(stapleTemplateShoppingLists.size).toBe(0);
+      expect(stapleTemplateShoppingLists.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -257,7 +257,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(stapleTemplateShoppingLists.size).toBe(stapleTemplateShoppingListIds.size);
+        expect(stapleTemplateShoppingLists.count()).toBe(stapleTemplateShoppingListIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

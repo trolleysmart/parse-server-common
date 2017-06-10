@@ -199,7 +199,7 @@ describe('search', () => {
   test('should return no staple template shopping list if provided criteria matches no staple template shopping list', (done) => {
     StapleTemplateShoppingListService.search(createCriteria())
       .then((stapleTemplateShoppingListInfos) => {
-        expect(stapleTemplateShoppingListInfos.size).toBe(0);
+        expect(stapleTemplateShoppingListInfos.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -226,7 +226,7 @@ describe('search', () => {
         );
       })
       .then((stapleTemplateShoppingListInfos) => {
-        expect(stapleTemplateShoppingListInfos.size).toBe(1);
+        expect(stapleTemplateShoppingListInfos.count()).toBe(1);
 
         const stapleTemplateShoppingListInfo = stapleTemplateShoppingListInfos.first();
         expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId);
@@ -250,7 +250,7 @@ describe('searchAll', () => {
     result.promise
       .then(() => {
         result.event.unsubscribeAll();
-        expect(stapleTemplateShoppingLists.size).toBe(0);
+        expect(stapleTemplateShoppingLists.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -280,7 +280,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(stapleTemplateShoppingLists.size).toBe(stapleTemplateShoppingListIds.size);
+            expect(stapleTemplateShoppingLists.count()).toBe(stapleTemplateShoppingListIds.count());
             done();
           })
           .catch((error) => {

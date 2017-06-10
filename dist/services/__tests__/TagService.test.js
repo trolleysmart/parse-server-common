@@ -174,7 +174,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no tag if provided criteria matches no tag', function (done) {
     _.TagService.search(createCriteria()).then(function (tags) {
-      expect(tags.size).toBe(0);
+      expect(tags.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -191,7 +191,7 @@ describe('search', function () {
 
       return _.TagService.search(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
     }).then(function (tagInfos) {
-      expect(tagInfos.size).toBe(1);
+      expect(tagInfos.count()).toBe(1);
 
       var tagInfo = tagInfos.first();
       expectTagInfo(tagInfo, expectedTagInfo, tagId);
@@ -213,7 +213,7 @@ describe('searchAll', function () {
     });
     result.promise.then(function () {
       result.event.unsubscribeAll();
-      expect(tags.size).toBe(0);
+      expect(tags.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -235,7 +235,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(tags.size).toBe(tagIds.size);
+        expect(tags.count()).toBe(tagIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

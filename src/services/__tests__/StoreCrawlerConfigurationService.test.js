@@ -179,7 +179,7 @@ describe('search', () => {
   test('should return no store crawler configuration if provided criteria matches no store crawler configuration', (done) => {
     StoreCrawlerConfigurationService.search(createCriteria())
       .then((storeCrawlerConfigurations) => {
-        expect(storeCrawlerConfigurations.size).toBe(0);
+        expect(storeCrawlerConfigurations.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -201,7 +201,7 @@ describe('search', () => {
         );
       })
       .then((storeCrawlerConfigurationInfos) => {
-        expect(storeCrawlerConfigurationInfos.size).toBe(1);
+        expect(storeCrawlerConfigurationInfos.count()).toBe(1);
 
         const storeCrawlerConfigurationInfo = storeCrawlerConfigurationInfos.first();
         expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expectedStoreCrawlerConfigurationInfo, storeCrawlerConfigurationId);
@@ -225,7 +225,7 @@ describe('searchAll', () => {
     result.promise
       .then(() => {
         result.event.unsubscribeAll();
-        expect(storeCrawlerConfigurations.size).toBe(0);
+        expect(storeCrawlerConfigurations.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -255,7 +255,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(storeCrawlerConfigurations.size).toBe(storeCrawlerConfigurationIds.size);
+            expect(storeCrawlerConfigurations.count()).toBe(storeCrawlerConfigurationIds.count());
             done();
           })
           .catch((error) => {

@@ -139,7 +139,7 @@ describe('search', () => {
     const crawlResultId = await CrawlResultService.create(expectedCrawlResultInfo);
     const crawlResultInfos = await CrawlResultService.search(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
 
-    expect(crawlResultInfos.size).toBe(1);
+    expect(crawlResultInfos.count()).toBe(1);
 
     const crawlResultInfo = crawlResultInfos.first();
 
@@ -178,7 +178,7 @@ describe('searchAll', () => {
       });
 
       await result.promise;
-      expect(crawlResults.size).toBe(crawlResultIds.size);
+      expect(crawlResults.count()).toBe(crawlResultIds.count());
     } finally {
       result.event.unsubscribeAll();
     }

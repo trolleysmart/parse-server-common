@@ -169,7 +169,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no store if provided criteria matches no store', function (done) {
     _.StoreService.search(createCriteria()).then(function (stores) {
-      expect(stores.size).toBe(0);
+      expect(stores.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -186,7 +186,7 @@ describe('search', function () {
 
       return _.StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
     }).then(function (storeInfos) {
-      expect(storeInfos.size).toBe(1);
+      expect(storeInfos.count()).toBe(1);
 
       var storeInfo = storeInfos.first();
       expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
@@ -208,7 +208,7 @@ describe('searchAll', function () {
     });
     result.promise.then(function () {
       result.event.unsubscribeAll();
-      expect(stores.size).toBe(0);
+      expect(stores.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -230,7 +230,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(stores.size).toBe(storeIds.size);
+        expect(stores.count()).toBe(storeIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

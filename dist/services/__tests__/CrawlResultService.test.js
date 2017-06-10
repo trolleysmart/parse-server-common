@@ -373,7 +373,7 @@ describe('search', function () {
             crawlResultInfos = _context10.sent;
 
 
-            expect(crawlResultInfos.size).toBe(0);
+            expect(crawlResultInfos.count()).toBe(0);
 
           case 4:
           case 'end':
@@ -407,7 +407,7 @@ describe('search', function () {
             crawlResultInfos = _context11.sent;
 
 
-            expect(crawlResultInfos.size).toBe(1);
+            expect(crawlResultInfos.count()).toBe(1);
 
             crawlResultInfo = crawlResultInfos.first();
 
@@ -436,14 +436,14 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (crawlResult) {
-              crawlResults = crawlResults.push(crawlResult);
+              return crawlResults = crawlResults.push(crawlResult);
             });
 
             _context12.next = 6;
             return result.promise;
 
           case 6:
-            expect(crawlResults.size).toBe(0);
+            expect(crawlResults.count()).toBe(0);
 
           case 7:
             _context12.prev = 7;
@@ -490,7 +490,7 @@ describe('searchAll', function () {
             return result.promise;
 
           case 14:
-            expect(crawlResults.size).toBe(crawlResultIds.size);
+            expect(crawlResults.count()).toBe(crawlResultIds.count());
 
           case 15:
             _context13.prev = 15;

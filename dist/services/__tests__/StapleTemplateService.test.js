@@ -168,7 +168,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no staple template if provided criteria matches no stapleTemplate', function (done) {
     _.StapleTemplateService.search(createCriteria()).then(function (stapleTemplates) {
-      expect(stapleTemplates.size).toBe(0);
+      expect(stapleTemplates.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -185,7 +185,7 @@ describe('search', function () {
 
       return _.StapleTemplateService.search(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
     }).then(function (stapleTemplateInfos) {
-      expect(stapleTemplateInfos.size).toBe(1);
+      expect(stapleTemplateInfos.count()).toBe(1);
 
       var stapleTemplateInfo = stapleTemplateInfos.first();
       expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
@@ -207,7 +207,7 @@ describe('searchAll', function () {
     });
     result.promise.then(function () {
       result.event.unsubscribeAll();
-      expect(stapleTemplates.size).toBe(0);
+      expect(stapleTemplates.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -229,7 +229,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(stapleTemplates.size).toBe(stapleTemplateIds.size);
+        expect(stapleTemplates.count()).toBe(stapleTemplateIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

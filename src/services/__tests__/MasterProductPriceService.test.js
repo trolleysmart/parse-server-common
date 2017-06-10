@@ -166,7 +166,7 @@ describe('search', () => {
       createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
     );
 
-    expect(masterProductPriceInfos.size).toBe(1);
+    expect(masterProductPriceInfos.count()).toBe(1);
 
     const masterProductPriceInfo = masterProductPriceInfos.first();
 
@@ -176,11 +176,10 @@ describe('search', () => {
 
 describe('searchAll', () => {
   test('should return no master product price if provided criteria matches no master product price', async () => {
+    let masterProductPrices = List();
     const result = MasterProductPriceService.searchAll(createCriteria());
 
     try {
-      let masterProductPrices = List();
-
       result.event.subscribe(info => (masterProductPrices = masterProductPrices.push(info)));
 
       await result.promise;
@@ -190,88 +189,70 @@ describe('searchAll', () => {
     }
   });
 
-  test('should return the master products price matches the criteria', (done) => {
-    let masterProductId;
-    let storeId;
-    let expectedMasterProductPriceInfo;
+  test('should return the master products price matches the criteria', async () => {
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const masterProductPriceId1 = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
+    const masterProductPriceId2 = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
-    Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then((results) => {
-        masterProductId = results[0];
-        storeId = results[1];
-        expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    let masterProductPrices = List();
+    const result = MasterProductPriceService.searchAll(
+      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
+    );
 
-        return Promise.all([
-          MasterProductPriceService.create(expectedMasterProductPriceInfo),
-          MasterProductPriceService.create(expectedMasterProductPriceInfo),
-        ]);
-      })
-      .then((ids) => {
-        const masterProductPriceIds = List.of(ids[0], ids[1]);
-        const result = MasterProductPriceService.searchAll(
-          createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
-        );
-        let masterProductPrices = List();
+    try {
+      result.event.subscribe(info => (masterProductPrices = masterProductPrices.push(info)));
 
-        result.event.subscribe((masterProductPrice) => {
-          masterProductPrices = masterProductPrices.push(masterProductPrice);
-        });
-        result.promise
-          .then(() => {
-            result.event.unsubscribeAll();
-            expect(masterProductPrices.size).toBe(masterProductPriceIds.size);
-            done();
-          })
-          .catch((error) => {
-            result.event.unsubscribeAll();
-            fail(error);
-            done();
-          });
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+      await result.promise;
+    } finally {
+      result.event.unsubscribeAll();
+    }
+    expect(masterProductPrices.count()).toBe(2);
+    expect(masterProductPrices.find(_ => _.get('id') === masterProductPriceId1)).toBeTruthy();
+    expect(masterProductPrices.find(_ => _.get('id') === masterProductPriceId2)).toBeTruthy();
   });
 });
 
 describe('exists', () => {
-  test('should return false if no master product price match provided criteria', (done) => {
-    MasterProductPriceService.exists(createCriteria())
-      .then((response) => {
-        expect(response).toBeFalsy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return false if no master product price match provided criteria', async () => {
+    const response = await MasterProductPriceService.exists(createCriteria());
+
+    expect(response).toBeFalsy();
   });
 
-  test('should return true if any master product price match provided criteria', (done) => {
-    let expectedMasterProductPriceInfo;
-    let masterProductId;
-    let storeId;
+  test('should return true if any master product price match provided criteria', async () => {
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
 
-    Promise.all([MasterProductService.create(createMasterProductInfo()), StoreService.create(createStoreInfo())])
-      .then((results) => {
-        masterProductId = results[0];
-        storeId = results[1];
+    await MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
-        expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const response = await MasterProductPriceService.exists(
+      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
+    );
+    expect(response).toBeTruthy();
+  });
+});
 
-        return MasterProductPriceService.create(expectedMasterProductPriceInfo);
-      })
-      .then(() =>
-        MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId)),
-      )
-      .then((response) => {
-        expect(response).toBeTruthy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+describe('count', () => {
+  test('should return 0 if no master product price match provided criteria', async () => {
+    const response = await MasterProductPriceService.count(createCriteria());
+
+    expect(response).toBe(0);
+  });
+
+  test('should return true if any master product price match provided criteria', async () => {
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+
+    await MasterProductPriceService.create(expectedMasterProductPriceInfo);
+    await MasterProductPriceService.create(expectedMasterProductPriceInfo);
+
+    const response = await MasterProductPriceService.count(
+      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
+    );
+    expect(response).toBe(2);
   });
 });

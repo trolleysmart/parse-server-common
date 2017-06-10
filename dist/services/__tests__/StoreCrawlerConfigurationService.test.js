@@ -172,7 +172,7 @@ describe('delete', function () {
 describe('search', function () {
   test('should return no store crawler configuration if provided criteria matches no store crawler configuration', function (done) {
     _.StoreCrawlerConfigurationService.search(createCriteria()).then(function (storeCrawlerConfigurations) {
-      expect(storeCrawlerConfigurations.size).toBe(0);
+      expect(storeCrawlerConfigurations.count()).toBe(0);
       done();
     }).catch(function (error) {
       fail(error);
@@ -189,7 +189,7 @@ describe('search', function () {
 
       return _.StoreCrawlerConfigurationService.search(createCriteriaUsingProvidedStoreCrawlerConfigurationInfo(expectedStoreCrawlerConfigurationInfo));
     }).then(function (storeCrawlerConfigurationInfos) {
-      expect(storeCrawlerConfigurationInfos.size).toBe(1);
+      expect(storeCrawlerConfigurationInfos.count()).toBe(1);
 
       var storeCrawlerConfigurationInfo = storeCrawlerConfigurationInfos.first();
       expectStoreCrawlerConfigurationInfo(storeCrawlerConfigurationInfo, expectedStoreCrawlerConfigurationInfo, storeCrawlerConfigurationId);
@@ -211,7 +211,7 @@ describe('searchAll', function () {
     });
     result.promise.then(function () {
       result.event.unsubscribeAll();
-      expect(storeCrawlerConfigurations.size).toBe(0);
+      expect(storeCrawlerConfigurations.count()).toBe(0);
       done();
     }).catch(function (error) {
       result.event.unsubscribeAll();
@@ -233,7 +233,7 @@ describe('searchAll', function () {
       });
       result.promise.then(function () {
         result.event.unsubscribeAll();
-        expect(storeCrawlerConfigurations.size).toBe(storeCrawlerConfigurationIds.size);
+        expect(storeCrawlerConfigurations.count()).toBe(storeCrawlerConfigurationIds.count());
         done();
       }).catch(function (error) {
         result.event.unsubscribeAll();

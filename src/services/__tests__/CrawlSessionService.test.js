@@ -178,7 +178,7 @@ describe('search', () => {
   test('should return no crawl session if provided criteria matches no crawl session', (done) => {
     CrawlSessionService.search(createCriteria())
       .then((crawlSessionInfos) => {
-        expect(crawlSessionInfos.size).toBe(0);
+        expect(crawlSessionInfos.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -198,7 +198,7 @@ describe('search', () => {
         return CrawlSessionService.search(createCriteriaUsingProvidedCrawlSessionInfo(expectedCrawlSessionInfo));
       })
       .then((crawlSessionInfos) => {
-        expect(crawlSessionInfos.size).toBe(1);
+        expect(crawlSessionInfos.count()).toBe(1);
 
         const crawlSessionInfo = crawlSessionInfos.first();
         expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, crawlSessionId);
@@ -222,7 +222,7 @@ describe('searchAll', () => {
     result.promise
       .then(() => {
         result.event.unsubscribeAll();
-        expect(crawlSessions.size).toBe(0);
+        expect(crawlSessions.count()).toBe(0);
         done();
       })
       .catch((error) => {
@@ -247,7 +247,7 @@ describe('searchAll', () => {
         result.promise
           .then(() => {
             result.event.unsubscribeAll();
-            expect(crawlSessions.size).toBe(crawlSessionIds.size);
+            expect(crawlSessions.count()).toBe(crawlSessionIds.count());
             done();
           })
           .catch((error) => {
