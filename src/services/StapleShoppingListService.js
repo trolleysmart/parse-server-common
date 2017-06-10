@@ -79,10 +79,13 @@ export default class StapleShoppingListService {
     };
   };
 
-  static exists = criteria =>
-    new Promise((resolve, reject) =>
-      StapleShoppingListService.buildSearchQuery(criteria).count().then(total => resolve(total > 0)).catch(error => reject(error)),
-    );
+  static exists = async (criteria) => {
+    const total = await StapleShoppingListService.buildSearchQuery(criteria).count();
+
+    return total > 0;
+  };
+
+  static count = async criteria => StapleShoppingListService.buildSearchQuery(criteria).count();
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleShoppingList, criteria);
