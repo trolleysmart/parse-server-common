@@ -36,261 +36,180 @@ function createCriteriaUsingProvidedTagInfo(tagInfo) {
 }
 
 describe('create', () => {
-  test('should return the created tag Id', (done) => {
-    TagService.create(createTagInfo())
-      .then((result) => {
-        expect(result).toBeDefined();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return the created tag Id', async () => {
+    const result = await TagService.create(createTagInfo());
+
+    expect(result).toBeDefined();
   });
 
-  test('should create the tag', (done) => {
+  test('should create the tag', async () => {
     const expectedTagInfo = createTagInfo();
-    let tagId;
+    const tagId = await TagService.create(expectedTagInfo);
+    const tagInfo = await TagService.read(tagId);
 
-    TagService.create(expectedTagInfo)
-      .then((id) => {
-        tagId = id;
-
-        return TagService.read(tagId);
-      })
-      .then((tagInfo) => {
-        expectTagInfo(tagInfo, expectedTagInfo, tagId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectTagInfo(tagInfo, expectedTagInfo, tagId);
   });
 });
 
 describe('read', () => {
-  test('should reject if the provided tag Id does not exist', (done) => {
+  test('should reject if the provided tag Id does not exist', async () => {
     const tagId = uuid();
 
-    TagService.read(tagId).catch((error) => {
-      expect(error).toBe(`No tag found with Id: ${tagId}`);
-      done();
-    });
+    try {
+      await TagService.read(tagId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+    }
   });
 
-  test('should read the existing tag', (done) => {
+  test('should read the existing tag', async () => {
     const expectedTagInfo = createTagInfo();
-    let tagId;
+    const tagId = await TagService.create(expectedTagInfo);
+    const tagInfo = await TagService.read(tagId);
 
-    TagService.create(expectedTagInfo)
-      .then((id) => {
-        tagId = id;
-
-        return TagService.read(tagId);
-      })
-      .then((tagInfo) => {
-        expectTagInfo(tagInfo, expectedTagInfo, tagId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectTagInfo(tagInfo, expectedTagInfo, tagId);
   });
 });
 
 describe('update', () => {
-  test('should reject if the provided tag Id does not exist', (done) => {
+  test('should reject if the provided tag Id does not exist', async () => {
     const tagId = uuid();
 
-    TagService.update(createTagInfo().set('id', tagId)).catch((error) => {
-      expect(error).toBe(`No tag found with Id: ${tagId}`);
-      done();
-    });
+    try {
+      await TagService.update(createTagInfo().set('id', tagId));
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+    }
   });
 
-  test('should return the Id of the updated tag', (done) => {
-    let tagId;
+  test('should return the Id of the updated tag', async () => {
+    const tagId = await TagService.create(createTagInfo());
+    const id = await TagService.update(createTagInfo().set('id', tagId));
 
-    TagService.create(createTagInfo())
-      .then((id) => {
-        tagId = id;
-
-        return TagService.update(createTagInfo().set('id', tagId));
-      })
-      .then((id) => {
-        expect(id).toBe(tagId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expect(id).toBe(tagId);
   });
 
-  test('should update the existing tag', (done) => {
+  test('should update the existing tag', async () => {
     const expectedTagInfo = createTagInfo();
-    let tagId;
+    const id = await TagService.create(createTagInfo());
+    const tagId = await TagService.update(expectedTagInfo.set('id', id));
+    const tagInfo = await TagService.read(tagId);
 
-    TagService.create(createTagInfo())
-      .then(id => TagService.update(expectedTagInfo.set('id', id)))
-      .then((id) => {
-        tagId = id;
-
-        return TagService.read(tagId);
-      })
-      .then((tagInfo) => {
-        expectTagInfo(tagInfo, expectedTagInfo, tagId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectTagInfo(tagInfo, expectedTagInfo, tagId);
   });
 });
 
 describe('delete', () => {
-  test('should reject if the provided tag Id does not exist', (done) => {
+  test('should reject if the provided tag Id does not exist', async () => {
     const tagId = uuid();
 
-    TagService.delete(tagId).catch((error) => {
-      expect(error).toBe(`No tag found with Id: ${tagId}`);
-      done();
-    });
+    try {
+      await TagService.delete(tagId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+    }
   });
 
-  test('should delete the existing tag', (done) => {
-    let tagId;
+  test('should delete the existing tag', async () => {
+    const tagId = await TagService.create(createTagInfo());
+    await TagService.delete(tagId);
 
-    TagService.create(createTagInfo())
-      .then((id) => {
-        tagId = id;
-        return TagService.delete(tagId);
-      })
-      .then(() => TagService.read(tagId))
-      .catch((error) => {
-        expect(error).toBe(`No tag found with Id: ${tagId}`);
-        done();
-      });
+    try {
+      await TagService.read(tagId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+    }
   });
 });
 
 describe('search', () => {
-  test('should return no tag if provided criteria matches no tag', (done) => {
-    TagService.search(createCriteria())
-      .then((tags) => {
-        expect(tags.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return no tag if provided criteria matches no tag', async () => {
+    const tagInfos = await TagService.search(createCriteria());
+
+    expect(tagInfos.count()).toBe(0);
   });
 
-  test('should return the tags matches the criteria', (done) => {
+  test('should return the tags matches the criteria', async () => {
     const expectedTagInfo = createTagInfo();
-    let tagId;
+    const tagId = await TagService.create(expectedTagInfo);
+    const tagInfos = await TagService.search(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
 
-    TagService.create(expectedTagInfo)
-      .then((id) => {
-        tagId = id;
+    expect(tagInfos.count()).toBe(1);
 
-        return TagService.search(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
-      })
-      .then((tagInfos) => {
-        expect(tagInfos.count()).toBe(1);
-
-        const tagInfo = tagInfos.first();
-        expectTagInfo(tagInfo, expectedTagInfo, tagId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    const tagInfo = tagInfos.first();
+    expectTagInfo(tagInfo, expectedTagInfo, tagId);
   });
 });
 
 describe('searchAll', () => {
-  test('should return no tag if provided criteria matches no tag', (done) => {
+  test('should return no tag if provided criteria matches no tag', async () => {
     const result = TagService.searchAll(createCriteria());
-    let tags = List();
 
-    result.event.subscribe((tag) => {
-      tags = tags.push(tag);
-    });
-    result.promise
-      .then(() => {
-        result.event.unsubscribeAll();
-        expect(tags.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        result.event.unsubscribeAll();
-        fail(error);
-        done();
-      });
+    try {
+      let tags = List();
+
+      result.event.subscribe(info => (tags = tags.push(info)));
+
+      await result.promise;
+      expect(tags.count()).toBe(0);
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 
-  test('should return the tags matches the criteria', (done) => {
+  test('should return the tags matches the criteria', async () => {
     const expectedTagInfo = createTagInfo();
+    const tagId1 = await TagService.create(expectedTagInfo);
+    const tagId2 = await TagService.create(expectedTagInfo);
 
-    Promise.all([TagService.create(expectedTagInfo), TagService.create(expectedTagInfo)])
-      .then((ids) => {
-        const tagIds = List.of(ids[0], ids[1]);
-        const result = TagService.searchAll(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
-        let tags = List();
+    const result = TagService.searchAll(createCriteriaUsingProvidedTagInfo(expectedTagInfo));
+    try {
+      let tags = List();
 
-        result.event.subscribe((tag) => {
-          tags = tags.push(tag);
-        });
-        result.promise
-          .then(() => {
-            result.event.unsubscribeAll();
-            expect(tags.count()).toBe(tagIds.count());
-            done();
-          })
-          .catch((error) => {
-            result.event.unsubscribeAll();
-            fail(error);
-            done();
-          });
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+      result.event.subscribe(info => (tags = tags.push(info)));
+
+      await result.promise;
+      expect(tags.count()).toBe(2);
+      expect(tags.find(_ => _.get('id').localeCompare(tagId1) === 0)).toBeTruthy();
+      expect(tags.find(_ => _.get('id').localeCompare(tagId2) === 0)).toBeTruthy();
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 });
 
 describe('exists', () => {
-  test('should return false if no tag match provided criteria', (done) => {
-    TagService.exists(createCriteria())
-      .then((response) => {
-        expect(response).toBeFalsy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return false if no tag match provided criteria', async () => {
+    const response = await TagService.exists(createCriteria());
+
+    expect(response).toBeFalsy();
   });
 
-  test('should return true if any tag match provided criteria', (done) => {
+  test('should return true if any tag match provided criteria', async () => {
     const tagInfo = createTagInfo();
 
-    TagService.create(tagInfo)
-      .then(() => TagService.exists(createCriteriaUsingProvidedTagInfo(tagInfo)))
-      .then((response) => {
-        expect(response).toBeTruthy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    await TagService.create(tagInfo);
+    const response = TagService.exists(createCriteriaUsingProvidedTagInfo(tagInfo));
+
+    expect(response).toBeTruthy();
+  });
+});
+
+describe('count', () => {
+  test('should return 0 if no tag match provided criteria', async () => {
+    const response = await TagService.count(createCriteria());
+
+    expect(response).toBe(0);
+  });
+
+  test('should return the count of tag match provided criteria', async () => {
+    const tagInfo = createTagInfo();
+
+    await TagService.create(tagInfo);
+    await TagService.create(tagInfo);
+
+    const response = await TagService.count(createCriteriaUsingProvidedTagInfo(tagInfo));
+
+    expect(response).toBe(2);
   });
 });

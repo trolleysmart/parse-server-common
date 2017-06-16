@@ -145,7 +145,7 @@ describe('searchAll', () => {
     try {
       let crawlSessions = List();
 
-      result.event.subscribe(crawlResult => (crawlSessions = crawlSessions.push(crawlResult)));
+      result.event.subscribe(info => (crawlSessions = crawlSessions.push(info)));
 
       await result.promise;
       expect(crawlSessions.count()).toBe(0);
@@ -163,7 +163,7 @@ describe('searchAll', () => {
     try {
       let crawlSessions = List();
 
-      result.event.subscribe(crawlResult => (crawlSessions = crawlSessions.push(crawlResult)));
+      result.event.subscribe(info => (crawlSessions = crawlSessions.push(info)));
 
       await result.promise;
       expect(crawlSessions.count()).toBe(2);
