@@ -216,7 +216,7 @@ MasterProductPriceService.exists = function () {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.next = 2;
-            return MasterProductPriceService.buildSearchQuery(criteria).count();
+            return MasterProductPriceService.count(criteria);
 
           case 2:
             total = _context6.sent;

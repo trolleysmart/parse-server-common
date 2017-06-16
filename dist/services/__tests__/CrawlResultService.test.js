@@ -316,46 +316,45 @@ describe('delete', function () {
   })));
 
   test('should delete the existing crawl result', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
-    var crawlResultId, id;
+    var id, crawlResultId;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            crawlResultId = void 0;
-            _context9.prev = 1;
-            _context9.next = 4;
+            _context9.next = 2;
             return _.CrawlSessionService.create((0, _CrawlSession.createCrawlSessionInfo)());
 
-          case 4:
+          case 2:
             id = _context9.sent;
-            _context9.next = 7;
+            _context9.next = 5;
             return _.CrawlResultService.create((0, _CrawlResult.createCrawlResultInfo)(id));
 
-          case 7:
+          case 5:
             crawlResultId = _context9.sent;
-            _context9.next = 10;
+            _context9.next = 8;
             return _.CrawlResultService.delete(crawlResultId);
 
-          case 10:
-            _context9.next = 12;
+          case 8:
+            _context9.prev = 8;
+            _context9.next = 11;
             return _.CrawlResultService.read(crawlResultId);
 
-          case 12:
-            _context9.next = 17;
+          case 11:
+            _context9.next = 16;
             break;
 
-          case 14:
-            _context9.prev = 14;
-            _context9.t0 = _context9['catch'](1);
+          case 13:
+            _context9.prev = 13;
+            _context9.t0 = _context9['catch'](8);
 
             expect(_context9.t0.getErrorMessage()).toBe('No crawl result found with Id: ' + crawlResultId);
 
-          case 17:
+          case 16:
           case 'end':
             return _context9.stop();
         }
       }
-    }, _callee9, undefined, [[1, 14]]);
+    }, _callee9, undefined, [[8, 13]]);
   })));
 });
 
@@ -460,7 +459,7 @@ describe('searchAll', function () {
   })));
 
   test('should return the crawl results matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
-    var crawlSessionId, expectedCrawlResultInfo, ids, crawlResultIds, result, crawlResults;
+    var crawlSessionId, expectedCrawlResultInfo, ids, crawlResultIds, crawlResults, result;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
         switch (_context13.prev = _context13.next) {
@@ -477,10 +476,9 @@ describe('searchAll', function () {
           case 6:
             ids = _context13.sent;
             crawlResultIds = _immutable.List.of(ids[0], ids[1]);
-            result = _.CrawlResultService.searchAll(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
-            _context13.prev = 9;
             crawlResults = (0, _immutable.List)();
-
+            result = _.CrawlResultService.searchAll(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+            _context13.prev = 10;
 
             result.event.subscribe(function (crawlResult) {
               crawlResults = crawlResults.push(crawlResult);
@@ -490,20 +488,21 @@ describe('searchAll', function () {
             return result.promise;
 
           case 14:
-            expect(crawlResults.count()).toBe(crawlResultIds.count());
-
-          case 15:
-            _context13.prev = 15;
+            _context13.prev = 14;
 
             result.event.unsubscribeAll();
-            return _context13.finish(15);
+            return _context13.finish(14);
+
+          case 17:
+
+            expect(crawlResults.count()).toBe(crawlResultIds.count());
 
           case 18:
           case 'end':
             return _context13.stop();
         }
       }
-    }, _callee13, undefined, [[9,, 15, 18]]);
+    }, _callee13, undefined, [[10,, 14, 17]]);
   })));
 });
 
@@ -561,5 +560,67 @@ describe('exists', function () {
         }
       }
     }, _callee15, undefined);
+  })));
+});
+
+describe('count', function () {
+  test('should return 0 if no crawl result match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee16() {
+    var response;
+    return regeneratorRuntime.wrap(function _callee16$(_context16) {
+      while (1) {
+        switch (_context16.prev = _context16.next) {
+          case 0:
+            _context16.next = 2;
+            return _.CrawlResultService.count(createCriteria());
+
+          case 2:
+            response = _context16.sent;
+
+
+            expect(response).toBe(0);
+
+          case 4:
+          case 'end':
+            return _context16.stop();
+        }
+      }
+    }, _callee16, undefined);
+  })));
+
+  test('should return the count of crawl result match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
+    var crawlSessionId, expectedCrawlResultInfo, response;
+    return regeneratorRuntime.wrap(function _callee17$(_context17) {
+      while (1) {
+        switch (_context17.prev = _context17.next) {
+          case 0:
+            _context17.next = 2;
+            return _.CrawlSessionService.create((0, _CrawlSession.createCrawlSessionInfo)());
+
+          case 2:
+            crawlSessionId = _context17.sent;
+            expectedCrawlResultInfo = (0, _CrawlResult.createCrawlResultInfo)(crawlSessionId);
+            _context17.next = 6;
+            return _.CrawlResultService.create(expectedCrawlResultInfo);
+
+          case 6:
+            _context17.next = 8;
+            return _.CrawlResultService.create(expectedCrawlResultInfo);
+
+          case 8:
+            _context17.next = 10;
+            return _.CrawlResultService.count(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+
+          case 10:
+            response = _context17.sent;
+
+
+            expect(response).toBe(2);
+
+          case 12:
+          case 'end':
+            return _context17.stop();
+        }
+      }
+    }, _callee17, undefined);
   })));
 });

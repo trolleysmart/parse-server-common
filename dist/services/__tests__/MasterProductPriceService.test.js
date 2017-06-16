@@ -657,7 +657,7 @@ describe('count', function () {
     }, _callee16, undefined);
   })));
 
-  test('should return true if any master product price match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
+  test('should return the count of master product price match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
     var masterProductId, storeId, expectedMasterProductPriceInfo, response;
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
