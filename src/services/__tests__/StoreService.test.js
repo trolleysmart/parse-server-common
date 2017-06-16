@@ -31,261 +31,180 @@ function createCriteriaUsingProvidedStoreInfo(storeInfo) {
 }
 
 describe('create', () => {
-  test('should return the created store Id', (done) => {
-    StoreService.create(createStoreInfo())
-      .then((result) => {
-        expect(result).toBeDefined();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return the created store Id', async () => {
+    const result = await StoreService.create(createStoreInfo());
+
+    expect(result).toBeDefined();
   });
 
-  test('should create the store', (done) => {
+  test('should create the store', async () => {
     const expectedStoreInfo = createStoreInfo();
-    let storeId;
+    const storeId = await StoreService.create(expectedStoreInfo);
+    const storeInfo = await StoreService.read(storeId);
 
-    StoreService.create(expectedStoreInfo)
-      .then((id) => {
-        storeId = id;
-
-        return StoreService.read(storeId);
-      })
-      .then((storeInfo) => {
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
   });
 });
 
 describe('read', () => {
-  test('should reject if the provided store Id does not exist', (done) => {
+  test('should reject if the provided store Id does not exist', async () => {
     const storeId = uuid();
 
-    StoreService.read(storeId).catch((error) => {
-      expect(error).toBe(`No store found with Id: ${storeId}`);
-      done();
-    });
+    try {
+      await StoreService.read(storeId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+    }
   });
 
-  test('should read the existing store', (done) => {
+  test('should read the existing store', async () => {
     const expectedStoreInfo = createStoreInfo();
-    let storeId;
+    const storeId = await StoreService.create(expectedStoreInfo);
+    const storeInfo = await StoreService.read(storeId);
 
-    StoreService.create(expectedStoreInfo)
-      .then((id) => {
-        storeId = id;
-
-        return StoreService.read(storeId);
-      })
-      .then((storeInfo) => {
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
   });
 });
 
 describe('update', () => {
-  test('should reject if the provided store Id does not exist', (done) => {
+  test('should reject if the provided store Id does not exist', async () => {
     const storeId = uuid();
 
-    StoreService.update(createStoreInfo().set('id', storeId)).catch((error) => {
-      expect(error).toBe(`No store found with Id: ${storeId}`);
-      done();
-    });
+    try {
+      await StoreService.update(createStoreInfo().set('id', storeId));
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+    }
   });
 
-  test('should return the Id of the updated store', (done) => {
-    let storeId;
+  test('should return the Id of the updated store', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
+    const id = await StoreService.update(createStoreInfo().set('id', storeId));
 
-    StoreService.create(createStoreInfo())
-      .then((id) => {
-        storeId = id;
-
-        return StoreService.update(createStoreInfo().set('id', storeId));
-      })
-      .then((id) => {
-        expect(id).toBe(storeId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expect(id).toBe(storeId);
   });
 
-  test('should update the existing store', (done) => {
+  test('should update the existing store', async () => {
     const expectedStoreInfo = createStoreInfo();
-    let storeId;
+    const id = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.update(expectedStoreInfo.set('id', id));
+    const storeInfo = await StoreService.read(storeId);
 
-    StoreService.create(createStoreInfo())
-      .then(id => StoreService.update(expectedStoreInfo.set('id', id)))
-      .then((id) => {
-        storeId = id;
-
-        return StoreService.read(storeId);
-      })
-      .then((storeInfo) => {
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
   });
 });
 
 describe('delete', () => {
-  test('should reject if the provided store Id does not exist', (done) => {
+  test('should reject if the provided store Id does not exist', async () => {
     const storeId = uuid();
 
-    StoreService.delete(storeId).catch((error) => {
-      expect(error).toBe(`No store found with Id: ${storeId}`);
-      done();
-    });
+    try {
+      await StoreService.delete(storeId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+    }
   });
 
-  test('should delete the existing store', (done) => {
-    let storeId;
+  test('should delete the existing store', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
+    await StoreService.delete(storeId);
 
-    StoreService.create(createStoreInfo())
-      .then((id) => {
-        storeId = id;
-        return StoreService.delete(storeId);
-      })
-      .then(() => StoreService.read(storeId))
-      .catch((error) => {
-        expect(error).toBe(`No store found with Id: ${storeId}`);
-        done();
-      });
+    try {
+      await StoreService.read(storeId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+    }
   });
 });
 
 describe('search', () => {
-  test('should return no store if provided criteria matches no store', (done) => {
-    StoreService.search(createCriteria())
-      .then((stores) => {
-        expect(stores.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return no store if provided criteria matches no store', async () => {
+    const storeInfos = await StoreService.search(createCriteria());
+
+    expect(storeInfos.count()).toBe(0);
   });
 
-  test('should return the stores matches the criteria', (done) => {
+  test('should return the stores matches the criteria', async () => {
     const expectedStoreInfo = createStoreInfo();
-    let storeId;
+    const storeId = await StoreService.create(expectedStoreInfo);
+    const storeInfos = await StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
 
-    StoreService.create(expectedStoreInfo)
-      .then((id) => {
-        storeId = id;
+    expect(storeInfos.count()).toBe(1);
 
-        return StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
-      })
-      .then((storeInfos) => {
-        expect(storeInfos.count()).toBe(1);
-
-        const storeInfo = storeInfos.first();
-        expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    const storeInfo = storeInfos.first();
+    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
   });
 });
 
 describe('searchAll', () => {
-  test('should return no store if provided criteria matches no store', (done) => {
+  test('should return no store if provided criteria matches no store', async () => {
     const result = StoreService.searchAll(createCriteria());
-    let stores = List();
 
-    result.event.subscribe((store) => {
-      stores = stores.push(store);
-    });
-    result.promise
-      .then(() => {
-        result.event.unsubscribeAll();
-        expect(stores.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        result.event.unsubscribeAll();
-        fail(error);
-        done();
-      });
+    try {
+      let stores = List();
+
+      result.event.subscribe(info => (stores = stores.push(info)));
+
+      await result.promise;
+      expect(stores.count()).toBe(0);
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 
-  test('should return the stores matches the criteria', (done) => {
+  test('should return the stores matches the criteria', async () => {
     const expectedStoreInfo = createStoreInfo();
+    const storeId1 = await StoreService.create(expectedStoreInfo);
+    const storeId2 = await StoreService.create(expectedStoreInfo);
 
-    Promise.all([StoreService.create(expectedStoreInfo), StoreService.create(expectedStoreInfo)])
-      .then((ids) => {
-        const storeIds = List.of(ids[0], ids[1]);
-        const result = StoreService.searchAll(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
-        let stores = List();
+    const result = StoreService.searchAll(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
+    try {
+      let stores = List();
 
-        result.event.subscribe((store) => {
-          stores = stores.push(store);
-        });
-        result.promise
-          .then(() => {
-            result.event.unsubscribeAll();
-            expect(stores.count()).toBe(storeIds.count());
-            done();
-          })
-          .catch((error) => {
-            result.event.unsubscribeAll();
-            fail(error);
-            done();
-          });
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+      result.event.subscribe(info => (stores = stores.push(info)));
+
+      await result.promise;
+      expect(stores.count()).toBe(2);
+      expect(stores.find(_ => _.get('id').localeCompare(storeId1) === 0)).toBeTruthy();
+      expect(stores.find(_ => _.get('id').localeCompare(storeId2) === 0)).toBeTruthy();
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 });
 
 describe('exists', () => {
-  test('should return false if no store match provided criteria', (done) => {
-    StoreService.exists(createCriteria())
-      .then((response) => {
-        expect(response).toBeFalsy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return false if no store match provided criteria', async () => {
+    const response = await StoreService.exists(createCriteria());
+
+    expect(response).toBeFalsy();
   });
 
-  test('should return true if any store match provided criteria', (done) => {
+  test('should return true if any store match provided criteria', async () => {
     const storeInfo = createStoreInfo();
 
-    StoreService.create(storeInfo)
-      .then(() => StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo)))
-      .then((response) => {
-        expect(response).toBeTruthy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    await StoreService.create(storeInfo);
+    const response = StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo));
+
+    expect(response).toBeTruthy();
+  });
+});
+
+describe('count', () => {
+  test('should return 0 if no store match provided criteria', async () => {
+    const response = await StoreService.count(createCriteria());
+
+    expect(response).toBe(0);
+  });
+
+  test('should return the count of store match provided criteria', async () => {
+    const storeInfo = createStoreInfo();
+
+    await StoreService.create(storeInfo);
+    await StoreService.create(storeInfo);
+
+    const response = await StoreService.count(createCriteriaUsingProvidedStoreInfo(storeInfo));
+
+    expect(response).toBe(2);
   });
 });
