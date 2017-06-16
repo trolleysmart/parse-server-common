@@ -1,73 +1,56 @@
 // @flow
 
 import Immutable from 'immutable';
-import { ParseWrapperService } from 'micro-business-parse-server-common';
+import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { StapleShoppingList } from '../schema';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StapleShoppingListService {
-  static create = info =>
-    new Promise((resolve, reject) => {
-      StapleShoppingList.spawn(info).save().then(result => resolve(result.id)).catch(error => reject(error));
-    });
+  static create = async (info) => {
+    const result = await StapleShoppingList.spawn(info).save();
 
-  static read = id =>
-    new Promise((resolve, reject) => {
-      ParseWrapperService.createQuery(StapleShoppingList)
-        .equalTo('objectId', id)
-        .limit(1)
-        .find()
-        .then((results) => {
-          if (results.length === 0) {
-            reject(`No staple shopping list found with Id: ${id}`);
-          } else {
-            resolve(new StapleShoppingList(results[0]).getInfo());
-          }
-        })
-        .catch(error => reject(error));
-    });
+    return result.id;
+  };
 
-  static update = info =>
-    new Promise((resolve, reject) => {
-      ParseWrapperService.createQuery(StapleShoppingList)
-        .equalTo('objectId', info.get('id'))
-        .limit(1)
-        .find()
-        .then((results) => {
-          if (results.length === 0) {
-            reject(`No staple shopping list found with Id: ${info.get('id')}`);
-          } else {
-            const object = new StapleShoppingList(results[0]);
+  static read = async (id) => {
+    const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).limit(1).find();
 
-            object.updateInfo(info).saveObject().then(() => resolve(object.getId())).catch(error => reject(error));
-          }
-        })
-        .catch(error => reject(error));
-    });
+    if (results.length === 0) {
+      throw new Exception(`No staple shopping list found with Id: ${id}`);
+    }
 
-  static delete = id =>
-    new Promise((resolve, reject) => {
-      ParseWrapperService.createQuery(StapleShoppingList)
-        .equalTo('objectId', id)
-        .limit(1)
-        .find()
-        .then((results) => {
-          if (results.length === 0) {
-            reject(`No staple shopping list found with Id: ${id}`);
-          } else {
-            results[0].destroy().then(() => resolve()).catch(error => reject(error));
-          }
-        })
-        .catch(error => reject(error));
-    });
+    return new StapleShoppingList(results[0]).getInfo();
+  };
 
-  static search = criteria =>
-    new Promise((resolve, reject) =>
-      StapleShoppingListService.buildSearchQuery(criteria)
-        .find()
-        .then(results => resolve(Immutable.fromJS(results).map(_ => new StapleShoppingList(_).getInfo())))
-        .catch(error => reject(error)),
-    );
+  static update = async (info) => {
+    const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
+
+    if (results.length === 0) {
+      throw new Exception(`No staple shopping list found with Id: ${info.get('id')}`);
+    } else {
+      const object = new StapleShoppingList(results[0]);
+
+      await object.updateInfo(info).saveObject();
+
+      return object.getId();
+    }
+  };
+
+  static delete = async (id) => {
+    const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).limit(1).find();
+
+    if (results.length === 0) {
+      throw new Exception(`No staple shopping list found with Id: ${id}`);
+    } else {
+      await results[0].destroy();
+    }
+  };
+
+  static search = async (criteria) => {
+    const results = await StapleShoppingListService.buildSearchQuery(criteria).find();
+
+    return Immutable.fromJS(results).map(_ => new StapleShoppingList(_).getInfo());
+  };
 
   static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
