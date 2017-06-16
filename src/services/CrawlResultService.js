@@ -63,10 +63,12 @@ export default class CrawlResultService {
   };
 
   static exists = async (criteria) => {
-    const total = await CrawlResultService.buildSearchQuery(criteria).count();
+    const total = await CrawlResultService.count(criteria);
 
     return total > 0;
   };
+
+  static count = async criteria => CrawlResultService.buildSearchQuery(criteria).count();
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(CrawlResult, criteria);

@@ -80,7 +80,7 @@ export default class StapleShoppingListService {
   };
 
   static exists = async (criteria) => {
-    const total = await StapleShoppingListService.buildSearchQuery(criteria).count();
+    const total = await StapleShoppingListService.count(criteria);
 
     return total > 0;
   };

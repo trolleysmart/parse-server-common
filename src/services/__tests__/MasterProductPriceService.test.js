@@ -242,7 +242,7 @@ describe('count', () => {
     expect(response).toBe(0);
   });
 
-  test('should return true if any master product price match provided criteria', async () => {
+  test('should return the count of master product price match provided criteria', async () => {
     const masterProductId = await MasterProductService.create(createMasterProductInfo());
     const storeId = await StoreService.create(createStoreInfo());
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);

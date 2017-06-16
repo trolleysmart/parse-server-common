@@ -63,7 +63,7 @@ export default class MasterProductPriceService {
   };
 
   static exists = async (criteria) => {
-    const total = await MasterProductPriceService.buildSearchQuery(criteria).count();
+    const total = await MasterProductPriceService.count(criteria);
 
     return total > 0;
   };

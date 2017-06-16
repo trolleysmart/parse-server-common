@@ -113,12 +113,11 @@ describe('delete', () => {
   });
 
   test('should delete the existing crawl result', async () => {
-    let crawlResultId;
+    const id = await CrawlSessionService.create(createCrawlSessionInfo());
+    const crawlResultId = await CrawlResultService.create(createCrawlResultInfo(id));
+    await CrawlResultService.delete(crawlResultId);
 
     try {
-      const id = await CrawlSessionService.create(createCrawlSessionInfo());
-      crawlResultId = await CrawlResultService.create(createCrawlResultInfo(id));
-      await CrawlResultService.delete(crawlResultId);
       await CrawlResultService.read(crawlResultId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No crawl result found with Id: ${crawlResultId}`);
@@ -168,20 +167,20 @@ describe('searchAll', () => {
     const expectedCrawlResultInfo = createCrawlResultInfo(crawlSessionId);
     const ids = await Promise.all([CrawlResultService.create(expectedCrawlResultInfo), CrawlResultService.create(expectedCrawlResultInfo)]);
     const crawlResultIds = List.of(ids[0], ids[1]);
+    let crawlResults = List();
     const result = CrawlResultService.searchAll(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
 
     try {
-      let crawlResults = List();
-
       result.event.subscribe((crawlResult) => {
         crawlResults = crawlResults.push(crawlResult);
       });
 
       await result.promise;
-      expect(crawlResults.count()).toBe(crawlResultIds.count());
     } finally {
       result.event.unsubscribeAll();
     }
+
+    expect(crawlResults.count()).toBe(crawlResultIds.count());
   });
 });
 
@@ -198,5 +197,24 @@ describe('exists', () => {
     const response = await CrawlResultService.exists(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
 
     expect(response).toBeTruthy();
+  });
+});
+
+describe('count', () => {
+  test('should return 0 if no crawl result match provided criteria', async () => {
+    const response = await CrawlResultService.count(createCriteria());
+
+    expect(response).toBe(0);
+  });
+
+  test('should return the count of crawl result match provided criteria', async () => {
+    const crawlSessionId = await CrawlSessionService.create(createCrawlSessionInfo());
+    const expectedCrawlResultInfo = createCrawlResultInfo(crawlSessionId);
+    await CrawlResultService.create(expectedCrawlResultInfo);
+    await CrawlResultService.create(expectedCrawlResultInfo);
+
+    const response = await CrawlResultService.count(createCriteriaUsingProvidedCrawlResultInfo(crawlSessionId));
+
+    expect(response).toBe(2);
   });
 });
