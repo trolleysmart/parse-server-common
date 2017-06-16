@@ -30,261 +30,180 @@ function createCriteriaUsingProvidedStapleTemplateInfo(stapleTemplateInfo) {
 }
 
 describe('create', () => {
-  test('should return the created staple template Id', (done) => {
-    StapleTemplateService.create(createStapleTemplateInfo())
-      .then((result) => {
-        expect(result).toBeDefined();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return the created staple template Id', async () => {
+    const result = await StapleTemplateService.create(createStapleTemplateInfo());
+
+    expect(result).toBeDefined();
   });
 
-  test('should create the stapleTemplate', (done) => {
+  test('should create the staple template', async () => {
     const expectedStapleTemplateInfo = createStapleTemplateInfo();
-    let stapleTemplateId;
+    const stapleTemplateId = await StapleTemplateService.create(expectedStapleTemplateInfo);
+    const stapleTemplateInfo = await StapleTemplateService.read(stapleTemplateId);
 
-    StapleTemplateService.create(expectedStapleTemplateInfo)
-      .then((id) => {
-        stapleTemplateId = id;
-
-        return StapleTemplateService.read(stapleTemplateId);
-      })
-      .then((stapleTemplateInfo) => {
-        expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
   });
 });
 
 describe('read', () => {
-  test('should reject if the provided staple template Id does not exist', (done) => {
+  test('should reject if the provided staple template Id does not exist', async () => {
     const stapleTemplateId = uuid();
 
-    StapleTemplateService.read(stapleTemplateId).catch((error) => {
-      expect(error).toBe(`No staple template found with Id: ${stapleTemplateId}`);
-      done();
-    });
+    try {
+      await StapleTemplateService.read(stapleTemplateId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+    }
   });
 
-  test('should read the existing stapleTemplate', (done) => {
+  test('should read the existing staple template', async () => {
     const expectedStapleTemplateInfo = createStapleTemplateInfo();
-    let stapleTemplateId;
+    const stapleTemplateId = await StapleTemplateService.create(expectedStapleTemplateInfo);
+    const stapleTemplateInfo = await StapleTemplateService.read(stapleTemplateId);
 
-    StapleTemplateService.create(expectedStapleTemplateInfo)
-      .then((id) => {
-        stapleTemplateId = id;
-
-        return StapleTemplateService.read(stapleTemplateId);
-      })
-      .then((stapleTemplateInfo) => {
-        expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
   });
 });
 
 describe('update', () => {
-  test('should reject if the provided staple template Id does not exist', (done) => {
+  test('should reject if the provided staple template Id does not exist', async () => {
     const stapleTemplateId = uuid();
 
-    StapleTemplateService.update(createStapleTemplateInfo().set('id', stapleTemplateId)).catch((error) => {
-      expect(error).toBe(`No staple template found with Id: ${stapleTemplateId}`);
-      done();
-    });
+    try {
+      await StapleTemplateService.update(createStapleTemplateInfo().set('id', stapleTemplateId));
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+    }
   });
 
-  test('should return the Id of the updated stapleTemplate', (done) => {
-    let stapleTemplateId;
+  test('should return the Id of the updated staple template', async () => {
+    const stapleTemplateId = await StapleTemplateService.create(createStapleTemplateInfo());
+    const id = await StapleTemplateService.update(createStapleTemplateInfo().set('id', stapleTemplateId));
 
-    StapleTemplateService.create(createStapleTemplateInfo())
-      .then((id) => {
-        stapleTemplateId = id;
-
-        return StapleTemplateService.update(createStapleTemplateInfo().set('id', stapleTemplateId));
-      })
-      .then((id) => {
-        expect(id).toBe(stapleTemplateId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expect(id).toBe(stapleTemplateId);
   });
 
-  test('should update the existing stapleTemplate', (done) => {
+  test('should update the existing staple template', async () => {
     const expectedStapleTemplateInfo = createStapleTemplateInfo();
-    let stapleTemplateId;
+    const id = await StapleTemplateService.create(createStapleTemplateInfo());
+    const stapleTemplateId = await StapleTemplateService.update(expectedStapleTemplateInfo.set('id', id));
+    const stapleTemplateInfo = await StapleTemplateService.read(stapleTemplateId);
 
-    StapleTemplateService.create(createStapleTemplateInfo())
-      .then(id => StapleTemplateService.update(expectedStapleTemplateInfo.set('id', id)))
-      .then((id) => {
-        stapleTemplateId = id;
-
-        return StapleTemplateService.read(stapleTemplateId);
-      })
-      .then((stapleTemplateInfo) => {
-        expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
   });
 });
 
 describe('delete', () => {
-  test('should reject if the provided staple template Id does not exist', (done) => {
+  test('should reject if the provided staple template Id does not exist', async () => {
     const stapleTemplateId = uuid();
 
-    StapleTemplateService.delete(stapleTemplateId).catch((error) => {
-      expect(error).toBe(`No staple template found with Id: ${stapleTemplateId}`);
-      done();
-    });
+    try {
+      await StapleTemplateService.delete(stapleTemplateId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+    }
   });
 
-  test('should delete the existing stapleTemplate', (done) => {
-    let stapleTemplateId;
+  test('should delete the existing staple template', async () => {
+    const stapleTemplateId = await StapleTemplateService.create(createStapleTemplateInfo());
+    await StapleTemplateService.delete(stapleTemplateId);
 
-    StapleTemplateService.create(createStapleTemplateInfo())
-      .then((id) => {
-        stapleTemplateId = id;
-        return StapleTemplateService.delete(stapleTemplateId);
-      })
-      .then(() => StapleTemplateService.read(stapleTemplateId))
-      .catch((error) => {
-        expect(error).toBe(`No staple template found with Id: ${stapleTemplateId}`);
-        done();
-      });
+    try {
+      await StapleTemplateService.read(stapleTemplateId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+    }
   });
 });
 
 describe('search', () => {
-  test('should return no staple template if provided criteria matches no stapleTemplate', (done) => {
-    StapleTemplateService.search(createCriteria())
-      .then((stapleTemplates) => {
-        expect(stapleTemplates.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return no staple template if provided criteria matches no staple template', async () => {
+    const stapleTemplateInfos = await StapleTemplateService.search(createCriteria());
+
+    expect(stapleTemplateInfos.count()).toBe(0);
   });
 
-  test('should return the stapleTemplates matches the criteria', (done) => {
+  test('should return the stapleTemplates matches the criteria', async () => {
     const expectedStapleTemplateInfo = createStapleTemplateInfo();
-    let stapleTemplateId;
+    const stapleTemplateId = await StapleTemplateService.create(expectedStapleTemplateInfo);
+    const stapleTemplateInfos = await StapleTemplateService.search(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
 
-    StapleTemplateService.create(expectedStapleTemplateInfo)
-      .then((id) => {
-        stapleTemplateId = id;
+    expect(stapleTemplateInfos.count()).toBe(1);
 
-        return StapleTemplateService.search(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
-      })
-      .then((stapleTemplateInfos) => {
-        expect(stapleTemplateInfos.count()).toBe(1);
-
-        const stapleTemplateInfo = stapleTemplateInfos.first();
-        expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    const stapleTemplateInfo = stapleTemplateInfos.first();
+    expectStapleTemplateInfo(stapleTemplateInfo, expectedStapleTemplateInfo, stapleTemplateId);
   });
 });
 
 describe('searchAll', () => {
-  test('should return no staple template if provided criteria matches no stapleTemplate', (done) => {
+  test('should return no staple template if provided criteria matches no staple template', async () => {
     const result = StapleTemplateService.searchAll(createCriteria());
-    let stapleTemplates = List();
 
-    result.event.subscribe((stapleTemplate) => {
-      stapleTemplates = stapleTemplates.push(stapleTemplate);
-    });
-    result.promise
-      .then(() => {
-        result.event.unsubscribeAll();
-        expect(stapleTemplates.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        result.event.unsubscribeAll();
-        fail(error);
-        done();
-      });
+    try {
+      let stapleTemplates = List();
+
+      result.event.subscribe(info => (stapleTemplates = stapleTemplates.push(info)));
+
+      await result.promise;
+      expect(stapleTemplates.count()).toBe(0);
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 
-  test('should return the stapleTemplates matches the criteria', (done) => {
+  test('should return the stapleTemplates matches the criteria', async () => {
     const expectedStapleTemplateInfo = createStapleTemplateInfo();
+    const stapleTemplateId1 = await StapleTemplateService.create(expectedStapleTemplateInfo);
+    const stapleTemplateId2 = await StapleTemplateService.create(expectedStapleTemplateInfo);
 
-    Promise.all([StapleTemplateService.create(expectedStapleTemplateInfo), StapleTemplateService.create(expectedStapleTemplateInfo)])
-      .then((ids) => {
-        const stapleTemplateIds = List.of(ids[0], ids[1]);
-        const result = StapleTemplateService.searchAll(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
-        let stapleTemplates = List();
+    const result = StapleTemplateService.searchAll(createCriteriaUsingProvidedStapleTemplateInfo(expectedStapleTemplateInfo));
+    try {
+      let stapleTemplates = List();
 
-        result.event.subscribe((stapleTemplate) => {
-          stapleTemplates = stapleTemplates.push(stapleTemplate);
-        });
-        result.promise
-          .then(() => {
-            result.event.unsubscribeAll();
-            expect(stapleTemplates.count()).toBe(stapleTemplateIds.count());
-            done();
-          })
-          .catch((error) => {
-            result.event.unsubscribeAll();
-            fail(error);
-            done();
-          });
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+      result.event.subscribe(info => (stapleTemplates = stapleTemplates.push(info)));
+
+      await result.promise;
+      expect(stapleTemplates.count()).toBe(2);
+      expect(stapleTemplates.find(_ => _.get('id').localeCompare(stapleTemplateId1) === 0)).toBeTruthy();
+      expect(stapleTemplates.find(_ => _.get('id').localeCompare(stapleTemplateId2) === 0)).toBeTruthy();
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 });
 
 describe('exists', () => {
-  test('should return false if no staple template match provided criteria', (done) => {
-    StapleTemplateService.exists(createCriteria())
-      .then((response) => {
-        expect(response).toBeFalsy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return false if no staple template match provided criteria', async () => {
+    const response = await StapleTemplateService.exists(createCriteria());
+
+    expect(response).toBeFalsy();
   });
 
-  test('should return true if any staple template match provided criteria', (done) => {
+  test('should return true if any staple template match provided criteria', async () => {
     const stapleTemplateInfo = createStapleTemplateInfo();
 
-    StapleTemplateService.create(stapleTemplateInfo)
-      .then(() => StapleTemplateService.exists(createCriteriaUsingProvidedStapleTemplateInfo(stapleTemplateInfo)))
-      .then((response) => {
-        expect(response).toBeTruthy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    await StapleTemplateService.create(stapleTemplateInfo);
+    const response = StapleTemplateService.exists(createCriteriaUsingProvidedStapleTemplateInfo(stapleTemplateInfo));
+
+    expect(response).toBeTruthy();
+  });
+});
+
+describe('count', () => {
+  test('should return 0 if no staple template match provided criteria', async () => {
+    const response = await StapleTemplateService.count(createCriteria());
+
+    expect(response).toBe(0);
+  });
+
+  test('should return the count of staple template match provided criteria', async () => {
+    const stapleTemplateInfo = createStapleTemplateInfo();
+
+    await StapleTemplateService.create(stapleTemplateInfo);
+    await StapleTemplateService.create(stapleTemplateInfo);
+
+    const response = await StapleTemplateService.count(createCriteriaUsingProvidedStapleTemplateInfo(stapleTemplateInfo));
+
+    expect(response).toBe(2);
   });
 });
