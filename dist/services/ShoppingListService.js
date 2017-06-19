@@ -216,7 +216,7 @@ ShoppingListService.exists = function () {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.next = 2;
-            return ShoppingListService.buildSearchQuery(criteria).count();
+            return ShoppingListService.count(criteria);
 
           case 2:
             total = _context6.sent;
@@ -232,6 +232,27 @@ ShoppingListService.exists = function () {
 
   return function (_x6) {
     return _ref6.apply(this, arguments);
+  };
+}();
+
+ShoppingListService.count = function () {
+  var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(criteria) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            return _context7.abrupt('return', ShoppingListService.buildSearchQuery(criteria).count());
+
+          case 1:
+          case 'end':
+            return _context7.stop();
+        }
+      }
+    }, _callee7, undefined);
+  }));
+
+  return function (_x7) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

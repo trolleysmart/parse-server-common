@@ -670,3 +670,70 @@ describe('exists', function () {
     }, _callee16, undefined);
   })));
 });
+
+describe('count', function () {
+  test('should return 0 if no shopping list match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
+    var response;
+    return regeneratorRuntime.wrap(function _callee17$(_context17) {
+      while (1) {
+        switch (_context17.prev = _context17.next) {
+          case 0:
+            _context17.next = 2;
+            return _.ShoppingListService.count(createCriteria());
+
+          case 2:
+            response = _context17.sent;
+
+
+            expect(response).toBe(0);
+
+          case 4:
+          case 'end':
+            return _context17.stop();
+        }
+      }
+    }, _callee17, undefined);
+  })));
+
+  test('should return the count of shopping list match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee18() {
+    var stapleShoppingListId, masterProductPriceId, shoppingListInfo, response;
+    return regeneratorRuntime.wrap(function _callee18$(_context18) {
+      while (1) {
+        switch (_context18.prev = _context18.next) {
+          case 0:
+            _context18.next = 2;
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+
+          case 2:
+            stapleShoppingListId = _context18.sent;
+            _context18.next = 5;
+            return _.MasterProductPriceService.create((0, _MasterProductPrice.createMasterProductPriceInfo)());
+
+          case 5:
+            masterProductPriceId = _context18.sent;
+            shoppingListInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId);
+            _context18.next = 9;
+            return _.ShoppingListService.create(shoppingListInfo);
+
+          case 9:
+            _context18.next = 11;
+            return _.ShoppingListService.create(shoppingListInfo);
+
+          case 11:
+            _context18.next = 13;
+            return _.ShoppingListService.count(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo));
+
+          case 13:
+            response = _context18.sent;
+
+
+            expect(response).toBe(2);
+
+          case 15:
+          case 'end':
+            return _context18.stop();
+        }
+      }
+    }, _callee18, undefined);
+  })));
+});
