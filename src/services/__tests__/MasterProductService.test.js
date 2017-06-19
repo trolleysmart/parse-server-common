@@ -160,12 +160,12 @@ describe('searchAll', () => {
     const result = MasterProductService.searchAll(createCriteria());
 
     try {
-      let masterProducts = List();
+      let masterProductInfos = List();
 
-      result.event.subscribe(info => (masterProducts = masterProducts.push(info)));
+      result.event.subscribe(info => (masterProductInfos = masterProductInfos.push(info)));
 
       await result.promise;
-      expect(masterProducts.count()).toBe(0);
+      expect(masterProductInfos.count()).toBe(0);
     } finally {
       result.event.unsubscribeAll();
     }
@@ -180,14 +180,14 @@ describe('searchAll', () => {
     const result = MasterProductService.searchAll(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
 
     try {
-      let masterProducts = List();
+      let masterProductInfos = List();
 
-      result.event.subscribe(info => (masterProducts = masterProducts.push(info)));
+      result.event.subscribe(info => (masterProductInfos = masterProductInfos.push(info)));
 
       await result.promise;
-      expect(masterProducts.count()).toBe(2);
-      expect(masterProducts.find(_ => _.get('id').localeCompare(masterProductId1) === 0)).toBeTruthy();
-      expect(masterProducts.find(_ => _.get('id').localeCompare(masterProductId2) === 0)).toBeTruthy();
+      expect(masterProductInfos.count()).toBe(2);
+      expect(masterProductInfos.find(_ => _.get('id').localeCompare(masterProductId1) === 0)).toBeTruthy();
+      expect(masterProductInfos.find(_ => _.get('id').localeCompare(masterProductId2) === 0)).toBeTruthy();
     } finally {
       result.event.unsubscribeAll();
     }
