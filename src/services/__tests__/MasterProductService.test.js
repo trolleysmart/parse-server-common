@@ -3,10 +3,9 @@
 import { List, Map } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
-import { MasterProductService } from '../';
+import { MasterProductService, TagService } from '../';
 import { createMasterProductInfo } from '../../schema/__tests__/MasterProduct.test';
 import { createTagInfo } from '../../schema/__tests__/Tag.test';
-import { Tag } from '../../schema';
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId) {
   expect(masterProductInfo.get('id')).toBe(masterProductId);
@@ -42,280 +41,173 @@ export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) 
 }
 
 describe('create', () => {
-  test('should return the created master product Id', (done) => {
-    MasterProductService.create(createMasterProductInfo())
-      .then((result) => {
-        expect(result).toBeDefined();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return the created master product Id', async () => {
+    const result = await MasterProductService.create(createMasterProductInfo());
+
+    expect(result).toBeDefined();
   });
 
-  test('should create the master product', (done) => {
-    let expectedMasterProductInfo;
-    let masterProductId;
+  test('should create the master product', async () => {
+    const tagId1 = await TagService.create(createTagInfo());
+    const tagId2 = await TagService.create(createTagInfo());
+    const expectedMasterProductInfo = createMasterProductInfo(List.of(tagId1, tagId2));
+    const masterProductId = await MasterProductService.create(expectedMasterProductInfo);
+    const masterProductInfo = await MasterProductService.read(masterProductId);
 
-    Promise.all([Tag.spawn(createTagInfo()).save(), Tag.spawn(createTagInfo()).save()])
-      .then((results) => {
-        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
-
-        return MasterProductService.create(expectedMasterProductInfo);
-      })
-      .then((id) => {
-        masterProductId = id;
-
-        return MasterProductService.read(masterProductId);
-      })
-      .then((masterProductInfo) => {
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
   });
 });
 
 describe('read', () => {
-  test('should reject if the provided master product Id does not exist', (done) => {
+  test('should reject if the provided master product Id does not exist', async () => {
     const masterProductId = uuid();
 
-    MasterProductService.read(masterProductId).catch((error) => {
-      expect(error).toBe(`No master product found with Id: ${masterProductId}`);
-      done();
-    });
+    try {
+      await MasterProductService.read(masterProductId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No master product found with Id: ${masterProductId}`);
+    }
   });
 
-  test('should read the existing master product', (done) => {
-    let expectedMasterProductInfo;
-    let masterProductId;
+  test('should read the existing master product', async () => {
+    const tagId1 = await TagService.create(createTagInfo());
+    const tagId2 = await TagService.create(createTagInfo());
+    const expectedMasterProductInfo = createMasterProductInfo(List.of(tagId1, tagId2));
+    const masterProductId = await MasterProductService.create(expectedMasterProductInfo);
+    const masterProductInfo = await MasterProductService.read(masterProductId);
 
-    Promise.all([Tag.spawn(createTagInfo()).save(), Tag.spawn(createTagInfo()).save()])
-      .then((results) => {
-        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
-
-        return MasterProductService.create(expectedMasterProductInfo);
-      })
-      .then((id) => {
-        masterProductId = id;
-
-        return MasterProductService.read(masterProductId);
-      })
-      .then((masterProductInfo) => {
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
   });
 });
 
 describe('update', () => {
-  test('should reject if the provided master product Id does not exist', (done) => {
+  test('should reject if the provided master product Id does not exist', async () => {
     const masterProductId = uuid();
 
-    MasterProductService.update(createMasterProductInfo().set('id', masterProductId)).catch((error) => {
-      expect(error).toBe(`No master product found with Id: ${masterProductId}`);
-      done();
-    });
+    try {
+      await MasterProductService.update(createMasterProductInfo().set('id', masterProductId));
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No master product found with Id: ${masterProductId}`);
+    }
   });
 
-  test('should return the Id of the updated master product', (done) => {
-    let masterProductId;
+  test('should return the Id of the updated master product', async () => {
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const id = await MasterProductService.update(createMasterProductInfo().set('id', masterProductId));
 
-    MasterProductService.create(createMasterProductInfo())
-      .then((id) => {
-        masterProductId = id;
-
-        return MasterProductService.update(createMasterProductInfo().set('id', masterProductId));
-      })
-      .then((id) => {
-        expect(id).toBe(masterProductId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expect(id).toBe(masterProductId);
   });
 
-  test('should update the existing master product', (done) => {
-    let expectedMasterProductInfo;
-    let masterProductId;
+  test('should update the existing master product', async () => {
+    const tagId1 = await TagService.create(createTagInfo());
+    const tagId2 = await TagService.create(createTagInfo());
+    const id = await MasterProductService.create(createMasterProductInfo());
+    const expectedMasterProductInfo = createMasterProductInfo(List.of(tagId1, tagId2));
+    const masterProductId = await MasterProductService.update(expectedMasterProductInfo.set('id', id));
+    const masterProductInfo = await MasterProductService.read(masterProductId);
 
-    Promise.all([Tag.spawn(createTagInfo()).save(), Tag.spawn(createTagInfo()).save(), MasterProductService.create(createMasterProductInfo())])
-      .then((results) => {
-        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
-
-        return MasterProductService.update(expectedMasterProductInfo.set('id', results[2]));
-      })
-      .then((id) => {
-        masterProductId = id;
-
-        return MasterProductService.read(masterProductId);
-      })
-      .then((masterProductInfo) => {
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
   });
 });
 
 describe('delete', () => {
-  test('should reject if the provided master product Id does not exist', (done) => {
+  test('should reject if the provided master product Id does not exist', async () => {
     const masterProductId = uuid();
 
-    MasterProductService.delete(masterProductId).catch((error) => {
-      expect(error).toBe(`No master product found with Id: ${masterProductId}`);
-      done();
-    });
+    try {
+      await MasterProductService.delete(masterProductId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No master product found with Id: ${masterProductId}`);
+    }
   });
 
-  test('should delete the existing master product', (done) => {
-    let masterProductId;
+  test('should delete the existing master product', async () => {
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    await MasterProductService.delete(masterProductId);
 
-    MasterProductService.create(createMasterProductInfo())
-      .then((id) => {
-        masterProductId = id;
-        return MasterProductService.delete(masterProductId);
-      })
-      .then(() => MasterProductService.read(masterProductId))
-      .catch((error) => {
-        expect(error).toBe(`No master product found with Id: ${masterProductId}`);
-        done();
-      });
+    try {
+      await MasterProductService.delete(masterProductId);
+    } catch (ex) {
+      expect(ex.getErrorMessage()).toBe(`No master product found with Id: ${masterProductId}`);
+    }
   });
 });
 
 describe('search', () => {
-  test('should return no master product if provided criteria matches no master product', (done) => {
-    MasterProductService.search(createCriteria())
-      .then((masterProductInfos) => {
-        expect(masterProductInfos.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return no master product if provided criteria matches no master product', async () => {
+    const masterProductInfos = await MasterProductService.search(createCriteria());
+
+    expect(masterProductInfos.count()).toBe(0);
   });
 
-  test('should return the master products matches the criteria', (done) => {
-    let expectedMasterProductInfo;
-    let masterProductId;
+  test('should return the master products matches the criteria', async () => {
+    const tagId1 = await TagService.create(createTagInfo());
+    const tagId2 = await TagService.create(createTagInfo());
+    const expectedMasterProductInfo = createMasterProductInfo(List.of(tagId1, tagId2));
+    const masterProductId = await MasterProductService.create(expectedMasterProductInfo);
+    const masterProductInfos = await MasterProductService.search(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
 
-    Promise.all([Tag.spawn(createTagInfo()).save(), Tag.spawn(createTagInfo()).save()])
-      .then((results) => {
-        expectedMasterProductInfo = createMasterProductInfo(List.of(results[0].id, results[1].id));
+    expect(masterProductInfos.count()).toBe(1);
 
-        return MasterProductService.create(expectedMasterProductInfo);
-      })
-      .then((id) => {
-        masterProductId = id;
+    const masterProductInfo = masterProductInfos.first();
 
-        return MasterProductService.search(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
-      })
-      .then((masterProductInfos) => {
-        expect(masterProductInfos.count()).toBe(1);
-
-        const masterProductInfo = masterProductInfos.first();
-        expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId);
   });
 });
 
 describe('searchAll', () => {
-  test('should return no master product if provided criteria matches no master product', (done) => {
+  test('should return no master product if provided criteria matches no master product', async () => {
     const result = MasterProductService.searchAll(createCriteria());
-    let masterProducts = List();
 
-    result.event.subscribe((masterProduct) => {
-      masterProducts = masterProducts.push(masterProduct);
-    });
-    result.promise
-      .then(() => {
-        result.event.unsubscribeAll();
-        expect(masterProducts.count()).toBe(0);
-        done();
-      })
-      .catch((error) => {
-        result.event.unsubscribeAll();
-        fail(error);
-        done();
-      });
+    try {
+      let masterProducts = List();
+
+      result.event.subscribe(info => (masterProducts = masterProducts.push(info)));
+
+      await result.promise;
+      expect(masterProducts.count()).toBe(0);
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 
-  test('should return the master products matches the criteria', (done) => {
-    const expectedMasterProductInfo = createMasterProductInfo();
+  test('should return the master products matches the criteria', async () => {
+    const tagId1 = await TagService.create(createTagInfo());
+    const tagId2 = await TagService.create(createTagInfo());
+    const expectedMasterProductInfo = createMasterProductInfo(List.of(tagId1, tagId2));
+    const masterProductId1 = await MasterProductService.create(expectedMasterProductInfo);
+    const masterProductId2 = await MasterProductService.create(expectedMasterProductInfo);
+    const result = MasterProductService.searchAll(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
 
-    Promise.all([MasterProductService.create(expectedMasterProductInfo), MasterProductService.create(expectedMasterProductInfo)])
-      .then((ids) => {
-        const masterProductIds = List.of(ids[0], ids[1]);
-        const result = MasterProductService.searchAll(createCriteriaUsingProvidedMasterProductInfo(expectedMasterProductInfo));
-        let masterProducts = List();
+    try {
+      let masterProducts = List();
 
-        result.event.subscribe((masterProduct) => {
-          masterProducts = masterProducts.push(masterProduct);
-        });
-        result.promise
-          .then(() => {
-            result.event.unsubscribeAll();
-            expect(masterProducts.count()).toBe(masterProductIds.count());
-            done();
-          })
-          .catch((error) => {
-            result.event.unsubscribeAll();
-            fail(error);
-            done();
-          });
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+      result.event.subscribe(info => (masterProducts = masterProducts.push(info)));
+
+      await result.promise;
+      expect(masterProducts.count()).toBe(2);
+      expect(masterProducts.find(_ => _.get('id').localeCompare(masterProductId1) === 0)).toBeTruthy();
+      expect(masterProducts.find(_ => _.get('id').localeCompare(masterProductId2) === 0)).toBeTruthy();
+    } finally {
+      result.event.unsubscribeAll();
+    }
   });
 });
 
 describe('exists', () => {
-  test('should return false if no master product match provided criteria', (done) => {
-    MasterProductService.exists(createCriteria())
-      .then((response) => {
-        expect(response).toBeFalsy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+  test('should return false if no master product match provided criteria', async () => {
+    const response = await MasterProductService.exists(createCriteria());
+
+    expect(response).toBeFalsy();
   });
 
-  test('should return true if any master product match provided criteria', (done) => {
+  test('should return true if any master product match provided criteria', async () => {
     const masterProductInfo = createMasterProductInfo();
 
-    MasterProductService.create(masterProductInfo)
-      .then(() => MasterProductService.exists(createCriteriaUsingProvidedMasterProductInfo(masterProductInfo)))
-      .then((response) => {
-        expect(response).toBeTruthy();
-        done();
-      })
-      .catch((error) => {
-        fail(error);
-        done();
-      });
+    await MasterProductService.create(masterProductInfo);
+
+    const response = await MasterProductService.exists(createCriteriaUsingProvidedMasterProductInfo(masterProductInfo));
+
+    expect(response).toBeTruthy();
   });
 });
