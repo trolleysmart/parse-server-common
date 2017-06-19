@@ -211,3 +211,22 @@ describe('exists', () => {
     expect(response).toBeTruthy();
   });
 });
+
+describe('count', () => {
+  test('should return 0 if no master product match provided criteria', async () => {
+    const response = await MasterProductService.count(createCriteria());
+
+    expect(response).toBe(0);
+  });
+
+  test('should return the count of master product match provided criteria', async () => {
+    const crawlSessionInfo = createMasterProductInfo();
+
+    await MasterProductService.create(crawlSessionInfo);
+    await MasterProductService.create(crawlSessionInfo);
+
+    const response = await MasterProductService.count(createCriteriaUsingProvidedMasterProductInfo(crawlSessionInfo));
+
+    expect(response).toBe(2);
+  });
+});
