@@ -7,10 +7,10 @@ import '../../../bootstrap';
 import { StapleShoppingListService } from '../';
 import { createStapleShoppingListInfo } from '../../schema/__tests__/StapleShoppingList.test';
 
-function expectStapleShoppingListInfo(stapleShoppingListInfo, expectedShoppingListInfo, shoppingListId) {
+function expectStapleShoppingListInfo(stapleShoppingListInfo, expectedStapleShoppingListInfo, shoppingListId) {
   expect(stapleShoppingListInfo.get('id')).toBe(shoppingListId);
-  expect(stapleShoppingListInfo.get('userId')).toBe(expectedShoppingListInfo.get('userId'));
-  expect(stapleShoppingListInfo.get('items')).toEqual(expectedShoppingListInfo.get('items'));
+  expect(stapleShoppingListInfo.get('userId')).toBe(expectedStapleShoppingListInfo.get('userId'));
+  expect(stapleShoppingListInfo.get('items')).toEqual(expectedStapleShoppingListInfo.get('items'));
 }
 
 function createCriteria() {
@@ -47,11 +47,11 @@ describe('create', () => {
   });
 
   test('should create the staple shopping list', async () => {
-    const expectedShoppingListInfo = createStapleShoppingListInfo(userId);
-    const stapleShoppingListId = await StapleShoppingListService.create(expectedShoppingListInfo);
+    const expectedStapleShoppingListInfo = createStapleShoppingListInfo(userId);
+    const stapleShoppingListId = await StapleShoppingListService.create(expectedStapleShoppingListInfo);
     const stapleShoppingListInfo = await StapleShoppingListService.read(stapleShoppingListId);
 
-    expectStapleShoppingListInfo(stapleShoppingListInfo, expectedShoppingListInfo, stapleShoppingListId);
+    expectStapleShoppingListInfo(stapleShoppingListInfo, expectedStapleShoppingListInfo, stapleShoppingListId);
   });
 });
 
@@ -94,12 +94,12 @@ describe('update', () => {
   });
 
   test('should update the existing staple shopping list', async () => {
-    const expectedShoppingListInfo = createStapleShoppingListInfo(userId);
+    const expectedStapleShoppingListInfo = createStapleShoppingListInfo(userId);
     const id = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
-    const stapleShoppingListId = await StapleShoppingListService.update(expectedShoppingListInfo.set('id', id));
+    const stapleShoppingListId = await StapleShoppingListService.update(expectedStapleShoppingListInfo.set('id', id));
     const stapleShoppingListInfo = await StapleShoppingListService.read(stapleShoppingListId);
 
-    expectStapleShoppingListInfo(stapleShoppingListInfo, expectedShoppingListInfo, stapleShoppingListId);
+    expectStapleShoppingListInfo(stapleShoppingListInfo, expectedStapleShoppingListInfo, stapleShoppingListId);
   });
 });
 
@@ -134,17 +134,17 @@ describe('search', () => {
   });
 
   test('should return the staple shopping lists matches the criteria', async () => {
-    const expectedShoppingListInfo = createStapleShoppingListInfo(userId);
-    const stapleShoppingListId = await StapleShoppingListService.create(expectedShoppingListInfo);
+    const expectedStapleShoppingListInfo = createStapleShoppingListInfo(userId);
+    const stapleShoppingListId = await StapleShoppingListService.create(expectedStapleShoppingListInfo);
     const stapleShoppingListInfos = await StapleShoppingListService.search(
-      createCriteriaUsingProvidedStapleShoppingListInfo(expectedShoppingListInfo),
+      createCriteriaUsingProvidedStapleShoppingListInfo(expectedStapleShoppingListInfo),
     );
 
     expect(stapleShoppingListInfos.count()).toBe(1);
 
     const stapleShoppingListInfo = stapleShoppingListInfos.first();
 
-    expectStapleShoppingListInfo(stapleShoppingListInfo, expectedShoppingListInfo, stapleShoppingListId);
+    expectStapleShoppingListInfo(stapleShoppingListInfo, expectedStapleShoppingListInfo, stapleShoppingListId);
   });
 });
 
@@ -165,10 +165,10 @@ describe('searchAll', () => {
   });
 
   test('should return the staple shopping list matches the criteria', async () => {
-    const expectedShoppingListInfo = createStapleShoppingListInfo(userId);
-    const stapleShoppingListId1 = await StapleShoppingListService.create(expectedShoppingListInfo);
-    const stapleShoppingListId2 = await StapleShoppingListService.create(expectedShoppingListInfo);
-    const result = StapleShoppingListService.searchAll(createCriteriaUsingProvidedStapleShoppingListInfo(expectedShoppingListInfo));
+    const expectedStapleShoppingListInfo = createStapleShoppingListInfo(userId);
+    const stapleShoppingListId1 = await StapleShoppingListService.create(expectedStapleShoppingListInfo);
+    const stapleShoppingListId2 = await StapleShoppingListService.create(expectedStapleShoppingListInfo);
+    const result = StapleShoppingListService.searchAll(createCriteriaUsingProvidedStapleShoppingListInfo(expectedStapleShoppingListInfo));
 
     try {
       let stapleShoppingListInfos = List();

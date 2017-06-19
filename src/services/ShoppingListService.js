@@ -63,10 +63,12 @@ export default class ShoppingListService {
   };
 
   static exists = async (criteria) => {
-    const total = await ShoppingListService.buildSearchQuery(criteria).count();
+    const total = await ShoppingListService.count(criteria);
 
     return total > 0;
   };
+
+  static count = async criteria => ShoppingListService.buildSearchQuery(criteria).count();
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(ShoppingList, criteria);

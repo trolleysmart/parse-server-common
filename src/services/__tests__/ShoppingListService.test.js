@@ -246,3 +246,24 @@ describe('exists', () => {
     expect(response).toBeTruthy();
   });
 });
+
+describe('count', () => {
+  test('should return 0 if no shopping list match provided criteria', async () => {
+    const response = await ShoppingListService.count(createCriteria());
+
+    expect(response).toBe(0);
+  });
+
+  test('should return the count of shopping list match provided criteria', async () => {
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
+    const shoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
+
+    await ShoppingListService.create(shoppingListInfo);
+    await ShoppingListService.create(shoppingListInfo);
+
+    const response = await ShoppingListService.count(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo));
+
+    expect(response).toBe(2);
+  });
+});
