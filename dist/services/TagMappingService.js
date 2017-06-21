@@ -259,10 +259,18 @@ TagMappingService.count = function () {
 TagMappingService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.TagMapping, criteria);
 
-  if (criteria.has('includeTag')) {
-    var value = criteria.get('includeTag');
+  if (criteria.has('includeStore')) {
+    var value = criteria.get('includeStore');
 
     if (value) {
+      query.include('store');
+    }
+  }
+
+  if (criteria.has('includeTag')) {
+    var _value = criteria.get('includeTag');
+
+    if (_value) {
       query.include('tag');
     }
   }
@@ -274,34 +282,34 @@ TagMappingService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('key')) {
-    var _value = conditions.get('key');
+    var _value2 = conditions.get('key');
 
-    if (_value) {
-      query.equalTo('key', _value);
+    if (_value2) {
+      query.equalTo('key', _value2);
     }
   }
 
   if (conditions.has('description')) {
-    var _value2 = conditions.get('description');
+    var _value3 = conditions.get('description');
 
-    if (_value2) {
-      query.equalTo('lowerCaseDescription', _value2);
+    if (_value3) {
+      query.equalTo('lowerCaseDescription', _value3);
     }
   }
 
   if (conditions.has('startsWith_description')) {
-    var _value3 = conditions.get('startsWith_description');
+    var _value4 = conditions.get('startsWith_description');
 
-    if (_value3) {
-      query.startsWith('lowerCaseDescription', _value3);
+    if (_value4) {
+      query.startsWith('lowerCaseDescription', _value4);
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value4 = conditions.get('contains_description');
+    var _value5 = conditions.get('contains_description');
 
-    if (_value4) {
-      query.contains('lowerCaseDescription', _value4);
+    if (_value5) {
+      query.contains('lowerCaseDescription', _value5);
     }
   }
 
@@ -320,26 +328,42 @@ TagMappingService.buildSearchQuery = function (criteria) {
   }
 
   if (conditions.has('weight')) {
-    var _value5 = conditions.get('weight');
+    var _value6 = conditions.get('weight');
 
-    if (_value5) {
-      query.equalTo('weight', _value5);
+    if (_value6) {
+      query.equalTo('weight', _value6);
+    }
+  }
+
+  if (conditions.has('store')) {
+    var _value7 = conditions.get('store');
+
+    if (_value7) {
+      query.equalTo('store', _value7);
+    }
+  }
+
+  if (conditions.has('storeId')) {
+    var _value8 = conditions.get('storeId');
+
+    if (_value8) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value8));
     }
   }
 
   if (conditions.has('tag')) {
-    var _value6 = conditions.get('tag');
+    var _value9 = conditions.get('tag');
 
-    if (_value6) {
-      query.equalTo('tag', _value6);
+    if (_value9) {
+      query.equalTo('tag', _value9);
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value7 = conditions.get('tagId');
+    var _value10 = conditions.get('tagId');
 
-    if (_value7) {
-      query.equalTo('tag', _schema.Tag.createWithoutData(_value7));
+    if (_value10) {
+      query.equalTo('tag', _schema.Tag.createWithoutData(_value10));
     }
   }
 

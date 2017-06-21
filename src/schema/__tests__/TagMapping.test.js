@@ -4,14 +4,16 @@ import { Map } from 'immutable';
 import uuid from 'uuid/v4';
 import { TagMapping } from '../';
 
-export function createTagMappingInfo(tagId) {
+export function createTagMappingInfo(storeId, tagId) {
   const info = Map({
     key: uuid(),
     description: uuid(),
     weight: 1,
   });
 
-  return tagId ? info.merge({ tagId }) : info;
+  const infoWithStore = storeId ? info.merge({ storeId }) : info;
+
+  return tagId ? infoWithStore.merge({ tagId }) : infoWithStore;
 }
 
 export function createTagMapping(tagMappingInfo) {
@@ -22,7 +24,8 @@ function expectTagMappingInfo(tagMappingInfo, expectedTagMappingInfo) {
   expect(tagMappingInfo.get('key')).toBe(expectedTagMappingInfo.get('key'));
   expect(tagMappingInfo.get('description')).toBe(expectedTagMappingInfo.get('description'));
   expect(tagMappingInfo.get('weight')).toBe(expectedTagMappingInfo.get('weight'));
-  expect(tagMappingInfo.get('tag')).toEqual(expectedTagMappingInfo.get('tag'));
+  expect(tagMappingInfo.get('storeId')).toEqual(expectedTagMappingInfo.get('storeId'));
+  expect(tagMappingInfo.get('tagId')).toEqual(expectedTagMappingInfo.get('tagId'));
 }
 
 describe('constructor', () => {

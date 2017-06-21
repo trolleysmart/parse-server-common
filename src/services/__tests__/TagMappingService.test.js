@@ -3,7 +3,8 @@
 import { List, Map } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
-import { TagService, TagMappingService } from '../';
+import { StoreService, TagService, TagMappingService } from '../';
+import { createStoreInfo } from '../../schema/__tests__/Store.test';
 import { createTagInfo } from '../../schema/__tests__/Tag.test';
 import { createTagMappingInfo } from '../../schema/__tests__/TagMapping.test';
 
@@ -16,7 +17,7 @@ function expectTagMappingInfo(tagMappingInfo, expectedTagMappingInfo, tagMapping
 
 function createCriteria() {
   return Map({
-    fields: List.of('key', 'description', 'weight', 'tag'),
+    fields: List.of('key', 'description', 'weight', 'store', 'tag'),
     conditions: Map({
       key: uuid(),
       description: uuid(),
@@ -27,26 +28,30 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedTagMappingInfo(tagMappingInfo) {
   return Map({
-    fields: List.of('key', 'description', 'weight', 'tag'),
+    fields: List.of('key', 'description', 'weight', 'store', 'tag'),
     conditions: Map({
       key: tagMappingInfo.get('key'),
       description: tagMappingInfo.get('description'),
       weigth: tagMappingInfo.get('weight'),
+      storeId: tagMappingInfo.get('storeId'),
+      tagId: tagMappingInfo.get('tagId'),
     }),
   });
 }
 
 describe('create', () => {
   test('should return the created tag mapping Id', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const result = await TagMappingService.create(createTagMappingInfo(tagId));
+    const result = await TagMappingService.create(createTagMappingInfo(storeId, tagId));
 
     expect(result).toBeDefined();
   });
 
   test('should create the tag', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const expectedTagMappingInfo = createTagMappingInfo(tagId);
+    const expectedTagMappingInfo = createTagMappingInfo(tagId, storeId);
     const tagMappingId = await TagMappingService.create(expectedTagMappingInfo);
     const tagMappingInfo = await TagMappingService.read(tagMappingId);
 
@@ -66,8 +71,9 @@ describe('read', () => {
   });
 
   test('should read the existing tag', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const expectedTagMappingInfo = createTagMappingInfo(tagId);
+    const expectedTagMappingInfo = createTagMappingInfo(tagId, storeId);
     const tagMappingId = await TagMappingService.create(expectedTagMappingInfo);
     const tagMappingInfo = await TagMappingService.read(tagMappingId);
 
@@ -80,25 +86,28 @@ describe('update', () => {
     const tagMappingId = uuid();
 
     try {
+      const storeId = await StoreService.create(createStoreInfo());
       const tagId = await TagService.create(createTagInfo());
 
-      await TagMappingService.update(createTagMappingInfo(tagId).set('id', tagMappingId));
+      await TagMappingService.update(createTagMappingInfo(storeId, tagId).set('id', tagMappingId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No tag mapping found with Id: ${tagMappingId}`);
     }
   });
 
   test('should return the Id of the updated tag', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const tagMappingId = await TagMappingService.create(createTagMappingInfo(tagId));
+    const tagMappingId = await TagMappingService.create(createTagMappingInfo(storeId, tagId));
     const id = await TagMappingService.update(createTagMappingInfo().set('id', tagMappingId));
 
     expect(id).toBe(tagMappingId);
   });
 
   test('should update the existing tag', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const expectedTagMappingInfo = createTagMappingInfo(tagId);
+    const expectedTagMappingInfo = createTagMappingInfo(storeId, tagId);
     const id = await TagMappingService.create(createTagMappingInfo());
     const tagMappingId = await TagMappingService.update(expectedTagMappingInfo.set('id', id));
     const tagMappingInfo = await TagMappingService.read(tagMappingId);
@@ -119,8 +128,9 @@ describe('delete', () => {
   });
 
   test('should delete the existing tag', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const tagMappingId = await TagMappingService.create(createTagMappingInfo(tagId));
+    const tagMappingId = await TagMappingService.create(createTagMappingInfo(tagId, storeId));
     await TagMappingService.delete(tagMappingId);
 
     try {
@@ -139,8 +149,9 @@ describe('search', () => {
   });
 
   test('should return the tag mappings matches the criteria', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const expectedTagMappingInfo = createTagMappingInfo(tagId);
+    const expectedTagMappingInfo = createTagMappingInfo(tagId, storeId);
     const tagMappingId = await TagMappingService.create(expectedTagMappingInfo);
     const tagMappingInfos = await TagMappingService.search(createCriteriaUsingProvidedTagMappingInfo(expectedTagMappingInfo));
 
@@ -168,8 +179,9 @@ describe('searchAll', () => {
   });
 
   test('should return the tag mappings matches the criteria', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const expectedTagMappingInfo = createTagMappingInfo(tagId);
+    const expectedTagMappingInfo = createTagMappingInfo(tagId, storeId);
     const tagMappingId1 = await TagMappingService.create(expectedTagMappingInfo);
     const tagMappingId2 = await TagMappingService.create(expectedTagMappingInfo);
 
@@ -197,8 +209,9 @@ describe('exists', () => {
   });
 
   test('should return true if any tag mapping match provided criteria', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const tagMappingInfo = createTagMappingInfo(tagId);
+    const tagMappingInfo = createTagMappingInfo(storeId, tagId);
 
     await TagMappingService.create(tagMappingInfo);
     const response = TagMappingService.exists(createCriteriaUsingProvidedTagMappingInfo(tagMappingInfo));
@@ -215,8 +228,9 @@ describe('count', () => {
   });
 
   test('should return the count of tag mapping match provided criteria', async () => {
+    const storeId = await StoreService.create(createStoreInfo());
     const tagId = await TagService.create(createTagInfo());
-    const tagMappingInfo = createTagMappingInfo(tagId);
+    const tagMappingInfo = createTagMappingInfo(storeId, tagId);
 
     await TagMappingService.create(tagMappingInfo);
     await TagMappingService.create(tagMappingInfo);

@@ -2,6 +2,7 @@
 
 import { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
+import Store from './Store';
 import Tag from './Tag';
 
 export default class TagMapping extends BaseObject {
@@ -22,6 +23,20 @@ export default class TagMapping extends BaseObject {
     object.set('lowerCaseDescription', description ? description.toLowerCase() : undefined);
 
     object.set('weight', info.get('weight'));
+
+    if (info.has('storeId')) {
+      const storeId = info.get('storeId');
+
+      if (storeId) {
+        object.set('store', Store.createWithoutData(storeId));
+      }
+    } else if (info.has('store')) {
+      const store = info.get('store');
+
+      if (store) {
+        object.set('store', store);
+      }
+    }
 
     if (info.has('tagId')) {
       const tagId = info.get('tagId');
@@ -47,6 +62,8 @@ export default class TagMapping extends BaseObject {
   };
 
   getInfo = () => {
+    const storeObject = this.getObject().get('store');
+    const store = storeObject ? new Store(storeObject).getInfo() : undefined;
     const tagObject = this.getObject().get('tag');
     const tag = tagObject ? new Tag(tagObject).getInfo() : undefined;
 
@@ -55,6 +72,8 @@ export default class TagMapping extends BaseObject {
       key: this.getObject().get('key'),
       description: this.getObject().get('description'),
       weight: this.getObject().get('weight'),
+      store,
+      storeId: store ? store.get('id') : undefined,
       tag,
       tagId: tag ? tag.get('id') : undefined,
     });

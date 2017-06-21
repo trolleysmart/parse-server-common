@@ -16,14 +16,16 @@ var _ = require('../');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createTagMappingInfo(tagId) {
+function createTagMappingInfo(storeId, tagId) {
   var info = (0, _immutable.Map)({
     key: (0, _v2.default)(),
     description: (0, _v2.default)(),
     weight: 1
   });
 
-  return tagId ? info.merge({ tagId: tagId }) : info;
+  var infoWithStore = storeId ? info.merge({ storeId: storeId }) : info;
+
+  return tagId ? infoWithStore.merge({ tagId: tagId }) : infoWithStore;
 }
 
 function createTagMapping(tagMappingInfo) {
@@ -34,7 +36,8 @@ function expectTagMappingInfo(tagMappingInfo, expectedTagMappingInfo) {
   expect(tagMappingInfo.get('key')).toBe(expectedTagMappingInfo.get('key'));
   expect(tagMappingInfo.get('description')).toBe(expectedTagMappingInfo.get('description'));
   expect(tagMappingInfo.get('weight')).toBe(expectedTagMappingInfo.get('weight'));
-  expect(tagMappingInfo.get('tag')).toEqual(expectedTagMappingInfo.get('tag'));
+  expect(tagMappingInfo.get('storeId')).toEqual(expectedTagMappingInfo.get('storeId'));
+  expect(tagMappingInfo.get('tagId')).toEqual(expectedTagMappingInfo.get('tagId'));
 }
 
 describe('constructor', function () {

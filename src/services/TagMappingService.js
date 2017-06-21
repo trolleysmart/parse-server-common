@@ -2,7 +2,7 @@
 
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
-import { Tag, TagMapping } from '../schema';
+import { Store, Tag, TagMapping } from '../schema';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class TagMappingService {
@@ -73,6 +73,14 @@ export default class TagMappingService {
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(TagMapping, criteria);
 
+    if (criteria.has('includeStore')) {
+      const value = criteria.get('includeStore');
+
+      if (value) {
+        query.include('store');
+      }
+    }
+
     if (criteria.has('includeTag')) {
       const value = criteria.get('includeTag');
 
@@ -134,6 +142,22 @@ export default class TagMappingService {
 
       if (value) {
         query.equalTo('weight', value);
+      }
+    }
+
+    if (conditions.has('store')) {
+      const value = conditions.get('store');
+
+      if (value) {
+        query.equalTo('store', value);
+      }
+    }
+
+    if (conditions.has('storeId')) {
+      const value = conditions.get('storeId');
+
+      if (value) {
+        query.equalTo('store', Store.createWithoutData(value));
       }
     }
 

@@ -8,6 +8,10 @@ var _immutable = require('immutable');
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
+var _Store = require('./Store');
+
+var _Store2 = _interopRequireDefault(_Store);
+
 var _Tag = require('./Tag');
 
 var _Tag2 = _interopRequireDefault(_Tag);
@@ -54,6 +58,20 @@ TagMapping.updateInfoInternal = function (object, info) {
 
   object.set('weight', info.get('weight'));
 
+  if (info.has('storeId')) {
+    var storeId = info.get('storeId');
+
+    if (storeId) {
+      object.set('store', _Store2.default.createWithoutData(storeId));
+    }
+  } else if (info.has('store')) {
+    var store = info.get('store');
+
+    if (store) {
+      object.set('store', store);
+    }
+  }
+
   if (info.has('tagId')) {
     var tagId = info.get('tagId');
 
@@ -77,6 +95,8 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
+    var storeObject = _this2.getObject().get('store');
+    var store = storeObject ? new _Store2.default(storeObject).getInfo() : undefined;
     var tagObject = _this2.getObject().get('tag');
     var tag = tagObject ? new _Tag2.default(tagObject).getInfo() : undefined;
 
@@ -85,6 +105,8 @@ var _initialiseProps = function _initialiseProps() {
       key: _this2.getObject().get('key'),
       description: _this2.getObject().get('description'),
       weight: _this2.getObject().get('weight'),
+      store: store,
+      storeId: store ? store.get('id') : undefined,
       tag: tag,
       tagId: tag ? tag.get('id') : undefined
     });
