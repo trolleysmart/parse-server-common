@@ -12,6 +12,7 @@ export {
   StoreCrawlerConfiguration,
   Store,
   Tag,
+  TagMapping,
 } from './schema';
 export {
   CrawlResultService,

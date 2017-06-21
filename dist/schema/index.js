@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Tag = exports.Store = exports.StoreCrawlerConfiguration = exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
+exports.TagMapping = exports.Tag = exports.Store = exports.StoreCrawlerConfiguration = exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
 
 var _CrawlResult2 = require('./CrawlResult');
 
@@ -49,6 +49,10 @@ var _Tag2 = require('./Tag');
 
 var _Tag3 = _interopRequireDefault(_Tag2);
 
+var _TagMapping2 = require('./TagMapping');
+
+var _TagMapping3 = _interopRequireDefault(_TagMapping2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.CrawlResult = _CrawlResult3.default;
@@ -62,3 +66,4 @@ exports.StapleTemplateShoppingList = _StapleTemplateShoppingList3.default;
 exports.StoreCrawlerConfiguration = _StoreCrawlerConfiguration3.default;
 exports.Store = _Store3.default;
 exports.Tag = _Tag3.default;
+exports.TagMapping = _TagMapping3.default;

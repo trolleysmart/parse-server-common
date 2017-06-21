@@ -72,6 +72,12 @@ Object.defineProperty(exports, 'Tag', {
     return _schema.Tag;
   }
 });
+Object.defineProperty(exports, 'TagMapping', {
+  enumerable: true,
+  get: function get() {
+    return _schema.TagMapping;
+  }
+});
 
 var _services = require('./services');
 
