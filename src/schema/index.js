@@ -12,3 +12,4 @@ export StoreCrawlerConfiguration from './StoreCrawlerConfiguration';
 export Store from './Store';
 export Tag from './Tag';
 export StoreTag from './StoreTag';
+export StoreMasterProduct from './StoreMasterProduct';

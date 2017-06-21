@@ -78,6 +78,12 @@ Object.defineProperty(exports, 'StoreTag', {
     return _schema.StoreTag;
   }
 });
+Object.defineProperty(exports, 'StoreMasterProduct', {
+  enumerable: true,
+  get: function get() {
+    return _schema.StoreMasterProduct;
+  }
+});
 
 var _services = require('./services');
 

@@ -13,6 +13,7 @@ export {
   Store,
   Tag,
   StoreTag,
+  StoreMasterProduct,
 } from './schema';
 export {
   CrawlResultService,

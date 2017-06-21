@@ -36,8 +36,8 @@ function expectStoreTagInfo(storeTagInfo, expectedStoreTagInfo) {
   expect(storeTagInfo.get('key')).toBe(expectedStoreTagInfo.get('key'));
   expect(storeTagInfo.get('description')).toBe(expectedStoreTagInfo.get('description'));
   expect(storeTagInfo.get('weight')).toBe(expectedStoreTagInfo.get('weight'));
-  expect(storeTagInfo.get('storeId')).toEqual(expectedStoreTagInfo.get('storeId'));
-  expect(storeTagInfo.get('tagId')).toEqual(expectedStoreTagInfo.get('tagId'));
+  expect(storeTagInfo.get('storeId')).toBe(expectedStoreTagInfo.get('storeId'));
+  expect(storeTagInfo.get('tagId')).toBe(expectedStoreTagInfo.get('tagId'));
 }
 
 describe('constructor', function () {
