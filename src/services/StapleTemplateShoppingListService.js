@@ -2,7 +2,7 @@
 
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
-import { StapleTemplate, StapleTemplateShoppingList } from '../schema';
+import { StapleTemplate, StapleTemplateShoppingList, Tag } from '../schema';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StapleTemplateShoppingListService {
@@ -158,6 +158,38 @@ export default class StapleTemplateShoppingListService {
 
       if (value) {
         query.containedIn('stapleTemplates', value.map(stapleTemplateId => StapleTemplate.createWithoutData(stapleTemplateId)).toArray());
+      }
+    }
+
+    if (conditions.has('tag')) {
+      const value = conditions.get('tag');
+
+      if (value) {
+        query.equalTo('tags', value);
+      }
+    }
+
+    if (conditions.has('tags')) {
+      const value = conditions.get('tags');
+
+      if (value) {
+        query.containedIn('tags', value.toArray());
+      }
+    }
+
+    if (conditions.has('tagId')) {
+      const value = conditions.get('tagId');
+
+      if (value) {
+        query.equalTo('tags', Tag.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('tagIds')) {
+      const value = conditions.get('tagIds');
+
+      if (value) {
+        query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
       }
     }
 

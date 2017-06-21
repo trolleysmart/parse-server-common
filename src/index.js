@@ -27,4 +27,5 @@ export {
   StapleTemplateService,
   StapleTemplateShoppingListService,
   TagService,
+  TagMappingService,
 } from './services';
