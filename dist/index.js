@@ -72,10 +72,10 @@ Object.defineProperty(exports, 'Tag', {
     return _schema.Tag;
   }
 });
-Object.defineProperty(exports, 'TagMapping', {
+Object.defineProperty(exports, 'StoreTag', {
   enumerable: true,
   get: function get() {
-    return _schema.TagMapping;
+    return _schema.StoreTag;
   }
 });
 
@@ -153,9 +153,9 @@ Object.defineProperty(exports, 'TagService', {
     return _services.TagService;
   }
 });
-Object.defineProperty(exports, 'TagMappingService', {
+Object.defineProperty(exports, 'StoreTagService', {
   enumerable: true,
   get: function get() {
-    return _services.TagMappingService;
+    return _services.StoreTagService;
   }
 });

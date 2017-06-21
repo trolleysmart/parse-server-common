@@ -2,33 +2,33 @@
 
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
-import { Store, Tag, TagMapping } from '../schema';
+import { Store, Tag, StoreTag } from '../schema';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
-export default class TagMappingService {
+export default class StoreTagService {
   static create = async (info) => {
-    const result = await TagMapping.spawn(info).save();
+    const result = await StoreTag.spawn(info).save();
 
     return result.id;
   };
 
   static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(TagMapping).equalTo('objectId', id).limit(1).find();
+    const results = await ParseWrapperService.createQuery(StoreTag).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
-      throw new Exception(`No tag mapping found with Id: ${id}`);
+      throw new Exception(`No store tag found with Id: ${id}`);
     }
 
-    return new TagMapping(results[0]).getInfo();
+    return new StoreTag(results[0]).getInfo();
   };
 
   static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(TagMapping).equalTo('objectId', info.get('id')).limit(1).find();
+    const results = await ParseWrapperService.createQuery(StoreTag).equalTo('objectId', info.get('id')).limit(1).find();
 
     if (results.length === 0) {
-      throw new Exception(`No tag mapping found with Id: ${info.get('id')}`);
+      throw new Exception(`No store tag found with Id: ${info.get('id')}`);
     } else {
-      const object = new TagMapping(results[0]);
+      const object = new StoreTag(results[0]);
 
       await object.updateInfo(info).saveObject();
 
@@ -37,24 +37,24 @@ export default class TagMappingService {
   };
 
   static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(TagMapping).equalTo('objectId', id).limit(1).find();
+    const results = await ParseWrapperService.createQuery(StoreTag).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
-      throw new Exception(`No tag mapping found with Id: ${id}`);
+      throw new Exception(`No store tag found with Id: ${id}`);
     } else {
       await results[0].destroy();
     }
   };
 
   static search = async (criteria) => {
-    const results = await TagMappingService.buildSearchQuery(criteria).find();
+    const results = await StoreTagService.buildSearchQuery(criteria).find();
 
-    return Immutable.fromJS(results).map(_ => new TagMapping(_).getInfo());
+    return Immutable.fromJS(results).map(_ => new StoreTag(_).getInfo());
   };
 
   static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
-    const promise = TagMappingService.buildSearchQuery(criteria).each(_ => event.raise(new TagMapping(_).getInfo()));
+    const promise = StoreTagService.buildSearchQuery(criteria).each(_ => event.raise(new StoreTag(_).getInfo()));
 
     return {
       event,
@@ -63,15 +63,15 @@ export default class TagMappingService {
   };
 
   static exists = async (criteria) => {
-    const total = await TagMappingService.count(criteria);
+    const total = await StoreTagService.count(criteria);
 
     return total > 0;
   };
 
-  static count = async criteria => TagMappingService.buildSearchQuery(criteria).count();
+  static count = async criteria => StoreTagService.buildSearchQuery(criteria).count();
 
   static buildSearchQuery = (criteria) => {
-    const query = ParseWrapperService.createQuery(TagMapping, criteria);
+    const query = ParseWrapperService.createQuery(StoreTag, criteria);
 
     if (criteria.has('includeStore')) {
       const value = criteria.get('includeStore');

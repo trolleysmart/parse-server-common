@@ -24,31 +24,31 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var TagMapping = function (_BaseObject) {
-  _inherits(TagMapping, _BaseObject);
+var StoreTag = function (_BaseObject) {
+  _inherits(StoreTag, _BaseObject);
 
-  function TagMapping(object) {
-    _classCallCheck(this, TagMapping);
+  function StoreTag(object) {
+    _classCallCheck(this, StoreTag);
 
-    var _this = _possibleConstructorReturn(this, (TagMapping.__proto__ || Object.getPrototypeOf(TagMapping)).call(this, object, 'TagMapping'));
+    var _this = _possibleConstructorReturn(this, (StoreTag.__proto__ || Object.getPrototypeOf(StoreTag)).call(this, object, 'StoreTag'));
 
     _initialiseProps.call(_this);
 
     return _this;
   }
 
-  return TagMapping;
+  return StoreTag;
 }(_microBusinessParseServerCommon.BaseObject);
 
-TagMapping.spawn = function (info) {
-  var object = new TagMapping();
+StoreTag.spawn = function (info) {
+  var object = new StoreTag();
 
-  TagMapping.updateInfoInternal(object, info);
+  StoreTag.updateInfoInternal(object, info);
 
   return object;
 };
 
-TagMapping.updateInfoInternal = function (object, info) {
+StoreTag.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
 
   var description = info.get('description');
@@ -89,7 +89,7 @@ var _initialiseProps = function _initialiseProps() {
   this.updateInfo = function (info) {
     var object = _this2.getObject();
 
-    TagMapping.updateInfoInternal(object, info);
+    StoreTag.updateInfoInternal(object, info);
 
     return _this2;
   };
@@ -113,4 +113,4 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
-exports.default = TagMapping;
+exports.default = StoreTag;

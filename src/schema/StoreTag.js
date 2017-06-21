@@ -5,11 +5,11 @@ import { BaseObject } from 'micro-business-parse-server-common';
 import Store from './Store';
 import Tag from './Tag';
 
-export default class TagMapping extends BaseObject {
+export default class StoreTag extends BaseObject {
   static spawn = (info) => {
-    const object = new TagMapping();
+    const object = new StoreTag();
 
-    TagMapping.updateInfoInternal(object, info);
+    StoreTag.updateInfoInternal(object, info);
 
     return object;
   };
@@ -50,13 +50,13 @@ export default class TagMapping extends BaseObject {
   };
 
   constructor(object) {
-    super(object, 'TagMapping');
+    super(object, 'StoreTag');
   }
 
   updateInfo = (info) => {
     const object = this.getObject();
 
-    TagMapping.updateInfoInternal(object, info);
+    StoreTag.updateInfoInternal(object, info);
 
     return this;
   };

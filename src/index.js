@@ -12,7 +12,7 @@ export {
   StoreCrawlerConfiguration,
   Store,
   Tag,
-  TagMapping,
+  StoreTag,
 } from './schema';
 export {
   CrawlResultService,
@@ -27,5 +27,5 @@ export {
   StapleTemplateService,
   StapleTemplateShoppingListService,
   TagService,
-  TagMappingService,
+  StoreTagService,
 } from './services';

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TagMappingService = exports.TagService = exports.StapleTemplateShoppingListService = exports.StapleTemplateService = exports.StapleShoppingListService = exports.ShoppingListService = exports.StoreService = exports.StoreCrawlerConfigurationService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
+exports.StoreTagService = exports.TagService = exports.StapleTemplateShoppingListService = exports.StapleTemplateService = exports.StapleShoppingListService = exports.ShoppingListService = exports.StoreService = exports.StoreCrawlerConfigurationService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _CrawlResultService2 = require('./CrawlResultService');
 
@@ -53,9 +53,9 @@ var _TagService2 = require('./TagService');
 
 var _TagService3 = _interopRequireDefault(_TagService2);
 
-var _TagMappingService2 = require('./TagMappingService');
+var _StoreTagService2 = require('./StoreTagService');
 
-var _TagMappingService3 = _interopRequireDefault(_TagMappingService2);
+var _StoreTagService3 = _interopRequireDefault(_StoreTagService2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -71,4 +71,4 @@ exports.StapleShoppingListService = _StapleShoppingListService3.default;
 exports.StapleTemplateService = _StapleTemplateService3.default;
 exports.StapleTemplateShoppingListService = _StapleTemplateShoppingListService3.default;
 exports.TagService = _TagService3.default;
-exports.TagMappingService = _TagMappingService3.default;
+exports.StoreTagService = _StoreTagService3.default;
