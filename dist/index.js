@@ -153,3 +153,9 @@ Object.defineProperty(exports, 'TagService', {
     return _services.TagService;
   }
 });
+Object.defineProperty(exports, 'TagMappingService', {
+  enumerable: true,
+  get: function get() {
+    return _services.TagMappingService;
+  }
+});
