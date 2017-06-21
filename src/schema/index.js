@@ -11,5 +11,5 @@ export StapleTemplateShoppingList from './StapleTemplateShoppingList';
 export StoreCrawlerConfiguration from './StoreCrawlerConfiguration';
 export Store from './Store';
 export Tag from './Tag';
-export StoreTag from './StoreTag';
 export StoreMasterProduct from './StoreMasterProduct';
+export StoreTag from './StoreTag';

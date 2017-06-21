@@ -72,16 +72,16 @@ Object.defineProperty(exports, 'Tag', {
     return _schema.Tag;
   }
 });
-Object.defineProperty(exports, 'StoreTag', {
-  enumerable: true,
-  get: function get() {
-    return _schema.StoreTag;
-  }
-});
 Object.defineProperty(exports, 'StoreMasterProduct', {
   enumerable: true,
   get: function get() {
     return _schema.StoreMasterProduct;
+  }
+});
+Object.defineProperty(exports, 'StoreTag', {
+  enumerable: true,
+  get: function get() {
+    return _schema.StoreTag;
   }
 });
 
@@ -157,6 +157,12 @@ Object.defineProperty(exports, 'TagService', {
   enumerable: true,
   get: function get() {
     return _services.TagService;
+  }
+});
+Object.defineProperty(exports, 'StoreMasterProductService', {
+  enumerable: true,
+  get: function get() {
+    return _services.StoreMasterProductService;
   }
 });
 Object.defineProperty(exports, 'StoreTagService', {

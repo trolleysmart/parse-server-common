@@ -12,8 +12,8 @@ export {
   StoreCrawlerConfiguration,
   Store,
   Tag,
-  StoreTag,
   StoreMasterProduct,
+  StoreTag,
 } from './schema';
 export {
   CrawlResultService,
@@ -28,5 +28,6 @@ export {
   StapleTemplateService,
   StapleTemplateShoppingListService,
   TagService,
+  StoreMasterProductService,
   StoreTagService,
 } from './services';
