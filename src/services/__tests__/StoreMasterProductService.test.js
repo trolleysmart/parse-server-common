@@ -3,9 +3,11 @@
 import { List, Map } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
-import { StoreMasterProductService, StoreTagService } from '../';
+import { MasterProductService, StoreService, StoreMasterProductService, StoreTagService } from '../';
 import { createStoreMasterProductInfo } from '../../schema/__tests__/StoreMasterProduct.test';
 import { createStoreTagInfo } from '../../schema/__tests__/StoreTag.test';
+import { createMasterProductInfo } from '../../schema/__tests__/MasterProduct.test';
+import { createStoreInfo } from '../../schema/__tests__/Store.test';
 
 function expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMasterProductInfo, storeMasterProductId) {
   expect(storeMasterProductInfo.get('id')).toBe(storeMasterProductId);
@@ -42,7 +44,11 @@ export function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterPro
 
 describe('create', () => {
   test('should return the created store master product Id', async () => {
-    const result = await StoreMasterProductService.create(createStoreMasterProductInfo());
+    const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
+    const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const result = await StoreMasterProductService.create(createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId));
 
     expect(result).toBeDefined();
   });
@@ -50,7 +56,9 @@ describe('create', () => {
   test('should create the store master product', async () => {
     const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
     const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
-    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2));
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
     const storeMasterProductId = await StoreMasterProductService.create(expectedStoreMasterProductInfo);
     const storeMasterProductInfo = await StoreMasterProductService.read(storeMasterProductId);
 
@@ -72,7 +80,9 @@ describe('read', () => {
   test('should read the existing store master product', async () => {
     const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
     const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
-    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2));
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
     const storeMasterProductId = await StoreMasterProductService.create(expectedStoreMasterProductInfo);
     const storeMasterProductInfo = await StoreMasterProductService.read(storeMasterProductId);
 
@@ -101,8 +111,10 @@ describe('update', () => {
   test('should update the existing store master product', async () => {
     const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
     const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
     const id = await StoreMasterProductService.create(createStoreMasterProductInfo());
-    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2));
+    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
     const storeMasterProductId = await StoreMasterProductService.update(expectedStoreMasterProductInfo.set('id', id));
     const storeMasterProductInfo = await StoreMasterProductService.read(storeMasterProductId);
 
@@ -122,7 +134,12 @@ describe('delete', () => {
   });
 
   test('should delete the existing store master product', async () => {
-    const storeMasterProductId = await StoreMasterProductService.create(createStoreMasterProductInfo());
+    const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
+    const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const storeMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+    const storeMasterProductId = await StoreMasterProductService.create(storeMasterProductInfo);
     await StoreMasterProductService.delete(storeMasterProductId);
 
     try {
@@ -143,9 +160,13 @@ describe('search', () => {
   test('should return the store master products matches the criteria', async () => {
     const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
     const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
-    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2));
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
     const storeMasterProductId = await StoreMasterProductService.create(expectedStoreMasterProductInfo);
-    const storeMasterProductInfos = await StoreMasterProductService.search(createCriteriaUsingProvidedStoreMasterProductInfo(expectedStoreMasterProductInfo));
+    const storeMasterProductInfos = await StoreMasterProductService.search(
+      createCriteriaUsingProvidedStoreMasterProductInfo(expectedStoreMasterProductInfo),
+    );
 
     expect(storeMasterProductInfos.count()).toBe(1);
 
@@ -174,7 +195,9 @@ describe('searchAll', () => {
   test('should return the store master products matches the criteria', async () => {
     const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
     const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
-    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2));
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const expectedStoreMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
     const storeMasterProductId1 = await StoreMasterProductService.create(expectedStoreMasterProductInfo);
     const storeMasterProductId2 = await StoreMasterProductService.create(expectedStoreMasterProductInfo);
     const result = StoreMasterProductService.searchAll(createCriteriaUsingProvidedStoreMasterProductInfo(expectedStoreMasterProductInfo));
@@ -202,7 +225,11 @@ describe('exists', () => {
   });
 
   test('should return true if any store master product match provided criteria', async () => {
-    const storeMasterProductInfo = createStoreMasterProductInfo();
+    const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
+    const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const storeMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
 
     await StoreMasterProductService.create(storeMasterProductInfo);
 
@@ -220,12 +247,16 @@ describe('count', () => {
   });
 
   test('should return the count of store master product match provided criteria', async () => {
-    const crawlSessionInfo = createStoreMasterProductInfo();
+    const storeTagId1 = await StoreTagService.create(createStoreTagInfo());
+    const storeTagId2 = await StoreTagService.create(createStoreTagInfo());
+    const storeId = await StoreService.create(createStoreInfo());
+    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const storeMasterProductInfo = createStoreMasterProductInfo(List.of(storeTagId1, storeTagId2), storeId, masterProductId);
 
-    await StoreMasterProductService.create(crawlSessionInfo);
-    await StoreMasterProductService.create(crawlSessionInfo);
+    await StoreMasterProductService.create(storeMasterProductInfo);
+    await StoreMasterProductService.create(storeMasterProductInfo);
 
-    const response = await StoreMasterProductService.count(createCriteriaUsingProvidedStoreMasterProductInfo(crawlSessionInfo));
+    const response = await StoreMasterProductService.count(createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo));
 
     expect(response).toBe(2);
   });

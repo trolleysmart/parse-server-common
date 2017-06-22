@@ -20,6 +20,10 @@ var _StoreMasterProduct = require('../../schema/__tests__/StoreMasterProduct.tes
 
 var _StoreTag = require('../../schema/__tests__/StoreTag.test');
 
+var _MasterProduct = require('../../schema/__tests__/MasterProduct.test');
+
+var _Store = require('../../schema/__tests__/Store.test');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -59,21 +63,41 @@ function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInf
 
 describe('create', function () {
   test('should return the created store master product Id', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var result;
+    var storeTagId1, storeTagId2, storeId, masterProductId, result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _2.StoreMasterProductService.create((0, _StoreMasterProduct.createStoreMasterProductInfo)());
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
 
           case 2:
+            storeTagId1 = _context.sent;
+            _context.next = 5;
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
+
+          case 5:
+            storeTagId2 = _context.sent;
+            _context.next = 8;
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
+
+          case 8:
+            storeId = _context.sent;
+            _context.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context.sent;
+            _context.next = 14;
+            return _2.StoreMasterProductService.create((0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId));
+
+          case 14:
             result = _context.sent;
 
 
             expect(result).toBeDefined();
 
-          case 4:
+          case 16:
           case 'end':
             return _context.stop();
         }
@@ -82,7 +106,7 @@ describe('create', function () {
   })));
 
   test('should create the store master product', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-    var storeTagId1, storeTagId2, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfo;
+    var storeTagId1, storeTagId2, storeId, masterProductId, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfo;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -97,22 +121,32 @@ describe('create', function () {
 
           case 5:
             storeTagId2 = _context2.sent;
-            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2));
-            _context2.next = 9;
+            _context2.next = 8;
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
+
+          case 8:
+            storeId = _context2.sent;
+            _context2.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context2.sent;
+            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context2.next = 15;
             return _2.StoreMasterProductService.create(expectedStoreMasterProductInfo);
 
-          case 9:
+          case 15:
             storeMasterProductId = _context2.sent;
-            _context2.next = 12;
+            _context2.next = 18;
             return _2.StoreMasterProductService.read(storeMasterProductId);
 
-          case 12:
+          case 18:
             storeMasterProductInfo = _context2.sent;
 
 
             expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMasterProductInfo, storeMasterProductId);
 
-          case 14:
+          case 20:
           case 'end':
             return _context2.stop();
         }
@@ -152,7 +186,7 @@ describe('read', function () {
   })));
 
   test('should read the existing store master product', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
-    var storeTagId1, storeTagId2, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfo;
+    var storeTagId1, storeTagId2, storeId, masterProductId, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfo;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -167,22 +201,32 @@ describe('read', function () {
 
           case 5:
             storeTagId2 = _context4.sent;
-            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2));
-            _context4.next = 9;
+            _context4.next = 8;
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
+
+          case 8:
+            storeId = _context4.sent;
+            _context4.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context4.sent;
+            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context4.next = 15;
             return _2.StoreMasterProductService.create(expectedStoreMasterProductInfo);
 
-          case 9:
+          case 15:
             storeMasterProductId = _context4.sent;
-            _context4.next = 12;
+            _context4.next = 18;
             return _2.StoreMasterProductService.read(storeMasterProductId);
 
-          case 12:
+          case 18:
             storeMasterProductInfo = _context4.sent;
 
 
             expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMasterProductInfo, storeMasterProductId);
 
-          case 14:
+          case 20:
           case 'end':
             return _context4.stop();
         }
@@ -250,7 +294,7 @@ describe('update', function () {
   })));
 
   test('should update the existing store master product', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
-    var storeTagId1, storeTagId2, id, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfo;
+    var storeTagId1, storeTagId2, storeId, masterProductId, id, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfo;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
@@ -266,26 +310,36 @@ describe('update', function () {
           case 5:
             storeTagId2 = _context7.sent;
             _context7.next = 8;
-            return _2.StoreMasterProductService.create((0, _StoreMasterProduct.createStoreMasterProductInfo)());
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
 
           case 8:
+            storeId = _context7.sent;
+            _context7.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context7.sent;
+            _context7.next = 14;
+            return _2.StoreMasterProductService.create((0, _StoreMasterProduct.createStoreMasterProductInfo)());
+
+          case 14:
             id = _context7.sent;
-            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2));
-            _context7.next = 12;
+            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context7.next = 18;
             return _2.StoreMasterProductService.update(expectedStoreMasterProductInfo.set('id', id));
 
-          case 12:
+          case 18:
             storeMasterProductId = _context7.sent;
-            _context7.next = 15;
+            _context7.next = 21;
             return _2.StoreMasterProductService.read(storeMasterProductId);
 
-          case 15:
+          case 21:
             storeMasterProductInfo = _context7.sent;
 
 
             expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMasterProductInfo, storeMasterProductId);
 
-          case 17:
+          case 23:
           case 'end':
             return _context7.stop();
         }
@@ -325,40 +379,61 @@ describe('delete', function () {
   })));
 
   test('should delete the existing store master product', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
-    var storeMasterProductId;
+    var storeTagId1, storeTagId2, storeId, masterProductId, storeMasterProductInfo, storeMasterProductId;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.next = 2;
-            return _2.StoreMasterProductService.create((0, _StoreMasterProduct.createStoreMasterProductInfo)());
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
 
           case 2:
-            storeMasterProductId = _context9.sent;
+            storeTagId1 = _context9.sent;
             _context9.next = 5;
-            return _2.StoreMasterProductService.delete(storeMasterProductId);
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
 
           case 5:
-            _context9.prev = 5;
+            storeTagId2 = _context9.sent;
             _context9.next = 8;
-            return _2.StoreMasterProductService.delete(storeMasterProductId);
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
 
           case 8:
-            _context9.next = 13;
+            storeId = _context9.sent;
+            _context9.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context9.sent;
+            storeMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context9.next = 15;
+            return _2.StoreMasterProductService.create(storeMasterProductInfo);
+
+          case 15:
+            storeMasterProductId = _context9.sent;
+            _context9.next = 18;
+            return _2.StoreMasterProductService.delete(storeMasterProductId);
+
+          case 18:
+            _context9.prev = 18;
+            _context9.next = 21;
+            return _2.StoreMasterProductService.delete(storeMasterProductId);
+
+          case 21:
+            _context9.next = 26;
             break;
 
-          case 10:
-            _context9.prev = 10;
-            _context9.t0 = _context9['catch'](5);
+          case 23:
+            _context9.prev = 23;
+            _context9.t0 = _context9['catch'](18);
 
             expect(_context9.t0.getErrorMessage()).toBe('No store master product found with Id: ' + storeMasterProductId);
 
-          case 13:
+          case 26:
           case 'end':
             return _context9.stop();
         }
       }
-    }, _callee9, undefined, [[5, 10]]);
+    }, _callee9, undefined, [[18, 23]]);
   })));
 });
 
@@ -387,7 +462,7 @@ describe('search', function () {
   })));
 
   test('should return the store master products matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
-    var storeTagId1, storeTagId2, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfos, storeMasterProductInfo;
+    var storeTagId1, storeTagId2, storeId, masterProductId, expectedStoreMasterProductInfo, storeMasterProductId, storeMasterProductInfos, storeMasterProductInfo;
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
@@ -402,16 +477,26 @@ describe('search', function () {
 
           case 5:
             storeTagId2 = _context11.sent;
-            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2));
-            _context11.next = 9;
+            _context11.next = 8;
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
+
+          case 8:
+            storeId = _context11.sent;
+            _context11.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context11.sent;
+            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context11.next = 15;
             return _2.StoreMasterProductService.create(expectedStoreMasterProductInfo);
 
-          case 9:
+          case 15:
             storeMasterProductId = _context11.sent;
-            _context11.next = 12;
+            _context11.next = 18;
             return _2.StoreMasterProductService.search(createCriteriaUsingProvidedStoreMasterProductInfo(expectedStoreMasterProductInfo));
 
-          case 12:
+          case 18:
             storeMasterProductInfos = _context11.sent;
 
 
@@ -422,7 +507,7 @@ describe('search', function () {
 
             expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMasterProductInfo, storeMasterProductId);
 
-          case 16:
+          case 22:
           case 'end':
             return _context11.stop();
         }
@@ -468,7 +553,7 @@ describe('searchAll', function () {
   })));
 
   test('should return the store master products matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
-    var storeTagId1, storeTagId2, expectedStoreMasterProductInfo, storeMasterProductId1, storeMasterProductId2, result, storeMasterProductInfos;
+    var storeTagId1, storeTagId2, storeId, masterProductId, expectedStoreMasterProductInfo, storeMasterProductId1, storeMasterProductId2, result, storeMasterProductInfos;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
         switch (_context13.prev = _context13.next) {
@@ -483,19 +568,29 @@ describe('searchAll', function () {
 
           case 5:
             storeTagId2 = _context13.sent;
-            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2));
-            _context13.next = 9;
+            _context13.next = 8;
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
+
+          case 8:
+            storeId = _context13.sent;
+            _context13.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context13.sent;
+            expectedStoreMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context13.next = 15;
             return _2.StoreMasterProductService.create(expectedStoreMasterProductInfo);
 
-          case 9:
+          case 15:
             storeMasterProductId1 = _context13.sent;
-            _context13.next = 12;
+            _context13.next = 18;
             return _2.StoreMasterProductService.create(expectedStoreMasterProductInfo);
 
-          case 12:
+          case 18:
             storeMasterProductId2 = _context13.sent;
             result = _2.StoreMasterProductService.searchAll(createCriteriaUsingProvidedStoreMasterProductInfo(expectedStoreMasterProductInfo));
-            _context13.prev = 14;
+            _context13.prev = 20;
             storeMasterProductInfos = (0, _immutable.List)();
 
 
@@ -503,10 +598,10 @@ describe('searchAll', function () {
               return storeMasterProductInfos = storeMasterProductInfos.push(info);
             });
 
-            _context13.next = 19;
+            _context13.next = 25;
             return result.promise;
 
-          case 19:
+          case 25:
             expect(storeMasterProductInfos.count()).toBe(2);
             expect(storeMasterProductInfos.find(function (_) {
               return _.get('id').localeCompare(storeMasterProductId1) === 0;
@@ -515,18 +610,18 @@ describe('searchAll', function () {
               return _.get('id').localeCompare(storeMasterProductId2) === 0;
             })).toBeTruthy();
 
-          case 22:
-            _context13.prev = 22;
+          case 28:
+            _context13.prev = 28;
 
             result.event.unsubscribeAll();
-            return _context13.finish(22);
+            return _context13.finish(28);
 
-          case 25:
+          case 31:
           case 'end':
             return _context13.stop();
         }
       }
-    }, _callee13, undefined, [[14,, 22, 25]]);
+    }, _callee13, undefined, [[20,, 28, 31]]);
   })));
 });
 
@@ -555,26 +650,46 @@ describe('exists', function () {
   })));
 
   test('should return true if any store master product match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee15() {
-    var storeMasterProductInfo, response;
+    var storeTagId1, storeTagId2, storeId, masterProductId, storeMasterProductInfo, response;
     return regeneratorRuntime.wrap(function _callee15$(_context15) {
       while (1) {
         switch (_context15.prev = _context15.next) {
           case 0:
-            storeMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)();
-            _context15.next = 3;
-            return _2.StoreMasterProductService.create(storeMasterProductInfo);
+            _context15.next = 2;
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
 
-          case 3:
+          case 2:
+            storeTagId1 = _context15.sent;
             _context15.next = 5;
-            return _2.StoreMasterProductService.exists(createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo));
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
 
           case 5:
+            storeTagId2 = _context15.sent;
+            _context15.next = 8;
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
+
+          case 8:
+            storeId = _context15.sent;
+            _context15.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context15.sent;
+            storeMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context15.next = 15;
+            return _2.StoreMasterProductService.create(storeMasterProductInfo);
+
+          case 15:
+            _context15.next = 17;
+            return _2.StoreMasterProductService.exists(createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo));
+
+          case 17:
             response = _context15.sent;
 
 
             expect(response).toBeTruthy();
 
-          case 7:
+          case 19:
           case 'end':
             return _context15.stop();
         }
@@ -608,30 +723,50 @@ describe('count', function () {
   })));
 
   test('should return the count of store master product match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
-    var crawlSessionInfo, response;
+    var storeTagId1, storeTagId2, storeId, masterProductId, storeMasterProductInfo, response;
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
         switch (_context17.prev = _context17.next) {
           case 0:
-            crawlSessionInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)();
-            _context17.next = 3;
-            return _2.StoreMasterProductService.create(crawlSessionInfo);
+            _context17.next = 2;
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
 
-          case 3:
+          case 2:
+            storeTagId1 = _context17.sent;
             _context17.next = 5;
-            return _2.StoreMasterProductService.create(crawlSessionInfo);
+            return _2.StoreTagService.create((0, _StoreTag.createStoreTagInfo)());
 
           case 5:
-            _context17.next = 7;
-            return _2.StoreMasterProductService.count(createCriteriaUsingProvidedStoreMasterProductInfo(crawlSessionInfo));
+            storeTagId2 = _context17.sent;
+            _context17.next = 8;
+            return _2.StoreService.create((0, _Store.createStoreInfo)());
 
-          case 7:
+          case 8:
+            storeId = _context17.sent;
+            _context17.next = 11;
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+
+          case 11:
+            masterProductId = _context17.sent;
+            storeMasterProductInfo = (0, _StoreMasterProduct.createStoreMasterProductInfo)(_immutable.List.of(storeTagId1, storeTagId2), storeId, masterProductId);
+            _context17.next = 15;
+            return _2.StoreMasterProductService.create(storeMasterProductInfo);
+
+          case 15:
+            _context17.next = 17;
+            return _2.StoreMasterProductService.create(storeMasterProductInfo);
+
+          case 17:
+            _context17.next = 19;
+            return _2.StoreMasterProductService.count(createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo));
+
+          case 19:
             response = _context17.sent;
 
 
             expect(response).toBe(2);
 
-          case 9:
+          case 21:
           case 'end':
             return _context17.stop();
         }
