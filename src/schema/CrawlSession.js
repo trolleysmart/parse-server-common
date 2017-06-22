@@ -16,7 +16,6 @@ export default class CrawlSession extends BaseObject {
     object.set('sessionKey', info.get('sessionKey'));
     object.set('startDateTime', info.get('startDateTime'));
     object.set('endDateTime', info.get('endDateTime'));
-    object.set('processed', info.get('processed'));
 
     const additionalInfo = info.get('additionalInfo');
 
@@ -41,7 +40,6 @@ export default class CrawlSession extends BaseObject {
       sessionKey: this.getObject().get('sessionKey'),
       startDateTime: this.getObject().get('startDateTime'),
       endDateTime: this.getObject().get('endDateTime'),
-      processed: this.getObject().get('processed'),
       additionalInfo: Immutable.fromJS(this.getObject().get('additionalInfo')),
     });
 }

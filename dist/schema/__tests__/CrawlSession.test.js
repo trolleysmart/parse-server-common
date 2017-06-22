@@ -35,7 +35,6 @@ function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo) {
   expect(crawlSessionInfo.get('sessionKey')).toBe(expectedCrawlSessionInfo.get('sessionKey'));
   expect(crawlSessionInfo.get('startDateTime')).toBe(expectedCrawlSessionInfo.get('startDateTime'));
   expect(crawlSessionInfo.get('endDateTime')).toBe(expectedCrawlSessionInfo.get('endDateTime'));
-  expect(crawlSessionInfo.get('processed')).toBe(expectedCrawlSessionInfo.get('processed'));
   expect(crawlSessionInfo.get('additionalInfo')).toEqual(expectedCrawlSessionInfo.get('additionalInfo'));
 }
 

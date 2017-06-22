@@ -27,30 +27,23 @@ function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, craw
   expect(crawlSessionInfo.get('sessionKey')).toBe(expectedCrawlSessionInfo.get('sessionKey'));
   expect(crawlSessionInfo.get('startDateTime')).toEqual(expectedCrawlSessionInfo.get('startDateTime'));
   expect(crawlSessionInfo.get('endDateTime')).toEqual(expectedCrawlSessionInfo.get('endDateTime'));
-  expect(crawlSessionInfo.get('processed')).toEqual(expectedCrawlSessionInfo.get('processed'));
   expect(crawlSessionInfo.get('additionalInfo')).toEqual(expectedCrawlSessionInfo.get('additionalInfo'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('sessionKey', 'startDateTime', 'endDateTime', 'processed', 'additionalInfo'),
+    fields: _immutable.List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
     conditions: (0, _immutable.Map)({
-      sessionKey: (0, _v2.default)(),
-      startDateTime: Date(),
-      endDateTime: Date(),
-      processed: Date()
+      sessionKey: (0, _v2.default)()
     })
   });
 }
 
 function createCriteriaUsingProvidedCrawlSessionInfo(crawlSessionInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('sessionKey', 'startDateTime', 'endDateTime', 'processed', 'additionalInfo'),
+    fields: _immutable.List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
     conditions: (0, _immutable.Map)({
-      sessionKey: crawlSessionInfo.get('sessionKey'),
-      startDateTime: crawlSessionInfo.get('startDateTime'),
-      endDateTime: crawlSessionInfo.get('endDateTime'),
-      processed: crawlSessionInfo.get('processed')
+      sessionKey: crawlSessionInfo.get('sessionKey')
     })
   });
 }

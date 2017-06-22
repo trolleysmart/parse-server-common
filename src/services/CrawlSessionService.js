@@ -151,22 +151,6 @@ export default class CrawlSessionService {
       }
     }
 
-    if (conditions.has('processed')) {
-      const value = conditions.get('processed');
-
-      if (value) {
-        query.exists('processed');
-      }
-    }
-
-    if (conditions.has('not_processed')) {
-      const value = conditions.get('not_processed');
-
-      if (value) {
-        query.doesNotExist('processed', value);
-      }
-    }
-
     return query;
   };
 }

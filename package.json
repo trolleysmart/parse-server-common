@@ -1,6 +1,6 @@
 {
   "name": "smart-grocery-parse-server-common",
-  "version": "0.1.147",
+  "version": "0.1.146",
   "description": "Smart Grocery Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
