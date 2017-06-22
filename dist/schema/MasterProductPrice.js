@@ -88,7 +88,8 @@ MasterProductPrice.updateInfoInternal = function (object, info) {
   object.set('storeName', storeName ? storeName.toLowerCase() : undefined);
 
   object.set('priceDetails', info.get('priceDetails').toJS());
-  object.set('capturedDate', info.get('capturedDate'));
+  object.set('effectiveFrom', info.get('effectiveFrom'));
+  object.set('effectiveTo', info.get('effectiveTo'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -115,7 +116,8 @@ var _initialiseProps = function _initialiseProps() {
       storeId: store.getId(),
       storeName: _this2.getObject().get('storeName'),
       priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),
-      capturedDate: _this2.getObject().get('capturedDate')
+      effectiveFrom: _this2.getObject().get('effectiveFrom'),
+      effectiveTo: _this2.getObject().get('effectiveTo')
     });
   };
 };

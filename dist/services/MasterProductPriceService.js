@@ -297,67 +297,91 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('capturedDate')) {
-    var _value4 = conditions.get('capturedDate');
+  if (conditions.has('effectiveFrom')) {
+    var _value4 = conditions.get('effectiveFrom');
 
     if (_value4) {
-      query.equalTo('capturedDate', _value4);
+      query.equalTo('effectiveFrom', _value4);
     }
   }
 
-  if (conditions.has('lessThanOrEqualTo_capturedDate')) {
-    var _value5 = conditions.get('lessThanOrEqualTo_capturedDate');
+  if (conditions.has('lessThanOrEqualTo_effectiveFrom')) {
+    var _value5 = conditions.get('lessThanOrEqualTo_effectiveFrom');
 
     if (_value5) {
-      query.lessThanOrEqualTo('capturedDate', _value5);
+      query.lessThanOrEqualTo('effectiveFrom', _value5);
     }
   }
 
-  if (conditions.has('greaterThanOrEqualTo_capturedDate')) {
-    var _value6 = conditions.get('greaterThanOrEqualTo_capturedDate');
+  if (conditions.has('greaterThanOrEqualTo_effectiveFrom')) {
+    var _value6 = conditions.get('greaterThanOrEqualTo_effectiveFrom');
 
     if (_value6) {
-      query.greaterThanOrEqualTo('capturedDate', _value6);
+      query.greaterThanOrEqualTo('effectiveFrom', _value6);
+    }
+  }
+
+  if (conditions.has('effectiveTo')) {
+    var _value7 = conditions.get('effectiveTo');
+
+    if (_value7) {
+      query.equalTo('effectiveTo', _value7);
+    }
+  }
+
+  if (conditions.has('lessThanOrEqualTo_effectiveTo')) {
+    var _value8 = conditions.get('lessThanOrEqualTo_effectiveTo');
+
+    if (_value8) {
+      query.lessThanOrEqualTo('effectiveTo', _value8);
+    }
+  }
+
+  if (conditions.has('greaterThanOrEqualTo_effectiveTo')) {
+    var _value9 = conditions.get('greaterThanOrEqualTo_effectiveTo');
+
+    if (_value9) {
+      query.greaterThanOrEqualTo('effectiveTo', _value9);
     }
   }
 
   if (conditions.has('specialType')) {
-    var _value7 = conditions.get('specialType');
+    var _value10 = conditions.get('specialType');
 
-    if (_value7) {
-      query.equalTo('priceDetails.specialType', _value7);
+    if (_value10) {
+      query.equalTo('priceDetails.specialType', _value10);
     }
   }
 
   if (conditions.has('not_specialType')) {
-    var _value8 = conditions.get('not_specialType');
+    var _value11 = conditions.get('not_specialType');
 
-    if (_value8) {
-      query.notEqualTo('priceDetails.specialType', _value8);
+    if (_value11) {
+      query.notEqualTo('priceDetails.specialType', _value11);
     }
   }
 
   if (conditions.has('description')) {
-    var _value9 = conditions.get('description');
+    var _value12 = conditions.get('description');
 
-    if (_value9) {
-      query.equalTo('description', _value9.toLowerCase());
+    if (_value12) {
+      query.equalTo('description', _value12.toLowerCase());
     }
   }
 
   if (conditions.has('startsWith_description')) {
-    var _value10 = conditions.get('startsWith_description');
+    var _value13 = conditions.get('startsWith_description');
 
-    if (_value10) {
-      query.startsWith('description', _value10.toLowerCase());
+    if (_value13) {
+      query.startsWith('description', _value13.toLowerCase());
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value11 = conditions.get('contains_description');
+    var _value14 = conditions.get('contains_description');
 
-    if (_value11) {
-      query.contains('description', _value11.toLowerCase());
+    if (_value14) {
+      query.contains('description', _value14.toLowerCase());
     }
   }
 
@@ -376,26 +400,26 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
   }
 
   if (conditions.has('storeName')) {
-    var _value12 = conditions.get('storeName');
+    var _value15 = conditions.get('storeName');
 
-    if (_value12) {
-      query.equalTo('storeName', _value12);
+    if (_value15) {
+      query.equalTo('storeName', _value15);
     }
   }
 
   if (conditions.has('startsWith_storeName')) {
-    var _value13 = conditions.get('startsWith_storeName');
+    var _value16 = conditions.get('startsWith_storeName');
 
-    if (_value13) {
-      query.startsWith('storeName', _value13);
+    if (_value16) {
+      query.startsWith('storeName', _value16);
     }
   }
 
   if (conditions.has('contains_storeName')) {
-    var _value14 = conditions.get('contains_storeName');
+    var _value17 = conditions.get('contains_storeName');
 
-    if (_value14) {
-      query.contains('storeName', _value14);
+    if (_value17) {
+      query.contains('storeName', _value17);
     }
   }
 

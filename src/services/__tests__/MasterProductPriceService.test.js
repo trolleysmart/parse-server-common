@@ -15,12 +15,13 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
-  expect(masterProductPriceInfo.get('capturedDate')).toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
+  expect(masterProductPriceInfo.get('effectiveFrom')).toEqual(expectedMasterProductPriceInfo.get('effectiveFrom'));
+  expect(masterProductPriceInfo.get('effectiveTo')).toEqual(expectedMasterProductPriceInfo.get('effectiveTo'));
 }
 
 export function createCriteria() {
   return Map({
-    fields: List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'capturedDate'),
+    fields: List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'effectiveFrom', 'effectiveTo'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -32,12 +33,15 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return Map({
-    fields: List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'capturedDate'),
+    fields: List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'effectiveFrom', 'effectiveTo'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
       masterProductId,
       storeId,
+      description: masterProductPriceInfo.get('description'),
+      effectiveFrom: masterProductPriceInfo.get('effectiveFrom'),
+      effectiveTo: masterProductPriceInfo.get('effectiveTo'),
     }),
   });
 }

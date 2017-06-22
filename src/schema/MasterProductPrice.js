@@ -52,7 +52,8 @@ export default class MasterProductPrice extends BaseObject {
     object.set('storeName', storeName ? storeName.toLowerCase() : undefined);
 
     object.set('priceDetails', info.get('priceDetails').toJS());
-    object.set('capturedDate', info.get('capturedDate'));
+    object.set('effectiveFrom', info.get('effectiveFrom'));
+    object.set('effectiveTo', info.get('effectiveTo'));
   };
 
   constructor(object) {
@@ -80,7 +81,8 @@ export default class MasterProductPrice extends BaseObject {
       storeId: store.getId(),
       storeName: this.getObject().get('storeName'),
       priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
-      capturedDate: this.getObject().get('capturedDate'),
+      effectiveFrom: this.getObject().get('effectiveFrom'),
+      effectiveTo: this.getObject().get('effectiveTo'),
     });
   };
 }

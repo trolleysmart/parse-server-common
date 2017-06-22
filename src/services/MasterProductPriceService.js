@@ -111,27 +111,51 @@ export default class MasterProductPriceService {
       }
     }
 
-    if (conditions.has('capturedDate')) {
-      const value = conditions.get('capturedDate');
+    if (conditions.has('effectiveFrom')) {
+      const value = conditions.get('effectiveFrom');
 
       if (value) {
-        query.equalTo('capturedDate', value);
+        query.equalTo('effectiveFrom', value);
       }
     }
 
-    if (conditions.has('lessThanOrEqualTo_capturedDate')) {
-      const value = conditions.get('lessThanOrEqualTo_capturedDate');
+    if (conditions.has('lessThanOrEqualTo_effectiveFrom')) {
+      const value = conditions.get('lessThanOrEqualTo_effectiveFrom');
 
       if (value) {
-        query.lessThanOrEqualTo('capturedDate', value);
+        query.lessThanOrEqualTo('effectiveFrom', value);
       }
     }
 
-    if (conditions.has('greaterThanOrEqualTo_capturedDate')) {
-      const value = conditions.get('greaterThanOrEqualTo_capturedDate');
+    if (conditions.has('greaterThanOrEqualTo_effectiveFrom')) {
+      const value = conditions.get('greaterThanOrEqualTo_effectiveFrom');
 
       if (value) {
-        query.greaterThanOrEqualTo('capturedDate', value);
+        query.greaterThanOrEqualTo('effectiveFrom', value);
+      }
+    }
+
+    if (conditions.has('effectiveTo')) {
+      const value = conditions.get('effectiveTo');
+
+      if (value) {
+        query.equalTo('effectiveTo', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_effectiveTo')) {
+      const value = conditions.get('lessThanOrEqualTo_effectiveTo');
+
+      if (value) {
+        query.lessThanOrEqualTo('effectiveTo', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_effectiveTo')) {
+      const value = conditions.get('greaterThanOrEqualTo_effectiveTo');
+
+      if (value) {
+        query.greaterThanOrEqualTo('effectiveTo', value);
       }
     }
 

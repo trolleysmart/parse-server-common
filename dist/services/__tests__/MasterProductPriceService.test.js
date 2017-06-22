@@ -33,12 +33,13 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
-  expect(masterProductPriceInfo.get('capturedDate')).toEqual(expectedMasterProductPriceInfo.get('capturedDate'));
+  expect(masterProductPriceInfo.get('effectiveFrom')).toEqual(expectedMasterProductPriceInfo.get('effectiveFrom'));
+  expect(masterProductPriceInfo.get('effectiveTo')).toEqual(expectedMasterProductPriceInfo.get('effectiveTo'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'capturedDate'),
+    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'effectiveFrom', 'effectiveTo'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
@@ -50,12 +51,15 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'capturedDate'),
+    fields: _immutable.List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'effectiveFrom', 'effectiveTo'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
       masterProductId: masterProductId,
-      storeId: storeId
+      storeId: storeId,
+      description: masterProductPriceInfo.get('description'),
+      effectiveFrom: masterProductPriceInfo.get('effectiveFrom'),
+      effectiveTo: masterProductPriceInfo.get('effectiveTo')
     })
   });
 }
