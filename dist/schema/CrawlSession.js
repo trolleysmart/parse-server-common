@@ -46,6 +46,7 @@ CrawlSession.updateInfoInternal = function (object, info) {
   object.set('sessionKey', info.get('sessionKey'));
   object.set('startDateTime', info.get('startDateTime'));
   object.set('endDateTime', info.get('endDateTime'));
+  object.set('processed', info.get('processed'));
 
   var additionalInfo = info.get('additionalInfo');
 
@@ -69,6 +70,7 @@ var _initialiseProps = function _initialiseProps() {
       sessionKey: _this2.getObject().get('sessionKey'),
       startDateTime: _this2.getObject().get('startDateTime'),
       endDateTime: _this2.getObject().get('endDateTime'),
+      processed: _this2.getObject().get('processed'),
       additionalInfo: _immutable2.default.fromJS(_this2.getObject().get('additionalInfo'))
     });
   };

@@ -11,23 +11,30 @@ function expectCrawlSessionInfo(crawlSessionInfo, expectedCrawlSessionInfo, craw
   expect(crawlSessionInfo.get('sessionKey')).toBe(expectedCrawlSessionInfo.get('sessionKey'));
   expect(crawlSessionInfo.get('startDateTime')).toEqual(expectedCrawlSessionInfo.get('startDateTime'));
   expect(crawlSessionInfo.get('endDateTime')).toEqual(expectedCrawlSessionInfo.get('endDateTime'));
+  expect(crawlSessionInfo.get('processed')).toEqual(expectedCrawlSessionInfo.get('processed'));
   expect(crawlSessionInfo.get('additionalInfo')).toEqual(expectedCrawlSessionInfo.get('additionalInfo'));
 }
 
 export function createCriteria() {
   return Map({
-    fields: List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
+    fields: List.of('sessionKey', 'startDateTime', 'endDateTime', 'processed', 'additionalInfo'),
     conditions: Map({
       sessionKey: uuid(),
+      startDateTime: Date(),
+      endDateTime: Date(),
+      processed: Date(),
     }),
   });
 }
 
 export function createCriteriaUsingProvidedCrawlSessionInfo(crawlSessionInfo) {
   return Map({
-    fields: List.of('sessionKey', 'startDateTime', 'endDateTime', 'additionalInfo'),
+    fields: List.of('sessionKey', 'startDateTime', 'endDateTime', 'processed', 'additionalInfo'),
     conditions: Map({
       sessionKey: crawlSessionInfo.get('sessionKey'),
+      startDateTime: crawlSessionInfo.get('startDateTime'),
+      endDateTime: crawlSessionInfo.get('endDateTime'),
+      processed: crawlSessionInfo.get('processed'),
     }),
   });
 }

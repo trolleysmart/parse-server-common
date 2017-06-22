@@ -337,6 +337,22 @@ CrawlSessionService.buildSearchQuery = function (criteria) {
     }
   }
 
+  if (conditions.has('processed')) {
+    var _value9 = conditions.get('processed');
+
+    if (_value9) {
+      query.exists('processed');
+    }
+  }
+
+  if (conditions.has('not_processed')) {
+    var _value10 = conditions.get('not_processed');
+
+    if (_value10) {
+      query.doesNotExist('processed', _value10);
+    }
+  }
+
   return query;
 };
 
