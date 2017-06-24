@@ -73,11 +73,11 @@ export default class StoreTagService {
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StoreTag, criteria);
 
-    if (criteria.has('includeParent')) {
-      const value = criteria.get('includeParent');
+    if (criteria.has('includeStoreTags')) {
+      const value = criteria.get('includeStoreTags');
 
       if (value) {
-        query.include('parent');
+        query.include('storeTags');
       }
     }
 
@@ -153,19 +153,35 @@ export default class StoreTagService {
       }
     }
 
-    if (conditions.has('parent')) {
-      const value = conditions.get('parent');
+    if (conditions.has('storeTag')) {
+      const value = conditions.get('storeTag');
 
       if (value) {
-        query.equalTo('parent', value);
+        query.equalTo('storeTags', value);
       }
     }
 
-    if (conditions.has('parentId')) {
-      const value = conditions.get('parentId');
+    if (conditions.has('storeTags')) {
+      const value = conditions.get('storeTags');
 
       if (value) {
-        query.equalTo('parent', StoreTag.createWithoutData(value));
+        query.containedIn('storeTags', value.toArray());
+      }
+    }
+
+    if (conditions.has('storeTagId')) {
+      const value = conditions.get('storeTagId');
+
+      if (value) {
+        query.equalTo('storeTags', StoreTag.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('storeTagIds')) {
+      const value = conditions.get('storeTagIds');
+
+      if (value) {
+        query.containedIn('storeTags', value.map(storeTagId => StoreTag.createWithoutData(storeTagId)).toArray());
       }
     }
 

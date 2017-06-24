@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _Store = require('./Store');
@@ -58,14 +60,24 @@ StoreTag.updateInfoInternal = function (object, info) {
 
   object.set('weight', info.get('weight'));
 
-  if (info.has('paretnId')) {
-    var parentId = info.get('paretnId');
+  if (info.has('storeTagIds')) {
+    var storeTagIds = info.get('storeTagIds');
 
-    object.set('parent', StoreTag.createWithoutData(parentId));
-  } else if (info.has('parent')) {
-    var parent = info.get('parent');
+    if (storeTagIds.isEmpty()) {
+      object.set('storeTags', []);
+    } else {
+      object.set('storeTags', storeTagIds.map(function (storeTagId) {
+        return StoreTag.createWithoutData(storeTagId);
+      }).toArray());
+    }
+  } else if (info.has('storeTags')) {
+    var storeTags = info.get('storeTags');
 
-    object.set('parent', parent);
+    if (storeTags.isEmpty()) {
+      object.set('storeTags', []);
+    } else {
+      object.set('storeTags', storeTags.toArray());
+    }
   }
 
   if (info.has('storeId')) {
@@ -105,8 +117,10 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
-    var parentObject = _this2.getObject().get('parent');
-    var parent = parentObject ? new StoreTag(parentObject).getInfo() : undefined;
+    var storeTagObjects = _this2.getObject().get('storeTags');
+    var storeTags = storeTagObjects ? _immutable2.default.fromJS(storeTagObjects).map(function (storeTag) {
+      return new StoreTag(storeTag).getInfo();
+    }) : undefined;
     var storeObject = _this2.getObject().get('store');
     var store = storeObject ? new _Store2.default(storeObject).getInfo() : undefined;
     var tagObject = _this2.getObject().get('tag');
@@ -117,8 +131,10 @@ var _initialiseProps = function _initialiseProps() {
       key: _this2.getObject().get('key'),
       description: _this2.getObject().get('description'),
       weight: _this2.getObject().get('weight'),
-      parent: parent,
-      parentId: parent ? parent.get('id') : undefined,
+      storeTags: storeTags,
+      storeTagIds: storeTags ? storeTags.map(function (storeTag) {
+        return storeTag.get('id');
+      }) : (0, _immutable.List)(),
       store: store,
       storeId: store ? store.get('id') : undefined,
       tag: tag,

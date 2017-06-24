@@ -1,6 +1,6 @@
 // @flow
 
-import { Map } from 'immutable';
+import Immutable, { List, Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 import Store from './Store';
 import Tag from './Tag';
@@ -24,14 +24,22 @@ export default class StoreTag extends BaseObject {
 
     object.set('weight', info.get('weight'));
 
-    if (info.has('paretnId')) {
-      const parentId = info.get('paretnId');
+    if (info.has('storeTagIds')) {
+      const storeTagIds = info.get('storeTagIds');
 
-      object.set('parent', StoreTag.createWithoutData(parentId));
-    } else if (info.has('parent')) {
-      const parent = info.get('parent');
+      if (storeTagIds.isEmpty()) {
+        object.set('storeTags', []);
+      } else {
+        object.set('storeTags', storeTagIds.map(storeTagId => StoreTag.createWithoutData(storeTagId)).toArray());
+      }
+    } else if (info.has('storeTags')) {
+      const storeTags = info.get('storeTags');
 
-      object.set('parent', parent);
+      if (storeTags.isEmpty()) {
+        object.set('storeTags', []);
+      } else {
+        object.set('storeTags', storeTags.toArray());
+      }
     }
 
     if (info.has('storeId')) {
@@ -72,8 +80,8 @@ export default class StoreTag extends BaseObject {
   };
 
   getInfo = () => {
-    const parentObject = this.getObject().get('parent');
-    const parent = parentObject ? new StoreTag(parentObject).getInfo() : undefined;
+    const storeTagObjects = this.getObject().get('storeTags');
+    const storeTags = storeTagObjects ? Immutable.fromJS(storeTagObjects).map(storeTag => new StoreTag(storeTag).getInfo()) : undefined;
     const storeObject = this.getObject().get('store');
     const store = storeObject ? new Store(storeObject).getInfo() : undefined;
     const tagObject = this.getObject().get('tag');
@@ -84,8 +92,8 @@ export default class StoreTag extends BaseObject {
       key: this.getObject().get('key'),
       description: this.getObject().get('description'),
       weight: this.getObject().get('weight'),
-      parent,
-      parentId: parent ? parent.get('id') : undefined,
+      storeTags,
+      storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store,
       storeId: store ? store.get('id') : undefined,
       tag,

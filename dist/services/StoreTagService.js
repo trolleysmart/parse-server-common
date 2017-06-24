@@ -259,11 +259,11 @@ StoreTagService.count = function () {
 StoreTagService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreTag, criteria);
 
-  if (criteria.has('includeParent')) {
-    var value = criteria.get('includeParent');
+  if (criteria.has('includeStoreTags')) {
+    var value = criteria.get('includeStoreTags');
 
     if (value) {
-      query.include('parent');
+      query.include('storeTags');
     }
   }
 
@@ -343,51 +343,69 @@ StoreTagService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('parent')) {
-    var _value8 = conditions.get('parent');
+  if (conditions.has('storeTag')) {
+    var _value8 = conditions.get('storeTag');
 
     if (_value8) {
-      query.equalTo('parent', _value8);
+      query.equalTo('storeTags', _value8);
     }
   }
 
-  if (conditions.has('parentId')) {
-    var _value9 = conditions.get('parentId');
+  if (conditions.has('storeTags')) {
+    var _value9 = conditions.get('storeTags');
 
     if (_value9) {
-      query.equalTo('parent', _schema.StoreTag.createWithoutData(_value9));
+      query.containedIn('storeTags', _value9.toArray());
+    }
+  }
+
+  if (conditions.has('storeTagId')) {
+    var _value10 = conditions.get('storeTagId');
+
+    if (_value10) {
+      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value10));
+    }
+  }
+
+  if (conditions.has('storeTagIds')) {
+    var _value11 = conditions.get('storeTagIds');
+
+    if (_value11) {
+      query.containedIn('storeTags', _value11.map(function (storeTagId) {
+        return _schema.StoreTag.createWithoutData(storeTagId);
+      }).toArray());
     }
   }
 
   if (conditions.has('store')) {
-    var _value10 = conditions.get('store');
+    var _value12 = conditions.get('store');
 
-    if (_value10) {
-      query.equalTo('store', _value10);
+    if (_value12) {
+      query.equalTo('store', _value12);
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value11 = conditions.get('storeId');
+    var _value13 = conditions.get('storeId');
 
-    if (_value11) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value11));
+    if (_value13) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value13));
     }
   }
 
   if (conditions.has('tag')) {
-    var _value12 = conditions.get('tag');
+    var _value14 = conditions.get('tag');
 
-    if (_value12) {
-      query.equalTo('tag', _value12);
+    if (_value14) {
+      query.equalTo('tag', _value14);
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value13 = conditions.get('tagId');
+    var _value15 = conditions.get('tagId');
 
-    if (_value13) {
-      query.equalTo('tag', _schema.Tag.createWithoutData(_value13));
+    if (_value15) {
+      query.equalTo('tag', _schema.Tag.createWithoutData(_value15));
     }
   }
 
