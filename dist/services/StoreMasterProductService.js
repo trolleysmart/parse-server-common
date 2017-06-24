@@ -335,77 +335,85 @@ StoreMasterProductService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('imageUrl')) {
-    var _value7 = conditions.get('imageUrl');
+  if (conditions.has('productPageUrl')) {
+    var _value7 = conditions.get('productPageUrl');
 
     if (_value7) {
-      query.equalTo('imageUrl', _value7);
+      query.equalTo('productPageUrl', _value7);
+    }
+  }
+
+  if (conditions.has('imageUrl')) {
+    var _value8 = conditions.get('imageUrl');
+
+    if (_value8) {
+      query.equalTo('imageUrl', _value8);
     }
   }
 
   if (conditions.has('storeTag')) {
-    var _value8 = conditions.get('storeTag');
+    var _value9 = conditions.get('storeTag');
 
-    if (_value8) {
-      query.equalTo('storeTags', _value8);
+    if (_value9) {
+      query.equalTo('storeTags', _value9);
     }
   }
 
   if (conditions.has('storeTags')) {
-    var _value9 = conditions.get('storeTags');
+    var _value10 = conditions.get('storeTags');
 
-    if (_value9) {
-      query.containedIn('storeTags', _value9.toArray());
+    if (_value10) {
+      query.containedIn('storeTags', _value10.toArray());
     }
   }
 
   if (conditions.has('storeTagId')) {
-    var _value10 = conditions.get('storeTagId');
+    var _value11 = conditions.get('storeTagId');
 
-    if (_value10) {
-      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value10));
+    if (_value11) {
+      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value11));
     }
   }
 
   if (conditions.has('storeTagIds')) {
-    var _value11 = conditions.get('storeTagIds');
+    var _value12 = conditions.get('storeTagIds');
 
-    if (_value11) {
-      query.containedIn('storeTags', _value11.map(function (storeTagId) {
+    if (_value12) {
+      query.containedIn('storeTags', _value12.map(function (storeTagId) {
         return _schema.StoreTag.createWithoutData(storeTagId);
       }).toArray());
     }
   }
 
   if (conditions.has('store')) {
-    var _value12 = conditions.get('store');
+    var _value13 = conditions.get('store');
 
-    if (_value12) {
-      query.equalTo('store', _value12);
+    if (_value13) {
+      query.equalTo('store', _value13);
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value13 = conditions.get('storeId');
+    var _value14 = conditions.get('storeId');
 
-    if (_value13) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value13));
+    if (_value14) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value14));
     }
   }
 
   if (conditions.has('masterProduct')) {
-    var _value14 = conditions.get('masterProduct');
+    var _value15 = conditions.get('masterProduct');
 
-    if (_value14) {
-      query.equalTo('masterProduct', _value14);
+    if (_value15) {
+      query.equalTo('masterProduct', _value15);
     }
   }
 
   if (conditions.has('masterProductId')) {
-    var _value15 = conditions.get('masterProductId');
+    var _value16 = conditions.get('masterProductId');
 
-    if (_value15) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value15));
+    if (_value16) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value16));
     }
   }
 

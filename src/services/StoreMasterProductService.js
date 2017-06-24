@@ -145,6 +145,14 @@ export default class StoreMasterProductService {
       }
     }
 
+    if (conditions.has('productPageUrl')) {
+      const value = conditions.get('productPageUrl');
+
+      if (value) {
+        query.equalTo('productPageUrl', value);
+      }
+    }
+
     if (conditions.has('imageUrl')) {
       const value = conditions.get('imageUrl');
 

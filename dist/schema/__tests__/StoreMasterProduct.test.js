@@ -20,6 +20,7 @@ function createStoreMasterProductInfo(storeTagIds, storeId, tagId) {
   var info = (0, _immutable.Map)({
     description: (0, _v2.default)(),
     barcode: (0, _v2.default)(),
+    productPageUrl: (0, _v2.default)(),
     imageUrl: (0, _v2.default)()
   });
 
@@ -39,6 +40,7 @@ function createStoreMasterProduct(storeStoreMasterProductInfo) {
 function expectStoreMasterProductInfo(storeStoreMasterProductInfo, expectedStoreMasterProductInfo) {
   expect(storeStoreMasterProductInfo.get('description')).toBe(expectedStoreMasterProductInfo.get('description'));
   expect(storeStoreMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
+  expect(storeStoreMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
   expect(storeStoreMasterProductInfo.get('imageUrl')).toBe(expectedStoreMasterProductInfo.get('imageUrl'));
   expect(storeStoreMasterProductInfo.get('storeTags')).toBe(expectedStoreMasterProductInfo.get('storeTags'));
   expect(storeStoreMasterProductInfo.get('storeId')).toBe(expectedStoreMasterProductInfo.get('storeId'));

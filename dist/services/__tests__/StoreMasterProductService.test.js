@@ -32,17 +32,19 @@ function expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMaste
   expect(storeMasterProductInfo.get('id')).toBe(storeMasterProductId);
   expect(storeMasterProductInfo.get('description')).toBe(expectedStoreMasterProductInfo.get('description'));
   expect(storeMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
+  expect(storeMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
   expect(storeMasterProductInfo.get('imageUrl')).toBe(expectedStoreMasterProductInfo.get('imageUrl'));
   expect(storeMasterProductInfo.get('storeTagIds')).toEqual(expectedStoreMasterProductInfo.get('storeTagIds'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'barcode', 'imageUrl', 'storeTags'),
+    fields: _immutable.List.of('description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
     includeStoreTags: true,
     conditions: (0, _immutable.Map)({
       description: (0, _v2.default)(),
       barcode: (0, _v2.default)(),
+      productPageUrl: (0, _v2.default)(),
       imageUrl: (0, _v2.default)()
     })
   });
@@ -50,11 +52,12 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'barcode', 'imageUrl', 'storeTags'),
+    fields: _immutable.List.of('description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
     includeStoreTags: true,
     conditions: (0, _immutable.Map)({
       description: storeMasterProductInfo.get('description'),
       barcode: storeMasterProductInfo.get('barcode'),
+      productPageUrl: storeMasterProductInfo.get('productPageUrl'),
       imageUrl: storeMasterProductInfo.get('imageUrl'),
       storeTags: storeMasterProductInfo.get('storeTags')
     })

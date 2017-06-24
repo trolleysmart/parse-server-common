@@ -19,6 +19,7 @@ export default class StoreMasterProduct extends BaseObject {
     object.set('description', info.get('description'));
     object.set('lowerCaseDescription', info.get('description').toLowerCase());
     object.set('barcode', info.get('barcode'));
+    object.set('productPageUrl', info.get('productPageUrl'));
     object.set('imageUrl', info.get('imageUrl'));
 
     if (info.has('storeTagIds')) {
@@ -92,6 +93,7 @@ export default class StoreMasterProduct extends BaseObject {
       id: this.getId(),
       description: this.getObject().get('description'),
       barcode: this.getObject().get('barcode'),
+      productPageUrl: this.getObject().get('productPageUrl'),
       imageUrl: this.getObject().get('imageUrl'),
       storeTags,
       storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
