@@ -97,11 +97,15 @@ StoreTag.updateInfoInternal = function (object, info) {
   if (info.has('tagId')) {
     var tagId = info.get('tagId');
 
-    object.set('tag', _Tag2.default.createWithoutData(tagId));
+    if (tagId) {
+      object.set('tag', _Tag2.default.createWithoutData(tagId));
+    }
   } else if (info.has('tag')) {
     var tag = info.get('tag');
 
-    object.set('tag', tag);
+    if (tag) {
+      object.set('tag', tag);
+    }
   }
 };
 

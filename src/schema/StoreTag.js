@@ -59,11 +59,15 @@ export default class StoreTag extends BaseObject {
     if (info.has('tagId')) {
       const tagId = info.get('tagId');
 
-      object.set('tag', Tag.createWithoutData(tagId));
+      if (tagId) {
+        object.set('tag', Tag.createWithoutData(tagId));
+      }
     } else if (info.has('tag')) {
       const tag = info.get('tag');
 
-      object.set('tag', tag);
+      if (tag) {
+        object.set('tag', tag);
+      }
     }
   };
 
