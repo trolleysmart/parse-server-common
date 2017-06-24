@@ -259,18 +259,26 @@ StoreTagService.count = function () {
 StoreTagService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreTag, criteria);
 
-  if (criteria.has('includeStore')) {
-    var value = criteria.get('includeStore');
+  if (criteria.has('includeParent')) {
+    var value = criteria.get('includeParent');
 
     if (value) {
+      query.include('parent');
+    }
+  }
+
+  if (criteria.has('includeStore')) {
+    var _value = criteria.get('includeStore');
+
+    if (_value) {
       query.include('store');
     }
   }
 
   if (criteria.has('includeTag')) {
-    var _value = criteria.get('includeTag');
+    var _value2 = criteria.get('includeTag');
 
-    if (_value) {
+    if (_value2) {
       query.include('tag');
     }
   }
@@ -282,34 +290,34 @@ StoreTagService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('key')) {
-    var _value2 = conditions.get('key');
+    var _value3 = conditions.get('key');
 
-    if (_value2) {
-      query.equalTo('key', _value2);
+    if (_value3) {
+      query.equalTo('key', _value3);
     }
   }
 
   if (conditions.has('description')) {
-    var _value3 = conditions.get('description');
+    var _value4 = conditions.get('description');
 
-    if (_value3) {
-      query.equalTo('lowerCaseDescription', _value3);
+    if (_value4) {
+      query.equalTo('lowerCaseDescription', _value4);
     }
   }
 
   if (conditions.has('startsWith_description')) {
-    var _value4 = conditions.get('startsWith_description');
+    var _value5 = conditions.get('startsWith_description');
 
-    if (_value4) {
-      query.startsWith('lowerCaseDescription', _value4);
+    if (_value5) {
+      query.startsWith('lowerCaseDescription', _value5);
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value5 = conditions.get('contains_description');
+    var _value6 = conditions.get('contains_description');
 
-    if (_value5) {
-      query.contains('lowerCaseDescription', _value5);
+    if (_value6) {
+      query.contains('lowerCaseDescription', _value6);
     }
   }
 
@@ -328,42 +336,58 @@ StoreTagService.buildSearchQuery = function (criteria) {
   }
 
   if (conditions.has('weight')) {
-    var _value6 = conditions.get('weight');
+    var _value7 = conditions.get('weight');
 
-    if (_value6) {
-      query.equalTo('weight', _value6);
+    if (_value7) {
+      query.equalTo('weight', _value7);
+    }
+  }
+
+  if (conditions.has('parent')) {
+    var _value8 = conditions.get('parent');
+
+    if (_value8) {
+      query.equalTo('parent', _value8);
+    }
+  }
+
+  if (conditions.has('parentId')) {
+    var _value9 = conditions.get('parentId');
+
+    if (_value9) {
+      query.equalTo('parent', _schema.StoreTag.createWithoutData(_value9));
     }
   }
 
   if (conditions.has('store')) {
-    var _value7 = conditions.get('store');
+    var _value10 = conditions.get('store');
 
-    if (_value7) {
-      query.equalTo('store', _value7);
+    if (_value10) {
+      query.equalTo('store', _value10);
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value8 = conditions.get('storeId');
+    var _value11 = conditions.get('storeId');
 
-    if (_value8) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value8));
+    if (_value11) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value11));
     }
   }
 
   if (conditions.has('tag')) {
-    var _value9 = conditions.get('tag');
+    var _value12 = conditions.get('tag');
 
-    if (_value9) {
-      query.equalTo('tag', _value9);
+    if (_value12) {
+      query.equalTo('tag', _value12);
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value10 = conditions.get('tagId');
+    var _value13 = conditions.get('tagId');
 
-    if (_value10) {
-      query.equalTo('tag', _schema.Tag.createWithoutData(_value10));
+    if (_value13) {
+      query.equalTo('tag', _schema.Tag.createWithoutData(_value13));
     }
   }
 

@@ -73,6 +73,14 @@ export default class StoreTagService {
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StoreTag, criteria);
 
+    if (criteria.has('includeParent')) {
+      const value = criteria.get('includeParent');
+
+      if (value) {
+        query.include('parent');
+      }
+    }
+
     if (criteria.has('includeStore')) {
       const value = criteria.get('includeStore');
 
@@ -142,6 +150,22 @@ export default class StoreTagService {
 
       if (value) {
         query.equalTo('weight', value);
+      }
+    }
+
+    if (conditions.has('parent')) {
+      const value = conditions.get('parent');
+
+      if (value) {
+        query.equalTo('parent', value);
+      }
+    }
+
+    if (conditions.has('parentId')) {
+      const value = conditions.get('parentId');
+
+      if (value) {
+        query.equalTo('parent', StoreTag.createWithoutData(value));
       }
     }
 

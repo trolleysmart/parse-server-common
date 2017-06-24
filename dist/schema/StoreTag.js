@@ -58,6 +58,16 @@ StoreTag.updateInfoInternal = function (object, info) {
 
   object.set('weight', info.get('weight'));
 
+  if (info.has('paretnId')) {
+    var parentId = info.get('paretnId');
+
+    object.set('parent', StoreTag.createWithoutData(parentId));
+  } else if (info.has('parent')) {
+    var parent = info.get('parent');
+
+    object.set('parent', parent);
+  }
+
   if (info.has('storeId')) {
     var storeId = info.get('storeId');
 
@@ -95,6 +105,8 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
+    var parentObject = _this2.getObject().get('parent');
+    var parent = parentObject ? new StoreTag(parentObject).getInfo() : undefined;
     var storeObject = _this2.getObject().get('store');
     var store = storeObject ? new _Store2.default(storeObject).getInfo() : undefined;
     var tagObject = _this2.getObject().get('tag');
@@ -105,6 +117,8 @@ var _initialiseProps = function _initialiseProps() {
       key: _this2.getObject().get('key'),
       description: _this2.getObject().get('description'),
       weight: _this2.getObject().get('weight'),
+      parent: parent,
+      parentId: parent ? parent.get('id') : undefined,
       store: store,
       storeId: store ? store.get('id') : undefined,
       tag: tag,

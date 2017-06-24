@@ -24,6 +24,16 @@ export default class StoreTag extends BaseObject {
 
     object.set('weight', info.get('weight'));
 
+    if (info.has('paretnId')) {
+      const parentId = info.get('paretnId');
+
+      object.set('parent', StoreTag.createWithoutData(parentId));
+    } else if (info.has('parent')) {
+      const parent = info.get('parent');
+
+      object.set('parent', parent);
+    }
+
     if (info.has('storeId')) {
       const storeId = info.get('storeId');
 
@@ -62,6 +72,8 @@ export default class StoreTag extends BaseObject {
   };
 
   getInfo = () => {
+    const parentObject = this.getObject().get('parent');
+    const parent = parentObject ? new StoreTag(parentObject).getInfo() : undefined;
     const storeObject = this.getObject().get('store');
     const store = storeObject ? new Store(storeObject).getInfo() : undefined;
     const tagObject = this.getObject().get('tag');
@@ -72,6 +84,8 @@ export default class StoreTag extends BaseObject {
       key: this.getObject().get('key'),
       description: this.getObject().get('description'),
       weight: this.getObject().get('weight'),
+      parent,
+      parentId: parent ? parent.get('id') : undefined,
       store,
       storeId: store ? store.get('id') : undefined,
       tag,
