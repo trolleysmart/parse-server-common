@@ -15,6 +15,19 @@ export default class MasterProductPrice extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
+    const description = info.get('description');
+
+    object.set('description', description ? description.toLowerCase() : undefined);
+
+    const storeName = info.get('storeName');
+
+    object.set('storeName', storeName ? storeName.toLowerCase() : undefined);
+
+    object.set('priceDetails', info.get('priceDetails').toJS());
+    object.set('priceToDisplay', info.get('priceToDisplay'));
+    object.set('lastPriceDetailsUpdate', info.get('lastPriceDetailsUpdate'));
+    object.set('status', info.get('status'));
+
     if (info.has('masterProductId')) {
       const masterProductId = info.get('masterProductId');
 
@@ -42,18 +55,6 @@ export default class MasterProductPrice extends BaseObject {
         object.set('store', store);
       }
     }
-
-    const description = info.get('description');
-
-    object.set('description', description ? description.toLowerCase() : undefined);
-
-    const storeName = info.get('storeName');
-
-    object.set('storeName', storeName ? storeName.toLowerCase() : undefined);
-
-    object.set('priceDetails', info.get('priceDetails').toJS());
-    object.set('effectiveFrom', info.get('effectiveFrom'));
-    object.set('effectiveTo', info.get('effectiveTo'));
   };
 
   constructor(object) {
@@ -74,15 +75,16 @@ export default class MasterProductPrice extends BaseObject {
 
     return Map({
       id: this.getId(),
-      masterProduct: masterProduct.getInfo(),
-      masterProductId: masterProduct.getId(),
       description: this.getObject().get('description'),
-      store: store.getInfo(),
-      storeId: store.getId(),
       storeName: this.getObject().get('storeName'),
       priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
-      effectiveFrom: this.getObject().get('effectiveFrom'),
-      effectiveTo: this.getObject().get('effectiveTo'),
+      priceToDisplay: this.getObject().get('priceToDisplay'),
+      lastPriceDetailsUpdate: this.getObject().get('lastPriceDetailsUpdate'),
+      status: this.getObject().get('status'),
+      masterProduct: masterProduct.getInfo(),
+      masterProductId: masterProduct.getId(),
+      store: store.getInfo(),
+      storeId: store.getId(),
     });
   };
 }

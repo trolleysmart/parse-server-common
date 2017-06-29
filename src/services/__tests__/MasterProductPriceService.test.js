@@ -10,18 +10,19 @@ import { createStoreInfo } from '../../schema/__tests__/Store.test';
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
-  expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
   expect(masterProductPriceInfo.get('description')).toEqual(expectedMasterProductPriceInfo.get('description'));
-  expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
-  expect(masterProductPriceInfo.get('effectiveFrom')).toEqual(expectedMasterProductPriceInfo.get('effectiveFrom'));
-  expect(masterProductPriceInfo.get('effectiveTo')).toEqual(expectedMasterProductPriceInfo.get('effectiveTo'));
+  expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
+  expect(masterProductPriceInfo.get('lastPriceDetailsUpdate')).toEqual(expectedMasterProductPriceInfo.get('lastPriceDetailsUpdate'));
+  expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
+  expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
+  expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
 }
 
 export function createCriteria() {
   return Map({
-    fields: List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'effectiveFrom', 'effectiveTo'),
+    fields: List.of('description', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -33,15 +34,17 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return Map({
-    fields: List.of('masterProduct', 'store', 'storeName', 'priceDetails', 'description', 'effectiveFrom', 'effectiveTo'),
+    fields: List.of('description', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
+      description: masterProductPriceInfo.get('description'),
+      storeName: masterProductPriceInfo.get('storeName'),
+      priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
+      lastPriceDetailsUpdate: masterProductPriceInfo.get('lastPriceDetailsUpdate'),
+      status: masterProductPriceInfo.get('status'),
       masterProductId,
       storeId,
-      description: masterProductPriceInfo.get('description'),
-      effectiveFrom: masterProductPriceInfo.get('effectiveFrom'),
-      effectiveTo: masterProductPriceInfo.get('effectiveTo'),
     }),
   });
 }

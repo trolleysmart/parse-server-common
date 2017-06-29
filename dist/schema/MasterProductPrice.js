@@ -51,6 +51,19 @@ MasterProductPrice.spawn = function (info) {
 };
 
 MasterProductPrice.updateInfoInternal = function (object, info) {
+  var description = info.get('description');
+
+  object.set('description', description ? description.toLowerCase() : undefined);
+
+  var storeName = info.get('storeName');
+
+  object.set('storeName', storeName ? storeName.toLowerCase() : undefined);
+
+  object.set('priceDetails', info.get('priceDetails').toJS());
+  object.set('priceToDisplay', info.get('priceToDisplay'));
+  object.set('lastPriceDetailsUpdate', info.get('lastPriceDetailsUpdate'));
+  object.set('status', info.get('status'));
+
   if (info.has('masterProductId')) {
     var masterProductId = info.get('masterProductId');
 
@@ -78,18 +91,6 @@ MasterProductPrice.updateInfoInternal = function (object, info) {
       object.set('store', store);
     }
   }
-
-  var description = info.get('description');
-
-  object.set('description', description ? description.toLowerCase() : undefined);
-
-  var storeName = info.get('storeName');
-
-  object.set('storeName', storeName ? storeName.toLowerCase() : undefined);
-
-  object.set('priceDetails', info.get('priceDetails').toJS());
-  object.set('effectiveFrom', info.get('effectiveFrom'));
-  object.set('effectiveTo', info.get('effectiveTo'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -109,15 +110,16 @@ var _initialiseProps = function _initialiseProps() {
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      masterProduct: masterProduct.getInfo(),
-      masterProductId: masterProduct.getId(),
       description: _this2.getObject().get('description'),
-      store: store.getInfo(),
-      storeId: store.getId(),
       storeName: _this2.getObject().get('storeName'),
       priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),
-      effectiveFrom: _this2.getObject().get('effectiveFrom'),
-      effectiveTo: _this2.getObject().get('effectiveTo')
+      priceToDisplay: _this2.getObject().get('priceToDisplay'),
+      lastPriceDetailsUpdate: _this2.getObject().get('lastPriceDetailsUpdate'),
+      status: _this2.getObject().get('status'),
+      masterProduct: masterProduct.getInfo(),
+      masterProductId: masterProduct.getId(),
+      store: store.getInfo(),
+      storeId: store.getId()
     });
   };
 };

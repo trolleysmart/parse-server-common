@@ -259,19 +259,19 @@ MasterProductPriceService.count = function () {
 MasterProductPriceService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice, criteria);
 
-  if (criteria.has('includeStore')) {
-    var value = criteria.get('includeStore');
+  if (criteria.has('includeMasterProduct')) {
+    var value = criteria.get('includeMasterProduct');
 
     if (value) {
-      query.include('store');
+      query.include('masterProduct');
     }
   }
 
-  if (criteria.has('includeMasterProduct')) {
-    var _value = criteria.get('includeMasterProduct');
+  if (criteria.has('includeStore')) {
+    var _value = criteria.get('includeStore');
 
     if (_value) {
-      query.include('masterProduct');
+      query.include('store');
     }
   }
 
@@ -281,107 +281,99 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
-  if (conditions.has('masterProductId')) {
-    var _value2 = conditions.get('masterProductId');
+  if (conditions.has('priceToDisplay')) {
+    var _value2 = conditions.get('priceToDisplay');
 
     if (_value2) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value2));
+      query.equalTo('priceToDisplay', _value2);
     }
   }
 
-  if (conditions.has('storeId')) {
-    var _value3 = conditions.get('storeId');
+  if (conditions.has('lessThanOrEqualTo_priceToDisplay')) {
+    var _value3 = conditions.get('lessThanOrEqualTo_priceToDisplay');
 
     if (_value3) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value3));
+      query.lessThanOrEqualTo('priceToDisplay', _value3);
     }
   }
 
-  if (conditions.has('effectiveFrom')) {
-    var _value4 = conditions.get('effectiveFrom');
+  if (conditions.has('greaterThanOrEqualTo_priceToDisplay')) {
+    var _value4 = conditions.get('greaterThanOrEqualTo_priceToDisplay');
 
     if (_value4) {
-      query.equalTo('effectiveFrom', _value4);
+      query.greaterThanOrEqualTo('priceToDisplay', _value4);
     }
   }
 
-  if (conditions.has('lessThanOrEqualTo_effectiveFrom')) {
-    var _value5 = conditions.get('lessThanOrEqualTo_effectiveFrom');
+  if (conditions.has('lastPriceDetailsUpdate')) {
+    var _value5 = conditions.get('lastPriceDetailsUpdate');
 
     if (_value5) {
-      query.lessThanOrEqualTo('effectiveFrom', _value5);
+      query.equalTo('lastPriceDetailsUpdate', _value5);
     }
   }
 
-  if (conditions.has('greaterThanOrEqualTo_effectiveFrom')) {
-    var _value6 = conditions.get('greaterThanOrEqualTo_effectiveFrom');
+  if (conditions.has('lessThanOrEqualTo_lastPriceDetailsUpdate')) {
+    var _value6 = conditions.get('lessThanOrEqualTo_lastPriceDetailsUpdate');
 
     if (_value6) {
-      query.greaterThanOrEqualTo('effectiveFrom', _value6);
+      query.lessThanOrEqualTo('lastPriceDetailsUpdate', _value6);
     }
   }
 
-  if (conditions.has('effectiveTo')) {
-    var _value7 = conditions.get('effectiveTo');
+  if (conditions.has('greaterThanOrEqualTo_lastPriceDetailsUpdate')) {
+    var _value7 = conditions.get('greaterThanOrEqualTo_lastPriceDetailsUpdate');
 
     if (_value7) {
-      query.equalTo('effectiveTo', _value7);
+      query.greaterThanOrEqualTo('lastPriceDetailsUpdate', _value7);
     }
   }
 
-  if (conditions.has('lessThanOrEqualTo_effectiveTo')) {
-    var _value8 = conditions.get('lessThanOrEqualTo_effectiveTo');
+  if (conditions.has('status')) {
+    var _value8 = conditions.get('status');
 
     if (_value8) {
-      query.lessThanOrEqualTo('effectiveTo', _value8);
-    }
-  }
-
-  if (conditions.has('greaterThanOrEqualTo_effectiveTo')) {
-    var _value9 = conditions.get('greaterThanOrEqualTo_effectiveTo');
-
-    if (_value9) {
-      query.greaterThanOrEqualTo('effectiveTo', _value9);
+      query.equalTo('status', _value8);
     }
   }
 
   if (conditions.has('specialType')) {
-    var _value10 = conditions.get('specialType');
+    var _value9 = conditions.get('specialType');
 
-    if (_value10) {
-      query.equalTo('priceDetails.specialType', _value10);
+    if (_value9) {
+      query.equalTo('priceDetails.specialType', _value9);
     }
   }
 
   if (conditions.has('not_specialType')) {
-    var _value11 = conditions.get('not_specialType');
+    var _value10 = conditions.get('not_specialType');
 
-    if (_value11) {
-      query.notEqualTo('priceDetails.specialType', _value11);
+    if (_value10) {
+      query.notEqualTo('priceDetails.specialType', _value10);
     }
   }
 
   if (conditions.has('description')) {
-    var _value12 = conditions.get('description');
+    var _value11 = conditions.get('description');
 
-    if (_value12) {
-      query.equalTo('description', _value12.toLowerCase());
+    if (_value11) {
+      query.equalTo('description', _value11.toLowerCase());
     }
   }
 
   if (conditions.has('startsWith_description')) {
-    var _value13 = conditions.get('startsWith_description');
+    var _value12 = conditions.get('startsWith_description');
 
-    if (_value13) {
-      query.startsWith('description', _value13.toLowerCase());
+    if (_value12) {
+      query.startsWith('description', _value12.toLowerCase());
     }
   }
 
   if (conditions.has('contains_description')) {
-    var _value14 = conditions.get('contains_description');
+    var _value13 = conditions.get('contains_description');
 
-    if (_value14) {
-      query.contains('description', _value14.toLowerCase());
+    if (_value13) {
+      query.contains('description', _value13.toLowerCase());
     }
   }
 
@@ -400,26 +392,26 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
   }
 
   if (conditions.has('storeName')) {
-    var _value15 = conditions.get('storeName');
+    var _value14 = conditions.get('storeName');
 
-    if (_value15) {
-      query.equalTo('storeName', _value15);
+    if (_value14) {
+      query.equalTo('storeName', _value14);
     }
   }
 
   if (conditions.has('startsWith_storeName')) {
-    var _value16 = conditions.get('startsWith_storeName');
+    var _value15 = conditions.get('startsWith_storeName');
 
-    if (_value16) {
-      query.startsWith('storeName', _value16);
+    if (_value15) {
+      query.startsWith('storeName', _value15);
     }
   }
 
   if (conditions.has('contains_storeName')) {
-    var _value17 = conditions.get('contains_storeName');
+    var _value16 = conditions.get('contains_storeName');
 
-    if (_value17) {
-      query.contains('storeName', _value17);
+    if (_value16) {
+      query.contains('storeName', _value16);
     }
   }
 
@@ -434,6 +426,22 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
       }).reduce(function (reduction, value) {
         return reduction + value;
       }));
+    }
+  }
+
+  if (conditions.has('masterProductId')) {
+    var _value17 = conditions.get('masterProductId');
+
+    if (_value17) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value17));
+    }
+  }
+
+  if (conditions.has('storeId')) {
+    var _value18 = conditions.get('storeId');
+
+    if (_value18) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value18));
     }
   }
 

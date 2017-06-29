@@ -73,19 +73,19 @@ export default class MasterProductPriceService {
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
 
-    if (criteria.has('includeStore')) {
-      const value = criteria.get('includeStore');
-
-      if (value) {
-        query.include('store');
-      }
-    }
-
     if (criteria.has('includeMasterProduct')) {
       const value = criteria.get('includeMasterProduct');
 
       if (value) {
         query.include('masterProduct');
+      }
+    }
+
+    if (criteria.has('includeStore')) {
+      const value = criteria.get('includeStore');
+
+      if (value) {
+        query.include('store');
       }
     }
 
@@ -95,67 +95,59 @@ export default class MasterProductPriceService {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('masterProductId')) {
-      const value = conditions.get('masterProductId');
+    if (conditions.has('priceToDisplay')) {
+      const value = conditions.get('priceToDisplay');
 
       if (value) {
-        query.equalTo('masterProduct', MasterProduct.createWithoutData(value));
+        query.equalTo('priceToDisplay', value);
       }
     }
 
-    if (conditions.has('storeId')) {
-      const value = conditions.get('storeId');
+    if (conditions.has('lessThanOrEqualTo_priceToDisplay')) {
+      const value = conditions.get('lessThanOrEqualTo_priceToDisplay');
 
       if (value) {
-        query.equalTo('store', Store.createWithoutData(value));
+        query.lessThanOrEqualTo('priceToDisplay', value);
       }
     }
 
-    if (conditions.has('effectiveFrom')) {
-      const value = conditions.get('effectiveFrom');
+    if (conditions.has('greaterThanOrEqualTo_priceToDisplay')) {
+      const value = conditions.get('greaterThanOrEqualTo_priceToDisplay');
 
       if (value) {
-        query.equalTo('effectiveFrom', value);
+        query.greaterThanOrEqualTo('priceToDisplay', value);
       }
     }
 
-    if (conditions.has('lessThanOrEqualTo_effectiveFrom')) {
-      const value = conditions.get('lessThanOrEqualTo_effectiveFrom');
+    if (conditions.has('lastPriceDetailsUpdate')) {
+      const value = conditions.get('lastPriceDetailsUpdate');
 
       if (value) {
-        query.lessThanOrEqualTo('effectiveFrom', value);
+        query.equalTo('lastPriceDetailsUpdate', value);
       }
     }
 
-    if (conditions.has('greaterThanOrEqualTo_effectiveFrom')) {
-      const value = conditions.get('greaterThanOrEqualTo_effectiveFrom');
+    if (conditions.has('lessThanOrEqualTo_lastPriceDetailsUpdate')) {
+      const value = conditions.get('lessThanOrEqualTo_lastPriceDetailsUpdate');
 
       if (value) {
-        query.greaterThanOrEqualTo('effectiveFrom', value);
+        query.lessThanOrEqualTo('lastPriceDetailsUpdate', value);
       }
     }
 
-    if (conditions.has('effectiveTo')) {
-      const value = conditions.get('effectiveTo');
+    if (conditions.has('greaterThanOrEqualTo_lastPriceDetailsUpdate')) {
+      const value = conditions.get('greaterThanOrEqualTo_lastPriceDetailsUpdate');
 
       if (value) {
-        query.equalTo('effectiveTo', value);
+        query.greaterThanOrEqualTo('lastPriceDetailsUpdate', value);
       }
     }
 
-    if (conditions.has('lessThanOrEqualTo_effectiveTo')) {
-      const value = conditions.get('lessThanOrEqualTo_effectiveTo');
+    if (conditions.has('status')) {
+      const value = conditions.get('status');
 
       if (value) {
-        query.lessThanOrEqualTo('effectiveTo', value);
-      }
-    }
-
-    if (conditions.has('greaterThanOrEqualTo_effectiveTo')) {
-      const value = conditions.get('greaterThanOrEqualTo_effectiveTo');
-
-      if (value) {
-        query.greaterThanOrEqualTo('effectiveTo', value);
+        query.equalTo('status', value);
       }
     }
 
@@ -240,6 +232,22 @@ export default class MasterProductPriceService {
         query.contains('storeName', values.first().toLowerCase());
       } else if (values && values.count() > 1) {
         query.matches('storeName', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+      }
+    }
+
+    if (conditions.has('masterProductId')) {
+      const value = conditions.get('masterProductId');
+
+      if (value) {
+        query.equalTo('masterProduct', MasterProduct.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('storeId')) {
+      const value = conditions.get('storeId');
+
+      if (value) {
+        query.equalTo('store', Store.createWithoutData(value));
       }
     }
 
