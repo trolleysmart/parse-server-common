@@ -91,7 +91,7 @@ export default class TagService {
       const value = conditions.get('description');
 
       if (value) {
-        query.equalTo('lowerCaseDescription', value);
+        query.equalTo('lowerCaseDescription', value.toLowerCase());
       }
     }
 
@@ -99,7 +99,7 @@ export default class TagService {
       const value = conditions.get('startsWith_description');
 
       if (value) {
-        query.startsWith('lowerCaseDescription', value);
+        query.startsWith('lowerCaseDescription', value.toLowerCase());
       }
     }
 
@@ -107,7 +107,7 @@ export default class TagService {
       const value = conditions.get('contains_description');
 
       if (value) {
-        query.contains('lowerCaseDescription', value);
+        query.contains('lowerCaseDescription', value.toLowerCase());
       }
     }
 

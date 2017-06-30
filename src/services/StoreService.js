@@ -82,7 +82,7 @@ export default class StoreService {
       const value = conditions.get('name');
 
       if (value) {
-        query.equalTo('name', value);
+        query.equalTo('lowerCaseName', value.toLowerCase());
       }
     }
 
@@ -90,7 +90,7 @@ export default class StoreService {
       const value = conditions.get('startsWith_name');
 
       if (value) {
-        query.startsWith('name', value);
+        query.startsWith('lowerCaseName', value.toLowerCase());
       }
     }
 
@@ -98,7 +98,7 @@ export default class StoreService {
       const value = conditions.get('contains_name');
 
       if (value) {
-        query.contains('name', value);
+        query.contains('lowerCaseName', value.toLowerCase());
       }
     }
 
@@ -106,9 +106,9 @@ export default class StoreService {
       const values = conditions.get('contains_names');
 
       if (values && values.count() === 1) {
-        query.contains('name', values.first().toLowerCase());
+        query.contains('lowerCaseName', values.first().toLowerCase());
       } else if (values && values.count() > 1) {
-        query.matches('name', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+        query.matches('lowerCaseName', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
       }
     }
 

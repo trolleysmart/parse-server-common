@@ -268,7 +268,7 @@ StoreService.buildSearchQuery = function (criteria) {
     var value = conditions.get('name');
 
     if (value) {
-      query.equalTo('name', value);
+      query.equalTo('lowerCaseName', value.toLowerCase());
     }
   }
 
@@ -276,7 +276,7 @@ StoreService.buildSearchQuery = function (criteria) {
     var _value = conditions.get('startsWith_name');
 
     if (_value) {
-      query.startsWith('name', _value);
+      query.startsWith('lowerCaseName', _value.toLowerCase());
     }
   }
 
@@ -284,7 +284,7 @@ StoreService.buildSearchQuery = function (criteria) {
     var _value2 = conditions.get('contains_name');
 
     if (_value2) {
-      query.contains('name', _value2);
+      query.contains('lowerCaseName', _value2.toLowerCase());
     }
   }
 
@@ -292,9 +292,9 @@ StoreService.buildSearchQuery = function (criteria) {
     var values = conditions.get('contains_names');
 
     if (values && values.count() === 1) {
-      query.contains('name', values.first().toLowerCase());
+      query.contains('lowerCaseName', values.first().toLowerCase());
     } else if (values && values.count() > 1) {
-      query.matches('name', values.map(function (value) {
+      query.matches('lowerCaseName', values.map(function (value) {
         return '(?=.*' + value.toLowerCase() + ')';
       }).reduce(function (reduction, value) {
         return reduction + value;
