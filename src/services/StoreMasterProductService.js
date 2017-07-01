@@ -209,6 +209,14 @@ export default class StoreMasterProductService {
       }
     }
 
+    if (conditions.has('without_masterProduct')) {
+      const value = conditions.get('without_masterProduct');
+
+      if (value) {
+        query.doesNotExist('masterProduct');
+      }
+    }
+
     if (conditions.has('masterProduct')) {
       const value = conditions.get('masterProduct');
 
