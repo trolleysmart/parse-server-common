@@ -395,7 +395,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value14 = conditions.get('storeName');
 
     if (_value14) {
-      query.equalTo('storeName', _value14);
+      query.equalTo('storeName', _value14.toLowerCase());
     }
   }
 
@@ -403,7 +403,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value15 = conditions.get('startsWith_storeName');
 
     if (_value15) {
-      query.startsWith('storeName', _value15);
+      query.startsWith('storeName', _value15.toLowerCase());
     }
   }
 
@@ -411,7 +411,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     var _value16 = conditions.get('contains_storeName');
 
     if (_value16) {
-      query.contains('storeName', _value16);
+      query.contains('storeName', _value16.toLowerCase());
     }
   }
 

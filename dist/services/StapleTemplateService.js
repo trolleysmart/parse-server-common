@@ -269,7 +269,7 @@ StapleTemplateService.buildSearchQuery = function (criteria) {
     var value = conditions.get('name');
 
     if (value) {
-      query.equalTo('name', value);
+      query.equalTo('name', value.toLowerCase());
     }
   }
 
@@ -277,7 +277,7 @@ StapleTemplateService.buildSearchQuery = function (criteria) {
     var _value = conditions.get('startsWith_name');
 
     if (_value) {
-      query.startsWith('name', _value);
+      query.startsWith('name', _value.toLowerCase());
     }
   }
 
@@ -285,7 +285,7 @@ StapleTemplateService.buildSearchQuery = function (criteria) {
     var _value2 = conditions.get('contains_name');
 
     if (_value2) {
-      query.contains('name', _value2);
+      query.contains('name', _value2.toLowerCase());
     }
   }
 

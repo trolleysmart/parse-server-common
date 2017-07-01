@@ -205,7 +205,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('storeName');
 
       if (value) {
-        query.equalTo('storeName', value);
+        query.equalTo('storeName', value.toLowerCase());
       }
     }
 
@@ -213,7 +213,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('startsWith_storeName');
 
       if (value) {
-        query.startsWith('storeName', value);
+        query.startsWith('storeName', value.toLowerCase());
       }
     }
 
@@ -221,7 +221,7 @@ export default class MasterProductPriceService {
       const value = conditions.get('contains_storeName');
 
       if (value) {
-        query.contains('storeName', value);
+        query.contains('storeName', value.toLowerCase());
       }
     }
 

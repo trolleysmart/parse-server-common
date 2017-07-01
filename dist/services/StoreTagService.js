@@ -301,7 +301,7 @@ StoreTagService.buildSearchQuery = function (criteria) {
     var _value4 = conditions.get('description');
 
     if (_value4) {
-      query.equalTo('lowerCaseDescription', _value4);
+      query.equalTo('lowerCaseDescription', _value4.toLowerCase());
     }
   }
 
@@ -309,7 +309,7 @@ StoreTagService.buildSearchQuery = function (criteria) {
     var _value5 = conditions.get('startsWith_description');
 
     if (_value5) {
-      query.startsWith('lowerCaseDescription', _value5);
+      query.startsWith('lowerCaseDescription', _value5.toLowerCase());
     }
   }
 
@@ -317,7 +317,7 @@ StoreTagService.buildSearchQuery = function (criteria) {
     var _value6 = conditions.get('contains_description');
 
     if (_value6) {
-      query.contains('lowerCaseDescription', _value6);
+      query.contains('lowerCaseDescription', _value6.toLowerCase());
     }
   }
 

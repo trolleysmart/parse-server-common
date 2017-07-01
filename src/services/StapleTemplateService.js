@@ -83,7 +83,7 @@ export default class StapleTemplateService {
       const value = conditions.get('name');
 
       if (value) {
-        query.equalTo('name', value);
+        query.equalTo('name', value.toLowerCase());
       }
     }
 
@@ -91,7 +91,7 @@ export default class StapleTemplateService {
       const value = conditions.get('startsWith_name');
 
       if (value) {
-        query.startsWith('name', value);
+        query.startsWith('name', value.toLowerCase());
       }
     }
 
@@ -99,7 +99,7 @@ export default class StapleTemplateService {
       const value = conditions.get('contains_name');
 
       if (value) {
-        query.contains('name', value);
+        query.contains('name', value.toLowerCase());
       }
     }
 
