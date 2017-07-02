@@ -11,6 +11,7 @@ import { createStoreInfo } from '../../schema/__tests__/Store.test';
 
 function expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMasterProductInfo, storeMasterProductId) {
   expect(storeMasterProductInfo.get('id')).toBe(storeMasterProductId);
+  expect(storeMasterProductInfo.get('name')).toBe(expectedStoreMasterProductInfo.get('name'));
   expect(storeMasterProductInfo.get('description')).toBe(expectedStoreMasterProductInfo.get('description'));
   expect(storeMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
   expect(storeMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
@@ -20,9 +21,10 @@ function expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMaste
 
 export function createCriteria() {
   return Map({
-    fields: List.of('description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
+    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
     includeStoreTags: true,
     conditions: Map({
+      name: uuid(),
       description: uuid(),
       barcode: uuid(),
       productPageUrl: uuid(),
@@ -33,9 +35,10 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo) {
   return Map({
-    fields: List.of('description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
+    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
     includeStoreTags: true,
     conditions: Map({
+      name: storeMasterProductInfo.get('name'),
       description: storeMasterProductInfo.get('description'),
       barcode: storeMasterProductInfo.get('barcode'),
       productPageUrl: storeMasterProductInfo.get('productPageUrl'),

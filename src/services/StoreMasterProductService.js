@@ -3,9 +3,10 @@
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { Store, MasterProduct, StoreMasterProduct, StoreTag } from '../schema';
+import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
-export default class StoreMasterProductService {
+export default class StoreMasterProductService extends ServiceBase {
   static create = async (info) => {
     const result = await StoreMasterProduct.spawn(info).save();
 
@@ -103,39 +104,8 @@ export default class StoreMasterProductService {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('description')) {
-      const value = conditions.get('description');
-
-      if (value) {
-        query.equalTo('lowerCaseDescription', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('startsWith_description')) {
-      const value = conditions.get('startsWith_description');
-
-      if (value) {
-        query.startsWith('lowerCaseDescription', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_description')) {
-      const value = conditions.get('contains_description');
-
-      if (value) {
-        query.contains('lowerCaseDescription', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_descriptions')) {
-      const values = conditions.get('contains_descriptions');
-
-      if (values && values.count() === 1) {
-        query.contains('lowerCaseDescription', values.first().toLowerCase());
-      } else if (values && values.count() > 1) {
-        query.matches('lowerCaseDescription', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
-      }
-    }
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
     if (conditions.has('barcode')) {
       const value = conditions.get('barcode');

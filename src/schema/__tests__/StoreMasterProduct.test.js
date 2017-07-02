@@ -6,6 +6,7 @@ import { StoreMasterProduct } from '../';
 
 export function createStoreMasterProductInfo(storeTagIds, storeId, tagId) {
   const info = Map({
+    name: uuid(),
     description: uuid(),
     barcode: uuid(),
     productPageUrl: uuid(),
@@ -28,6 +29,7 @@ export function createStoreMasterProduct(storeStoreMasterProductInfo) {
 }
 
 function expectStoreMasterProductInfo(storeStoreMasterProductInfo, expectedStoreMasterProductInfo) {
+  expect(storeStoreMasterProductInfo.get('name')).toBe(expectedStoreMasterProductInfo.get('name'));
   expect(storeStoreMasterProductInfo.get('description')).toBe(expectedStoreMasterProductInfo.get('description'));
   expect(storeStoreMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
   expect(storeStoreMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
