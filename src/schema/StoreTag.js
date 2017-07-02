@@ -22,6 +22,7 @@ export default class StoreTag extends BaseObject {
     object.set('description', description);
     object.set('lowerCaseDescription', description ? description.toLowerCase() : undefined);
 
+    object.set('url', info.get('url'));
     object.set('weight', info.get('weight'));
 
     if (info.has('storeTagIds')) {
@@ -96,6 +97,7 @@ export default class StoreTag extends BaseObject {
       key: this.getObject().get('key'),
       description: this.getObject().get('description'),
       weight: this.getObject().get('weight'),
+      url: this.getObject().get('url'),
       storeTags,
       storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store,

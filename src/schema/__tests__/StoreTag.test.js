@@ -9,6 +9,7 @@ export function createStoreTagInfo(storeId, tagId) {
     key: uuid(),
     description: uuid(),
     weight: 1,
+    url: uuid(),
   });
 
   const infoWithStore = storeId ? info.merge({ storeId }) : info;
@@ -24,6 +25,7 @@ function expectStoreTagInfo(storeTagInfo, expectedStoreTagInfo) {
   expect(storeTagInfo.get('key')).toBe(expectedStoreTagInfo.get('key'));
   expect(storeTagInfo.get('description')).toBe(expectedStoreTagInfo.get('description'));
   expect(storeTagInfo.get('weight')).toBe(expectedStoreTagInfo.get('weight'));
+  expect(storeTagInfo.get('url')).toBe(expectedStoreTagInfo.get('url'));
   expect(storeTagInfo.get('storeId')).toBe(expectedStoreTagInfo.get('storeId'));
   expect(storeTagInfo.get('tagId')).toBe(expectedStoreTagInfo.get('tagId'));
 }

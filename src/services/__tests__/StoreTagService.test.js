@@ -13,26 +13,29 @@ function expectStoreTagInfo(storeTagInfo, expectedStoreTagInfo, storeTagId) {
   expect(storeTagInfo.get('key')).toBe(expectedStoreTagInfo.get('key'));
   expect(storeTagInfo.get('description')).toBe(expectedStoreTagInfo.get('description'));
   expect(storeTagInfo.get('weight')).toBe(expectedStoreTagInfo.get('weight'));
+  expect(storeTagInfo.get('url')).toBe(expectedStoreTagInfo.get('url'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('key', 'description', 'weight', 'store', 'tag'),
+    fields: List.of('key', 'description', 'weight', 'url', 'store', 'tag'),
     conditions: Map({
       key: uuid(),
       description: uuid(),
       weight: 1,
+      url: uuid(),
     }),
   });
 }
 
 function createCriteriaUsingProvidedStoreTagInfo(storeTagInfo) {
   return Map({
-    fields: List.of('key', 'description', 'weight', 'store', 'tag'),
+    fields: List.of('key', 'description', 'weight', 'url', 'store', 'tag'),
     conditions: Map({
       key: storeTagInfo.get('key'),
       description: storeTagInfo.get('description'),
       weigth: storeTagInfo.get('weight'),
+      url: storeTagInfo.get('url'),
       storeId: storeTagInfo.get('storeId'),
       tagId: storeTagInfo.get('tagId'),
     }),

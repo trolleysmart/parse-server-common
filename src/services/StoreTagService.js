@@ -153,6 +153,14 @@ export default class StoreTagService {
       }
     }
 
+    if (conditions.has('url')) {
+      const value = conditions.get('url');
+
+      if (value) {
+        query.equalTo('url', value);
+      }
+    }
+
     if (conditions.has('storeTag')) {
       const value = conditions.get('storeTag');
 
