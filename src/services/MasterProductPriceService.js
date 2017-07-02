@@ -3,9 +3,10 @@
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { MasterProduct, MasterProductPrice, Store } from '../schema';
+import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
-export default class MasterProductPriceService {
+export default class MasterProductPriceService extends ServiceBase {
   static create = async (info) => {
     const result = await MasterProductPrice.spawn(info).save();
 
@@ -167,73 +168,8 @@ export default class MasterProductPriceService {
       }
     }
 
-    if (conditions.has('description')) {
-      const value = conditions.get('description');
-
-      if (value) {
-        query.equalTo('description', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('startsWith_description')) {
-      const value = conditions.get('startsWith_description');
-
-      if (value) {
-        query.startsWith('description', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_description')) {
-      const value = conditions.get('contains_description');
-
-      if (value) {
-        query.contains('description', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_descriptions')) {
-      const values = conditions.get('contains_descriptions');
-
-      if (values && values.count() === 1) {
-        query.contains('description', values.first().toLowerCase());
-      } else if (values && values.count() > 1) {
-        query.matches('description', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
-      }
-    }
-
-    if (conditions.has('storeName')) {
-      const value = conditions.get('storeName');
-
-      if (value) {
-        query.equalTo('storeName', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('startsWith_storeName')) {
-      const value = conditions.get('startsWith_storeName');
-
-      if (value) {
-        query.startsWith('storeName', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_storeName')) {
-      const value = conditions.get('contains_storeName');
-
-      if (value) {
-        query.contains('storeName', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_storeNames')) {
-      const values = conditions.get('contains_storeNames');
-
-      if (values && values.count() === 1) {
-        query.contains('storeName', values.first().toLowerCase());
-      } else if (values && values.count() > 1) {
-        query.matches('storeName', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
-      }
-    }
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
 
     if (conditions.has('masterProductId')) {
       const value = conditions.get('masterProductId');

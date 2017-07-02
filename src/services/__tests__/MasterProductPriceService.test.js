@@ -10,7 +10,7 @@ import { createStoreInfo } from '../../schema/__tests__/Store.test';
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
-  expect(masterProductPriceInfo.get('description')).toEqual(expectedMasterProductPriceInfo.get('description'));
+  expect(masterProductPriceInfo.get('name')).toEqual(expectedMasterProductPriceInfo.get('name'));
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
@@ -22,7 +22,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 export function createCriteria() {
   return Map({
-    fields: List.of('description', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
+    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -34,11 +34,11 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return Map({
-    fields: List.of('description', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
+    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
-      description: masterProductPriceInfo.get('description'),
+      name: masterProductPriceInfo.get('name'),
       storeName: masterProductPriceInfo.get('storeName'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
       lastPriceDetailsUpdate: masterProductPriceInfo.get('lastPriceDetailsUpdate'),

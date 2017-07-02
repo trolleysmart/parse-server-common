@@ -15,9 +15,9 @@ export default class MasterProductPrice extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    const description = info.get('description');
+    const name = info.get('name');
 
-    object.set('description', description ? description.toLowerCase() : undefined);
+    object.set('name', name ? name.toLowerCase() : undefined);
 
     const storeName = info.get('storeName');
 
@@ -75,7 +75,7 @@ export default class MasterProductPrice extends BaseObject {
 
     return Map({
       id: this.getId(),
-      description: this.getObject().get('description'),
+      name: this.getObject().get('name'),
       storeName: this.getObject().get('storeName'),
       priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
       priceToDisplay: this.getObject().get('priceToDisplay'),
