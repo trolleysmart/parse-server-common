@@ -6,6 +6,7 @@ import { MasterProduct } from '../';
 
 export function createMasterProductInfo(tagIds) {
   const info = Map({
+    name: uuid(),
     description: uuid(),
     barcode: uuid(),
     imageUrl: uuid(),
@@ -23,6 +24,7 @@ export function createMasterProduct(masterProductInfo) {
 }
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
+  expect(masterProductInfo.get('name')).toBe(expectedMasterProductInfo.get('name'));
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));

@@ -14,8 +14,16 @@ export default class MasterProduct extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('description', info.get('description'));
-    object.set('lowerCaseDescription', info.get('description').toLowerCase());
+    const name = info.get('name');
+
+    object.set('name', name);
+    object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
+
+    const description = info.get('description');
+
+    object.set('description', description);
+    object.set('lowerCaseDescription', description ? description.toLowerCase() : undefined);
+
     object.set('barcode', info.get('barcode'));
     object.set('imageUrl', info.get('imageUrl'));
 
@@ -56,6 +64,7 @@ export default class MasterProduct extends BaseObject {
 
     return Map({
       id: this.getId(),
+      name: this.getObject().get('name'),
       description: this.getObject().get('description'),
       barcode: this.getObject().get('barcode'),
       imageUrl: this.getObject().get('imageUrl'),
