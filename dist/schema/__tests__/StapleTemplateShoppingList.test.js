@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createStapleTemplateShoppingListInfo(stapleTemplateIds, tagIds) {
   var info = (0, _immutable.Map)({
-    description: (0, _v2.default)()
+    name: (0, _v2.default)()
   });
 
   var infoWithStapleTemplateIds = stapleTemplateIds ? info.merge({
@@ -35,7 +35,7 @@ function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo) {
 }
 
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo) {
-  expect(stapleTemplateShoppingListInfo.get('description')).toBe(expectedStapleTemplateShoppingListInfo.get('description'));
+  expect(stapleTemplateShoppingListInfo.get('name')).toBe(expectedStapleTemplateShoppingListInfo.get('name'));
   expect(stapleTemplateShoppingListInfo.get('stapleTemplates')).toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplates'));
   expect(stapleTemplateShoppingListInfo.get('tags')).toEqual(expectedStapleTemplateShoppingListInfo.get('tags'));
 }

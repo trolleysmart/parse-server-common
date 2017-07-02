@@ -26,26 +26,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId) {
   expect(stapleTemplateShoppingListInfo.get('id')).toBe(stapleTemplateShoppingListId);
-  expect(stapleTemplateShoppingListInfo.get('description')).toBe(expectedStapleTemplateShoppingListInfo.get('description'));
+  expect(stapleTemplateShoppingListInfo.get('name')).toBe(expectedStapleTemplateShoppingListInfo.get('name'));
   expect(stapleTemplateShoppingListInfo.get('stapleTemplateIds')).toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplateIds'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'stapleTemplates'),
+    fields: _immutable.List.of('name', 'stapleTemplates'),
     includeStapleTemplates: true,
     conditions: (0, _immutable.Map)({
-      description: (0, _v2.default)()
+      name: (0, _v2.default)()
     })
   });
 }
 
 function createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'stapleTemplates'),
+    fields: _immutable.List.of('name', 'stapleTemplates'),
     includeStapleTemplates: true,
     conditions: (0, _immutable.Map)({
-      description: stapleTemplateShoppingListInfo.get('description'),
+      name: stapleTemplateShoppingListInfo.get('name'),
       stapleTemplates: stapleTemplateShoppingListInfo.get('stapleTemplates')
     })
   });

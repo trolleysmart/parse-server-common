@@ -28,7 +28,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
-  expect(masterProductPriceInfo.get('description')).toEqual(expectedMasterProductPriceInfo.get('description'));
+  expect(masterProductPriceInfo.get('name')).toEqual(expectedMasterProductPriceInfo.get('name'));
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
@@ -40,7 +40,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
+    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
@@ -52,11 +52,11 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
+    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
-      description: masterProductPriceInfo.get('description'),
+      name: masterProductPriceInfo.get('name'),
       storeName: masterProductPriceInfo.get('storeName'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
       lastPriceDetailsUpdate: masterProductPriceInfo.get('lastPriceDetailsUpdate'),

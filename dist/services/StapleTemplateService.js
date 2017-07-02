@@ -12,6 +12,10 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('../schema');
 
+var _ServiceBase2 = require('./ServiceBase');
+
+var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
+
 var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
@@ -22,9 +26,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var StapleTemplateService = function StapleTemplateService() {
-  _classCallCheck(this, StapleTemplateService);
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StapleTemplateService = function (_ServiceBase) {
+  _inherits(StapleTemplateService, _ServiceBase);
+
+  function StapleTemplateService() {
+    _classCallCheck(this, StapleTemplateService);
+
+    return _possibleConstructorReturn(this, (StapleTemplateService.__proto__ || Object.getPrototypeOf(StapleTemplateService)).apply(this, arguments));
+  }
+
+  return StapleTemplateService;
+}(_ServiceBase3.default);
 
 StapleTemplateService.create = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
@@ -265,43 +281,7 @@ StapleTemplateService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
-  if (conditions.has('name')) {
-    var value = conditions.get('name');
-
-    if (value) {
-      query.equalTo('name', value.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_name')) {
-    var _value = conditions.get('startsWith_name');
-
-    if (_value) {
-      query.startsWith('name', _value.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_name')) {
-    var _value2 = conditions.get('contains_name');
-
-    if (_value2) {
-      query.contains('name', _value2.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_names')) {
-    var values = conditions.get('contains_names');
-
-    if (values && values.count() === 1) {
-      query.contains('name', values.first().toLowerCase());
-    } else if (values && values.count() > 1) {
-      query.matches('name', values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      }));
-    }
-  }
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   return query;
 };

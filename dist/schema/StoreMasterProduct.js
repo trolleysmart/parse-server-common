@@ -55,8 +55,16 @@ StoreMasterProduct.spawn = function (info) {
 };
 
 StoreMasterProduct.updateInfoInternal = function (object, info) {
-  object.set('description', info.get('description'));
-  object.set('lowerCaseDescription', info.get('description').toLowerCase());
+  var name = info.get('name');
+
+  object.set('name', name);
+  object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
+
+  var description = info.get('description');
+
+  object.set('description', description);
+  object.set('lowerCaseDescription', description ? description.toLowerCase() : undefined);
+
   object.set('barcode', info.get('barcode'));
   object.set('productPageUrl', info.get('productPageUrl'));
   object.set('imageUrl', info.get('imageUrl'));
@@ -133,6 +141,7 @@ var _initialiseProps = function _initialiseProps() {
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
+      name: _this2.getObject().get('name'),
       description: _this2.getObject().get('description'),
       barcode: _this2.getObject().get('barcode'),
       productPageUrl: _this2.getObject().get('productPageUrl'),

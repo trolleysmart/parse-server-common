@@ -12,6 +12,10 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('../schema');
 
+var _ServiceBase2 = require('./ServiceBase');
+
+var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
+
 var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
@@ -22,9 +26,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ShoppingListService = function ShoppingListService() {
-  _classCallCheck(this, ShoppingListService);
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ShoppingListService = function (_ServiceBase) {
+  _inherits(ShoppingListService, _ServiceBase);
+
+  function ShoppingListService() {
+    _classCallCheck(this, ShoppingListService);
+
+    return _possibleConstructorReturn(this, (ShoppingListService.__proto__ || Object.getPrototypeOf(ShoppingListService)).apply(this, arguments));
+  }
+
+  return ShoppingListService;
+}(_ServiceBase3.default);
 
 ShoppingListService.create = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
@@ -337,43 +353,7 @@ ShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('description')) {
-    var _value9 = conditions.get('description');
-
-    if (_value9) {
-      query.equalTo('description', _value9.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_description')) {
-    var _value10 = conditions.get('startsWith_description');
-
-    if (_value10) {
-      query.startsWith('description', _value10.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_description')) {
-    var _value11 = conditions.get('contains_description');
-
-    if (_value11) {
-      query.contains('description', _value11.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_descriptions')) {
-    var values = conditions.get('contains_descriptions');
-
-    if (values && values.count() === 1) {
-      query.contains('description', values.first().toLowerCase());
-    } else if (values && values.count() > 1) {
-      query.matches('description', values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      }));
-    }
-  }
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'name');
 
   return query;
 };

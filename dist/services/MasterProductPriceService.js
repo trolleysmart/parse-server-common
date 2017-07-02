@@ -12,6 +12,10 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('../schema');
 
+var _ServiceBase2 = require('./ServiceBase');
+
+var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
+
 var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
@@ -22,9 +26,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MasterProductPriceService = function MasterProductPriceService() {
-  _classCallCheck(this, MasterProductPriceService);
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MasterProductPriceService = function (_ServiceBase) {
+  _inherits(MasterProductPriceService, _ServiceBase);
+
+  function MasterProductPriceService() {
+    _classCallCheck(this, MasterProductPriceService);
+
+    return _possibleConstructorReturn(this, (MasterProductPriceService.__proto__ || Object.getPrototypeOf(MasterProductPriceService)).apply(this, arguments));
+  }
+
+  return MasterProductPriceService;
+}(_ServiceBase3.default);
 
 MasterProductPriceService.create = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
@@ -353,95 +369,22 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('description')) {
-    var _value11 = conditions.get('description');
-
-    if (_value11) {
-      query.equalTo('description', _value11.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_description')) {
-    var _value12 = conditions.get('startsWith_description');
-
-    if (_value12) {
-      query.startsWith('description', _value12.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_description')) {
-    var _value13 = conditions.get('contains_description');
-
-    if (_value13) {
-      query.contains('description', _value13.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_descriptions')) {
-    var values = conditions.get('contains_descriptions');
-
-    if (values && values.count() === 1) {
-      query.contains('description', values.first().toLowerCase());
-    } else if (values && values.count() > 1) {
-      query.matches('description', values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      }));
-    }
-  }
-
-  if (conditions.has('storeName')) {
-    var _value14 = conditions.get('storeName');
-
-    if (_value14) {
-      query.equalTo('storeName', _value14.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_storeName')) {
-    var _value15 = conditions.get('startsWith_storeName');
-
-    if (_value15) {
-      query.startsWith('storeName', _value15.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_storeName')) {
-    var _value16 = conditions.get('contains_storeName');
-
-    if (_value16) {
-      query.contains('storeName', _value16.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_storeNames')) {
-    var _values = conditions.get('contains_storeNames');
-
-    if (_values && _values.count() === 1) {
-      query.contains('storeName', _values.first().toLowerCase());
-    } else if (_values && _values.count() > 1) {
-      query.matches('storeName', _values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      }));
-    }
-  }
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'name');
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
 
   if (conditions.has('masterProductId')) {
-    var _value17 = conditions.get('masterProductId');
+    var _value11 = conditions.get('masterProductId');
 
-    if (_value17) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value17));
+    if (_value11) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value11));
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value18 = conditions.get('storeId');
+    var _value12 = conditions.get('storeId');
 
-    if (_value18) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value18));
+    if (_value12) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value12));
     }
   }
 

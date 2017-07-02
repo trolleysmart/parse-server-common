@@ -3,9 +3,10 @@
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { StapleTemplate } from '../schema';
+import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
-export default class StapleTemplateService {
+export default class StapleTemplateService extends ServiceBase {
   static create = async (info) => {
     const result = await StapleTemplate.spawn(info).save();
 
@@ -79,39 +80,7 @@ export default class StapleTemplateService {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('name')) {
-      const value = conditions.get('name');
-
-      if (value) {
-        query.equalTo('name', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('startsWith_name')) {
-      const value = conditions.get('startsWith_name');
-
-      if (value) {
-        query.startsWith('name', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_name')) {
-      const value = conditions.get('contains_name');
-
-      if (value) {
-        query.contains('name', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_names')) {
-      const values = conditions.get('contains_names');
-
-      if (values && values.count() === 1) {
-        query.contains('name', values.first().toLowerCase());
-      } else if (values && values.count() > 1) {
-        query.matches('name', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
-      }
-    }
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
     return query;
   };

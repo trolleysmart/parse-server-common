@@ -9,26 +9,26 @@ import { createStapleTemplateInfo } from '../../schema/__tests__/StapleTemplate.
 
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo, stapleTemplateShoppingListId) {
   expect(stapleTemplateShoppingListInfo.get('id')).toBe(stapleTemplateShoppingListId);
-  expect(stapleTemplateShoppingListInfo.get('description')).toBe(expectedStapleTemplateShoppingListInfo.get('description'));
+  expect(stapleTemplateShoppingListInfo.get('name')).toBe(expectedStapleTemplateShoppingListInfo.get('name'));
   expect(stapleTemplateShoppingListInfo.get('stapleTemplateIds')).toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplateIds'));
 }
 
 export function createCriteria() {
   return Map({
-    fields: List.of('description', 'stapleTemplates'),
+    fields: List.of('name', 'stapleTemplates'),
     includeStapleTemplates: true,
     conditions: Map({
-      description: uuid(),
+      name: uuid(),
     }),
   });
 }
 
 export function createCriteriaUsingProvidedStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo) {
   return Map({
-    fields: List.of('description', 'stapleTemplates'),
+    fields: List.of('name', 'stapleTemplates'),
     includeStapleTemplates: true,
     conditions: Map({
-      description: stapleTemplateShoppingListInfo.get('description'),
+      name: stapleTemplateShoppingListInfo.get('name'),
       stapleTemplates: stapleTemplateShoppingListInfo.get('stapleTemplates'),
     }),
   });

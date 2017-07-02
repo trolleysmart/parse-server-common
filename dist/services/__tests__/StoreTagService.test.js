@@ -23,28 +23,31 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function expectStoreTagInfo(storeTagInfo, expectedStoreTagInfo, storeTagId) {
   expect(storeTagInfo.get('id')).toBe(storeTagId);
   expect(storeTagInfo.get('key')).toBe(expectedStoreTagInfo.get('key'));
-  expect(storeTagInfo.get('description')).toBe(expectedStoreTagInfo.get('description'));
+  expect(storeTagInfo.get('name')).toBe(expectedStoreTagInfo.get('name'));
   expect(storeTagInfo.get('weight')).toBe(expectedStoreTagInfo.get('weight'));
+  expect(storeTagInfo.get('url')).toBe(expectedStoreTagInfo.get('url'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'description', 'weight', 'store', 'tag'),
+    fields: _immutable.List.of('key', 'name', 'weight', 'url', 'store', 'tag'),
     conditions: (0, _immutable.Map)({
       key: (0, _v2.default)(),
-      description: (0, _v2.default)(),
-      weight: 1
+      name: (0, _v2.default)(),
+      weight: 1,
+      url: (0, _v2.default)()
     })
   });
 }
 
 function createCriteriaUsingProvidedStoreTagInfo(storeTagInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'description', 'weight', 'store', 'tag'),
+    fields: _immutable.List.of('key', 'name', 'weight', 'url', 'store', 'tag'),
     conditions: (0, _immutable.Map)({
       key: storeTagInfo.get('key'),
-      description: storeTagInfo.get('description'),
+      name: storeTagInfo.get('name'),
       weigth: storeTagInfo.get('weight'),
+      url: storeTagInfo.get('url'),
       storeId: storeTagInfo.get('storeId'),
       tagId: storeTagInfo.get('tagId')
     })

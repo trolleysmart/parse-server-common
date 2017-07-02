@@ -12,6 +12,10 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('../schema');
 
+var _ServiceBase2 = require('./ServiceBase');
+
+var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
+
 var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
@@ -22,9 +26,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var TagService = function TagService() {
-  _classCallCheck(this, TagService);
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TagService = function (_ServiceBase) {
+  _inherits(TagService, _ServiceBase);
+
+  function TagService() {
+    _classCallCheck(this, TagService);
+
+    return _possibleConstructorReturn(this, (TagService.__proto__ || Object.getPrototypeOf(TagService)).apply(this, arguments));
+  }
+
+  return TagService;
+}(_ServiceBase3.default);
 
 TagService.create = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
@@ -273,49 +289,13 @@ TagService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('description')) {
-    var _value = conditions.get('description');
-
-    if (_value) {
-      query.equalTo('lowerCaseDescription', _value.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_description')) {
-    var _value2 = conditions.get('startsWith_description');
-
-    if (_value2) {
-      query.startsWith('lowerCaseDescription', _value2.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_description')) {
-    var _value3 = conditions.get('contains_description');
-
-    if (_value3) {
-      query.contains('lowerCaseDescription', _value3.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_descriptions')) {
-    var values = conditions.get('contains_descriptions');
-
-    if (values && values.count() === 1) {
-      query.contains('lowerCaseDescription', values.first().toLowerCase());
-    } else if (values && values.count() > 1) {
-      query.matches('lowerCaseDescription', values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      }));
-    }
-  }
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   if (conditions.has('weight')) {
-    var _value4 = conditions.get('weight');
+    var _value = conditions.get('weight');
 
-    if (_value4) {
-      query.equalTo('weight', _value4);
+    if (_value) {
+      query.equalTo('weight', _value);
     }
   }
 

@@ -3,9 +3,10 @@
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { MasterProductPrice, ShoppingList, StapleShoppingList } from '../schema';
+import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
-export default class ShoppingListService {
+export default class ShoppingListService extends ServiceBase {
   static create = async (info) => {
     const result = await ShoppingList.spawn(info).save();
 
@@ -151,39 +152,7 @@ export default class ShoppingListService {
       }
     }
 
-    if (conditions.has('description')) {
-      const value = conditions.get('description');
-
-      if (value) {
-        query.equalTo('description', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('startsWith_description')) {
-      const value = conditions.get('startsWith_description');
-
-      if (value) {
-        query.startsWith('description', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_description')) {
-      const value = conditions.get('contains_description');
-
-      if (value) {
-        query.contains('description', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_descriptions')) {
-      const values = conditions.get('contains_descriptions');
-
-      if (values && values.count() === 1) {
-        query.contains('description', values.first().toLowerCase());
-      } else if (values && values.count() > 1) {
-        query.matches('description', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
-      }
-    }
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
 
     return query;
   };

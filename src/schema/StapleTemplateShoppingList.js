@@ -15,8 +15,8 @@ export default class StapleTemplateShoppingList extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('description', info.get('description'));
-    object.set('lowerCaseDescription', info.get('description').toLowerCase());
+    object.set('name', info.get('name'));
+    object.set('lowerCaseName', info.get('name').toLowerCase());
 
     if (info.has('stapleTemplateIds')) {
       const stapleTemplateIds = info.get('stapleTemplateIds');
@@ -77,7 +77,7 @@ export default class StapleTemplateShoppingList extends BaseObject {
 
     return Map({
       id: this.getId(),
-      description: this.getObject().get('description'),
+      name: this.getObject().get('name'),
       stapleTemplates,
       stapleTemplateIds: stapleTemplates ? stapleTemplates.map(stapleTemplate => stapleTemplate.get('id')) : List(),
       tags,

@@ -7,7 +7,7 @@ import { StoreTag } from '../';
 export function createStoreTagInfo(storeId, tagId) {
   const info = Map({
     key: uuid(),
-    description: uuid(),
+    name: uuid(),
     weight: 1,
     url: uuid(),
   });
@@ -23,7 +23,7 @@ export function createStoreTag(storeTagInfo) {
 
 function expectStoreTagInfo(storeTagInfo, expectedStoreTagInfo) {
   expect(storeTagInfo.get('key')).toBe(expectedStoreTagInfo.get('key'));
-  expect(storeTagInfo.get('description')).toBe(expectedStoreTagInfo.get('description'));
+  expect(storeTagInfo.get('name')).toBe(expectedStoreTagInfo.get('name'));
   expect(storeTagInfo.get('weight')).toBe(expectedStoreTagInfo.get('weight'));
   expect(storeTagInfo.get('url')).toBe(expectedStoreTagInfo.get('url'));
   expect(storeTagInfo.get('storeId')).toBe(expectedStoreTagInfo.get('storeId'));

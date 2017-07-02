@@ -38,9 +38,9 @@ export default class ShoppingList extends BaseObject {
       object.set('masterProductPrice', masterProductPrice);
     }
 
-    const description = info.get('description');
+    const name = info.get('name');
 
-    object.set('description', description ? description.toLowerCase() : undefined);
+    object.set('name', name ? name.toLowerCase() : undefined);
   };
 
   constructor(object) {
@@ -66,7 +66,7 @@ export default class ShoppingList extends BaseObject {
       id: this.getId(),
       userId: user ? user.id : undefined,
       doneDate: this.getObject().get('doneDate'),
-      description: this.getObject().get('description'),
+      name: this.getObject().get('name'),
     });
 
     if (stapleShoppingList) {

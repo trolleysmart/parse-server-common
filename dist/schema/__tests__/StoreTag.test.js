@@ -19,8 +19,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function createStoreTagInfo(storeId, tagId) {
   var info = (0, _immutable.Map)({
     key: (0, _v2.default)(),
-    description: (0, _v2.default)(),
-    weight: 1
+    name: (0, _v2.default)(),
+    weight: 1,
+    url: (0, _v2.default)()
   });
 
   var infoWithStore = storeId ? info.merge({ storeId: storeId }) : info;
@@ -34,8 +35,9 @@ function createStoreTag(storeTagInfo) {
 
 function expectStoreTagInfo(storeTagInfo, expectedStoreTagInfo) {
   expect(storeTagInfo.get('key')).toBe(expectedStoreTagInfo.get('key'));
-  expect(storeTagInfo.get('description')).toBe(expectedStoreTagInfo.get('description'));
+  expect(storeTagInfo.get('name')).toBe(expectedStoreTagInfo.get('name'));
   expect(storeTagInfo.get('weight')).toBe(expectedStoreTagInfo.get('weight'));
+  expect(storeTagInfo.get('url')).toBe(expectedStoreTagInfo.get('url'));
   expect(storeTagInfo.get('storeId')).toBe(expectedStoreTagInfo.get('storeId'));
   expect(storeTagInfo.get('tagId')).toBe(expectedStoreTagInfo.get('tagId'));
 }

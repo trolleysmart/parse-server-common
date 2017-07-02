@@ -12,6 +12,10 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('../schema');
 
+var _ServiceBase2 = require('./ServiceBase');
+
+var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
+
 var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
@@ -22,9 +26,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var StoreTagService = function StoreTagService() {
-  _classCallCheck(this, StoreTagService);
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StoreTagService = function (_ServiceBase) {
+  _inherits(StoreTagService, _ServiceBase);
+
+  function StoreTagService() {
+    _classCallCheck(this, StoreTagService);
+
+    return _possibleConstructorReturn(this, (StoreTagService.__proto__ || Object.getPrototypeOf(StoreTagService)).apply(this, arguments));
+  }
+
+  return StoreTagService;
+}(_ServiceBase3.default);
 
 StoreTagService.create = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
@@ -297,115 +313,87 @@ StoreTagService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('description')) {
-    var _value4 = conditions.get('description');
-
-    if (_value4) {
-      query.equalTo('lowerCaseDescription', _value4.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_description')) {
-    var _value5 = conditions.get('startsWith_description');
-
-    if (_value5) {
-      query.startsWith('lowerCaseDescription', _value5.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_description')) {
-    var _value6 = conditions.get('contains_description');
-
-    if (_value6) {
-      query.contains('lowerCaseDescription', _value6.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_descriptions')) {
-    var values = conditions.get('contains_descriptions');
-
-    if (values && values.count() === 1) {
-      query.contains('lowerCaseDescription', values.first().toLowerCase());
-    } else if (values && values.count() > 1) {
-      query.matches('lowerCaseDescription', values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      }));
-    }
-  }
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   if (conditions.has('weight')) {
-    var _value7 = conditions.get('weight');
+    var _value4 = conditions.get('weight');
 
-    if (_value7) {
-      query.equalTo('weight', _value7);
+    if (_value4) {
+      query.equalTo('weight', _value4);
+    }
+  }
+
+  if (conditions.has('url')) {
+    var _value5 = conditions.get('url');
+
+    if (_value5) {
+      query.equalTo('url', _value5);
     }
   }
 
   if (conditions.has('storeTag')) {
-    var _value8 = conditions.get('storeTag');
+    var _value6 = conditions.get('storeTag');
 
-    if (_value8) {
-      query.equalTo('storeTags', _value8);
+    if (_value6) {
+      query.equalTo('storeTags', _value6);
     }
   }
 
   if (conditions.has('storeTags')) {
-    var _value9 = conditions.get('storeTags');
+    var _value7 = conditions.get('storeTags');
 
-    if (_value9) {
-      query.containedIn('storeTags', _value9.toArray());
+    if (_value7) {
+      query.containedIn('storeTags', _value7.toArray());
     }
   }
 
   if (conditions.has('storeTagId')) {
-    var _value10 = conditions.get('storeTagId');
+    var _value8 = conditions.get('storeTagId');
 
-    if (_value10) {
-      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value10));
+    if (_value8) {
+      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value8));
     }
   }
 
   if (conditions.has('storeTagIds')) {
-    var _value11 = conditions.get('storeTagIds');
+    var _value9 = conditions.get('storeTagIds');
 
-    if (_value11) {
-      query.containedIn('storeTags', _value11.map(function (storeTagId) {
+    if (_value9) {
+      query.containedIn('storeTags', _value9.map(function (storeTagId) {
         return _schema.StoreTag.createWithoutData(storeTagId);
       }).toArray());
     }
   }
 
   if (conditions.has('store')) {
-    var _value12 = conditions.get('store');
+    var _value10 = conditions.get('store');
 
-    if (_value12) {
-      query.equalTo('store', _value12);
+    if (_value10) {
+      query.equalTo('store', _value10);
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value13 = conditions.get('storeId');
+    var _value11 = conditions.get('storeId');
 
-    if (_value13) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value13));
+    if (_value11) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value11));
     }
   }
 
   if (conditions.has('tag')) {
-    var _value14 = conditions.get('tag');
+    var _value12 = conditions.get('tag');
 
-    if (_value14) {
-      query.equalTo('tag', _value14);
+    if (_value12) {
+      query.equalTo('tag', _value12);
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value15 = conditions.get('tagId');
+    var _value13 = conditions.get('tagId');
 
-    if (_value15) {
-      query.equalTo('tag', _schema.Tag.createWithoutData(_value15));
+    if (_value13) {
+      query.equalTo('tag', _schema.Tag.createWithoutData(_value13));
     }
   }
 

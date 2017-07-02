@@ -18,6 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createMasterProductInfo(tagIds) {
   var info = (0, _immutable.Map)({
+    name: (0, _v2.default)(),
     description: (0, _v2.default)(),
     barcode: (0, _v2.default)(),
     imageUrl: (0, _v2.default)()
@@ -33,6 +34,7 @@ function createMasterProduct(masterProductInfo) {
 }
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
+  expect(masterProductInfo.get('name')).toBe(expectedMasterProductInfo.get('name'));
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));

@@ -6,7 +6,7 @@ import { StapleTemplateShoppingList } from '../';
 
 export function createStapleTemplateShoppingListInfo(stapleTemplateIds, tagIds) {
   const info = Map({
-    description: uuid(),
+    name: uuid(),
   });
 
   const infoWithStapleTemplateIds = stapleTemplateIds
@@ -27,7 +27,7 @@ export function createStapleTemplateShoppingList(stapleTemplateShoppingListInfo)
 }
 
 function expectStapleTemplateShoppingListInfo(stapleTemplateShoppingListInfo, expectedStapleTemplateShoppingListInfo) {
-  expect(stapleTemplateShoppingListInfo.get('description')).toBe(expectedStapleTemplateShoppingListInfo.get('description'));
+  expect(stapleTemplateShoppingListInfo.get('name')).toBe(expectedStapleTemplateShoppingListInfo.get('name'));
   expect(stapleTemplateShoppingListInfo.get('stapleTemplates')).toEqual(expectedStapleTemplateShoppingListInfo.get('stapleTemplates'));
   expect(stapleTemplateShoppingListInfo.get('tags')).toEqual(expectedStapleTemplateShoppingListInfo.get('tags'));
 }

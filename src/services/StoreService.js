@@ -3,9 +3,10 @@
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { Store } from '../schema';
+import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
-export default class StoreService {
+export default class StoreService extends ServiceBase {
   static create = async (info) => {
     const result = await Store.spawn(info).save();
 
@@ -78,39 +79,7 @@ export default class StoreService {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('name')) {
-      const value = conditions.get('name');
-
-      if (value) {
-        query.equalTo('lowerCaseName', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('startsWith_name')) {
-      const value = conditions.get('startsWith_name');
-
-      if (value) {
-        query.startsWith('lowerCaseName', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_name')) {
-      const value = conditions.get('contains_name');
-
-      if (value) {
-        query.contains('lowerCaseName', value.toLowerCase());
-      }
-    }
-
-    if (conditions.has('contains_names')) {
-      const values = conditions.get('contains_names');
-
-      if (values && values.count() === 1) {
-        query.contains('lowerCaseName', values.first().toLowerCase());
-      } else if (values && values.count() > 1) {
-        query.matches('lowerCaseName', values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
-      }
-    }
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
     return query;
   };

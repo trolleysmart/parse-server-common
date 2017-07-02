@@ -11,17 +11,17 @@ import { createStoreTagInfo } from '../../schema/__tests__/StoreTag.test';
 function expectStoreTagInfo(storeTagInfo, expectedStoreTagInfo, storeTagId) {
   expect(storeTagInfo.get('id')).toBe(storeTagId);
   expect(storeTagInfo.get('key')).toBe(expectedStoreTagInfo.get('key'));
-  expect(storeTagInfo.get('description')).toBe(expectedStoreTagInfo.get('description'));
+  expect(storeTagInfo.get('name')).toBe(expectedStoreTagInfo.get('name'));
   expect(storeTagInfo.get('weight')).toBe(expectedStoreTagInfo.get('weight'));
   expect(storeTagInfo.get('url')).toBe(expectedStoreTagInfo.get('url'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('key', 'description', 'weight', 'url', 'store', 'tag'),
+    fields: List.of('key', 'name', 'weight', 'url', 'store', 'tag'),
     conditions: Map({
       key: uuid(),
-      description: uuid(),
+      name: uuid(),
       weight: 1,
       url: uuid(),
     }),
@@ -30,10 +30,10 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedStoreTagInfo(storeTagInfo) {
   return Map({
-    fields: List.of('key', 'description', 'weight', 'url', 'store', 'tag'),
+    fields: List.of('key', 'name', 'weight', 'url', 'store', 'tag'),
     conditions: Map({
       key: storeTagInfo.get('key'),
-      description: storeTagInfo.get('description'),
+      name: storeTagInfo.get('name'),
       weigth: storeTagInfo.get('weight'),
       url: storeTagInfo.get('url'),
       storeId: storeTagInfo.get('storeId'),

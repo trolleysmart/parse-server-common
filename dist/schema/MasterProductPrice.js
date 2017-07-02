@@ -51,9 +51,9 @@ MasterProductPrice.spawn = function (info) {
 };
 
 MasterProductPrice.updateInfoInternal = function (object, info) {
-  var description = info.get('description');
+  var name = info.get('name');
 
-  object.set('description', description ? description.toLowerCase() : undefined);
+  object.set('name', name ? name.toLowerCase() : undefined);
 
   var storeName = info.get('storeName');
 
@@ -110,7 +110,7 @@ var _initialiseProps = function _initialiseProps() {
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      description: _this2.getObject().get('description'),
+      name: _this2.getObject().get('name'),
       storeName: _this2.getObject().get('storeName'),
       priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),
       priceToDisplay: _this2.getObject().get('priceToDisplay'),

@@ -51,8 +51,8 @@ StapleTemplateShoppingList.spawn = function (info) {
 };
 
 StapleTemplateShoppingList.updateInfoInternal = function (object, info) {
-  object.set('description', info.get('description'));
-  object.set('lowerCaseDescription', info.get('description').toLowerCase());
+  object.set('name', info.get('name'));
+  object.set('lowerCaseName', info.get('name').toLowerCase());
 
   if (info.has('stapleTemplateIds')) {
     var stapleTemplateIds = info.get('stapleTemplateIds');
@@ -118,7 +118,7 @@ var _initialiseProps = function _initialiseProps() {
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      description: _this2.getObject().get('description'),
+      name: _this2.getObject().get('name'),
       stapleTemplates: stapleTemplates,
       stapleTemplateIds: stapleTemplates ? stapleTemplates.map(function (stapleTemplate) {
         return stapleTemplate.get('id');

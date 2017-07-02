@@ -41,10 +41,10 @@ Tag.spawn = function (info) {
 Tag.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
 
-  var description = info.get('description');
+  var name = info.get('name');
 
-  object.set('description', description);
-  object.set('lowerCaseDescription', description ? description.toLowerCase() : undefined);
+  object.set('name', name);
+  object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
 
   object.set('weight', info.get('weight'));
 };
@@ -64,7 +64,7 @@ var _initialiseProps = function _initialiseProps() {
     return (0, _immutable.Map)({
       id: _this2.getId(),
       key: _this2.getObject().get('key'),
-      description: _this2.getObject().get('description'),
+      name: _this2.getObject().get('name'),
       weight: _this2.getObject().get('weight')
     });
   };

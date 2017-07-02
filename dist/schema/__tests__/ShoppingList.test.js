@@ -26,7 +26,7 @@ function createShoppingListInfo(userId, stapleShoppingListId, masterProductPrice
     doneDate: new Date(),
     stapleShoppingListId: stapleShoppingListId || (0, _StapleShoppingList.createStapleShoppingList)(userId).getId(),
     masterProductPriceId: masterProductPriceId || (0, _MasterProductPrice.createMasterProductPrice)(userId).getId(),
-    description: (0, _v2.default)()
+    name: (0, _v2.default)()
   });
 }
 
@@ -39,7 +39,7 @@ function expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo) {
   expect(shoppingListInfo.get('doneDate')).toBe(expectedShoppingListInfo.get('doneDate'));
   expect(shoppingListInfo.get('stapleShoppingListId')).toBe(expectedShoppingListInfo.get('stapleShoppingListId'));
   expect(shoppingListInfo.get('masterProductPriceId')).toBe(expectedShoppingListInfo.get('masterProductPriceId'));
-  expect(shoppingListInfo.get('description')).toBe(expectedShoppingListInfo.get('description'));
+  expect(shoppingListInfo.get('name')).toBe(expectedShoppingListInfo.get('name'));
 }
 
 describe('constructor', function () {

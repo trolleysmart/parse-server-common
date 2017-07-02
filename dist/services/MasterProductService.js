@@ -12,6 +12,10 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('../schema');
 
+var _ServiceBase2 = require('./ServiceBase');
+
+var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
+
 var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
@@ -22,9 +26,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MasterProductService = function MasterProductService() {
-  _classCallCheck(this, MasterProductService);
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MasterProductService = function (_ServiceBase) {
+  _inherits(MasterProductService, _ServiceBase);
+
+  function MasterProductService() {
+    _classCallCheck(this, MasterProductService);
+
+    return _possibleConstructorReturn(this, (MasterProductService.__proto__ || Object.getPrototypeOf(MasterProductService)).apply(this, arguments));
+  }
+
+  return MasterProductService;
+}(_ServiceBase3.default);
 
 MasterProductService.create = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
@@ -273,89 +289,54 @@ MasterProductService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
-  if (conditions.has('description')) {
-    var _value = conditions.get('description');
-
-    if (_value) {
-      query.equalTo('lowerCaseDescription', _value.toLowerCase());
-    }
-  }
-
-  if (conditions.has('startsWith_description')) {
-    var _value2 = conditions.get('startsWith_description');
-
-    if (_value2) {
-      query.startsWith('lowerCaseDescription', _value2.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_description')) {
-    var _value3 = conditions.get('contains_description');
-
-    if (_value3) {
-      query.contains('lowerCaseDescription', _value3.toLowerCase());
-    }
-  }
-
-  if (conditions.has('contains_descriptions')) {
-    var values = conditions.get('contains_descriptions');
-
-    if (values && values.count() === 1) {
-      query.contains('lowerCaseDescription', values.first().toLowerCase());
-    } else if (values && values.count() > 1) {
-      query.matches('lowerCaseDescription', values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      }));
-    }
-  }
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
   if (conditions.has('barcode')) {
-    var _value4 = conditions.get('barcode');
+    var _value = conditions.get('barcode');
 
-    if (_value4) {
-      query.equalTo('barcode', _value4);
+    if (_value) {
+      query.equalTo('barcode', _value);
     }
   }
 
   if (conditions.has('imageUrl')) {
-    var _value5 = conditions.get('imageUrl');
+    var _value2 = conditions.get('imageUrl');
 
-    if (_value5) {
-      query.equalTo('imageUrl', _value5);
+    if (_value2) {
+      query.equalTo('imageUrl', _value2);
     }
   }
 
   if (conditions.has('tag')) {
-    var _value6 = conditions.get('tag');
+    var _value3 = conditions.get('tag');
 
-    if (_value6) {
-      query.equalTo('tags', _value6);
+    if (_value3) {
+      query.equalTo('tags', _value3);
     }
   }
 
   if (conditions.has('tags')) {
-    var _value7 = conditions.get('tags');
+    var _value4 = conditions.get('tags');
 
-    if (_value7) {
-      query.containedIn('tags', _value7.toArray());
+    if (_value4) {
+      query.containedIn('tags', _value4.toArray());
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value8 = conditions.get('tagId');
+    var _value5 = conditions.get('tagId');
 
-    if (_value8) {
-      query.equalTo('tags', _schema.Tag.createWithoutData(_value8));
+    if (_value5) {
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value5));
     }
   }
 
   if (conditions.has('tagIds')) {
-    var _value9 = conditions.get('tagIds');
+    var _value6 = conditions.get('tagIds');
 
-    if (_value9) {
-      query.containedIn('tags', _value9.map(function (tagId) {
+    if (_value6) {
+      query.containedIn('tags', _value6.map(function (tagId) {
         return _schema.Tag.createWithoutData(tagId);
       }).toArray());
     }

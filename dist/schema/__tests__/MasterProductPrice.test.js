@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createMasterProductPriceInfo(masterProductId, storeId) {
   return (0, _immutable.Map)({
-    description: (0, _v2.default)(),
+    name: (0, _v2.default)(),
     storeName: (0, _v2.default)(),
     priceDetails: (0, _immutable.Map)({
       price: (0, _v2.default)()
@@ -40,7 +40,7 @@ function createMasterProductPrice(masterProductPriceInfo) {
 }
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo) {
-  expect(masterProductPriceInfo.get('description')).toBe(expectedMasterProductPriceInfo.get('description'));
+  expect(masterProductPriceInfo.get('name')).toBe(expectedMasterProductPriceInfo.get('name'));
   expect(masterProductPriceInfo.get('storeName')).toBe(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));

@@ -15,8 +15,8 @@ export default class StapleShoppingList extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
-    object.set('description', info.get('description'));
-    object.set('lowerCaseDescription', info.get('description').toLowerCase());
+    object.set('name', info.get('name'));
+    object.set('lowerCaseName', info.get('name').toLowerCase());
 
     if (info.has('tagIds')) {
       const tagIds = info.get('tagIds');
@@ -57,7 +57,7 @@ export default class StapleShoppingList extends BaseObject {
     return Map({
       id: this.getId(),
       userId: user ? user.id : undefined,
-      description: this.getObject().get('description'),
+      name: this.getObject().get('name'),
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });

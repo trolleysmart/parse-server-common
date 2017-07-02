@@ -26,6 +26,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, masterProductId) {
   expect(masterProductInfo.get('id')).toBe(masterProductId);
+  expect(masterProductInfo.get('name')).toBe(expectedMasterProductInfo.get('name'));
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));
@@ -34,9 +35,10 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'barcode', 'imageUrl', 'tags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'imageUrl', 'tags'),
     includeTags: true,
     conditions: (0, _immutable.Map)({
+      name: (0, _v2.default)(),
       description: (0, _v2.default)(),
       barcode: (0, _v2.default)(),
       imageUrl: (0, _v2.default)()
@@ -46,9 +48,10 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('description', 'barcode', 'imageUrl', 'tags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'imageUrl', 'tags'),
     includeTags: true,
     conditions: (0, _immutable.Map)({
+      name: masterProductInfo.get('name'),
       description: masterProductInfo.get('description'),
       barcode: masterProductInfo.get('barcode'),
       imageUrl: masterProductInfo.get('imageUrl'),

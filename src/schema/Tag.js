@@ -15,10 +15,10 @@ export default class Tag extends BaseObject {
   static updateInfoInternal = (object, info) => {
     object.set('key', info.get('key'));
 
-    const description = info.get('description');
+    const name = info.get('name');
 
-    object.set('description', description);
-    object.set('lowerCaseDescription', description ? description.toLowerCase() : undefined);
+    object.set('name', name);
+    object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
 
     object.set('weight', info.get('weight'));
   };
@@ -39,7 +39,7 @@ export default class Tag extends BaseObject {
     Map({
       id: this.getId(),
       key: this.getObject().get('key'),
-      description: this.getObject().get('description'),
+      name: this.getObject().get('name'),
       weight: this.getObject().get('weight'),
     });
 }

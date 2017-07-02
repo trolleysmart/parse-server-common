@@ -72,9 +72,9 @@ ShoppingList.updateInfoInternal = function (object, info) {
     object.set('masterProductPrice', masterProductPrice);
   }
 
-  var description = info.get('description');
+  var name = info.get('name');
 
-  object.set('description', description ? description.toLowerCase() : undefined);
+  object.set('name', name ? name.toLowerCase() : undefined);
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -99,7 +99,7 @@ var _initialiseProps = function _initialiseProps() {
       id: _this2.getId(),
       userId: user ? user.id : undefined,
       doneDate: _this2.getObject().get('doneDate'),
-      description: _this2.getObject().get('description')
+      name: _this2.getObject().get('name')
     });
 
     if (stapleShoppingList) {
