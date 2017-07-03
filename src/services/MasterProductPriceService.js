@@ -2,7 +2,7 @@
 
 import Immutable from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
-import { MasterProduct, MasterProductPrice, Store } from '../schema';
+import { MasterProduct, MasterProductPrice, Store, Tag } from '../schema';
 import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
@@ -163,6 +163,50 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
+    const tagQuery = MasterProductPriceService.buildTagSearchQuery(conditions);
+
+    if (tagQuery) {
+      query.matchesQuery('masterProduct', tagQuery);
+    }
+
     return query;
+  };
+
+  static buildTagSearchQuery = (conditions) => {
+    const query = ParseWrapperService.createQuery(MasterProduct);
+
+    if (conditions.has('tag')) {
+      const value = conditions.get('tag');
+
+      if (value) {
+        return query.equalTo('tags', value);
+      }
+    }
+
+    if (conditions.has('tags')) {
+      const value = conditions.get('tags');
+
+      if (value) {
+        return query.containedIn('tags', value.toArray());
+      }
+    }
+
+    if (conditions.has('tagId')) {
+      const value = conditions.get('tagId');
+
+      if (value) {
+        return query.equalTo('tags', Tag.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('tagIds')) {
+      const value = conditions.get('tagIds');
+
+      if (value) {
+        return query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
+      }
+    }
+
+    return null;
   };
 }

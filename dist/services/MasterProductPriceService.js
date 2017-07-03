@@ -364,7 +364,53 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     }
   }
 
+  var tagQuery = MasterProductPriceService.buildTagSearchQuery(conditions);
+
+  if (tagQuery) {
+    query.matchesQuery('masterProduct', tagQuery);
+  }
+
   return query;
+};
+
+MasterProductPriceService.buildTagSearchQuery = function (conditions) {
+  var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
+
+  if (conditions.has('tag')) {
+    var value = conditions.get('tag');
+
+    if (value) {
+      return query.equalTo('tags', value);
+    }
+  }
+
+  if (conditions.has('tags')) {
+    var _value10 = conditions.get('tags');
+
+    if (_value10) {
+      return query.containedIn('tags', _value10.toArray());
+    }
+  }
+
+  if (conditions.has('tagId')) {
+    var _value11 = conditions.get('tagId');
+
+    if (_value11) {
+      return query.equalTo('tags', _schema.Tag.createWithoutData(_value11));
+    }
+  }
+
+  if (conditions.has('tagIds')) {
+    var _value12 = conditions.get('tagIds');
+
+    if (_value12) {
+      return query.containedIn('tags', _value12.map(function (tagId) {
+        return _schema.Tag.createWithoutData(tagId);
+      }).toArray());
+    }
+  }
+
+  return null;
 };
 
 exports.default = MasterProductPriceService;
