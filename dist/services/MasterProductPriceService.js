@@ -364,7 +364,7 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     }
   }
 
-  var tagQuery = MasterProductPriceService.buildTagSearchQuery(conditions);
+  var tagQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
 
   if (tagQuery) {
     query.matchesQuery('masterProduct', tagQuery);
@@ -373,14 +373,16 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
   return query;
 };
 
-MasterProductPriceService.buildTagSearchQuery = function (conditions) {
+MasterProductPriceService.buildMasterProductQuery = function (conditions) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
+  var hasTags = false;
 
   if (conditions.has('tag')) {
     var value = conditions.get('tag');
 
     if (value) {
-      return query.equalTo('tags', value);
+      query.equalTo('tags', value);
+      hasTags = true;
     }
   }
 
@@ -388,7 +390,8 @@ MasterProductPriceService.buildTagSearchQuery = function (conditions) {
     var _value10 = conditions.get('tags');
 
     if (_value10) {
-      return query.containedIn('tags', _value10.toArray());
+      query.containedIn('tags', _value10.toArray());
+      hasTags = true;
     }
   }
 
@@ -396,7 +399,8 @@ MasterProductPriceService.buildTagSearchQuery = function (conditions) {
     var _value11 = conditions.get('tagId');
 
     if (_value11) {
-      return query.equalTo('tags', _schema.Tag.createWithoutData(_value11));
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value11));
+      hasTags = true;
     }
   }
 
@@ -404,10 +408,17 @@ MasterProductPriceService.buildTagSearchQuery = function (conditions) {
     var _value12 = conditions.get('tagIds');
 
     if (_value12) {
-      return query.containedIn('tags', _value12.map(function (tagId) {
+      query.containedIn('tags', _value12.map(function (tagId) {
         return _schema.Tag.createWithoutData(tagId);
       }).toArray());
+      hasTags = true;
     }
+  }
+
+  var hasDescriptions = _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'description');
+
+  if (hasDescriptions || hasTags) {
+    return query;
   }
 
   return null;

@@ -7,6 +7,7 @@ export default class ServiceBase {
 
       if (value) {
         query.equalTo(lowerCaseColumnName, value.toLowerCase());
+        return true;
       }
     }
 
@@ -15,6 +16,7 @@ export default class ServiceBase {
 
       if (value) {
         query.startsWith(lowerCaseColumnName, value.toLowerCase());
+        return true;
       }
     }
 
@@ -23,6 +25,7 @@ export default class ServiceBase {
 
       if (value) {
         query.contains(lowerCaseColumnName, value.toLowerCase());
+        return true;
       }
     }
 
@@ -31,9 +34,13 @@ export default class ServiceBase {
 
       if (values && values.count() === 1) {
         query.contains(lowerCaseColumnName, values.first().toLowerCase());
+        return true;
       } else if (values && values.count() > 1) {
         query.matches(lowerCaseColumnName, values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+        return true;
       }
     }
+
+    return false;
   };
 }

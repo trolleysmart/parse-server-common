@@ -163,7 +163,7 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
-    const tagQuery = MasterProductPriceService.buildTagSearchQuery(conditions);
+    const tagQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
 
     if (tagQuery) {
       query.matchesQuery('masterProduct', tagQuery);
@@ -172,14 +172,16 @@ export default class MasterProductPriceService extends ServiceBase {
     return query;
   };
 
-  static buildTagSearchQuery = (conditions) => {
+  static buildMasterProductQuery = (conditions) => {
     const query = ParseWrapperService.createQuery(MasterProduct);
+    let hasTags = false;
 
     if (conditions.has('tag')) {
       const value = conditions.get('tag');
 
       if (value) {
-        return query.equalTo('tags', value);
+        query.equalTo('tags', value);
+        hasTags = true;
       }
     }
 
@@ -187,7 +189,8 @@ export default class MasterProductPriceService extends ServiceBase {
       const value = conditions.get('tags');
 
       if (value) {
-        return query.containedIn('tags', value.toArray());
+        query.containedIn('tags', value.toArray());
+        hasTags = true;
       }
     }
 
@@ -195,7 +198,8 @@ export default class MasterProductPriceService extends ServiceBase {
       const value = conditions.get('tagId');
 
       if (value) {
-        return query.equalTo('tags', Tag.createWithoutData(value));
+        query.equalTo('tags', Tag.createWithoutData(value));
+        hasTags = true;
       }
     }
 
@@ -203,8 +207,15 @@ export default class MasterProductPriceService extends ServiceBase {
       const value = conditions.get('tagIds');
 
       if (value) {
-        return query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
+        query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
+        hasTags = true;
       }
+    }
+
+    const hasDescriptions = ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
+
+    if (hasDescriptions || hasTags) {
+      return query;
     }
 
     return null;

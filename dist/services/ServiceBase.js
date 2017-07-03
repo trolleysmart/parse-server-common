@@ -16,6 +16,7 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, columnName, lo
 
     if (value) {
       query.equalTo(lowerCaseColumnName, value.toLowerCase());
+      return true;
     }
   }
 
@@ -24,6 +25,7 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, columnName, lo
 
     if (_value) {
       query.startsWith(lowerCaseColumnName, _value.toLowerCase());
+      return true;
     }
   }
 
@@ -32,6 +34,7 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, columnName, lo
 
     if (_value2) {
       query.contains(lowerCaseColumnName, _value2.toLowerCase());
+      return true;
     }
   }
 
@@ -40,14 +43,18 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, columnName, lo
 
     if (values && values.count() === 1) {
       query.contains(lowerCaseColumnName, values.first().toLowerCase());
+      return true;
     } else if (values && values.count() > 1) {
       query.matches(lowerCaseColumnName, values.map(function (value) {
         return "(?=.*" + value.toLowerCase() + ")";
       }).reduce(function (reduction, value) {
         return reduction + value;
       }));
+      return true;
     }
   }
+
+  return false;
 };
 
 exports.default = ServiceBase;
