@@ -120,30 +120,6 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
-    if (conditions.has('lastPriceDetailsUpdate')) {
-      const value = conditions.get('lastPriceDetailsUpdate');
-
-      if (value) {
-        query.equalTo('lastPriceDetailsUpdate', value);
-      }
-    }
-
-    if (conditions.has('lessThanOrEqualTo_lastPriceDetailsUpdate')) {
-      const value = conditions.get('lessThanOrEqualTo_lastPriceDetailsUpdate');
-
-      if (value) {
-        query.lessThanOrEqualTo('lastPriceDetailsUpdate', value);
-      }
-    }
-
-    if (conditions.has('greaterThanOrEqualTo_lastPriceDetailsUpdate')) {
-      const value = conditions.get('greaterThanOrEqualTo_lastPriceDetailsUpdate');
-
-      if (value) {
-        query.greaterThanOrEqualTo('lastPriceDetailsUpdate', value);
-      }
-    }
-
     if (conditions.has('status')) {
       const value = conditions.get('status');
 

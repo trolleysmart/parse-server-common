@@ -61,7 +61,6 @@ MasterProductPrice.updateInfoInternal = function (object, info) {
 
   object.set('priceDetails', info.get('priceDetails').toJS());
   object.set('priceToDisplay', info.get('priceToDisplay'));
-  object.set('lastPriceDetailsUpdate', info.get('lastPriceDetailsUpdate'));
   object.set('status', info.get('status'));
 
   if (info.has('masterProductId')) {
@@ -114,7 +113,6 @@ var _initialiseProps = function _initialiseProps() {
       storeName: _this2.getObject().get('storeName'),
       priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),
       priceToDisplay: _this2.getObject().get('priceToDisplay'),
-      lastPriceDetailsUpdate: _this2.getObject().get('lastPriceDetailsUpdate'),
       status: _this2.getObject().get('status'),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),

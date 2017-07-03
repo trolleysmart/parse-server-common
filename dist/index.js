@@ -54,12 +54,6 @@ Object.defineProperty(exports, 'StapleTemplateShoppingList', {
     return _schema.StapleTemplateShoppingList;
   }
 });
-Object.defineProperty(exports, 'StoreCrawlerConfiguration', {
-  enumerable: true,
-  get: function get() {
-    return _schema.StoreCrawlerConfiguration;
-  }
-});
 Object.defineProperty(exports, 'Store', {
   enumerable: true,
   get: function get() {
@@ -115,12 +109,6 @@ Object.defineProperty(exports, 'NewSearchResultReceivedEvent', {
   enumerable: true,
   get: function get() {
     return _services.NewSearchResultReceivedEvent;
-  }
-});
-Object.defineProperty(exports, 'StoreCrawlerConfigurationService', {
-  enumerable: true,
-  get: function get() {
-    return _services.StoreCrawlerConfigurationService;
   }
 });
 Object.defineProperty(exports, 'StoreService', {

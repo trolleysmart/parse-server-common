@@ -14,7 +14,6 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
-  expect(masterProductPriceInfo.get('lastPriceDetailsUpdate')).toEqual(expectedMasterProductPriceInfo.get('lastPriceDetailsUpdate'));
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
@@ -22,7 +21,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 export function createCriteria() {
   return Map({
-    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
+    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -34,14 +33,13 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
   return Map({
-    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'lastPriceDetailsUpdate', 'status', 'masterProduct', 'store'),
+    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
       name: masterProductPriceInfo.get('name'),
       storeName: masterProductPriceInfo.get('storeName'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
-      lastPriceDetailsUpdate: masterProductPriceInfo.get('lastPriceDetailsUpdate'),
       status: masterProductPriceInfo.get('status'),
       masterProductId,
       storeId,

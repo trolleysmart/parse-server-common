@@ -25,7 +25,6 @@ export default class MasterProductPrice extends BaseObject {
 
     object.set('priceDetails', info.get('priceDetails').toJS());
     object.set('priceToDisplay', info.get('priceToDisplay'));
-    object.set('lastPriceDetailsUpdate', info.get('lastPriceDetailsUpdate'));
     object.set('status', info.get('status'));
 
     if (info.has('masterProductId')) {
@@ -79,7 +78,6 @@ export default class MasterProductPrice extends BaseObject {
       storeName: this.getObject().get('storeName'),
       priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
       priceToDisplay: this.getObject().get('priceToDisplay'),
-      lastPriceDetailsUpdate: this.getObject().get('lastPriceDetailsUpdate'),
       status: this.getObject().get('status'),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),

@@ -14,7 +14,6 @@ export function createMasterProductPriceInfo(masterProductId, storeId) {
       price: uuid(),
     }),
     priceToDisplay: 12.34,
-    lastPriceDetailsUpdate: new Date(),
     status: 'A',
     masterProductId: masterProductId || createMasterProduct().getId(),
     storeId: storeId || createStore().getId(),
@@ -30,7 +29,6 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeName')).toBe(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
-  expect(masterProductPriceInfo.get('lastPriceDetailsUpdate')).toEqual(expectedMasterProductPriceInfo.get('lastPriceDetailsUpdate'));
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
   expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));

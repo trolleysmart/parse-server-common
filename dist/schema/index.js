@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StoreTag = exports.StoreMasterProduct = exports.Tag = exports.Store = exports.StoreCrawlerConfiguration = exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
+exports.StoreTag = exports.StoreMasterProduct = exports.Tag = exports.Store = exports.StapleTemplateShoppingList = exports.StapleTemplate = exports.StapleShoppingList = exports.ShoppingList = exports.MasterProductPrice = exports.MasterProduct = exports.CrawlSession = exports.CrawlResult = undefined;
 
 var _CrawlResult2 = require('./CrawlResult');
 
@@ -37,10 +37,6 @@ var _StapleTemplateShoppingList2 = require('./StapleTemplateShoppingList');
 
 var _StapleTemplateShoppingList3 = _interopRequireDefault(_StapleTemplateShoppingList2);
 
-var _StoreCrawlerConfiguration2 = require('./StoreCrawlerConfiguration');
-
-var _StoreCrawlerConfiguration3 = _interopRequireDefault(_StoreCrawlerConfiguration2);
-
 var _Store2 = require('./Store');
 
 var _Store3 = _interopRequireDefault(_Store2);
@@ -67,7 +63,6 @@ exports.ShoppingList = _ShoppingList3.default;
 exports.StapleShoppingList = _StapleShoppingList3.default;
 exports.StapleTemplate = _StapleTemplate3.default;
 exports.StapleTemplateShoppingList = _StapleTemplateShoppingList3.default;
-exports.StoreCrawlerConfiguration = _StoreCrawlerConfiguration3.default;
 exports.Store = _Store3.default;
 exports.Tag = _Tag3.default;
 exports.StoreMasterProduct = _StoreMasterProduct3.default;

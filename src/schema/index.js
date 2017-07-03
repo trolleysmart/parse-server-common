@@ -8,7 +8,6 @@ export ShoppingList from './ShoppingList';
 export StapleShoppingList from './StapleShoppingList';
 export StapleTemplate from './StapleTemplate';
 export StapleTemplateShoppingList from './StapleTemplateShoppingList';
-export StoreCrawlerConfiguration from './StoreCrawlerConfiguration';
 export Store from './Store';
 export Tag from './Tag';
 export StoreMasterProduct from './StoreMasterProduct';

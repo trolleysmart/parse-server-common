@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StoreTagService = exports.StoreMasterProductService = exports.TagService = exports.StapleTemplateShoppingListService = exports.StapleTemplateService = exports.StapleShoppingListService = exports.ShoppingListService = exports.StoreService = exports.StoreCrawlerConfigurationService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
+exports.StoreTagService = exports.StoreMasterProductService = exports.TagService = exports.StapleTemplateShoppingListService = exports.StapleTemplateService = exports.StapleShoppingListService = exports.ShoppingListService = exports.StoreService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _CrawlResultService2 = require('./CrawlResultService');
 
@@ -24,10 +24,6 @@ var _MasterProductPriceService3 = _interopRequireDefault(_MasterProductPriceServ
 var _NewSearchResultReceivedEvent2 = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent3 = _interopRequireDefault(_NewSearchResultReceivedEvent2);
-
-var _StoreCrawlerConfigurationService2 = require('./StoreCrawlerConfigurationService');
-
-var _StoreCrawlerConfigurationService3 = _interopRequireDefault(_StoreCrawlerConfigurationService2);
 
 var _StoreService2 = require('./StoreService');
 
@@ -68,7 +64,6 @@ exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.MasterProductService = _MasterProductService3.default;
 exports.MasterProductPriceService = _MasterProductPriceService3.default;
 exports.NewSearchResultReceivedEvent = _NewSearchResultReceivedEvent3.default;
-exports.StoreCrawlerConfigurationService = _StoreCrawlerConfigurationService3.default;
 exports.StoreService = _StoreService3.default;
 exports.ShoppingListService = _ShoppingListService3.default;
 exports.StapleShoppingListService = _StapleShoppingListService3.default;
