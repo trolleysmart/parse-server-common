@@ -415,7 +415,7 @@ MasterProductPriceService.buildMasterProductQuery = function (conditions) {
     }
   }
 
-  var hasDescriptions = _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'description');
+  var hasDescriptions = _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
   if (hasDescriptions || hasTags) {
     return query;

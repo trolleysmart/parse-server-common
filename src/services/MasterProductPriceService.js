@@ -212,7 +212,7 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
-    const hasDescriptions = ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
+    const hasDescriptions = ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
     if (hasDescriptions || hasTags) {
       return query;
