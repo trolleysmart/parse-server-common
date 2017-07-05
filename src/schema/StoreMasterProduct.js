@@ -29,6 +29,7 @@ export default class StoreMasterProduct extends BaseObject {
     object.set('barcode', info.get('barcode'));
     object.set('productPageUrl', info.get('productPageUrl'));
     object.set('imageUrl', info.get('imageUrl'));
+    object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
 
     if (info.has('storeTagIds')) {
       const storeTagIds = info.get('storeTagIds');
@@ -104,6 +105,7 @@ export default class StoreMasterProduct extends BaseObject {
       barcode: this.getObject().get('barcode'),
       productPageUrl: this.getObject().get('productPageUrl'),
       imageUrl: this.getObject().get('imageUrl'),
+      lastCrawlDateTime: this.getObject().get('lastCrawlDateTime'),
       storeTags,
       storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store,

@@ -16,12 +16,13 @@ function expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMaste
   expect(storeMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
   expect(storeMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
   expect(storeMasterProductInfo.get('imageUrl')).toBe(expectedStoreMasterProductInfo.get('imageUrl'));
+  expect(storeMasterProductInfo.get('lastCrawlDateTime')).toBe(expectedStoreMasterProductInfo.get('lastCrawlDateTime'));
   expect(storeMasterProductInfo.get('storeTagIds')).toEqual(expectedStoreMasterProductInfo.get('storeTagIds'));
 }
 
 export function createCriteria() {
   return Map({
-    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
+    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'lastCrawlDateTime', 'storeTags'),
     includeStoreTags: true,
     conditions: Map({
       name: uuid(),
@@ -29,13 +30,14 @@ export function createCriteria() {
       barcode: uuid(),
       productPageUrl: uuid(),
       imageUrl: uuid(),
+      lastCrawlDateTime: new Date(),
     }),
   });
 }
 
 export function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo) {
   return Map({
-    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
+    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'lastCrawlDateTime', 'storeTags'),
     includeStoreTags: true,
     conditions: Map({
       name: storeMasterProductInfo.get('name'),
@@ -43,6 +45,7 @@ export function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterPro
       barcode: storeMasterProductInfo.get('barcode'),
       productPageUrl: storeMasterProductInfo.get('productPageUrl'),
       imageUrl: storeMasterProductInfo.get('imageUrl'),
+      lastCrawlDateTime: storeMasterProductInfo.get('lastCrawlDateTime'),
       storeTags: storeMasterProductInfo.get('storeTags'),
     }),
   });

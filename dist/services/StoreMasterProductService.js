@@ -332,77 +332,101 @@ StoreMasterProductService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('storeTag')) {
-    var _value6 = conditions.get('storeTag');
+  if (conditions.has('lastCrawlDateTime')) {
+    var _value6 = conditions.get('lastCrawlDateTime');
 
     if (_value6) {
-      query.equalTo('storeTags', _value6);
+      query.equalTo('lastCrawlDateTime', _value6);
+    }
+  }
+
+  if (conditions.has('lessThanOrEqualTo_lastCrawlDateTime')) {
+    var _value7 = conditions.get('lessThanOrEqualTo_lastCrawlDateTime');
+
+    if (_value7) {
+      query.lessThanOrEqualTo('lastCrawlDateTime', _value7);
+    }
+  }
+
+  if (conditions.has('greaterThanOrEqualTo_lastCrawlDateTime')) {
+    var _value8 = conditions.get('greaterThanOrEqualTo_lastCrawlDateTime');
+
+    if (_value8) {
+      query.greaterThanOrEqualTo('lastCrawlDateTime', _value8);
+    }
+  }
+
+  if (conditions.has('storeTag')) {
+    var _value9 = conditions.get('storeTag');
+
+    if (_value9) {
+      query.equalTo('storeTags', _value9);
     }
   }
 
   if (conditions.has('storeTags')) {
-    var _value7 = conditions.get('storeTags');
+    var _value10 = conditions.get('storeTags');
 
-    if (_value7) {
-      query.containedIn('storeTags', _value7.toArray());
+    if (_value10) {
+      query.containedIn('storeTags', _value10.toArray());
     }
   }
 
   if (conditions.has('storeTagId')) {
-    var _value8 = conditions.get('storeTagId');
+    var _value11 = conditions.get('storeTagId');
 
-    if (_value8) {
-      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value8));
+    if (_value11) {
+      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value11));
     }
   }
 
   if (conditions.has('storeTagIds')) {
-    var _value9 = conditions.get('storeTagIds');
+    var _value12 = conditions.get('storeTagIds');
 
-    if (_value9) {
-      query.containedIn('storeTags', _value9.map(function (storeTagId) {
+    if (_value12) {
+      query.containedIn('storeTags', _value12.map(function (storeTagId) {
         return _schema.StoreTag.createWithoutData(storeTagId);
       }).toArray());
     }
   }
 
   if (conditions.has('store')) {
-    var _value10 = conditions.get('store');
+    var _value13 = conditions.get('store');
 
-    if (_value10) {
-      query.equalTo('store', _value10);
+    if (_value13) {
+      query.equalTo('store', _value13);
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value11 = conditions.get('storeId');
+    var _value14 = conditions.get('storeId');
 
-    if (_value11) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value11));
+    if (_value14) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value14));
     }
   }
 
   if (conditions.has('without_masterProduct')) {
-    var _value12 = conditions.get('without_masterProduct');
+    var _value15 = conditions.get('without_masterProduct');
 
-    if (_value12) {
+    if (_value15) {
       query.doesNotExist('masterProduct');
     }
   }
 
   if (conditions.has('masterProduct')) {
-    var _value13 = conditions.get('masterProduct');
+    var _value16 = conditions.get('masterProduct');
 
-    if (_value13) {
-      query.equalTo('masterProduct', _value13);
+    if (_value16) {
+      query.equalTo('masterProduct', _value16);
     }
   }
 
   if (conditions.has('masterProductId')) {
-    var _value14 = conditions.get('masterProductId');
+    var _value17 = conditions.get('masterProductId');
 
-    if (_value14) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value14));
+    if (_value17) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value17));
     }
   }
 

@@ -68,6 +68,7 @@ StoreMasterProduct.updateInfoInternal = function (object, info) {
   object.set('barcode', info.get('barcode'));
   object.set('productPageUrl', info.get('productPageUrl'));
   object.set('imageUrl', info.get('imageUrl'));
+  object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
 
   if (info.has('storeTagIds')) {
     var storeTagIds = info.get('storeTagIds');
@@ -146,6 +147,7 @@ var _initialiseProps = function _initialiseProps() {
       barcode: _this2.getObject().get('barcode'),
       productPageUrl: _this2.getObject().get('productPageUrl'),
       imageUrl: _this2.getObject().get('imageUrl'),
+      lastCrawlDateTime: _this2.getObject().get('lastCrawlDateTime'),
       storeTags: storeTags,
       storeTagIds: storeTags ? storeTags.map(function (storeTag) {
         return storeTag.get('id');

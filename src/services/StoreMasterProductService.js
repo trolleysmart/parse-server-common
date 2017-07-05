@@ -131,6 +131,30 @@ export default class StoreMasterProductService extends ServiceBase {
       }
     }
 
+    if (conditions.has('lastCrawlDateTime')) {
+      const value = conditions.get('lastCrawlDateTime');
+
+      if (value) {
+        query.equalTo('lastCrawlDateTime', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_lastCrawlDateTime')) {
+      const value = conditions.get('lessThanOrEqualTo_lastCrawlDateTime');
+
+      if (value) {
+        query.lessThanOrEqualTo('lastCrawlDateTime', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_lastCrawlDateTime')) {
+      const value = conditions.get('greaterThanOrEqualTo_lastCrawlDateTime');
+
+      if (value) {
+        query.greaterThanOrEqualTo('lastCrawlDateTime', value);
+      }
+    }
+
     if (conditions.has('storeTag')) {
       const value = conditions.get('storeTag');
 

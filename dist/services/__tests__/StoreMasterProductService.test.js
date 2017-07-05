@@ -35,26 +35,28 @@ function expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMaste
   expect(storeMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
   expect(storeMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
   expect(storeMasterProductInfo.get('imageUrl')).toBe(expectedStoreMasterProductInfo.get('imageUrl'));
+  expect(storeMasterProductInfo.get('lastCrawlDateTime')).toBe(expectedStoreMasterProductInfo.get('lastCrawlDateTime'));
   expect(storeMasterProductInfo.get('storeTagIds')).toEqual(expectedStoreMasterProductInfo.get('storeTagIds'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'lastCrawlDateTime', 'storeTags'),
     includeStoreTags: true,
     conditions: (0, _immutable.Map)({
       name: (0, _v2.default)(),
       description: (0, _v2.default)(),
       barcode: (0, _v2.default)(),
       productPageUrl: (0, _v2.default)(),
-      imageUrl: (0, _v2.default)()
+      imageUrl: (0, _v2.default)(),
+      lastCrawlDateTime: new Date()
     })
   });
 }
 
 function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'storeTags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'lastCrawlDateTime', 'storeTags'),
     includeStoreTags: true,
     conditions: (0, _immutable.Map)({
       name: storeMasterProductInfo.get('name'),
@@ -62,6 +64,7 @@ function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInf
       barcode: storeMasterProductInfo.get('barcode'),
       productPageUrl: storeMasterProductInfo.get('productPageUrl'),
       imageUrl: storeMasterProductInfo.get('imageUrl'),
+      lastCrawlDateTime: storeMasterProductInfo.get('lastCrawlDateTime'),
       storeTags: storeMasterProductInfo.get('storeTags')
     })
   });
