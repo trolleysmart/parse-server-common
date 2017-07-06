@@ -57,7 +57,6 @@ StoreTag.updateInfoInternal = function (object, info) {
 
   object.set('name', name);
   object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
-
   object.set('url', info.get('url'));
   object.set('weight', info.get('weight'));
 

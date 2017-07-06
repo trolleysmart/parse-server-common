@@ -6,7 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -45,8 +49,27 @@ Tag.updateInfoInternal = function (object, info) {
 
   object.set('name', name);
   object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
-
   object.set('weight', info.get('weight'));
+
+  if (info.has('tagIds')) {
+    var tagIds = info.get('tagIds');
+
+    if (tagIds.isEmpty()) {
+      object.set('tags', []);
+    } else {
+      object.set('tags', tagIds.map(function (tagId) {
+        return Tag.createWithoutData(tagId);
+      }).toArray());
+    }
+  } else if (info.has('tags')) {
+    var tags = info.get('tags');
+
+    if (tags.isEmpty()) {
+      object.set('tags', []);
+    } else {
+      object.set('tags', tags.toArray());
+    }
+  }
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -61,11 +84,20 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
+    var tagObjects = _this2.getObject().get('tags');
+    var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
+      return new Tag(tag).getInfo();
+    }) : undefined;
+
     return (0, _immutable.Map)({
       id: _this2.getId(),
       key: _this2.getObject().get('key'),
       name: _this2.getObject().get('name'),
-      weight: _this2.getObject().get('weight')
+      weight: _this2.getObject().get('weight'),
+      tags: tags,
+      tagIds: tags ? tags.map(function (tag) {
+        return tag.get('id');
+      }) : (0, _immutable.List)()
     });
   };
 };

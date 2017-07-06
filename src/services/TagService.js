@@ -74,6 +74,14 @@ export default class TagService extends ServiceBase {
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(Tag, criteria);
 
+    if (criteria.has('includeTags')) {
+      const value = criteria.get('includeTags');
+
+      if (value) {
+        query.include('tags');
+      }
+    }
+
     if (!criteria.has('conditions')) {
       return query;
     }
@@ -95,6 +103,38 @@ export default class TagService extends ServiceBase {
 
       if (value) {
         query.equalTo('weight', value);
+      }
+    }
+
+    if (conditions.has('tag')) {
+      const value = conditions.get('tag');
+
+      if (value) {
+        query.equalTo('tags', value);
+      }
+    }
+
+    if (conditions.has('tags')) {
+      const value = conditions.get('tags');
+
+      if (value) {
+        query.containedIn('tags', value.toArray());
+      }
+    }
+
+    if (conditions.has('tagId')) {
+      const value = conditions.get('tagId');
+
+      if (value) {
+        query.equalTo('tags', Tag.createWithoutData(value));
+      }
+    }
+
+    if (conditions.has('tagIds')) {
+      const value = conditions.get('tagIds');
+
+      if (value) {
+        query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
       }
     }
 

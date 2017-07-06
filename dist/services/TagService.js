@@ -275,6 +275,14 @@ TagService.count = function () {
 TagService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Tag, criteria);
 
+  if (criteria.has('includeTags')) {
+    var value = criteria.get('includeTags');
+
+    if (value) {
+      query.include('tags');
+    }
+  }
+
   if (!criteria.has('conditions')) {
     return query;
   }
@@ -282,20 +290,54 @@ TagService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('key')) {
-    var value = conditions.get('key');
+    var _value = conditions.get('key');
 
-    if (value) {
-      query.equalTo('key', value);
+    if (_value) {
+      query.equalTo('key', _value);
     }
   }
 
   _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   if (conditions.has('weight')) {
-    var _value = conditions.get('weight');
+    var _value2 = conditions.get('weight');
 
-    if (_value) {
-      query.equalTo('weight', _value);
+    if (_value2) {
+      query.equalTo('weight', _value2);
+    }
+  }
+
+  if (conditions.has('tag')) {
+    var _value3 = conditions.get('tag');
+
+    if (_value3) {
+      query.equalTo('tags', _value3);
+    }
+  }
+
+  if (conditions.has('tags')) {
+    var _value4 = conditions.get('tags');
+
+    if (_value4) {
+      query.containedIn('tags', _value4.toArray());
+    }
+  }
+
+  if (conditions.has('tagId')) {
+    var _value5 = conditions.get('tagId');
+
+    if (_value5) {
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value5));
+    }
+  }
+
+  if (conditions.has('tagIds')) {
+    var _value6 = conditions.get('tagIds');
+
+    if (_value6) {
+      query.containedIn('tags', _value6.map(function (tagId) {
+        return _schema.Tag.createWithoutData(tagId);
+      }).toArray());
     }
   }
 
