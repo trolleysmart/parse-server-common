@@ -35,13 +35,14 @@ function expectStoreMasterProductInfo(storeMasterProductInfo, expectedStoreMaste
   expect(storeMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
   expect(storeMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
   expect(storeMasterProductInfo.get('imageUrl')).toBe(expectedStoreMasterProductInfo.get('imageUrl'));
+  expect(storeMasterProductInfo.get('size')).toBe(expectedStoreMasterProductInfo.get('size'));
   expect(storeMasterProductInfo.get('lastCrawlDateTime')).toBe(expectedStoreMasterProductInfo.get('lastCrawlDateTime'));
   expect(storeMasterProductInfo.get('storeTagIds')).toEqual(expectedStoreMasterProductInfo.get('storeTagIds'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'lastCrawlDateTime', 'storeTags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'storeTags'),
     includeStoreTags: true,
     conditions: (0, _immutable.Map)({
       name: (0, _v2.default)(),
@@ -49,6 +50,7 @@ function createCriteria() {
       barcode: (0, _v2.default)(),
       productPageUrl: (0, _v2.default)(),
       imageUrl: (0, _v2.default)(),
+      size: (0, _v2.default)(),
       lastCrawlDateTime: new Date()
     })
   });
@@ -56,7 +58,7 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'lastCrawlDateTime', 'storeTags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'storeTags'),
     includeStoreTags: true,
     conditions: (0, _immutable.Map)({
       name: storeMasterProductInfo.get('name'),
@@ -64,6 +66,7 @@ function createCriteriaUsingProvidedStoreMasterProductInfo(storeMasterProductInf
       barcode: storeMasterProductInfo.get('barcode'),
       productPageUrl: storeMasterProductInfo.get('productPageUrl'),
       imageUrl: storeMasterProductInfo.get('imageUrl'),
+      size: storeMasterProductInfo.get('size'),
       lastCrawlDateTime: storeMasterProductInfo.get('lastCrawlDateTime'),
       storeTags: storeMasterProductInfo.get('storeTags')
     })

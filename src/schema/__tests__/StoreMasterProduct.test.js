@@ -11,6 +11,7 @@ export function createStoreMasterProductInfo(storeTagIds, storeId, tagId) {
     barcode: uuid(),
     productPageUrl: uuid(),
     imageUrl: uuid(),
+    size: uuid(),
     lasCrawlDateTime: new Date(),
   });
 
@@ -35,6 +36,7 @@ function expectStoreMasterProductInfo(storeStoreMasterProductInfo, expectedStore
   expect(storeStoreMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
   expect(storeStoreMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
   expect(storeStoreMasterProductInfo.get('imageUrl')).toBe(expectedStoreMasterProductInfo.get('imageUrl'));
+  expect(storeStoreMasterProductInfo.get('size')).toBe(expectedStoreMasterProductInfo.get('size'));
   expect(storeStoreMasterProductInfo.get('lastCrawlDateTime')).toBe(expectedStoreMasterProductInfo.get('lastCrawlDateTime'));
   expect(storeStoreMasterProductInfo.get('storeTags')).toBe(expectedStoreMasterProductInfo.get('storeTags'));
   expect(storeStoreMasterProductInfo.get('storeId')).toBe(expectedStoreMasterProductInfo.get('storeId'));

@@ -30,31 +30,34 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('size')).toBe(expectedMasterProductInfo.get('size'));
   expect(masterProductInfo.get('tagIds')).toEqual(expectedMasterProductInfo.get('tagIds'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'imageUrl', 'tags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'imageUrl', 'size', 'tags'),
     includeTags: true,
     conditions: (0, _immutable.Map)({
       name: (0, _v2.default)(),
       description: (0, _v2.default)(),
       barcode: (0, _v2.default)(),
-      imageUrl: (0, _v2.default)()
+      imageUrl: (0, _v2.default)(),
+      size: (0, _v2.default)()
     })
   });
 }
 
 function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'imageUrl', 'tags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'imageUrl', 'size', 'tags'),
     includeTags: true,
     conditions: (0, _immutable.Map)({
       name: masterProductInfo.get('name'),
       description: masterProductInfo.get('description'),
       barcode: masterProductInfo.get('barcode'),
       imageUrl: masterProductInfo.get('imageUrl'),
+      size: masterProductInfo.get('size'),
       tags: masterProductInfo.get('tags')
     })
   });

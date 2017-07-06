@@ -131,6 +131,14 @@ export default class StoreMasterProductService extends ServiceBase {
       }
     }
 
+    if (conditions.has('size')) {
+      const value = conditions.get('size');
+
+      if (value) {
+        query.equalTo('size', value);
+      }
+    }
+
     if (conditions.has('lastCrawlDateTime')) {
       const value = conditions.get('lastCrawlDateTime');
 

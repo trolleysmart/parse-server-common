@@ -308,35 +308,43 @@ MasterProductService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('tag')) {
-    var _value3 = conditions.get('tag');
+  if (conditions.has('size')) {
+    var _value3 = conditions.get('size');
 
     if (_value3) {
-      query.equalTo('tags', _value3);
+      query.equalTo('size', _value3);
+    }
+  }
+
+  if (conditions.has('tag')) {
+    var _value4 = conditions.get('tag');
+
+    if (_value4) {
+      query.equalTo('tags', _value4);
     }
   }
 
   if (conditions.has('tags')) {
-    var _value4 = conditions.get('tags');
+    var _value5 = conditions.get('tags');
 
-    if (_value4) {
-      query.containedIn('tags', _value4.toArray());
+    if (_value5) {
+      query.containedIn('tags', _value5.toArray());
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value5 = conditions.get('tagId');
+    var _value6 = conditions.get('tagId');
 
-    if (_value5) {
-      query.equalTo('tags', _schema.Tag.createWithoutData(_value5));
+    if (_value6) {
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value6));
     }
   }
 
   if (conditions.has('tagIds')) {
-    var _value6 = conditions.get('tagIds');
+    var _value7 = conditions.get('tagIds');
 
-    if (_value6) {
-      query.containedIn('tags', _value6.map(function (tagId) {
+    if (_value7) {
+      query.containedIn('tags', _value7.map(function (tagId) {
         return _schema.Tag.createWithoutData(tagId);
       }).toArray());
     }

@@ -13,31 +13,34 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo, m
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('size')).toBe(expectedMasterProductInfo.get('size'));
   expect(masterProductInfo.get('tagIds')).toEqual(expectedMasterProductInfo.get('tagIds'));
 }
 
 export function createCriteria() {
   return Map({
-    fields: List.of('name', 'description', 'barcode', 'imageUrl', 'tags'),
+    fields: List.of('name', 'description', 'barcode', 'imageUrl', 'size', 'tags'),
     includeTags: true,
     conditions: Map({
       name: uuid(),
       description: uuid(),
       barcode: uuid(),
       imageUrl: uuid(),
+      size: uuid(),
     }),
   });
 }
 
 export function createCriteriaUsingProvidedMasterProductInfo(masterProductInfo) {
   return Map({
-    fields: List.of('name', 'description', 'barcode', 'imageUrl', 'tags'),
+    fields: List.of('name', 'description', 'barcode', 'imageUrl', 'size', 'tags'),
     includeTags: true,
     conditions: Map({
       name: masterProductInfo.get('name'),
       description: masterProductInfo.get('description'),
       barcode: masterProductInfo.get('barcode'),
       imageUrl: masterProductInfo.get('imageUrl'),
+      size: masterProductInfo.get('size'),
       tags: masterProductInfo.get('tags'),
     }),
   });

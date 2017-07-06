@@ -10,6 +10,7 @@ export function createMasterProductInfo(tagIds) {
     description: uuid(),
     barcode: uuid(),
     imageUrl: uuid(),
+    size: uuid(),
   });
 
   return tagIds
@@ -28,6 +29,7 @@ function expectMasterProductInfo(masterProductInfo, expectedMasterProductInfo) {
   expect(masterProductInfo.get('description')).toBe(expectedMasterProductInfo.get('description'));
   expect(masterProductInfo.get('barcode')).toBe(expectedMasterProductInfo.get('barcode'));
   expect(masterProductInfo.get('imageUrl')).toBe(expectedMasterProductInfo.get('imageUrl'));
+  expect(masterProductInfo.get('size')).toBe(expectedMasterProductInfo.get('size'));
   expect(masterProductInfo.get('tags')).toEqual(expectedMasterProductInfo.get('tags'));
 }
 

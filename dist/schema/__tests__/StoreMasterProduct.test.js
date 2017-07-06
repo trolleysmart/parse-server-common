@@ -23,6 +23,7 @@ function createStoreMasterProductInfo(storeTagIds, storeId, tagId) {
     barcode: (0, _v2.default)(),
     productPageUrl: (0, _v2.default)(),
     imageUrl: (0, _v2.default)(),
+    size: (0, _v2.default)(),
     lasCrawlDateTime: new Date()
   });
 
@@ -45,6 +46,7 @@ function expectStoreMasterProductInfo(storeStoreMasterProductInfo, expectedStore
   expect(storeStoreMasterProductInfo.get('barcode')).toBe(expectedStoreMasterProductInfo.get('barcode'));
   expect(storeStoreMasterProductInfo.get('productPageUrl')).toBe(expectedStoreMasterProductInfo.get('productPageUrl'));
   expect(storeStoreMasterProductInfo.get('imageUrl')).toBe(expectedStoreMasterProductInfo.get('imageUrl'));
+  expect(storeStoreMasterProductInfo.get('size')).toBe(expectedStoreMasterProductInfo.get('size'));
   expect(storeStoreMasterProductInfo.get('lastCrawlDateTime')).toBe(expectedStoreMasterProductInfo.get('lastCrawlDateTime'));
   expect(storeStoreMasterProductInfo.get('storeTags')).toBe(expectedStoreMasterProductInfo.get('storeTags'));
   expect(storeStoreMasterProductInfo.get('storeId')).toBe(expectedStoreMasterProductInfo.get('storeId'));

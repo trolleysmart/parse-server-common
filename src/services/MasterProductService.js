@@ -107,6 +107,14 @@ export default class MasterProductService extends ServiceBase {
       }
     }
 
+    if (conditions.has('size')) {
+      const value = conditions.get('size');
+
+      if (value) {
+        query.equalTo('size', value);
+      }
+    }
+
     if (conditions.has('tag')) {
       const value = conditions.get('tag');
 

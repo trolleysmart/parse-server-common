@@ -26,6 +26,7 @@ export default class MasterProduct extends BaseObject {
 
     object.set('barcode', info.get('barcode'));
     object.set('imageUrl', info.get('imageUrl'));
+    object.set('size', info.get('size'));
 
     if (info.has('tagIds')) {
       const tagIds = info.get('tagIds');
@@ -68,6 +69,7 @@ export default class MasterProduct extends BaseObject {
       description: this.getObject().get('description'),
       barcode: this.getObject().get('barcode'),
       imageUrl: this.getObject().get('imageUrl'),
+      size: this.getObject().get('size'),
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });
