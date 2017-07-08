@@ -31,18 +31,18 @@ export function createCriteria() {
   });
 }
 
-export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
+export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProduct, store) {
   return Map({
     fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
-      name: masterProductPriceInfo.get('name'),
-      storeName: masterProductPriceInfo.get('storeName'),
+      name: masterProduct.get('name'),
+      storeName: store.get('name'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
       status: masterProductPriceInfo.get('status'),
-      masterProductId,
-      storeId,
+      masterProductId: masterProduct.get('id'),
+      storeId: store.get('id'),
     }),
   });
 }
@@ -163,12 +163,14 @@ describe('search', () => {
   });
 
   test('should return the master products price matches the criteria', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
+    const masterProduct = createMasterProductInfo();
+    const masterProductId = await MasterProductService.create(masterProduct);
+    const store = createStoreInfo();
+    const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     const masterProductPriceInfos = await MasterProductPriceService.search(
-      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
+      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store),
     );
 
     expect(masterProductPriceInfos.count()).toBe(1);
@@ -195,15 +197,17 @@ describe('searchAll', () => {
   });
 
   test('should return the master products price matches the criteria', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
+    const masterProduct = createMasterProductInfo();
+    const masterProductId = await MasterProductService.create(masterProduct);
+    const store = createStoreInfo();
+    const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
     const masterProductPriceId1 = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     const masterProductPriceId2 = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
     let masterProductPrices = List();
     const result = MasterProductPriceService.searchAll(
-      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
+      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store),
     );
 
     try {
@@ -227,14 +231,16 @@ describe('exists', () => {
   });
 
   test('should return true if any master product price match provided criteria', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
+    const masterProduct = createMasterProductInfo();
+    const masterProductId = await MasterProductService.create(masterProduct);
+    const store = createStoreInfo();
+    const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
 
     await MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
     const response = await MasterProductPriceService.exists(
-      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
+      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store),
     );
     expect(response).toBeTruthy();
   });
@@ -248,15 +254,17 @@ describe('count', () => {
   });
 
   test('should return the count of master product price match provided criteria', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
+    const masterProduct = createMasterProductInfo();
+    const masterProductId = await MasterProductService.create(masterProduct);
+    const store = createStoreInfo();
+    const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
 
     await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     await MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
     const response = await MasterProductPriceService.count(
-      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId),
+      createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store),
     );
     expect(response).toBe(2);
   });

@@ -49,18 +49,18 @@ function createCriteria() {
   });
 }
 
-function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProductId, storeId) {
+function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProduct, store) {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
-      name: masterProductPriceInfo.get('name'),
-      storeName: masterProductPriceInfo.get('storeName'),
+      name: masterProduct.get('name'),
+      storeName: store.get('name'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
       status: masterProductPriceInfo.get('status'),
-      masterProductId: masterProductId,
-      storeId: storeId
+      masterProductId: masterProduct.get('id'),
+      storeId: store.get('id')
     })
   });
 }
@@ -435,31 +435,33 @@ describe('search', function () {
   })));
 
   test('should return the master products price matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
-    var masterProductId, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfos, masterProductPriceInfo;
+    var masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfos, masterProductPriceInfo;
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)();
+            _context11.next = 3;
+            return _2.MasterProductService.create(masterProduct);
 
-          case 2:
+          case 3:
             masterProductId = _context11.sent;
-            _context11.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            store = (0, _Store.createStoreInfo)();
+            _context11.next = 7;
+            return _2.StoreService.create(store);
 
-          case 5:
+          case 7:
             storeId = _context11.sent;
             expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
-            _context11.next = 9;
+            _context11.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
-          case 9:
+          case 11:
             masterProductPriceId = _context11.sent;
-            _context11.next = 12;
-            return _2.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
+            _context11.next = 14;
+            return _2.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store));
 
-          case 12:
+          case 14:
             masterProductPriceInfos = _context11.sent;
 
 
@@ -470,7 +472,7 @@ describe('search', function () {
 
             expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
 
-          case 16:
+          case 18:
           case 'end':
             return _context11.stop();
         }
@@ -515,50 +517,52 @@ describe('searchAll', function () {
   })));
 
   test('should return the master products price matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
-    var masterProductId, storeId, expectedMasterProductPriceInfo, masterProductPriceId1, masterProductPriceId2, masterProductPrices, result;
+    var masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, masterProductPriceId1, masterProductPriceId2, masterProductPrices, result;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
         switch (_context13.prev = _context13.next) {
           case 0:
-            _context13.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)();
+            _context13.next = 3;
+            return _2.MasterProductService.create(masterProduct);
 
-          case 2:
+          case 3:
             masterProductId = _context13.sent;
-            _context13.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            store = (0, _Store.createStoreInfo)();
+            _context13.next = 7;
+            return _2.StoreService.create(store);
 
-          case 5:
+          case 7:
             storeId = _context13.sent;
             expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
-            _context13.next = 9;
+            _context13.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
-          case 9:
+          case 11:
             masterProductPriceId1 = _context13.sent;
-            _context13.next = 12;
+            _context13.next = 14;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
-          case 12:
+          case 14:
             masterProductPriceId2 = _context13.sent;
             masterProductPrices = (0, _immutable.List)();
-            result = _2.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
-            _context13.prev = 15;
+            result = _2.MasterProductPriceService.searchAll(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store));
+            _context13.prev = 17;
 
             result.event.subscribe(function (info) {
               return masterProductPrices = masterProductPrices.push(info);
             });
 
-            _context13.next = 19;
+            _context13.next = 21;
             return result.promise;
 
-          case 19:
-            _context13.prev = 19;
+          case 21:
+            _context13.prev = 21;
 
             result.event.unsubscribeAll();
-            return _context13.finish(19);
+            return _context13.finish(21);
 
-          case 22:
+          case 24:
             expect(masterProductPrices.count()).toBe(2);
             expect(masterProductPrices.find(function (_) {
               return _.get('id') === masterProductPriceId1;
@@ -567,12 +571,12 @@ describe('searchAll', function () {
               return _.get('id') === masterProductPriceId2;
             })).toBeTruthy();
 
-          case 25:
+          case 27:
           case 'end':
             return _context13.stop();
         }
       }
-    }, _callee13, undefined, [[15,, 19, 22]]);
+    }, _callee13, undefined, [[17,, 21, 24]]);
   })));
 });
 
@@ -601,35 +605,37 @@ describe('exists', function () {
   })));
 
   test('should return true if any master product price match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee15() {
-    var masterProductId, storeId, expectedMasterProductPriceInfo, response;
+    var masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, response;
     return regeneratorRuntime.wrap(function _callee15$(_context15) {
       while (1) {
         switch (_context15.prev = _context15.next) {
           case 0:
-            _context15.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)();
+            _context15.next = 3;
+            return _2.MasterProductService.create(masterProduct);
 
-          case 2:
+          case 3:
             masterProductId = _context15.sent;
-            _context15.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            store = (0, _Store.createStoreInfo)();
+            _context15.next = 7;
+            return _2.StoreService.create(store);
 
-          case 5:
+          case 7:
             storeId = _context15.sent;
             expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
-            _context15.next = 9;
+            _context15.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
-          case 9:
-            _context15.next = 11;
-            return _2.MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
-
           case 11:
+            _context15.next = 13;
+            return _2.MasterProductPriceService.exists(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store));
+
+          case 13:
             response = _context15.sent;
 
             expect(response).toBeTruthy();
 
-          case 13:
+          case 15:
           case 'end':
             return _context15.stop();
         }
@@ -663,39 +669,41 @@ describe('count', function () {
   })));
 
   test('should return the count of master product price match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
-    var masterProductId, storeId, expectedMasterProductPriceInfo, response;
+    var masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, response;
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
         switch (_context17.prev = _context17.next) {
           case 0:
-            _context17.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)();
+            _context17.next = 3;
+            return _2.MasterProductService.create(masterProduct);
 
-          case 2:
+          case 3:
             masterProductId = _context17.sent;
-            _context17.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            store = (0, _Store.createStoreInfo)();
+            _context17.next = 7;
+            return _2.StoreService.create(store);
 
-          case 5:
+          case 7:
             storeId = _context17.sent;
             expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
-            _context17.next = 9;
-            return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
-
-          case 9:
             _context17.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
           case 11:
             _context17.next = 13;
-            return _2.MasterProductPriceService.count(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProductId, storeId));
+            return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
           case 13:
+            _context17.next = 15;
+            return _2.MasterProductPriceService.count(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store));
+
+          case 15:
             response = _context17.sent;
 
             expect(response).toBe(2);
 
-          case 15:
+          case 17:
           case 'end':
             return _context17.stop();
         }

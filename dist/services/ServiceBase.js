@@ -10,46 +10,46 @@ var ServiceBase = function ServiceBase() {
   _classCallCheck(this, ServiceBase);
 };
 
-ServiceBase.addStringSearchToQuery = function (conditions, query, columnName, lowerCaseColumnName) {
-  if (conditions.has(columnName)) {
-    var value = conditions.get(columnName);
+ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has(conditionPropKey)) {
+    var value = conditions.get(conditionPropKey);
 
     if (value) {
-      query.equalTo(lowerCaseColumnName, value.toLowerCase());
+      query.equalTo(columnName, value.toLowerCase());
 
       return true;
     }
   }
 
-  if (conditions.has("startsWith_" + columnName)) {
-    var _value = conditions.get("startsWith_" + columnName);
+  if (conditions.has("startsWith_" + conditionPropKey)) {
+    var _value = conditions.get("startsWith_" + conditionPropKey);
 
     if (_value) {
-      query.startsWith(lowerCaseColumnName, _value.toLowerCase());
+      query.startsWith(columnName, _value.toLowerCase());
 
       return true;
     }
   }
 
-  if (conditions.has("contains_" + columnName)) {
-    var _value2 = conditions.get("contains_" + columnName);
+  if (conditions.has("contains_" + conditionPropKey)) {
+    var _value2 = conditions.get("contains_" + conditionPropKey);
 
     if (_value2) {
-      query.contains(lowerCaseColumnName, _value2.toLowerCase());
+      query.contains(columnName, _value2.toLowerCase());
 
       return true;
     }
   }
 
-  if (conditions.has("contains_" + columnName + "s")) {
-    var values = conditions.get("contains_" + columnName + "s");
+  if (conditions.has("contains_" + conditionPropKey + "s")) {
+    var values = conditions.get("contains_" + conditionPropKey + "s");
 
     if (values && values.count() === 1) {
-      query.contains(lowerCaseColumnName, values.first().toLowerCase());
+      query.contains(columnName, values.first().toLowerCase());
 
       return true;
     } else if (values && values.count() > 1) {
-      query.matches(lowerCaseColumnName, values.map(function (value) {
+      query.matches(columnName, values.map(function (value) {
         return "(?=.*" + value.toLowerCase() + ")";
       }).reduce(function (reduction, value) {
         return reduction + value;

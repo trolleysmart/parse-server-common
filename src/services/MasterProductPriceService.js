@@ -144,9 +144,6 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
-    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
-    ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
-
     if (conditions.has('masterProductId')) {
       const value = conditions.get('masterProductId');
 
@@ -163,10 +160,16 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
-    const tagQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
+    const masterProductQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
 
-    if (tagQuery) {
-      query.matchesQuery('masterProduct', tagQuery);
+    if (masterProductQuery) {
+      query.matchesQuery('masterProduct', masterProductQuery);
+    }
+
+    const storeQuery = MasterProductPriceService.buildStoreQuery(conditions);
+
+    if (storeQuery) {
+      query.matchesQuery('store', storeQuery);
     }
 
     return query;
@@ -174,14 +177,14 @@ export default class MasterProductPriceService extends ServiceBase {
 
   static buildMasterProductQuery = (conditions) => {
     const query = ParseWrapperService.createQuery(MasterProduct);
-    let hasTags = false;
+    let hasTagsQuery = false;
 
     if (conditions.has('tag')) {
       const value = conditions.get('tag');
 
       if (value) {
         query.equalTo('tags', value);
-        hasTags = true;
+        hasTagsQuery = true;
       }
     }
 
@@ -190,7 +193,7 @@ export default class MasterProductPriceService extends ServiceBase {
 
       if (value) {
         query.containedIn('tags', value.toArray());
-        hasTags = true;
+        hasTagsQuery = true;
       }
     }
 
@@ -199,7 +202,7 @@ export default class MasterProductPriceService extends ServiceBase {
 
       if (value) {
         query.equalTo('tags', Tag.createWithoutData(value));
-        hasTags = true;
+        hasTagsQuery = true;
       }
     }
 
@@ -208,13 +211,25 @@ export default class MasterProductPriceService extends ServiceBase {
 
       if (value) {
         query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
-        hasTags = true;
+        hasTagsQuery = true;
       }
     }
 
-    const hasDescriptions = ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
+    const hasNameQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
+    const hasDescriptionsQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
-    if (hasDescriptions || hasTags) {
+    if (hasNameQuery || hasDescriptionsQuery || hasTagsQuery) {
+      return query;
+    }
+
+    return null;
+  };
+
+  static buildStoreQuery = (conditions) => {
+    const query = ParseWrapperService.createQuery(Store);
+    const hasNameQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'lowerCaseName');
+
+    if (hasNameQuery) {
       return query;
     }
 

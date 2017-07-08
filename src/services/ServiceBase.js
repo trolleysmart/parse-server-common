@@ -1,46 +1,46 @@
 // @flow
 
 export default class ServiceBase {
-  static addStringSearchToQuery = (conditions, query, columnName, lowerCaseColumnName) => {
-    if (conditions.has(columnName)) {
-      const value = conditions.get(columnName);
+  static addStringSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (conditions.has(conditionPropKey)) {
+      const value = conditions.get(conditionPropKey);
 
       if (value) {
-        query.equalTo(lowerCaseColumnName, value.toLowerCase());
+        query.equalTo(columnName, value.toLowerCase());
 
         return true;
       }
     }
 
-    if (conditions.has(`startsWith_${columnName}`)) {
-      const value = conditions.get(`startsWith_${columnName}`);
+    if (conditions.has(`startsWith_${conditionPropKey}`)) {
+      const value = conditions.get(`startsWith_${conditionPropKey}`);
 
       if (value) {
-        query.startsWith(lowerCaseColumnName, value.toLowerCase());
+        query.startsWith(columnName, value.toLowerCase());
 
         return true;
       }
     }
 
-    if (conditions.has(`contains_${columnName}`)) {
-      const value = conditions.get(`contains_${columnName}`);
+    if (conditions.has(`contains_${conditionPropKey}`)) {
+      const value = conditions.get(`contains_${conditionPropKey}`);
 
       if (value) {
-        query.contains(lowerCaseColumnName, value.toLowerCase());
+        query.contains(columnName, value.toLowerCase());
 
         return true;
       }
     }
 
-    if (conditions.has(`contains_${columnName}s`)) {
-      const values = conditions.get(`contains_${columnName}s`);
+    if (conditions.has(`contains_${conditionPropKey}s`)) {
+      const values = conditions.get(`contains_${conditionPropKey}s`);
 
       if (values && values.count() === 1) {
-        query.contains(lowerCaseColumnName, values.first().toLowerCase());
+        query.contains(columnName, values.first().toLowerCase());
 
         return true;
       } else if (values && values.count() > 1) {
-        query.matches(lowerCaseColumnName, values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+        query.matches(columnName, values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
 
         return true;
       }
