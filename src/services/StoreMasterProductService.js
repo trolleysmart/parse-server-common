@@ -211,6 +211,14 @@ export default class StoreMasterProductService extends ServiceBase {
       }
     }
 
+    if (conditions.has('with_masterProduct')) {
+      const value = conditions.get('with_masterProduct');
+
+      if (value) {
+        query.exists('masterProduct');
+      }
+    }
+
     if (conditions.has('without_masterProduct')) {
       const value = conditions.get('without_masterProduct');
 

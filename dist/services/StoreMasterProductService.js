@@ -414,27 +414,35 @@ StoreMasterProductService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('without_masterProduct')) {
-    var _value16 = conditions.get('without_masterProduct');
+  if (conditions.has('with_masterProduct')) {
+    var _value16 = conditions.get('with_masterProduct');
 
     if (_value16) {
+      query.exists('masterProduct');
+    }
+  }
+
+  if (conditions.has('without_masterProduct')) {
+    var _value17 = conditions.get('without_masterProduct');
+
+    if (_value17) {
       query.doesNotExist('masterProduct');
     }
   }
 
   if (conditions.has('masterProduct')) {
-    var _value17 = conditions.get('masterProduct');
+    var _value18 = conditions.get('masterProduct');
 
-    if (_value17) {
-      query.equalTo('masterProduct', _value17);
+    if (_value18) {
+      query.equalTo('masterProduct', _value18);
     }
   }
 
   if (conditions.has('masterProductId')) {
-    var _value18 = conditions.get('masterProductId');
+    var _value19 = conditions.get('masterProductId');
 
-    if (_value18) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value18));
+    if (_value19) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value19));
     }
   }
 
