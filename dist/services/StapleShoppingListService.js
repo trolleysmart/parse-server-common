@@ -297,7 +297,7 @@ StapleShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
-  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   return query;
 };

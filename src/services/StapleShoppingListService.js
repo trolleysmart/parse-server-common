@@ -96,7 +96,7 @@ export default class StapleShoppingListService extends ServiceBase {
       }
     }
 
-    ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
     return query;
   };
