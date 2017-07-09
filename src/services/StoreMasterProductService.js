@@ -105,6 +105,23 @@ export default class StoreMasterProductService extends ServiceBase {
     const conditions = criteria.get('conditions');
 
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
+
+    if (conditions.has('with_name')) {
+      const value = conditions.get('with_name');
+
+      if (value) {
+        query.exists('name');
+      }
+    }
+
+    if (conditions.has('without_name')) {
+      const value = conditions.get('without_name');
+
+      if (value) {
+        query.doesNotExist('name');
+      }
+    }
+
     ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
     if (conditions.has('barcode')) {
