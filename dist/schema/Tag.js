@@ -50,6 +50,7 @@ Tag.updateInfoInternal = function (object, info) {
   object.set('name', name);
   object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
   object.set('weight', info.get('weight'));
+  object.set('forDisplay', info.get('forDisplay'));
 
   if (info.has('tagIds')) {
     var tagIds = info.get('tagIds');
@@ -94,6 +95,7 @@ var _initialiseProps = function _initialiseProps() {
       key: _this2.getObject().get('key'),
       name: _this2.getObject().get('name'),
       weight: _this2.getObject().get('weight'),
+      forDisplay: _this2.getObject().get('forDisplay'),
       tags: tags,
       tagIds: tags ? tags.map(function (tag) {
         return tag.get('id');

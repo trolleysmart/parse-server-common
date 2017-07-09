@@ -9,6 +9,7 @@ export function createTagInfo() {
     key: uuid(),
     name: uuid(),
     weight: 1,
+    forDisplay: true,
   });
 }
 
@@ -20,6 +21,7 @@ function expectTagInfo(tagInfo, expectedTagInfo) {
   expect(tagInfo.get('key')).toBe(expectedTagInfo.get('key'));
   expect(tagInfo.get('name')).toBe(expectedTagInfo.get('name'));
   expect(tagInfo.get('weight')).toBe(expectedTagInfo.get('weight'));
+  expect(tagInfo.get('forDisplay')).toBe(expectedTagInfo.get('forDisplay'));
 }
 
 describe('constructor', () => {

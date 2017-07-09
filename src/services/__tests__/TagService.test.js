@@ -11,26 +11,29 @@ function expectTagInfo(tagInfo, expectedTagInfo, tagId) {
   expect(tagInfo.get('key')).toBe(expectedTagInfo.get('key'));
   expect(tagInfo.get('name')).toBe(expectedTagInfo.get('name'));
   expect(tagInfo.get('weight')).toBe(expectedTagInfo.get('weight'));
+  expect(tagInfo.get('forDisplay')).toBe(expectedTagInfo.get('forDisplay'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('key', 'name', 'weight'),
+    fields: List.of('key', 'name', 'weight', 'forDisplay'),
     conditions: Map({
       key: uuid(),
       name: uuid(),
       weight: 1,
+      forDisplay: true,
     }),
   });
 }
 
 function createCriteriaUsingProvidedTagInfo(tagInfo) {
   return Map({
-    fields: List.of('key', 'name', 'weight'),
+    fields: List.of('key', 'name', 'weight', 'forDisplay'),
     conditions: Map({
       key: tagInfo.get('key'),
       name: tagInfo.get('name'),
       weigth: tagInfo.get('weight'),
+      forDisplay: tagInfo.get('forDisplay'),
     }),
   });
 }

@@ -20,6 +20,7 @@ export default class Tag extends BaseObject {
     object.set('name', name);
     object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
     object.set('weight', info.get('weight'));
+    object.set('forDisplay', info.get('forDisplay'));
 
     if (info.has('tagIds')) {
       const tagIds = info.get('tagIds');
@@ -61,6 +62,7 @@ export default class Tag extends BaseObject {
       key: this.getObject().get('key'),
       name: this.getObject().get('name'),
       weight: this.getObject().get('weight'),
+      forDisplay: this.getObject().get('forDisplay'),
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });

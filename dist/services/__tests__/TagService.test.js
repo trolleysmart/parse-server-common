@@ -21,26 +21,29 @@ function expectTagInfo(tagInfo, expectedTagInfo, tagId) {
   expect(tagInfo.get('key')).toBe(expectedTagInfo.get('key'));
   expect(tagInfo.get('name')).toBe(expectedTagInfo.get('name'));
   expect(tagInfo.get('weight')).toBe(expectedTagInfo.get('weight'));
+  expect(tagInfo.get('forDisplay')).toBe(expectedTagInfo.get('forDisplay'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'weight'),
+    fields: _immutable.List.of('key', 'name', 'weight', 'forDisplay'),
     conditions: (0, _immutable.Map)({
       key: (0, _v2.default)(),
       name: (0, _v2.default)(),
-      weight: 1
+      weight: 1,
+      forDisplay: true
     })
   });
 }
 
 function createCriteriaUsingProvidedTagInfo(tagInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'weight'),
+    fields: _immutable.List.of('key', 'name', 'weight', 'forDisplay'),
     conditions: (0, _immutable.Map)({
       key: tagInfo.get('key'),
       name: tagInfo.get('name'),
-      weigth: tagInfo.get('weight')
+      weigth: tagInfo.get('weight'),
+      forDisplay: tagInfo.get('forDisplay')
     })
   });
 }

@@ -106,6 +106,12 @@ export default class TagService extends ServiceBase {
       }
     }
 
+    if (conditions.has('forDisplay')) {
+      const value = conditions.get('forDisplay');
+
+      query.equalTo('forDisplay', value);
+    }
+
     if (conditions.has('tag')) {
       const value = conditions.get('tag');
 
