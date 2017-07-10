@@ -273,6 +273,30 @@ MasterProductPriceService.count = function () {
 }();
 
 MasterProductPriceService.buildSearchQuery = function (criteria) {
+  if (!criteria.has('conditions')) {
+    return MasterProductPriceService.buildSearchQueryInternal(criteria);
+  }
+
+  var conditions = criteria.get('conditions');
+
+  if (conditions.has('storeIds')) {
+    var value = conditions.get('storeIds');
+
+    if (value.isEmpty()) {
+      return MasterProductPriceService.buildSearchQueryInternal(criteria);
+    } else if (value.count() === 1) {
+      return MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', value.first()));
+    }
+
+    return _microBusinessParseServerCommon.ParseWrapperService.createOrQuery(value.map(function (storeId) {
+      return MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', storeId));
+    }));
+  }
+
+  return MasterProductPriceService.buildSearchQueryInternal(criteria);
+};
+
+MasterProductPriceService.buildSearchQueryInternal = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProductPrice, criteria);
 
   if (criteria.has('includeMasterProduct')) {

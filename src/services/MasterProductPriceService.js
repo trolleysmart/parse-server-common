@@ -72,6 +72,30 @@ export default class MasterProductPriceService extends ServiceBase {
   static count = async criteria => MasterProductPriceService.buildSearchQuery(criteria).count();
 
   static buildSearchQuery = (criteria) => {
+    if (!criteria.has('conditions')) {
+      return MasterProductPriceService.buildSearchQueryInternal(criteria);
+    }
+
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('storeIds')) {
+      const value = conditions.get('storeIds');
+
+      if (value.isEmpty()) {
+        return MasterProductPriceService.buildSearchQueryInternal(criteria);
+      } else if (value.count() === 1) {
+        return MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', value.first()));
+      }
+
+      return ParseWrapperService.createOrQuery(
+          value.map(storeId => MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', storeId))),
+        );
+    }
+
+    return MasterProductPriceService.buildSearchQueryInternal(criteria);
+  };
+
+  static buildSearchQueryInternal = (criteria) => {
     const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
 
     if (criteria.has('includeMasterProduct')) {
