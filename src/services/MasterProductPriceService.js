@@ -84,12 +84,12 @@ export default class MasterProductPriceService extends ServiceBase {
       if (value.isEmpty()) {
         return MasterProductPriceService.buildSearchQueryInternal(criteria);
       } else if (value.count() === 1) {
-        return MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', value.first()));
+        return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], value.first()));
       }
 
       return ParseWrapperService.createOrQuery(
-          value.map(storeId => MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', storeId))),
-        );
+        value.map(storeId => MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeId))),
+      );
     }
 
     return MasterProductPriceService.buildSearchQueryInternal(criteria);

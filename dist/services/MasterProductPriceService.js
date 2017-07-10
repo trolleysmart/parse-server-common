@@ -285,11 +285,11 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
     if (value.isEmpty()) {
       return MasterProductPriceService.buildSearchQueryInternal(criteria);
     } else if (value.count() === 1) {
-      return MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', value.first()));
+      return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], value.first()));
     }
 
     return _microBusinessParseServerCommon.ParseWrapperService.createOrQuery(value.map(function (storeId) {
-      return MasterProductPriceService.buildSearchQueryInternal(criteria.set('storeId', storeId));
+      return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeId));
     }));
   }
 
