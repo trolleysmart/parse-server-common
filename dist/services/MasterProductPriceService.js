@@ -280,17 +280,35 @@ MasterProductPriceService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('storeIds')) {
-    var value = conditions.get('storeIds');
+    var storeIds = conditions.get('storeIds');
 
-    if (value.isEmpty()) {
+    if (storeIds.isEmpty()) {
       return MasterProductPriceService.buildSearchQueryInternal(criteria);
-    } else if (value.count() === 1) {
-      return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], value.first()));
+    } else if (storeIds.count() === 1) {
+      return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeIds.first()));
     }
 
-    return _microBusinessParseServerCommon.ParseWrapperService.createOrQuery(value.map(function (storeId) {
+    var query = _microBusinessParseServerCommon.ParseWrapperService.createOrQuery(storeIds.map(function (storeId) {
       return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeId));
     }));
+
+    if (criteria.has('includeMasterProduct')) {
+      var value = criteria.get('includeMasterProduct');
+
+      if (value) {
+        query.include('masterProduct');
+      }
+    }
+
+    if (criteria.has('includeStore')) {
+      var _value = criteria.get('includeStore');
+
+      if (_value) {
+        query.include('store');
+      }
+    }
+
+    return query;
   }
 
   return MasterProductPriceService.buildSearchQueryInternal(criteria);
@@ -308,9 +326,9 @@ MasterProductPriceService.buildSearchQueryInternal = function (criteria) {
   }
 
   if (criteria.has('includeStore')) {
-    var _value = criteria.get('includeStore');
+    var _value2 = criteria.get('includeStore');
 
-    if (_value) {
+    if (_value2) {
       query.include('store');
     }
   }
@@ -322,66 +340,66 @@ MasterProductPriceService.buildSearchQueryInternal = function (criteria) {
   var conditions = criteria.get('conditions');
 
   if (conditions.has('priceToDisplay')) {
-    var _value2 = conditions.get('priceToDisplay');
+    var _value3 = conditions.get('priceToDisplay');
 
-    if (_value2) {
-      query.equalTo('priceToDisplay', _value2);
+    if (_value3) {
+      query.equalTo('priceToDisplay', _value3);
     }
   }
 
   if (conditions.has('lessThanOrEqualTo_priceToDisplay')) {
-    var _value3 = conditions.get('lessThanOrEqualTo_priceToDisplay');
+    var _value4 = conditions.get('lessThanOrEqualTo_priceToDisplay');
 
-    if (_value3) {
-      query.lessThanOrEqualTo('priceToDisplay', _value3);
+    if (_value4) {
+      query.lessThanOrEqualTo('priceToDisplay', _value4);
     }
   }
 
   if (conditions.has('greaterThanOrEqualTo_priceToDisplay')) {
-    var _value4 = conditions.get('greaterThanOrEqualTo_priceToDisplay');
+    var _value5 = conditions.get('greaterThanOrEqualTo_priceToDisplay');
 
-    if (_value4) {
-      query.greaterThanOrEqualTo('priceToDisplay', _value4);
+    if (_value5) {
+      query.greaterThanOrEqualTo('priceToDisplay', _value5);
     }
   }
 
   if (conditions.has('status')) {
-    var _value5 = conditions.get('status');
+    var _value6 = conditions.get('status');
 
-    if (_value5) {
-      query.equalTo('status', _value5);
+    if (_value6) {
+      query.equalTo('status', _value6);
     }
   }
 
   if (conditions.has('specialType')) {
-    var _value6 = conditions.get('specialType');
+    var _value7 = conditions.get('specialType');
 
-    if (_value6) {
-      query.equalTo('priceDetails.specialType', _value6);
+    if (_value7) {
+      query.equalTo('priceDetails.specialType', _value7);
     }
   }
 
   if (conditions.has('not_specialType')) {
-    var _value7 = conditions.get('not_specialType');
+    var _value8 = conditions.get('not_specialType');
 
-    if (_value7) {
-      query.notEqualTo('priceDetails.specialType', _value7);
+    if (_value8) {
+      query.notEqualTo('priceDetails.specialType', _value8);
     }
   }
 
   if (conditions.has('masterProductId')) {
-    var _value8 = conditions.get('masterProductId');
+    var _value9 = conditions.get('masterProductId');
 
-    if (_value8) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value8));
+    if (_value9) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value9));
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value9 = conditions.get('storeId');
+    var _value10 = conditions.get('storeId');
 
-    if (_value9) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value9));
+    if (_value10) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value10));
     }
   }
 
@@ -414,28 +432,28 @@ MasterProductPriceService.buildMasterProductQuery = function (conditions) {
   }
 
   if (conditions.has('tags')) {
-    var _value10 = conditions.get('tags');
+    var _value11 = conditions.get('tags');
 
-    if (_value10) {
-      query.containedIn('tags', _value10.toArray());
+    if (_value11) {
+      query.containedIn('tags', _value11.toArray());
       hasTagsQuery = true;
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value11 = conditions.get('tagId');
+    var _value12 = conditions.get('tagId');
 
-    if (_value11) {
-      query.equalTo('tags', _schema.Tag.createWithoutData(_value11));
+    if (_value12) {
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value12));
       hasTagsQuery = true;
     }
   }
 
   if (conditions.has('tagIds')) {
-    var _value12 = conditions.get('tagIds');
+    var _value13 = conditions.get('tagIds');
 
-    if (_value12) {
-      query.containedIn('tags', _value12.map(function (tagId) {
+    if (_value13) {
+      query.containedIn('tags', _value13.map(function (tagId) {
         return _schema.Tag.createWithoutData(tagId);
       }).toArray());
       hasTagsQuery = true;

@@ -79,17 +79,35 @@ export default class MasterProductPriceService extends ServiceBase {
     const conditions = criteria.get('conditions');
 
     if (conditions.has('storeIds')) {
-      const value = conditions.get('storeIds');
+      const storeIds = conditions.get('storeIds');
 
-      if (value.isEmpty()) {
+      if (storeIds.isEmpty()) {
         return MasterProductPriceService.buildSearchQueryInternal(criteria);
-      } else if (value.count() === 1) {
-        return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], value.first()));
+      } else if (storeIds.count() === 1) {
+        return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeIds.first()));
       }
 
-      return ParseWrapperService.createOrQuery(
-        value.map(storeId => MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeId))),
+      const query = ParseWrapperService.createOrQuery(
+        storeIds.map(storeId => MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeId))),
       );
+
+      if (criteria.has('includeMasterProduct')) {
+        const value = criteria.get('includeMasterProduct');
+
+        if (value) {
+          query.include('masterProduct');
+        }
+      }
+
+      if (criteria.has('includeStore')) {
+        const value = criteria.get('includeStore');
+
+        if (value) {
+          query.include('store');
+        }
+      }
+
+      return query;
     }
 
     return MasterProductPriceService.buildSearchQueryInternal(criteria);
