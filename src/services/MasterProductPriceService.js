@@ -7,13 +7,13 @@ import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class MasterProductPriceService extends ServiceBase {
-  static create = async (info) => {
+  static create = async info => {
     const result = await MasterProductPrice.spawn(info).save();
 
     return result.id;
   };
 
-  static read = async (id) => {
+  static read = async id => {
     const results = await ParseWrapperService.createQuery(MasterProductPrice).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
@@ -23,7 +23,7 @@ export default class MasterProductPriceService extends ServiceBase {
     return new MasterProductPrice(results[0]).getInfo();
   };
 
-  static update = async (info) => {
+  static update = async info => {
     const results = await ParseWrapperService.createQuery(MasterProductPrice).equalTo('objectId', info.get('id')).limit(1).find();
 
     if (results.length === 0) {
@@ -37,7 +37,7 @@ export default class MasterProductPriceService extends ServiceBase {
     }
   };
 
-  static delete = async (id) => {
+  static delete = async id => {
     const results = await ParseWrapperService.createQuery(MasterProductPrice).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
@@ -47,13 +47,13 @@ export default class MasterProductPriceService extends ServiceBase {
     }
   };
 
-  static search = async (criteria) => {
+  static search = async criteria => {
     const results = await MasterProductPriceService.buildSearchQuery(criteria).find();
 
     return Immutable.fromJS(results).map(_ => new MasterProductPrice(_).getInfo());
   };
 
-  static searchAll = (criteria) => {
+  static searchAll = criteria => {
     const event = new NewSearchResultReceivedEvent();
     const promise = MasterProductPriceService.buildSearchQuery(criteria).each(_ => event.raise(new MasterProductPrice(_).getInfo()));
 
@@ -63,7 +63,7 @@ export default class MasterProductPriceService extends ServiceBase {
     };
   };
 
-  static exists = async (criteria) => {
+  static exists = async criteria => {
     const total = await MasterProductPriceService.count(criteria);
 
     return total > 0;
@@ -71,7 +71,7 @@ export default class MasterProductPriceService extends ServiceBase {
 
   static count = async criteria => MasterProductPriceService.buildSearchQuery(criteria).count();
 
-  static buildSearchQuery = (criteria) => {
+  static buildSearchQuery = criteria => {
     if (!criteria.has('conditions')) {
       return MasterProductPriceService.buildSearchQueryInternal(criteria);
     }
@@ -87,9 +87,11 @@ export default class MasterProductPriceService extends ServiceBase {
         return MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeIds.first()));
       }
 
-      const query = ParseWrapperService.createOrQuery(
+      const queryWithoutStandardCriteriaAdded = ParseWrapperService.createOrQuery(
         storeIds.map(storeId => MasterProductPriceService.buildSearchQueryInternal(criteria.setIn(['conditions', 'storeId'], storeId))),
       );
+
+      const query = ParseWrapperService.addStandardCriteriaToQuery(MasterProductPrice, queryWithoutStandardCriteriaAdded, criteria);
 
       if (criteria.has('includeMasterProduct')) {
         const value = criteria.get('includeMasterProduct');
@@ -113,7 +115,7 @@ export default class MasterProductPriceService extends ServiceBase {
     return MasterProductPriceService.buildSearchQueryInternal(criteria);
   };
 
-  static buildSearchQueryInternal = (criteria) => {
+  static buildSearchQueryInternal = criteria => {
     const query = ParseWrapperService.createQuery(MasterProductPrice, criteria);
 
     if (criteria.has('includeMasterProduct')) {
@@ -217,7 +219,7 @@ export default class MasterProductPriceService extends ServiceBase {
     return query;
   };
 
-  static buildMasterProductQuery = (conditions) => {
+  static buildMasterProductQuery = conditions => {
     const query = ParseWrapperService.createQuery(MasterProduct);
     let hasTagsQuery = false;
 
@@ -267,7 +269,7 @@ export default class MasterProductPriceService extends ServiceBase {
     return null;
   };
 
-  static buildStoreQuery = (conditions) => {
+  static buildStoreQuery = conditions => {
     const query = ParseWrapperService.createQuery(Store);
     const hasNameQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'lowerCaseName');
 

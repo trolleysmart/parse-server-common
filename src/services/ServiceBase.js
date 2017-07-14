@@ -1,6 +1,10 @@
 // @flow
 
+import { Range } from 'immutable';
+
 export default class ServiceBase {
+  static splitIntoChunks = (list, chunkSize) => Range(0, list.count(), chunkSize).map(chunkStart => list.slice(chunkStart, chunkStart + chunkSize));
+
   static addStringSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
