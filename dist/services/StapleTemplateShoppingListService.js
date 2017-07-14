@@ -272,6 +272,44 @@ StapleTemplateShoppingListService.count = function () {
   };
 }();
 
+StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList = _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+  var stapleTemplateShoppingListItems, result;
+  return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          stapleTemplateShoppingListItems = (0, _immutable.List)();
+          _context8.next = 3;
+          return StapleTemplateShoppingListService.searchAll((0, _immutable.Map)({}));
+
+        case 3:
+          result = _context8.sent;
+          _context8.prev = 4;
+
+          result.event.subscribe(function (info) {
+            return stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info);
+          });
+
+          _context8.next = 8;
+          return result.promise;
+
+        case 8:
+          _context8.prev = 8;
+
+          result.event.unsubscribeAll();
+          return _context8.finish(8);
+
+        case 11:
+          return _context8.abrupt('return', stapleTemplateShoppingListItems);
+
+        case 12:
+        case 'end':
+          return _context8.stop();
+      }
+    }
+  }, _callee8, undefined, [[4,, 8, 11]]);
+}));
+
 StapleTemplateShoppingListService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList, criteria);
 

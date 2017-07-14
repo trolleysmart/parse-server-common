@@ -1,19 +1,19 @@
 // @flow
 
-import Immutable, { List } from 'immutable';
+import Immutable, { List, Map } from 'immutable';
 import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
 import { StapleTemplate, StapleTemplateShoppingList, Tag } from '../schema';
 import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StapleTemplateShoppingListService extends ServiceBase {
-  static create = async info => {
+  static create = async (info) => {
     const result = await StapleTemplateShoppingList.spawn(info).save();
 
     return result.id;
   };
 
-  static read = async id => {
+  static read = async (id) => {
     const results = await ParseWrapperService.createQuery(StapleTemplateShoppingList).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
@@ -23,7 +23,7 @@ export default class StapleTemplateShoppingListService extends ServiceBase {
     return new StapleTemplateShoppingList(results[0]).getInfo();
   };
 
-  static update = async info => {
+  static update = async (info) => {
     const results = await ParseWrapperService.createQuery(StapleTemplateShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
 
     if (results.length === 0) {
@@ -37,7 +37,7 @@ export default class StapleTemplateShoppingListService extends ServiceBase {
     }
   };
 
-  static delete = async id => {
+  static delete = async (id) => {
     const results = await ParseWrapperService.createQuery(StapleTemplateShoppingList).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
@@ -47,13 +47,13 @@ export default class StapleTemplateShoppingListService extends ServiceBase {
     }
   };
 
-  static search = async criteria => {
+  static search = async (criteria) => {
     const results = await StapleTemplateShoppingListService.buildSearchQuery(criteria).find();
 
     return Immutable.fromJS(results).map(_ => new StapleTemplateShoppingList(_).getInfo());
   };
 
-  static searchAll = criteria => {
+  static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = StapleTemplateShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new StapleTemplateShoppingList(_).getInfo()));
 
@@ -63,7 +63,7 @@ export default class StapleTemplateShoppingListService extends ServiceBase {
     };
   };
 
-  static exists = async criteria => {
+  static exists = async (criteria) => {
     const total = await StapleTemplateShoppingListService.count(criteria);
 
     return total > 0;
@@ -86,7 +86,7 @@ export default class StapleTemplateShoppingListService extends ServiceBase {
     return stapleTemplateShoppingListItems;
   };
 
-  static buildSearchQuery = criteria => {
+  static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleTemplateShoppingList, criteria);
 
     if (criteria.has('includeStapleTemplates')) {

@@ -9,13 +9,13 @@ import StapleTemplateShoppingListService from './StapleTemplateShoppingListServi
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StapleShoppingListService extends ServiceBase {
-  static create = async info => {
+  static create = async (info) => {
     const result = await StapleShoppingList.spawn(info).save();
 
     return result.id;
   };
 
-  static read = async id => {
+  static read = async (id) => {
     const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
@@ -25,7 +25,7 @@ export default class StapleShoppingListService extends ServiceBase {
     return new StapleShoppingList(results[0]).getInfo();
   };
 
-  static update = async info => {
+  static update = async (info) => {
     const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
 
     if (results.length === 0) {
@@ -39,7 +39,7 @@ export default class StapleShoppingListService extends ServiceBase {
     }
   };
 
-  static delete = async id => {
+  static delete = async (id) => {
     const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).limit(1).find();
 
     if (results.length === 0) {
@@ -49,13 +49,13 @@ export default class StapleShoppingListService extends ServiceBase {
     }
   };
 
-  static search = async criteria => {
+  static search = async (criteria) => {
     const results = await StapleShoppingListService.buildSearchQuery(criteria).find();
 
     return Immutable.fromJS(results).map(_ => new StapleShoppingList(_).getInfo());
   };
 
-  static searchAll = criteria => {
+  static searchAll = (criteria) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = StapleShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new StapleShoppingList(_).getInfo()));
 
@@ -65,7 +65,7 @@ export default class StapleShoppingListService extends ServiceBase {
     };
   };
 
-  static exists = async criteria => {
+  static exists = async (criteria) => {
     const total = await StapleShoppingListService.count(criteria);
 
     return total > 0;
@@ -73,7 +73,7 @@ export default class StapleShoppingListService extends ServiceBase {
 
   static count = async criteria => StapleShoppingListService.buildSearchQuery(criteria).count();
 
-  static cloneStapleShoppingList = async userId => {
+  static cloneStapleShoppingList = async (userId) => {
     const items = await StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList();
     const splittedItems = ServiceBase.splitIntoChunks(items, 100);
     await BluebirdPromise.each(splittedItems.toArray(), chunck =>
@@ -81,7 +81,7 @@ export default class StapleShoppingListService extends ServiceBase {
     );
   };
 
-  static buildSearchQuery = criteria => {
+  static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleShoppingList, criteria);
 
     if (criteria.has('includeTags')) {

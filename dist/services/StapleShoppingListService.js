@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _bluebird = require('bluebird');
+
+var _bluebird2 = _interopRequireDefault(_bluebird);
+
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -15,6 +19,10 @@ var _schema = require('../schema');
 var _ServiceBase2 = require('./ServiceBase');
 
 var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
+
+var _StapleTemplateShoppingListService = require('./StapleTemplateShoppingListService');
+
+var _StapleTemplateShoppingListService2 = _interopRequireDefault(_StapleTemplateShoppingListService);
 
 var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
@@ -269,6 +277,39 @@ StapleShoppingListService.count = function () {
 
   return function (_x7) {
     return _ref7.apply(this, arguments);
+  };
+}();
+
+StapleShoppingListService.cloneStapleShoppingList = function () {
+  var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(userId) {
+    var items, splittedItems;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.next = 2;
+            return _StapleTemplateShoppingListService2.default.loadAllStapleTemplateShoppingList();
+
+          case 2:
+            items = _context8.sent;
+            splittedItems = _ServiceBase3.default.splitIntoChunks(items, 100);
+            _context8.next = 6;
+            return _bluebird2.default.each(splittedItems.toArray(), function (chunck) {
+              return Promise.all(chunck.map(function (item) {
+                return StapleShoppingListService.create(item.set('userId', userId));
+              }).toArray());
+            });
+
+          case 6:
+          case 'end':
+            return _context8.stop();
+        }
+      }
+    }, _callee8, undefined);
+  }));
+
+  return function (_x8) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
