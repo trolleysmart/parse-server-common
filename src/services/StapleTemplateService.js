@@ -1,75 +1,29 @@
 // @flow
 
-import Immutable from 'immutable';
-import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { StapleTemplate } from '../schema';
 import ServiceBase from './ServiceBase';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StapleTemplateService extends ServiceBase {
-  static create = async (info) => {
-    const result = await StapleTemplate.spawn(info).save();
+  static messagePrefix = 'No staple template found with Id: ';
 
-    return result.id;
-  };
+  static create = async (info, acl) => ServiceBase.create(StapleTemplate, info, acl);
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(StapleTemplate).equalTo('objectId', id).limit(1).find();
+  static read = async (info, sessionToken) => ServiceBase.read(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
 
-    if (results.length === 0) {
-      throw new Exception(`No staple template found with Id: ${id}`);
-    }
+  static update = async (info, sessionToken) => ServiceBase.update(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
 
-    return new StapleTemplate(results[0]).getInfo();
-  };
+  static delete = async (info, sessionToken) => ServiceBase.delete(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(StapleTemplate).equalTo('objectId', info.get('id')).limit(1).find();
+  static search = async (criteria, sessionToken) =>
+    ServiceBase.search(StapleTemplate, StapleTemplateService.buildSearchQuery, criteria, sessionToken);
 
-    if (results.length === 0) {
-      throw new Exception(`No staple template found with Id: ${info.get('id')}`);
-    } else {
-      const object = new StapleTemplate(results[0]);
+  static searchAll = (criteria, sessionToken) =>
+    ServiceBase.searchAll(StapleTemplate, StapleTemplateService.buildSearchQuery, criteria, sessionToken);
 
-      await object.updateInfo(info).saveObject();
+  static count = async (criteria, sessionToken) => ServiceBase.count(StapleTemplateService.buildSearchQuery, criteria, sessionToken);
 
-      return object.getId();
-    }
-  };
-
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(StapleTemplate).equalTo('objectId', id).limit(1).find();
-
-    if (results.length === 0) {
-      throw new Exception(`No staple template found with Id: ${id}`);
-    } else {
-      await results[0].destroy();
-    }
-  };
-
-  static search = async (criteria) => {
-    const results = await StapleTemplateService.buildSearchQuery(criteria).find();
-
-    return Immutable.fromJS(results).map(_ => new StapleTemplate(_).getInfo());
-  };
-
-  static searchAll = (criteria) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = StapleTemplateService.buildSearchQuery(criteria).each(_ => event.raise(new StapleTemplate(_).getInfo()));
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static exists = async (criteria) => {
-    const total = await StapleTemplateService.count(criteria);
-
-    return total > 0;
-  };
-
-  static count = async criteria => StapleTemplateService.buildSearchQuery(criteria).count();
+  static exists = async (criteria, sessionToken) => ServiceBase.exists(StapleTemplateService.buildSearchQuery, criteria, sessionToken);
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(StapleTemplate, criteria);

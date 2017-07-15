@@ -1,74 +1,27 @@
 // @flow
 
-import Immutable from 'immutable';
-import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { CrawlSession } from '../schema';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
+import ServiceBase from './ServiceBase';
 
-export default class CrawlSessionService {
-  static create = async (info) => {
-    const result = await CrawlSession.spawn(info).save();
+export default class CrawlSessionService extends ServiceBase {
+  static messagePrefix = 'No crawl session found with Id: ';
 
-    return result.id;
-  };
+  static create = async (info, acl) => ServiceBase.create(CrawlSession, info, acl);
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(CrawlSession).equalTo('objectId', id).limit(1).find();
+  static read = async (info, sessionToken) => ServiceBase.read(CrawlSession, info, sessionToken, CrawlSessionService.messagePrefix);
 
-    if (results.length === 0) {
-      throw new Exception(`No crawl session found with Id: ${id}`);
-    }
+  static update = async (info, sessionToken) => ServiceBase.update(CrawlSession, info, sessionToken, CrawlSessionService.messagePrefix);
 
-    return new CrawlSession(results[0]).getInfo();
-  };
+  static delete = async (info, sessionToken) => ServiceBase.delete(CrawlSession, info, sessionToken, CrawlSessionService.messagePrefix);
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(CrawlSession).equalTo('objectId', info.get('id')).limit(1).find();
+  static search = async (criteria, sessionToken) => ServiceBase.search(CrawlSession, CrawlSessionService.buildSearchQuery, criteria, sessionToken);
 
-    if (results.length === 0) {
-      throw new Exception(`No crawl session found with Id: ${info.get('id')}`);
-    } else {
-      const object = new CrawlSession(results[0]);
+  static searchAll = (criteria, sessionToken) => ServiceBase.searchAll(CrawlSession, CrawlSessionService.buildSearchQuery, criteria, sessionToken);
 
-      await object.updateInfo(info).saveObject();
+  static count = async (criteria, sessionToken) => ServiceBase.count(CrawlSessionService.buildSearchQuery, criteria, sessionToken);
 
-      return object.getId();
-    }
-  };
-
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(CrawlSession).equalTo('objectId', id).limit(1).find();
-
-    if (results.length === 0) {
-      throw new Exception(`No crawl session found with Id: ${id}`);
-    } else {
-      await results[0].destroy();
-    }
-  };
-
-  static search = async (criteria) => {
-    const results = await CrawlSessionService.buildSearchQuery(criteria).find();
-
-    return Immutable.fromJS(results).map(_ => new CrawlSession(_).getInfo());
-  };
-
-  static searchAll = (criteria) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = CrawlSessionService.buildSearchQuery(criteria).each(_ => event.raise(new CrawlSession(_).getInfo()));
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static exists = async (criteria) => {
-    const total = await CrawlSessionService.count(criteria);
-
-    return total > 0;
-  };
-
-  static count = async criteria => CrawlSessionService.buildSearchQuery(criteria).count();
+  static exists = async (criteria, sessionToken) => ServiceBase.exists(CrawlSessionService.buildSearchQuery, criteria, sessionToken);
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(CrawlSession, criteria);

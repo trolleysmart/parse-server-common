@@ -1,75 +1,27 @@
 // @flow
 
-import Immutable from 'immutable';
-import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { Tag } from '../schema';
 import ServiceBase from './ServiceBase';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class TagService extends ServiceBase {
-  static create = async (info) => {
-    const result = await Tag.spawn(info).save();
+  static messagePrefix = 'No tag found with Id: ';
 
-    return result.id;
-  };
+  static create = async (info, acl) => ServiceBase.create(Tag, info, acl);
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(Tag).equalTo('objectId', id).limit(1).find();
+  static read = async (info, sessionToken) => ServiceBase.read(Tag, info, sessionToken, TagService.messagePrefix);
 
-    if (results.length === 0) {
-      throw new Exception(`No tag found with Id: ${id}`);
-    }
+  static update = async (info, sessionToken) => ServiceBase.update(Tag, info, sessionToken, TagService.messagePrefix);
 
-    return new Tag(results[0]).getInfo();
-  };
+  static delete = async (info, sessionToken) => ServiceBase.delete(Tag, info, sessionToken, TagService.messagePrefix);
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(Tag).equalTo('objectId', info.get('id')).limit(1).find();
+  static search = async (criteria, sessionToken) => ServiceBase.search(Tag, TagService.buildSearchQuery, criteria, sessionToken);
 
-    if (results.length === 0) {
-      throw new Exception(`No tag found with Id: ${info.get('id')}`);
-    } else {
-      const object = new Tag(results[0]);
+  static searchAll = (criteria, sessionToken) => ServiceBase.searchAll(Tag, TagService.buildSearchQuery, criteria, sessionToken);
 
-      await object.updateInfo(info).saveObject();
+  static count = async (criteria, sessionToken) => ServiceBase.count(TagService.buildSearchQuery, criteria, sessionToken);
 
-      return object.getId();
-    }
-  };
-
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(Tag).equalTo('objectId', id).limit(1).find();
-
-    if (results.length === 0) {
-      throw new Exception(`No tag found with Id: ${id}`);
-    } else {
-      await results[0].destroy();
-    }
-  };
-
-  static search = async (criteria) => {
-    const results = await TagService.buildSearchQuery(criteria).find();
-
-    return Immutable.fromJS(results).map(_ => new Tag(_).getInfo());
-  };
-
-  static searchAll = (criteria) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = TagService.buildSearchQuery(criteria).each(_ => event.raise(new Tag(_).getInfo()));
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static exists = async (criteria) => {
-    const total = await TagService.count(criteria);
-
-    return total > 0;
-  };
-
-  static count = async criteria => TagService.buildSearchQuery(criteria).count();
+  static exists = async (criteria, sessionToken) => ServiceBase.exists(TagService.buildSearchQuery, criteria, sessionToken);
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(Tag, criteria);

@@ -1,75 +1,27 @@
 // @flow
 
-import Immutable from 'immutable';
-import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { Store } from '../schema';
 import ServiceBase from './ServiceBase';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StoreService extends ServiceBase {
-  static create = async (info) => {
-    const result = await Store.spawn(info).save();
+  static messagePrefix = 'No store found with Id: ';
 
-    return result.id;
-  };
+  static create = async (info, acl) => ServiceBase.create(Store, info, acl);
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(Store).equalTo('objectId', id).limit(1).find();
+  static read = async (info, sessionToken) => ServiceBase.read(Store, info, sessionToken, StoreService.messagePrefix);
 
-    if (results.length === 0) {
-      throw new Exception(`No store found with Id: ${id}`);
-    }
+  static update = async (info, sessionToken) => ServiceBase.update(Store, info, sessionToken, StoreService.messagePrefix);
 
-    return new Store(results[0]).getInfo();
-  };
+  static delete = async (info, sessionToken) => ServiceBase.delete(Store, info, sessionToken, StoreService.messagePrefix);
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(Store).equalTo('objectId', info.get('id')).limit(1).find();
+  static search = async (criteria, sessionToken) => ServiceBase.search(Store, StoreService.buildSearchQuery, criteria, sessionToken);
 
-    if (results.length === 0) {
-      throw new Exception(`No store found with Id: ${info.get('id')}`);
-    } else {
-      const object = new Store(results[0]);
+  static searchAll = (criteria, sessionToken) => ServiceBase.searchAll(Store, StoreService.buildSearchQuery, criteria, sessionToken);
 
-      await object.updateInfo(info).saveObject();
+  static count = async (criteria, sessionToken) => ServiceBase.count(StoreService.buildSearchQuery, criteria, sessionToken);
 
-      return object.getId();
-    }
-  };
-
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(Store).equalTo('objectId', id).limit(1).find();
-
-    if (results.length === 0) {
-      throw new Exception(`No store found with Id: ${id}`);
-    } else {
-      await results[0].destroy();
-    }
-  };
-
-  static search = async (criteria) => {
-    const results = await StoreService.buildSearchQuery(criteria).find();
-
-    return Immutable.fromJS(results).map(_ => new Store(_).getInfo());
-  };
-
-  static searchAll = (criteria) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = StoreService.buildSearchQuery(criteria).each(_ => event.raise(new Store(_).getInfo()));
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static exists = async (criteria) => {
-    const total = await StoreService.count(criteria);
-
-    return total > 0;
-  };
-
-  static count = async criteria => StoreService.buildSearchQuery(criteria).count();
+  static exists = async (criteria, sessionToken) => ServiceBase.exists(StoreService.buildSearchQuery, criteria, sessionToken);
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(Store, criteria);

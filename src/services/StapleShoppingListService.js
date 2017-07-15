@@ -27,8 +27,8 @@ export default class StapleShoppingListService extends ServiceBase {
 
   static exists = async (criteria, sessionToken) => ServiceBase.exists(StapleShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-  static cloneStapleShoppingList = async (userId, acl) => {
-    const items = await StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList();
+  static cloneStapleShoppingList = async (userId, acl, sessionToken) => {
+    const items = await StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList(sessionToken);
     const splittedItems = ServiceBase.splitIntoChunks(items, 100);
     await BluebirdPromise.each(splittedItems.toArray(), chunck =>
       Promise.all(chunck.map(item => StapleShoppingListService.create(item.set('userId', userId), acl)).toArray()),

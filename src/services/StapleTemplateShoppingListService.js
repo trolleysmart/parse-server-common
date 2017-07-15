@@ -1,79 +1,37 @@
 // @flow
 
-import Immutable, { List, Map } from 'immutable';
-import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
+import { List, Map } from 'immutable';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { StapleTemplate, StapleTemplateShoppingList, Tag } from '../schema';
 import ServiceBase from './ServiceBase';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StapleTemplateShoppingListService extends ServiceBase {
-  static create = async (info) => {
-    const result = await StapleTemplateShoppingList.spawn(info).save();
+  static messagePrefix = 'No staple template shopping list found with Id: ';
 
-    return result.id;
-  };
+  static create = async (info, acl) => ServiceBase.create(StapleTemplateShoppingList, info, acl);
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(StapleTemplateShoppingList).equalTo('objectId', id).limit(1).find();
+  static read = async (info, sessionToken) =>
+    ServiceBase.read(StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix);
 
-    if (results.length === 0) {
-      throw new Exception(`No staple template shopping list found with Id: ${id}`);
-    }
+  static update = async (info, sessionToken) =>
+    ServiceBase.update(StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix);
 
-    return new StapleTemplateShoppingList(results[0]).getInfo();
-  };
+  static delete = async (info, sessionToken) =>
+    ServiceBase.delete(StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix);
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(StapleTemplateShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
+  static search = async (criteria, sessionToken) =>
+    ServiceBase.search(StapleTemplateShoppingList, StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-    if (results.length === 0) {
-      throw new Exception(`No staple template shopping list found with Id: ${info.get('id')}`);
-    } else {
-      const object = new StapleTemplateShoppingList(results[0]);
+  static searchAll = (criteria, sessionToken) =>
+    ServiceBase.searchAll(StapleTemplateShoppingList, StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-      await object.updateInfo(info).saveObject();
+  static count = async (criteria, sessionToken) => ServiceBase.count(StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-      return object.getId();
-    }
-  };
+  static exists = async (criteria, sessionToken) => ServiceBase.exists(StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(StapleTemplateShoppingList).equalTo('objectId', id).limit(1).find();
-
-    if (results.length === 0) {
-      throw new Exception(`No staple template shopping list found with Id: ${id}`);
-    } else {
-      await results[0].destroy();
-    }
-  };
-
-  static search = async (criteria) => {
-    const results = await StapleTemplateShoppingListService.buildSearchQuery(criteria).find();
-
-    return Immutable.fromJS(results).map(_ => new StapleTemplateShoppingList(_).getInfo());
-  };
-
-  static searchAll = (criteria) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = StapleTemplateShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new StapleTemplateShoppingList(_).getInfo()));
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static exists = async (criteria) => {
-    const total = await StapleTemplateShoppingListService.count(criteria);
-
-    return total > 0;
-  };
-
-  static count = async criteria => StapleTemplateShoppingListService.buildSearchQuery(criteria).count();
-
-  static loadAllStapleTemplateShoppingList = async () => {
+  static loadAllStapleTemplateShoppingList = async (sessionToken) => {
     let stapleTemplateShoppingListItems = List();
-    const result = await StapleTemplateShoppingListService.searchAll(Map({}));
+    const result = await StapleTemplateShoppingListService.searchAll(Map({}), sessionToken);
 
     try {
       result.event.subscribe(info => (stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info)));

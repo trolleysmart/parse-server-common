@@ -1,75 +1,29 @@
 // @flow
 
-import Immutable from 'immutable';
-import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { MasterProduct, MasterProductPrice, Store, Tag } from '../schema';
 import ServiceBase from './ServiceBase';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class MasterProductPriceService extends ServiceBase {
-  static create = async (info) => {
-    const result = await MasterProductPrice.spawn(info).save();
+  static messagePrefix = 'No master product price found with Id: ';
 
-    return result.id;
-  };
+  static create = async (info, acl) => ServiceBase.create(MasterProductPrice, info, acl);
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(MasterProductPrice).equalTo('objectId', id).limit(1).find();
+  static read = async (info, sessionToken) => ServiceBase.read(MasterProductPrice, info, sessionToken, MasterProductPriceService.messagePrefix);
 
-    if (results.length === 0) {
-      throw new Exception(`No master product price found with Id: ${id}`);
-    }
+  static update = async (info, sessionToken) => ServiceBase.update(MasterProductPrice, info, sessionToken, MasterProductPriceService.messagePrefix);
 
-    return new MasterProductPrice(results[0]).getInfo();
-  };
+  static delete = async (info, sessionToken) => ServiceBase.delete(MasterProductPrice, info, sessionToken, MasterProductPriceService.messagePrefix);
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(MasterProductPrice).equalTo('objectId', info.get('id')).limit(1).find();
+  static search = async (criteria, sessionToken) =>
+    ServiceBase.search(MasterProductPrice, MasterProductPriceService.buildSearchQuery, criteria, sessionToken);
 
-    if (results.length === 0) {
-      throw new Exception(`No master product price found with Id: ${info.get('id')}`);
-    } else {
-      const object = new MasterProductPrice(results[0]);
+  static searchAll = (criteria, sessionToken) =>
+    ServiceBase.searchAll(MasterProductPrice, MasterProductPriceService.buildSearchQuery, criteria, sessionToken);
 
-      await object.updateInfo(info).saveObject();
+  static count = async (criteria, sessionToken) => ServiceBase.count(MasterProductPriceService.buildSearchQuery, criteria, sessionToken);
 
-      return object.getId();
-    }
-  };
-
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(MasterProductPrice).equalTo('objectId', id).limit(1).find();
-
-    if (results.length === 0) {
-      throw new Exception(`No master product price found with Id: ${id}`);
-    } else {
-      await results[0].destroy();
-    }
-  };
-
-  static search = async (criteria) => {
-    const results = await MasterProductPriceService.buildSearchQuery(criteria).find();
-
-    return Immutable.fromJS(results).map(_ => new MasterProductPrice(_).getInfo());
-  };
-
-  static searchAll = (criteria) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = MasterProductPriceService.buildSearchQuery(criteria).each(_ => event.raise(new MasterProductPrice(_).getInfo()));
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static exists = async (criteria) => {
-    const total = await MasterProductPriceService.count(criteria);
-
-    return total > 0;
-  };
-
-  static count = async criteria => MasterProductPriceService.buildSearchQuery(criteria).count();
+  static exists = async (criteria, sessionToken) => ServiceBase.exists(MasterProductPriceService.buildSearchQuery, criteria, sessionToken);
 
   static buildSearchQuery = (criteria) => {
     if (!criteria.has('conditions')) {
