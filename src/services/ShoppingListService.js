@@ -8,11 +8,11 @@ import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class ShoppingListService extends ServiceBase {
   static create = async (info, acl) => {
-    const shoppingList = ShoppingList.spawn(info);
+    const object = ShoppingList.spawn(info);
 
-    ServiceBase.setACL(shoppingList, acl);
+    ServiceBase.setACL(object, acl);
 
-    const result = await shoppingList.save();
+    const result = await object.save();
 
     return result.id;
   };

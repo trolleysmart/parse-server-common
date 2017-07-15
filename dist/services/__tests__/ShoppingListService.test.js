@@ -111,7 +111,7 @@ describe('create', function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context2.sent;
@@ -144,7 +144,7 @@ describe('create', function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context3.sent;
@@ -214,7 +214,7 @@ describe('read', function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context5.sent;
@@ -255,7 +255,7 @@ describe('update', function () {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context6.sent;
@@ -294,7 +294,7 @@ describe('update', function () {
         switch (_context7.prev = _context7.next) {
           case 0:
             _context7.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId1 = _context7.sent;
@@ -304,7 +304,7 @@ describe('update', function () {
           case 5:
             masterProductPriceId1 = _context7.sent;
             _context7.next = 8;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 8:
             stapleShoppingListId2 = _context7.sent;
@@ -342,7 +342,7 @@ describe('update', function () {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId1 = _context8.sent;
@@ -353,7 +353,7 @@ describe('update', function () {
             masterProductPriceId1 = _context8.sent;
             expectedShoppingListInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId1, masterProductPriceId1);
             _context8.next = 9;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 9:
             stapleShoppingListId2 = _context8.sent;
@@ -427,7 +427,7 @@ describe('delete', function () {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context10.sent;
@@ -499,7 +499,7 @@ describe('search', function () {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context12.sent;
@@ -580,7 +580,7 @@ describe('searchAll', function () {
         switch (_context14.prev = _context14.next) {
           case 0:
             _context14.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context14.sent;
@@ -660,7 +660,7 @@ describe('exists', function () {
         switch (_context16.prev = _context16.next) {
           case 0:
             _context16.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context16.sent;
@@ -723,7 +723,7 @@ describe('count', function () {
         switch (_context18.prev = _context18.next) {
           case 0:
             _context18.next = 2;
-            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context18.sent;

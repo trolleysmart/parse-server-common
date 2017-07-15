@@ -51,20 +51,25 @@ var StapleShoppingListService = function (_ServiceBase) {
 }(_ServiceBase3.default);
 
 StapleShoppingListService.create = function () {
-  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
-    var result;
+  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info, acl) {
+    var object, result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _schema.StapleShoppingList.spawn(info).save();
+            object = _schema.StapleShoppingList.spawn(info);
 
-          case 2:
+
+            _ServiceBase3.default.setACL(object, acl);
+
+            _context.next = 4;
+            return object.save();
+
+          case 4:
             result = _context.sent;
             return _context.abrupt('return', result.id);
 
-          case 4:
+          case 6:
           case 'end':
             return _context.stop();
         }
@@ -72,25 +77,25 @@ StapleShoppingListService.create = function () {
     }, _callee, undefined);
   }));
 
-  return function (_x) {
+  return function (_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
 
 StapleShoppingListService.read = function () {
-  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(id) {
-    var results;
+  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(id, sessionToken) {
+    var result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList).equalTo('objectId', id).limit(1).find();
+            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList).equalTo('objectId', id).first({ sessionToken: sessionToken });
 
           case 2:
-            results = _context2.sent;
+            result = _context2.sent;
 
-            if (!(results.length === 0)) {
+            if (result) {
               _context2.next = 5;
               break;
             }
@@ -98,7 +103,7 @@ StapleShoppingListService.read = function () {
             throw new _microBusinessParseServerCommon.Exception('No staple shopping list found with Id: ' + id);
 
           case 5:
-            return _context2.abrupt('return', new _schema.StapleShoppingList(results[0]).getInfo());
+            return _context2.abrupt('return', new _schema.StapleShoppingList(result).getInfo());
 
           case 6:
           case 'end':
@@ -108,25 +113,25 @@ StapleShoppingListService.read = function () {
     }, _callee2, undefined);
   }));
 
-  return function (_x2) {
+  return function (_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
 }();
 
 StapleShoppingListService.update = function () {
-  var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(info) {
-    var results, object;
+  var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(info, sessionToken) {
+    var result, object;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
+            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList).equalTo('objectId', info.get('id')).first({ sessionToken: sessionToken });
 
           case 2:
-            results = _context3.sent;
+            result = _context3.sent;
 
-            if (!(results.length === 0)) {
+            if (result) {
               _context3.next = 7;
               break;
             }
@@ -134,9 +139,9 @@ StapleShoppingListService.update = function () {
             throw new _microBusinessParseServerCommon.Exception('No staple shopping list found with Id: ' + info.get('id'));
 
           case 7:
-            object = new _schema.StapleShoppingList(results[0]);
+            object = new _schema.StapleShoppingList(result);
             _context3.next = 10;
-            return object.updateInfo(info).saveObject();
+            return object.updateInfo(info).saveObject(sessionToken);
 
           case 10:
             return _context3.abrupt('return', object.getId());
@@ -149,25 +154,25 @@ StapleShoppingListService.update = function () {
     }, _callee3, undefined);
   }));
 
-  return function (_x3) {
+  return function (_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }();
 
 StapleShoppingListService.delete = function () {
-  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(id) {
-    var results;
+  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(id, sessionToken) {
+    var result;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.next = 2;
-            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList).equalTo('objectId', id).limit(1).find();
+            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingList).equalTo('objectId', id).first({ sessionToken: sessionToken });
 
           case 2:
-            results = _context4.sent;
+            result = _context4.sent;
 
-            if (!(results.length === 0)) {
+            if (result) {
               _context4.next = 7;
               break;
             }
@@ -176,7 +181,7 @@ StapleShoppingListService.delete = function () {
 
           case 7:
             _context4.next = 9;
-            return results[0].destroy();
+            return result.destroy({ sessionToken: sessionToken });
 
           case 9:
           case 'end':
@@ -186,20 +191,20 @@ StapleShoppingListService.delete = function () {
     }, _callee4, undefined);
   }));
 
-  return function (_x4) {
+  return function (_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }();
 
 StapleShoppingListService.search = function () {
-  var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(criteria) {
+  var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(criteria, sessionToken) {
     var results;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.next = 2;
-            return StapleShoppingListService.buildSearchQuery(criteria).find();
+            return StapleShoppingListService.buildSearchQuery(criteria).find({ sessionToken: sessionToken });
 
           case 2:
             results = _context5.sent;
@@ -215,15 +220,17 @@ StapleShoppingListService.search = function () {
     }, _callee5, undefined);
   }));
 
-  return function (_x5) {
+  return function (_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
 }();
 
-StapleShoppingListService.searchAll = function (criteria) {
+StapleShoppingListService.searchAll = function (criteria, sessionToken) {
   var event = new _NewSearchResultReceivedEvent2.default();
   var promise = StapleShoppingListService.buildSearchQuery(criteria).each(function (_) {
     return event.raise(new _schema.StapleShoppingList(_).getInfo());
+  }, {
+    sessionToken: sessionToken
   });
 
   return {
@@ -233,18 +240,17 @@ StapleShoppingListService.searchAll = function (criteria) {
 };
 
 StapleShoppingListService.exists = function () {
-  var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(criteria) {
-    var total;
+  var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(criteria, sessionToken) {
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.next = 2;
-            return StapleShoppingListService.count(criteria);
+            return StapleShoppingListService.count(criteria, sessionToken);
 
           case 2:
-            total = _context6.sent;
-            return _context6.abrupt('return', total > 0);
+            _context6.t0 = _context6.sent;
+            return _context6.abrupt('return', _context6.t0 > 0);
 
           case 4:
           case 'end':
@@ -254,18 +260,18 @@ StapleShoppingListService.exists = function () {
     }, _callee6, undefined);
   }));
 
-  return function (_x6) {
+  return function (_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
 }();
 
 StapleShoppingListService.count = function () {
-  var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(criteria) {
+  var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(criteria, sessionToken) {
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            return _context7.abrupt('return', StapleShoppingListService.buildSearchQuery(criteria).count());
+            return _context7.abrupt('return', StapleShoppingListService.buildSearchQuery(criteria).count({ sessionToken: sessionToken }));
 
           case 1:
           case 'end':
@@ -275,13 +281,13 @@ StapleShoppingListService.count = function () {
     }, _callee7, undefined);
   }));
 
-  return function (_x7) {
+  return function (_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
 }();
 
 StapleShoppingListService.cloneStapleShoppingList = function () {
-  var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(userId) {
+  var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(userId, acl) {
     var items, splittedItems;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -296,7 +302,7 @@ StapleShoppingListService.cloneStapleShoppingList = function () {
             _context8.next = 6;
             return _bluebird2.default.each(splittedItems.toArray(), function (chunck) {
               return Promise.all(chunck.map(function (item) {
-                return StapleShoppingListService.create(item.set('userId', userId));
+                return StapleShoppingListService.create(item.set('userId', userId), acl);
               }).toArray());
             });
 
@@ -308,7 +314,7 @@ StapleShoppingListService.cloneStapleShoppingList = function () {
     }, _callee8, undefined);
   }));
 
-  return function (_x8) {
+  return function (_x15, _x16) {
     return _ref8.apply(this, arguments);
   };
 }();

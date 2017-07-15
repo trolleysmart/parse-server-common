@@ -9,55 +9,61 @@ import StapleTemplateShoppingListService from './StapleTemplateShoppingListServi
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class StapleShoppingListService extends ServiceBase {
-  static create = async (info) => {
-    const result = await StapleShoppingList.spawn(info).save();
+  static create = async (info, acl) => {
+    const object = StapleShoppingList.spawn(info);
+
+    ServiceBase.setACL(object, acl);
+
+    const result = await object.save();
 
     return result.id;
   };
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).limit(1).find();
+  static read = async (id, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).first({ sessionToken });
 
-    if (results.length === 0) {
+    if (!result) {
       throw new Exception(`No staple shopping list found with Id: ${id}`);
     }
 
-    return new StapleShoppingList(results[0]).getInfo();
+    return new StapleShoppingList(result).getInfo();
   };
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
+  static update = async (info, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', info.get('id')).first({ sessionToken });
 
-    if (results.length === 0) {
+    if (!result) {
       throw new Exception(`No staple shopping list found with Id: ${info.get('id')}`);
     } else {
-      const object = new StapleShoppingList(results[0]);
+      const object = new StapleShoppingList(result);
 
-      await object.updateInfo(info).saveObject();
+      await object.updateInfo(info).saveObject(sessionToken);
 
       return object.getId();
     }
   };
 
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).limit(1).find();
+  static delete = async (id, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(StapleShoppingList).equalTo('objectId', id).first({ sessionToken });
 
-    if (results.length === 0) {
+    if (!result) {
       throw new Exception(`No staple shopping list found with Id: ${id}`);
     } else {
-      await results[0].destroy();
+      await result.destroy({ sessionToken });
     }
   };
 
-  static search = async (criteria) => {
-    const results = await StapleShoppingListService.buildSearchQuery(criteria).find();
+  static search = async (criteria, sessionToken) => {
+    const results = await StapleShoppingListService.buildSearchQuery(criteria).find({ sessionToken });
 
     return Immutable.fromJS(results).map(_ => new StapleShoppingList(_).getInfo());
   };
 
-  static searchAll = (criteria) => {
+  static searchAll = (criteria, sessionToken) => {
     const event = new NewSearchResultReceivedEvent();
-    const promise = StapleShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new StapleShoppingList(_).getInfo()));
+    const promise = StapleShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new StapleShoppingList(_).getInfo()), {
+      sessionToken,
+    });
 
     return {
       event,
@@ -65,19 +71,15 @@ export default class StapleShoppingListService extends ServiceBase {
     };
   };
 
-  static exists = async (criteria) => {
-    const total = await StapleShoppingListService.count(criteria);
+  static exists = async (criteria, sessionToken) => (await StapleShoppingListService.count(criteria, sessionToken)) > 0;
 
-    return total > 0;
-  };
+  static count = async (criteria, sessionToken) => StapleShoppingListService.buildSearchQuery(criteria).count({ sessionToken });
 
-  static count = async criteria => StapleShoppingListService.buildSearchQuery(criteria).count();
-
-  static cloneStapleShoppingList = async (userId) => {
+  static cloneStapleShoppingList = async (userId, acl) => {
     const items = await StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList();
     const splittedItems = ServiceBase.splitIntoChunks(items, 100);
     await BluebirdPromise.each(splittedItems.toArray(), chunck =>
-      Promise.all(chunck.map(item => StapleShoppingListService.create(item.set('userId', userId))).toArray()),
+      Promise.all(chunck.map(item => StapleShoppingListService.create(item.set('userId', userId), acl)).toArray()),
     );
   };
 

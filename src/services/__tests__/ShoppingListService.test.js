@@ -67,7 +67,7 @@ beforeEach(async () => {
 
 describe('create', () => {
   test('should return the created shopping list Id', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const result = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId), acl);
 
@@ -75,7 +75,7 @@ describe('create', () => {
   });
 
   test('should create the shopping list', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
     const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo, acl);
@@ -97,7 +97,7 @@ describe('read', () => {
   });
 
   test('should read the existing shopping list', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedStoreInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
     const shoppingListId = await ShoppingListService.create(expectedStoreInfo, acl);
@@ -109,7 +109,7 @@ describe('read', () => {
 
 describe('update', () => {
   test('should reject if the provided shopping list Id does not exist', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListId = uuid();
 
@@ -124,9 +124,9 @@ describe('update', () => {
   });
 
   test('should return the Id of the updated shopping list', async () => {
-    const stapleShoppingListId1 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId1 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId1 = await MasterProductPriceService.create(createMasterProductPriceInfo());
-    const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId2 = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId1, masterProductPriceId1), acl);
     const id = await ShoppingListService.update(
@@ -138,10 +138,10 @@ describe('update', () => {
   });
 
   test('should update the existing shopping list', async () => {
-    const stapleShoppingListId1 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId1 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId1 = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId1, masterProductPriceId1);
-    const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId2 = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const id = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId2, masterProductPriceId2), acl);
     const shoppingListId = await ShoppingListService.update(expectedShoppingListInfo.set('id', id), sessionToken);
@@ -163,7 +163,7 @@ describe('delete', () => {
   });
 
   test('should delete the existing shopping list', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId), acl);
     await ShoppingListService.delete(shoppingListId, sessionToken);
@@ -184,7 +184,7 @@ describe('search', () => {
   });
 
   test('should return the shopping lists matches the criteria', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
     const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo, acl);
@@ -217,7 +217,7 @@ describe('searchAll', () => {
   });
 
   test('should return the shopping list matches the criteria', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 
@@ -250,7 +250,7 @@ describe('exists', () => {
   });
 
   test('should return true if any shopping list match provided criteria', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 
@@ -273,7 +273,7 @@ describe('count', () => {
   });
 
   test('should return the count of shopping list match provided criteria', async () => {
-    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
+    const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId), acl);
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 

@@ -44,18 +44,18 @@ var ShoppingListService = function (_ServiceBase) {
 
 ShoppingListService.create = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info, acl) {
-    var shoppingList, result;
+    var object, result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            shoppingList = _schema.ShoppingList.spawn(info);
+            object = _schema.ShoppingList.spawn(info);
 
 
-            _ServiceBase3.default.setACL(shoppingList, acl);
+            _ServiceBase3.default.setACL(object, acl);
 
             _context.next = 4;
-            return shoppingList.save();
+            return object.save();
 
           case 4:
             result = _context.sent;

@@ -43,23 +43,42 @@ function createCriteriaUsingProvidedStapleShoppingListInfo(stapleShoppingListInf
 }
 
 var userId = void 0;
+var sessionToken = void 0;
+var acl = void 0;
 
 beforeEach(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-  var user;
+  var username, user, result;
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
-          return _microBusinessParseServerCommon.UserService.signUpWithUsernameAndPassword((0, _v2.default)() + '@email.com', '123456');
-
-        case 2:
-          user = _context.sent;
+          username = (0, _v2.default)() + '@email.com';
+          user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
 
 
-          userId = user.get('id');
+          user.setUsername(username);
+          user.setPassword('123456');
 
-        case 4:
+          _context.next = 6;
+          return user.signUp();
+
+        case 6:
+          result = _context.sent;
+
+
+          sessionToken = result.getSessionToken();
+
+          _context.t0 = _microBusinessParseServerCommon.ParseWrapperService;
+          _context.next = 11;
+          return _microBusinessParseServerCommon.UserService.getUser(username);
+
+        case 11:
+          _context.t1 = _context.sent;
+          acl = _context.t0.createACL.call(_context.t0, _context.t1);
+
+          userId = result.get('id');
+
+        case 14:
         case 'end':
           return _context.stop();
       }
@@ -75,7 +94,7 @@ describe('create', function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             result = _context2.sent;
@@ -99,12 +118,12 @@ describe('create', function () {
           case 0:
             expectedStapleShoppingListInfo = (0, _StapleShoppingList.createStapleShoppingListInfo)(userId);
             _context3.next = 3;
-            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo, acl);
 
           case 3:
             stapleShoppingListId = _context3.sent;
             _context3.next = 6;
-            return _2.StapleShoppingListService.read(stapleShoppingListId);
+            return _2.StapleShoppingListService.read(stapleShoppingListId, sessionToken);
 
           case 6:
             stapleShoppingListInfo = _context3.sent;
@@ -131,7 +150,7 @@ describe('read', function () {
             stapleShoppingListId = (0, _v2.default)();
             _context4.prev = 1;
             _context4.next = 4;
-            return _2.StapleShoppingListService.read(stapleShoppingListId);
+            return _2.StapleShoppingListService.read(stapleShoppingListId, sessionToken);
 
           case 4:
             _context4.next = 9;
@@ -159,12 +178,12 @@ describe('read', function () {
           case 0:
             expectedStapleShoppingListInfo = (0, _StapleShoppingList.createStapleShoppingListInfo)(userId);
             _context5.next = 3;
-            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo, acl);
 
           case 3:
             stapleShoppingListId = _context5.sent;
             _context5.next = 6;
-            return _2.StapleShoppingListService.read(stapleShoppingListId);
+            return _2.StapleShoppingListService.read(stapleShoppingListId, sessionToken);
 
           case 6:
             stapleShoppingListInfo = _context5.sent;
@@ -218,12 +237,12 @@ describe('update', function () {
         switch (_context7.prev = _context7.next) {
           case 0:
             _context7.next = 2;
-            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context7.sent;
             _context7.next = 5;
-            return _2.StapleShoppingListService.update((0, _StapleShoppingList.createStapleShoppingListInfo)(userId).set('id', stapleShoppingListId));
+            return _2.StapleShoppingListService.update((0, _StapleShoppingList.createStapleShoppingListInfo)(userId).set('id', stapleShoppingListId), sessionToken);
 
           case 5:
             id = _context7.sent;
@@ -247,17 +266,17 @@ describe('update', function () {
           case 0:
             expectedStapleShoppingListInfo = (0, _StapleShoppingList.createStapleShoppingListInfo)(userId);
             _context8.next = 3;
-            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 3:
             id = _context8.sent;
             _context8.next = 6;
-            return _2.StapleShoppingListService.update(expectedStapleShoppingListInfo.set('id', id));
+            return _2.StapleShoppingListService.update(expectedStapleShoppingListInfo.set('id', id), sessionToken);
 
           case 6:
             stapleShoppingListId = _context8.sent;
             _context8.next = 9;
-            return _2.StapleShoppingListService.read(stapleShoppingListId);
+            return _2.StapleShoppingListService.read(stapleShoppingListId, sessionToken);
 
           case 9:
             stapleShoppingListInfo = _context8.sent;
@@ -284,7 +303,7 @@ describe('delete', function () {
             stapleShoppingListId = (0, _v2.default)();
             _context9.prev = 1;
             _context9.next = 4;
-            return _2.StapleShoppingListService.delete(stapleShoppingListId);
+            return _2.StapleShoppingListService.delete(stapleShoppingListId, sessionToken);
 
           case 4:
             _context9.next = 9;
@@ -311,17 +330,17 @@ describe('delete', function () {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.next = 2;
-            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId));
+            return _2.StapleShoppingListService.create((0, _StapleShoppingList.createStapleShoppingListInfo)(userId), acl);
 
           case 2:
             stapleShoppingListId = _context10.sent;
             _context10.next = 5;
-            return _2.StapleShoppingListService.delete(stapleShoppingListId);
+            return _2.StapleShoppingListService.delete(stapleShoppingListId, sessionToken);
 
           case 5:
             _context10.prev = 5;
             _context10.next = 8;
-            return _2.StapleShoppingListService.read(stapleShoppingListId);
+            return _2.StapleShoppingListService.read(stapleShoppingListId, sessionToken);
 
           case 8:
             _context10.next = 13;
@@ -350,7 +369,7 @@ describe('search', function () {
         switch (_context11.prev = _context11.next) {
           case 0:
             _context11.next = 2;
-            return _2.StapleShoppingListService.search(createCriteria());
+            return _2.StapleShoppingListService.search(createCriteria(), sessionToken);
 
           case 2:
             stapleShoppingListInfos = _context11.sent;
@@ -374,12 +393,12 @@ describe('search', function () {
           case 0:
             expectedStapleShoppingListInfo = (0, _StapleShoppingList.createStapleShoppingListInfo)(userId);
             _context12.next = 3;
-            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo, acl);
 
           case 3:
             stapleShoppingListId = _context12.sent;
             _context12.next = 6;
-            return _2.StapleShoppingListService.search(createCriteriaUsingProvidedStapleShoppingListInfo(expectedStapleShoppingListInfo));
+            return _2.StapleShoppingListService.search(createCriteriaUsingProvidedStapleShoppingListInfo(expectedStapleShoppingListInfo), sessionToken);
 
           case 6:
             stapleShoppingListInfos = _context12.sent;
@@ -408,7 +427,7 @@ describe('searchAll', function () {
       while (1) {
         switch (_context13.prev = _context13.next) {
           case 0:
-            result = _2.StapleShoppingListService.searchAll(createCriteria());
+            result = _2.StapleShoppingListService.searchAll(createCriteria(), sessionToken);
             _context13.prev = 1;
             stapleShoppingListInfos = (0, _immutable.List)();
 
@@ -445,16 +464,16 @@ describe('searchAll', function () {
           case 0:
             expectedStapleShoppingListInfo = (0, _StapleShoppingList.createStapleShoppingListInfo)(userId);
             _context14.next = 3;
-            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo, acl);
 
           case 3:
             stapleShoppingListId1 = _context14.sent;
             _context14.next = 6;
-            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(expectedStapleShoppingListInfo, acl);
 
           case 6:
             stapleShoppingListId2 = _context14.sent;
-            result = _2.StapleShoppingListService.searchAll(createCriteriaUsingProvidedStapleShoppingListInfo(expectedStapleShoppingListInfo));
+            result = _2.StapleShoppingListService.searchAll(createCriteriaUsingProvidedStapleShoppingListInfo(expectedStapleShoppingListInfo), sessionToken);
             _context14.prev = 8;
             stapleShoppingListInfos = (0, _immutable.List)();
 
@@ -498,7 +517,7 @@ describe('exists', function () {
         switch (_context15.prev = _context15.next) {
           case 0:
             _context15.next = 2;
-            return _2.StapleShoppingListService.exists(createCriteria());
+            return _2.StapleShoppingListService.exists(createCriteria(), sessionToken);
 
           case 2:
             response = _context15.sent;
@@ -522,11 +541,11 @@ describe('exists', function () {
           case 0:
             stapleShoppingListInfo = (0, _StapleShoppingList.createStapleShoppingListInfo)(userId);
             _context16.next = 3;
-            return _2.StapleShoppingListService.create(stapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(stapleShoppingListInfo, acl);
 
           case 3:
             _context16.next = 5;
-            return _2.StapleShoppingListService.exists(createCriteriaUsingProvidedStapleShoppingListInfo(stapleShoppingListInfo));
+            return _2.StapleShoppingListService.exists(createCriteriaUsingProvidedStapleShoppingListInfo(stapleShoppingListInfo), sessionToken);
 
           case 5:
             response = _context16.sent;
@@ -551,7 +570,7 @@ describe('count', function () {
         switch (_context17.prev = _context17.next) {
           case 0:
             _context17.next = 2;
-            return _2.StapleShoppingListService.count(createCriteria());
+            return _2.StapleShoppingListService.count(createCriteria(), sessionToken);
 
           case 2:
             response = _context17.sent;
@@ -575,15 +594,15 @@ describe('count', function () {
           case 0:
             stapleShoppingListInfo = (0, _StapleShoppingList.createStapleShoppingListInfo)();
             _context18.next = 3;
-            return _2.StapleShoppingListService.create(stapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(stapleShoppingListInfo, acl);
 
           case 3:
             _context18.next = 5;
-            return _2.StapleShoppingListService.create(stapleShoppingListInfo);
+            return _2.StapleShoppingListService.create(stapleShoppingListInfo, acl);
 
           case 5:
             _context18.next = 7;
-            return _2.StapleShoppingListService.count(createCriteriaUsingProvidedStapleShoppingListInfo(stapleShoppingListInfo));
+            return _2.StapleShoppingListService.count(createCriteriaUsingProvidedStapleShoppingListInfo(stapleShoppingListInfo), sessionToken);
 
           case 7:
             response = _context18.sent;
