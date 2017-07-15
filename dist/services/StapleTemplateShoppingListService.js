@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _immutable2 = _interopRequireDefault(_immutable);
-
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('../schema');
@@ -15,10 +13,6 @@ var _schema = require('../schema');
 var _ServiceBase2 = require('./ServiceBase');
 
 var _ServiceBase3 = _interopRequireDefault(_ServiceBase2);
-
-var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
-
-var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,21 +36,17 @@ var StapleTemplateShoppingListService = function (_ServiceBase) {
   return StapleTemplateShoppingListService;
 }(_ServiceBase3.default);
 
+StapleTemplateShoppingListService.messagePrefix = 'No staple template shopping list found with Id: ';
+
 StapleTemplateShoppingListService.create = function () {
-  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info) {
-    var result;
+  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(info, acl) {
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _schema.StapleTemplateShoppingList.spawn(info).save();
+            return _context.abrupt('return', _ServiceBase3.default.create(_schema.StapleTemplateShoppingList, info, acl));
 
-          case 2:
-            result = _context.sent;
-            return _context.abrupt('return', result.id);
-
-          case 4:
+          case 1:
           case 'end':
             return _context.stop();
         }
@@ -64,35 +54,20 @@ StapleTemplateShoppingListService.create = function () {
     }, _callee, undefined);
   }));
 
-  return function (_x) {
+  return function (_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
 
 StapleTemplateShoppingListService.read = function () {
-  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(id) {
-    var results;
+  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(info, sessionToken) {
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
-            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList).equalTo('objectId', id).limit(1).find();
+            return _context2.abrupt('return', _ServiceBase3.default.read(_schema.StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix));
 
-          case 2:
-            results = _context2.sent;
-
-            if (!(results.length === 0)) {
-              _context2.next = 5;
-              break;
-            }
-
-            throw new _microBusinessParseServerCommon.Exception('No staple template shopping list found with Id: ' + id);
-
-          case 5:
-            return _context2.abrupt('return', new _schema.StapleTemplateShoppingList(results[0]).getInfo());
-
-          case 6:
+          case 1:
           case 'end':
             return _context2.stop();
         }
@@ -100,40 +75,20 @@ StapleTemplateShoppingListService.read = function () {
     }, _callee2, undefined);
   }));
 
-  return function (_x2) {
+  return function (_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
 }();
 
 StapleTemplateShoppingListService.update = function () {
-  var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(info) {
-    var results, object;
+  var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(info, sessionToken) {
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.next = 2;
-            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
+            return _context3.abrupt('return', _ServiceBase3.default.update(_schema.StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix));
 
-          case 2:
-            results = _context3.sent;
-
-            if (!(results.length === 0)) {
-              _context3.next = 7;
-              break;
-            }
-
-            throw new _microBusinessParseServerCommon.Exception('No staple template shopping list found with Id: ' + info.get('id'));
-
-          case 7:
-            object = new _schema.StapleTemplateShoppingList(results[0]);
-            _context3.next = 10;
-            return object.updateInfo(info).saveObject();
-
-          case 10:
-            return _context3.abrupt('return', object.getId());
-
-          case 11:
+          case 1:
           case 'end':
             return _context3.stop();
         }
@@ -141,36 +96,20 @@ StapleTemplateShoppingListService.update = function () {
     }, _callee3, undefined);
   }));
 
-  return function (_x3) {
+  return function (_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }();
 
 StapleTemplateShoppingListService.delete = function () {
-  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(id) {
-    var results;
+  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(info, sessionToken) {
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.next = 2;
-            return _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList).equalTo('objectId', id).limit(1).find();
+            return _context4.abrupt('return', _ServiceBase3.default.delete(_schema.StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix));
 
-          case 2:
-            results = _context4.sent;
-
-            if (!(results.length === 0)) {
-              _context4.next = 7;
-              break;
-            }
-
-            throw new _microBusinessParseServerCommon.Exception('No staple template shopping list found with Id: ' + id);
-
-          case 7:
-            _context4.next = 9;
-            return results[0].destroy();
-
-          case 9:
+          case 1:
           case 'end':
             return _context4.stop();
         }
@@ -178,28 +117,20 @@ StapleTemplateShoppingListService.delete = function () {
     }, _callee4, undefined);
   }));
 
-  return function (_x4) {
+  return function (_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }();
 
 StapleTemplateShoppingListService.search = function () {
-  var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(criteria) {
-    var results;
+  var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(criteria, sessionToken) {
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.next = 2;
-            return StapleTemplateShoppingListService.buildSearchQuery(criteria).find();
+            return _context5.abrupt('return', _ServiceBase3.default.search(_schema.StapleTemplateShoppingList, StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken));
 
-          case 2:
-            results = _context5.sent;
-            return _context5.abrupt('return', _immutable2.default.fromJS(results).map(function (_) {
-              return new _schema.StapleTemplateShoppingList(_).getInfo();
-            }));
-
-          case 4:
+          case 1:
           case 'end':
             return _context5.stop();
         }
@@ -207,38 +138,24 @@ StapleTemplateShoppingListService.search = function () {
     }, _callee5, undefined);
   }));
 
-  return function (_x5) {
+  return function (_x9, _x10) {
     return _ref5.apply(this, arguments);
   };
 }();
 
-StapleTemplateShoppingListService.searchAll = function (criteria) {
-  var event = new _NewSearchResultReceivedEvent2.default();
-  var promise = StapleTemplateShoppingListService.buildSearchQuery(criteria).each(function (_) {
-    return event.raise(new _schema.StapleTemplateShoppingList(_).getInfo());
-  });
-
-  return {
-    event: event,
-    promise: promise
-  };
+StapleTemplateShoppingListService.searchAll = function (criteria, sessionToken) {
+  return _ServiceBase3.default.searchAll(_schema.StapleTemplateShoppingList, StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken);
 };
 
-StapleTemplateShoppingListService.exists = function () {
-  var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(criteria) {
-    var total;
+StapleTemplateShoppingListService.count = function () {
+  var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(criteria, sessionToken) {
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.next = 2;
-            return StapleTemplateShoppingListService.count(criteria);
+            return _context6.abrupt('return', _ServiceBase3.default.count(StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken));
 
-          case 2:
-            total = _context6.sent;
-            return _context6.abrupt('return', total > 0);
-
-          case 4:
+          case 1:
           case 'end':
             return _context6.stop();
         }
@@ -246,18 +163,18 @@ StapleTemplateShoppingListService.exists = function () {
     }, _callee6, undefined);
   }));
 
-  return function (_x6) {
+  return function (_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
 }();
 
-StapleTemplateShoppingListService.count = function () {
-  var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(criteria) {
+StapleTemplateShoppingListService.exists = function () {
+  var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(criteria, sessionToken) {
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            return _context7.abrupt('return', StapleTemplateShoppingListService.buildSearchQuery(criteria).count());
+            return _context7.abrupt('return', _ServiceBase3.default.exists(StapleTemplateShoppingListService.buildSearchQuery, criteria, sessionToken));
 
           case 1:
           case 'end':
@@ -267,48 +184,54 @@ StapleTemplateShoppingListService.count = function () {
     }, _callee7, undefined);
   }));
 
-  return function (_x7) {
+  return function (_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
 }();
 
-StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList = _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
-  var stapleTemplateShoppingListItems, result;
-  return regeneratorRuntime.wrap(function _callee8$(_context8) {
-    while (1) {
-      switch (_context8.prev = _context8.next) {
-        case 0:
-          stapleTemplateShoppingListItems = (0, _immutable.List)();
-          _context8.next = 3;
-          return StapleTemplateShoppingListService.searchAll((0, _immutable.Map)({}));
+StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList = function () {
+  var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(sessionToken) {
+    var stapleTemplateShoppingListItems, result;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            stapleTemplateShoppingListItems = (0, _immutable.List)();
+            _context8.next = 3;
+            return StapleTemplateShoppingListService.searchAll((0, _immutable.Map)({}), sessionToken);
 
-        case 3:
-          result = _context8.sent;
-          _context8.prev = 4;
+          case 3:
+            result = _context8.sent;
+            _context8.prev = 4;
 
-          result.event.subscribe(function (info) {
-            return stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info);
-          });
+            result.event.subscribe(function (info) {
+              return stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info);
+            });
 
-          _context8.next = 8;
-          return result.promise;
+            _context8.next = 8;
+            return result.promise;
 
-        case 8:
-          _context8.prev = 8;
+          case 8:
+            _context8.prev = 8;
 
-          result.event.unsubscribeAll();
-          return _context8.finish(8);
+            result.event.unsubscribeAll();
+            return _context8.finish(8);
 
-        case 11:
-          return _context8.abrupt('return', stapleTemplateShoppingListItems);
+          case 11:
+            return _context8.abrupt('return', stapleTemplateShoppingListItems);
 
-        case 12:
-        case 'end':
-          return _context8.stop();
+          case 12:
+          case 'end':
+            return _context8.stop();
+        }
       }
-    }
-  }, _callee8, undefined, [[4,, 8, 11]]);
-}));
+    }, _callee8, undefined, [[4,, 8, 11]]);
+  }));
+
+  return function (_x15) {
+    return _ref8.apply(this, arguments);
+  };
+}();
 
 StapleTemplateShoppingListService.buildSearchQuery = function (criteria) {
   var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateShoppingList, criteria);
