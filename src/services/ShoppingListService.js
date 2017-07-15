@@ -1,75 +1,27 @@
 // @flow
 
-import Immutable from 'immutable';
-import { ParseWrapperService, Exception } from 'micro-business-parse-server-common';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { MasterProductPrice, ShoppingList, StapleShoppingList } from '../schema';
 import ServiceBase from './ServiceBase';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class ShoppingListService extends ServiceBase {
-  static create = async (info, acl) => {
-    const object = ShoppingList.spawn(info);
+  static messagePrefix = 'No shopping list found with Id: ';
 
-    ServiceBase.setACL(object, acl);
+  static create = async (info, acl) => ServiceBase.create(ShoppingList, info, acl);
 
-    const result = await object.save();
+  static read = async (info, sessionToken) => ServiceBase.read(ShoppingList, info, sessionToken, ShoppingListService.messagePrefix);
 
-    return result.id;
-  };
+  static update = async (info, sessionToken) => ServiceBase.update(ShoppingList, info, sessionToken, ShoppingListService.messagePrefix);
 
-  static read = async (id, sessionToken) => {
-    const result = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', id).first({ sessionToken });
+  static delete = async (info, sessionToken) => ServiceBase.delete(ShoppingList, info, sessionToken, ShoppingListService.messagePrefix);
 
-    if (!result) {
-      throw new Exception(`No shopping list found with Id: ${id}`);
-    }
+  static search = async (criteria, sessionToken) => ServiceBase.search(ShoppingList, ShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-    return new ShoppingList(result).getInfo();
-  };
+  static searchAll = (criteria, sessionToken) => ServiceBase.searchAll(ShoppingList, ShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-  static update = async (info, sessionToken) => {
-    const result = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', info.get('id')).first({ sessionToken });
+  static count = async (criteria, sessionToken) => ServiceBase.count(ShoppingListService.buildSearchQuery, criteria, sessionToken);
 
-    if (!result) {
-      throw new Exception(`No shopping list found with Id: ${info.get('id')}`);
-    } else {
-      const object = new ShoppingList(result);
-
-      await object.updateInfo(info).saveObject(sessionToken);
-
-      return object.getId();
-    }
-  };
-
-  static delete = async (id, sessionToken) => {
-    const result = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', id).first({ sessionToken });
-
-    if (!result) {
-      throw new Exception(`No shopping list found with Id: ${id}`);
-    } else {
-      await result.destroy({ sessionToken });
-    }
-  };
-
-  static search = async (criteria, sessionToken) => {
-    const results = await ShoppingListService.buildSearchQuery(criteria).find({ sessionToken });
-
-    return Immutable.fromJS(results).map(_ => new ShoppingList(_).getInfo());
-  };
-
-  static searchAll = (criteria, sessionToken) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = ShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new ShoppingList(_).getInfo()), { sessionToken });
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static exists = async (criteria, sessionToken) => (await ShoppingListService.count(criteria, sessionToken)) > 0;
-
-  static count = async (criteria, sessionToken) => ShoppingListService.buildSearchQuery(criteria).count({ sessionToken });
+  static exists = async (criteria, sessionToken) => ServiceBase.exists(ShoppingListService.buildSearchQuery, criteria, sessionToken);
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(ShoppingList, criteria);
