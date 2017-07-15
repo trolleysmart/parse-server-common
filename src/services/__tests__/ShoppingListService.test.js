@@ -2,7 +2,7 @@
 
 import { List, Map } from 'immutable';
 import uuid from 'uuid/v4';
-import { UserService } from 'micro-business-parse-server-common';
+import { ParseWrapperService, UserService } from 'micro-business-parse-server-common';
 import '../../../bootstrap';
 import { MasterProductPriceService, ShoppingListService, StapleShoppingListService } from '../';
 import { createMasterProductPriceInfo } from '../../schema/__tests__/MasterProductPrice.test';
@@ -47,18 +47,29 @@ function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleSho
 }
 
 let userId;
+let sessionToken;
+let acl;
 
 beforeEach(async () => {
-  const user = await UserService.signUpWithUsernameAndPassword(`${uuid()}@email.com`, '123456');
+  const username = `${uuid()}@email.com`;
+  const user = ParseWrapperService.createNewUser();
 
-  userId = user.get('id');
+  user.setUsername(username);
+  user.setPassword('123456');
+
+  const result = await user.signUp();
+
+  sessionToken = result.getSessionToken();
+
+  acl = ParseWrapperService.createACL(await UserService.getUser(username));
+  userId = result.get('id');
 });
 
 describe('create', () => {
   test('should return the created shopping list Id', async () => {
     const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
-    const result = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId));
+    const result = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId), acl);
 
     expect(result).toBeDefined();
   });
@@ -67,8 +78,8 @@ describe('create', () => {
     const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
-    const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo);
-    const shoppingListInfo = await ShoppingListService.read(shoppingListId);
+    const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo, acl);
+    const shoppingListInfo = await ShoppingListService.read(shoppingListId, sessionToken);
 
     expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId, stapleShoppingListId, masterProductPriceId);
   });
@@ -79,7 +90,7 @@ describe('read', () => {
     const shoppingListId = uuid();
 
     try {
-      await ShoppingListService.read(shoppingListId);
+      await ShoppingListService.read(shoppingListId, sessionToken);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
@@ -89,8 +100,8 @@ describe('read', () => {
     const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedStoreInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
-    const shoppingListId = await ShoppingListService.create(expectedStoreInfo);
-    const shoppingListInfo = await ShoppingListService.read(shoppingListId);
+    const shoppingListId = await ShoppingListService.create(expectedStoreInfo, acl);
+    const shoppingListInfo = await ShoppingListService.read(shoppingListId, sessionToken);
 
     expectShoppingListInfo(shoppingListInfo, expectedStoreInfo, shoppingListId, stapleShoppingListId, masterProductPriceId);
   });
@@ -103,7 +114,10 @@ describe('update', () => {
     const shoppingListId = uuid();
 
     try {
-      await ShoppingListService.update(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId).set('id', shoppingListId));
+      await ShoppingListService.update(
+        createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId).set('id', shoppingListId),
+        sessionToken,
+      );
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
@@ -114,9 +128,10 @@ describe('update', () => {
     const masterProductPriceId1 = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
     const masterProductPriceId2 = await MasterProductPriceService.create(createMasterProductPriceInfo());
-    const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId1, masterProductPriceId1));
+    const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId1, masterProductPriceId1), acl);
     const id = await ShoppingListService.update(
       createShoppingListInfo(userId, stapleShoppingListId2, masterProductPriceId2).set('id', shoppingListId),
+      sessionToken,
     );
 
     expect(id).toBe(shoppingListId);
@@ -128,9 +143,9 @@ describe('update', () => {
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId1, masterProductPriceId1);
     const stapleShoppingListId2 = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
     const masterProductPriceId2 = await MasterProductPriceService.create(createMasterProductPriceInfo());
-    const id = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId2, masterProductPriceId2));
-    const shoppingListId = await ShoppingListService.update(expectedShoppingListInfo.set('id', id));
-    const shoppingListInfo = await ShoppingListService.read(shoppingListId);
+    const id = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId2, masterProductPriceId2), acl);
+    const shoppingListId = await ShoppingListService.update(expectedShoppingListInfo.set('id', id), sessionToken);
+    const shoppingListInfo = await ShoppingListService.read(shoppingListId, sessionToken);
 
     expectShoppingListInfo(shoppingListInfo, expectedShoppingListInfo, shoppingListId, stapleShoppingListId1, masterProductPriceId1);
   });
@@ -141,7 +156,7 @@ describe('delete', () => {
     const shoppingListId = uuid();
 
     try {
-      await ShoppingListService.delete(shoppingListId);
+      await ShoppingListService.delete(shoppingListId, sessionToken);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
@@ -150,11 +165,11 @@ describe('delete', () => {
   test('should delete the existing shopping list', async () => {
     const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
-    const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId));
-    await ShoppingListService.delete(shoppingListId);
+    const shoppingListId = await ShoppingListService.create(createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId), acl);
+    await ShoppingListService.delete(shoppingListId, sessionToken);
 
     try {
-      await ShoppingListService.read(shoppingListId);
+      await ShoppingListService.read(shoppingListId, sessionToken);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
@@ -163,7 +178,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no shopping list if provided criteria matches no shopping list', async () => {
-    const shoppingList = await ShoppingListService.search(createCriteria());
+    const shoppingList = await ShoppingListService.search(createCriteria(), sessionToken);
 
     expect(shoppingList.count()).toBe(0);
   });
@@ -172,9 +187,10 @@ describe('search', () => {
     const stapleShoppingListId = await StapleShoppingListService.create(createStapleShoppingListInfo(userId));
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
-    const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo);
+    const shoppingListId = await ShoppingListService.create(expectedShoppingListInfo, acl);
     const shoppingListInfos = await ShoppingListService.search(
       createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId),
+      sessionToken,
     );
 
     expect(shoppingListInfos.count()).toBe(1);
@@ -186,7 +202,7 @@ describe('search', () => {
 
 describe('searchAll', () => {
   test('should return no shopping list if provided criteria matches no shopping list', async () => {
-    const result = ShoppingListService.searchAll(createCriteria());
+    const result = ShoppingListService.searchAll(createCriteria(), sessionToken);
     let shoppingList = List();
 
     result.event.subscribe(info => (shoppingList = shoppingList.push(info)));
@@ -205,11 +221,12 @@ describe('searchAll', () => {
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const expectedShoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 
-    await ShoppingListService.create(expectedShoppingListInfo);
-    await ShoppingListService.create(expectedShoppingListInfo);
+    await ShoppingListService.create(expectedShoppingListInfo, acl);
+    await ShoppingListService.create(expectedShoppingListInfo, acl);
 
     const result = ShoppingListService.searchAll(
       createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId),
+      sessionToken,
     );
     let shoppingList = List();
 
@@ -218,7 +235,7 @@ describe('searchAll', () => {
     try {
       await result.promise;
     } finally {
-      /* result.event.unsubscribeAll();*/
+      result.event.unsubscribeAll();
     }
 
     expect(shoppingList.count()).toBe(2);
@@ -227,7 +244,7 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no shopping list match provided criteria', async () => {
-    const response = await ShoppingListService.exists(createCriteria());
+    const response = await ShoppingListService.exists(createCriteria(), sessionToken);
 
     expect(response).toBeFalsy();
   });
@@ -237,10 +254,11 @@ describe('exists', () => {
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 
-    await ShoppingListService.create(shoppingListInfo);
+    await ShoppingListService.create(shoppingListInfo, acl);
 
     const response = await ShoppingListService.exists(
       createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId),
+      sessionToken,
     );
 
     expect(response).toBeTruthy();
@@ -249,7 +267,7 @@ describe('exists', () => {
 
 describe('count', () => {
   test('should return 0 if no shopping list match provided criteria', async () => {
-    const response = await ShoppingListService.count(createCriteria());
+    const response = await ShoppingListService.count(createCriteria(), sessionToken);
 
     expect(response).toBe(0);
   });
@@ -259,10 +277,10 @@ describe('count', () => {
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo());
     const shoppingListInfo = createShoppingListInfo(userId, stapleShoppingListId, masterProductPriceId);
 
-    await ShoppingListService.create(shoppingListInfo);
-    await ShoppingListService.create(shoppingListInfo);
+    await ShoppingListService.create(shoppingListInfo, acl);
+    await ShoppingListService.create(shoppingListInfo, acl);
 
-    const response = await ShoppingListService.count(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo));
+    const response = await ShoppingListService.count(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo), sessionToken);
 
     expect(response).toBe(2);
   });

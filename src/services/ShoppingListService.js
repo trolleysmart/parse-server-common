@@ -7,55 +7,59 @@ import ServiceBase from './ServiceBase';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class ShoppingListService extends ServiceBase {
-  static create = async (info) => {
-    const result = await ShoppingList.spawn(info).save();
+  static create = async (info, acl) => {
+    const shoppingList = ShoppingList.spawn(info);
+
+    ServiceBase.setACL(shoppingList, acl);
+
+    const result = await shoppingList.save();
 
     return result.id;
   };
 
-  static read = async (id) => {
-    const results = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', id).limit(1).find();
+  static read = async (id, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', id).first({ sessionToken });
 
-    if (results.length === 0) {
+    if (!result) {
       throw new Exception(`No shopping list found with Id: ${id}`);
     }
 
-    return new ShoppingList(results[0]).getInfo();
+    return new ShoppingList(result).getInfo();
   };
 
-  static update = async (info) => {
-    const results = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', info.get('id')).limit(1).find();
+  static update = async (info, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', info.get('id')).first({ sessionToken });
 
-    if (results.length === 0) {
+    if (!result) {
       throw new Exception(`No shopping list found with Id: ${info.get('id')}`);
     } else {
-      const object = new ShoppingList(results[0]);
+      const object = new ShoppingList(result);
 
-      await object.updateInfo(info).saveObject();
+      await object.updateInfo(info).saveObject(sessionToken);
 
       return object.getId();
     }
   };
 
-  static delete = async (id) => {
-    const results = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', id).limit(1).find();
+  static delete = async (id, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(ShoppingList).equalTo('objectId', id).first({ sessionToken });
 
-    if (results.length === 0) {
+    if (!result) {
       throw new Exception(`No shopping list found with Id: ${id}`);
     } else {
-      await results[0].destroy();
+      await result.destroy({ sessionToken });
     }
   };
 
-  static search = async (criteria) => {
-    const results = await ShoppingListService.buildSearchQuery(criteria).find();
+  static search = async (criteria, sessionToken) => {
+    const results = await ShoppingListService.buildSearchQuery(criteria).find({ sessionToken });
 
     return Immutable.fromJS(results).map(_ => new ShoppingList(_).getInfo());
   };
 
-  static searchAll = (criteria) => {
+  static searchAll = (criteria, sessionToken) => {
     const event = new NewSearchResultReceivedEvent();
-    const promise = ShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new ShoppingList(_).getInfo()));
+    const promise = ShoppingListService.buildSearchQuery(criteria).each(_ => event.raise(new ShoppingList(_).getInfo()), { sessionToken });
 
     return {
       event,
@@ -63,13 +67,9 @@ export default class ShoppingListService extends ServiceBase {
     };
   };
 
-  static exists = async (criteria) => {
-    const total = await ShoppingListService.count(criteria);
+  static exists = async (criteria, sessionToken) => (await ShoppingListService.count(criteria, sessionToken)) > 0;
 
-    return total > 0;
-  };
-
-  static count = async criteria => ShoppingListService.buildSearchQuery(criteria).count();
+  static count = async (criteria, sessionToken) => ShoppingListService.buildSearchQuery(criteria).count({ sessionToken });
 
   static buildSearchQuery = (criteria) => {
     const query = ParseWrapperService.createQuery(ShoppingList, criteria);

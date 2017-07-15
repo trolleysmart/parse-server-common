@@ -60,23 +60,42 @@ function createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleSho
 }
 
 var userId = void 0;
+var sessionToken = void 0;
+var acl = void 0;
 
 beforeEach(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-  var user;
+  var username, user, result;
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
-          return _microBusinessParseServerCommon.UserService.signUpWithUsernameAndPassword((0, _v2.default)() + '@email.com', '123456');
-
-        case 2:
-          user = _context.sent;
+          username = (0, _v2.default)() + '@email.com';
+          user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
 
 
-          userId = user.get('id');
+          user.setUsername(username);
+          user.setPassword('123456');
 
-        case 4:
+          _context.next = 6;
+          return user.signUp();
+
+        case 6:
+          result = _context.sent;
+
+
+          sessionToken = result.getSessionToken();
+
+          _context.t0 = _microBusinessParseServerCommon.ParseWrapperService;
+          _context.next = 11;
+          return _microBusinessParseServerCommon.UserService.getUser(username);
+
+        case 11:
+          _context.t1 = _context.sent;
+          acl = _context.t0.createACL.call(_context.t0, _context.t1);
+
+          userId = result.get('id');
+
+        case 14:
         case 'end':
           return _context.stop();
       }
@@ -102,7 +121,7 @@ describe('create', function () {
           case 5:
             masterProductPriceId = _context2.sent;
             _context2.next = 8;
-            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId));
+            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId), acl);
 
           case 8:
             result = _context2.sent;
@@ -136,12 +155,12 @@ describe('create', function () {
             masterProductPriceId = _context3.sent;
             expectedShoppingListInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId);
             _context3.next = 9;
-            return _.ShoppingListService.create(expectedShoppingListInfo);
+            return _.ShoppingListService.create(expectedShoppingListInfo, acl);
 
           case 9:
             shoppingListId = _context3.sent;
             _context3.next = 12;
-            return _.ShoppingListService.read(shoppingListId);
+            return _.ShoppingListService.read(shoppingListId, sessionToken);
 
           case 12:
             shoppingListInfo = _context3.sent;
@@ -168,7 +187,7 @@ describe('read', function () {
             shoppingListId = (0, _v2.default)();
             _context4.prev = 1;
             _context4.next = 4;
-            return _.ShoppingListService.read(shoppingListId);
+            return _.ShoppingListService.read(shoppingListId, sessionToken);
 
           case 4:
             _context4.next = 9;
@@ -206,12 +225,12 @@ describe('read', function () {
             masterProductPriceId = _context5.sent;
             expectedStoreInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId);
             _context5.next = 9;
-            return _.ShoppingListService.create(expectedStoreInfo);
+            return _.ShoppingListService.create(expectedStoreInfo, acl);
 
           case 9:
             shoppingListId = _context5.sent;
             _context5.next = 12;
-            return _.ShoppingListService.read(shoppingListId);
+            return _.ShoppingListService.read(shoppingListId, sessionToken);
 
           case 12:
             shoppingListInfo = _context5.sent;
@@ -248,7 +267,7 @@ describe('update', function () {
             shoppingListId = (0, _v2.default)();
             _context6.prev = 7;
             _context6.next = 10;
-            return _.ShoppingListService.update((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId).set('id', shoppingListId));
+            return _.ShoppingListService.update((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId).set('id', shoppingListId), sessionToken);
 
           case 10:
             _context6.next = 15;
@@ -295,12 +314,12 @@ describe('update', function () {
           case 11:
             masterProductPriceId2 = _context7.sent;
             _context7.next = 14;
-            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId1, masterProductPriceId1));
+            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId1, masterProductPriceId1), acl);
 
           case 14:
             shoppingListId = _context7.sent;
             _context7.next = 17;
-            return _.ShoppingListService.update((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId2, masterProductPriceId2).set('id', shoppingListId));
+            return _.ShoppingListService.update((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId2, masterProductPriceId2).set('id', shoppingListId), sessionToken);
 
           case 17:
             id = _context7.sent;
@@ -344,17 +363,17 @@ describe('update', function () {
           case 12:
             masterProductPriceId2 = _context8.sent;
             _context8.next = 15;
-            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId2, masterProductPriceId2));
+            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId2, masterProductPriceId2), acl);
 
           case 15:
             id = _context8.sent;
             _context8.next = 18;
-            return _.ShoppingListService.update(expectedShoppingListInfo.set('id', id));
+            return _.ShoppingListService.update(expectedShoppingListInfo.set('id', id), sessionToken);
 
           case 18:
             shoppingListId = _context8.sent;
             _context8.next = 21;
-            return _.ShoppingListService.read(shoppingListId);
+            return _.ShoppingListService.read(shoppingListId, sessionToken);
 
           case 21:
             shoppingListInfo = _context8.sent;
@@ -381,7 +400,7 @@ describe('delete', function () {
             shoppingListId = (0, _v2.default)();
             _context9.prev = 1;
             _context9.next = 4;
-            return _.ShoppingListService.delete(shoppingListId);
+            return _.ShoppingListService.delete(shoppingListId, sessionToken);
 
           case 4:
             _context9.next = 9;
@@ -418,17 +437,17 @@ describe('delete', function () {
           case 5:
             masterProductPriceId = _context10.sent;
             _context10.next = 8;
-            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId));
+            return _.ShoppingListService.create((0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId), acl);
 
           case 8:
             shoppingListId = _context10.sent;
             _context10.next = 11;
-            return _.ShoppingListService.delete(shoppingListId);
+            return _.ShoppingListService.delete(shoppingListId, sessionToken);
 
           case 11:
             _context10.prev = 11;
             _context10.next = 14;
-            return _.ShoppingListService.read(shoppingListId);
+            return _.ShoppingListService.read(shoppingListId, sessionToken);
 
           case 14:
             _context10.next = 19;
@@ -457,7 +476,7 @@ describe('search', function () {
         switch (_context11.prev = _context11.next) {
           case 0:
             _context11.next = 2;
-            return _.ShoppingListService.search(createCriteria());
+            return _.ShoppingListService.search(createCriteria(), sessionToken);
 
           case 2:
             shoppingList = _context11.sent;
@@ -491,12 +510,12 @@ describe('search', function () {
             masterProductPriceId = _context12.sent;
             expectedShoppingListInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId);
             _context12.next = 9;
-            return _.ShoppingListService.create(expectedShoppingListInfo);
+            return _.ShoppingListService.create(expectedShoppingListInfo, acl);
 
           case 9:
             shoppingListId = _context12.sent;
             _context12.next = 12;
-            return _.ShoppingListService.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId));
+            return _.ShoppingListService.search(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId), sessionToken);
 
           case 12:
             shoppingListInfos = _context12.sent;
@@ -524,7 +543,7 @@ describe('searchAll', function () {
       while (1) {
         switch (_context13.prev = _context13.next) {
           case 0:
-            result = _.ShoppingListService.searchAll(createCriteria());
+            result = _.ShoppingListService.searchAll(createCriteria(), sessionToken);
             shoppingList = (0, _immutable.List)();
 
 
@@ -572,14 +591,14 @@ describe('searchAll', function () {
             masterProductPriceId = _context14.sent;
             expectedShoppingListInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId);
             _context14.next = 9;
-            return _.ShoppingListService.create(expectedShoppingListInfo);
+            return _.ShoppingListService.create(expectedShoppingListInfo, acl);
 
           case 9:
             _context14.next = 11;
-            return _.ShoppingListService.create(expectedShoppingListInfo);
+            return _.ShoppingListService.create(expectedShoppingListInfo, acl);
 
           case 11:
-            result = _.ShoppingListService.searchAll(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId));
+            result = _.ShoppingListService.searchAll(createCriteriaUsingProvidedShoppingListInfo(expectedShoppingListInfo, stapleShoppingListId, masterProductPriceId), sessionToken);
             shoppingList = (0, _immutable.List)();
 
 
@@ -593,18 +612,20 @@ describe('searchAll', function () {
 
           case 17:
             _context14.prev = 17;
+
+            result.event.unsubscribeAll();
             return _context14.finish(17);
 
-          case 19:
+          case 20:
 
             expect(shoppingList.count()).toBe(2);
 
-          case 20:
+          case 21:
           case 'end':
             return _context14.stop();
         }
       }
-    }, _callee14, undefined, [[14,, 17, 19]]);
+    }, _callee14, undefined, [[14,, 17, 20]]);
   })));
 });
 
@@ -616,7 +637,7 @@ describe('exists', function () {
         switch (_context15.prev = _context15.next) {
           case 0:
             _context15.next = 2;
-            return _.ShoppingListService.exists(createCriteria());
+            return _.ShoppingListService.exists(createCriteria(), sessionToken);
 
           case 2:
             response = _context15.sent;
@@ -650,11 +671,11 @@ describe('exists', function () {
             masterProductPriceId = _context16.sent;
             shoppingListInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId);
             _context16.next = 9;
-            return _.ShoppingListService.create(shoppingListInfo);
+            return _.ShoppingListService.create(shoppingListInfo, acl);
 
           case 9:
             _context16.next = 11;
-            return _.ShoppingListService.exists(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId));
+            return _.ShoppingListService.exists(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo, stapleShoppingListId, masterProductPriceId), sessionToken);
 
           case 11:
             response = _context16.sent;
@@ -679,7 +700,7 @@ describe('count', function () {
         switch (_context17.prev = _context17.next) {
           case 0:
             _context17.next = 2;
-            return _.ShoppingListService.count(createCriteria());
+            return _.ShoppingListService.count(createCriteria(), sessionToken);
 
           case 2:
             response = _context17.sent;
@@ -713,15 +734,15 @@ describe('count', function () {
             masterProductPriceId = _context18.sent;
             shoppingListInfo = (0, _ShoppingList.createShoppingListInfo)(userId, stapleShoppingListId, masterProductPriceId);
             _context18.next = 9;
-            return _.ShoppingListService.create(shoppingListInfo);
+            return _.ShoppingListService.create(shoppingListInfo, acl);
 
           case 9:
             _context18.next = 11;
-            return _.ShoppingListService.create(shoppingListInfo);
+            return _.ShoppingListService.create(shoppingListInfo, acl);
 
           case 11:
             _context18.next = 13;
-            return _.ShoppingListService.count(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo));
+            return _.ShoppingListService.count(createCriteriaUsingProvidedShoppingListInfo(shoppingListInfo), sessionToken);
 
           case 13:
             response = _context18.sent;

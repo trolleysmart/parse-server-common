@@ -18,6 +18,12 @@ ServiceBase.splitIntoChunks = function (list, chunkSize) {
   });
 };
 
+ServiceBase.setACL = function (object, acl) {
+  if (acl) {
+    object.setACL(acl);
+  }
+};
+
 ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
