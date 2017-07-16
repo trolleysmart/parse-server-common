@@ -7,7 +7,7 @@ import ServiceBase from './ServiceBase';
 export default class CrawlSessionService extends ServiceBase {
   static messagePrefix = 'No crawl session found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(CrawlSession, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(CrawlSession, info, acl, sessionToken);
 
   static read = async (info, sessionToken) => ServiceBase.read(CrawlSession, info, sessionToken, CrawlSessionService.messagePrefix);
 

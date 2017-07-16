@@ -7,7 +7,7 @@ import ServiceBase from './ServiceBase';
 export default class StoreMasterProductService extends ServiceBase {
   static messagePrefix = 'No store master product found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(StoreMasterProduct, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(StoreMasterProduct, info, acl, sessionToken);
 
   static read = async (info, sessionToken) => ServiceBase.read(StoreMasterProduct, info, sessionToken, StoreMasterProductService.messagePrefix);
 

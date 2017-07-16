@@ -8,7 +8,7 @@ import ServiceBase from './ServiceBase';
 export default class StapleTemplateShoppingListService extends ServiceBase {
   static messagePrefix = 'No staple template shopping list found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(StapleTemplateShoppingList, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(StapleTemplateShoppingList, info, acl, sessionToken);
 
   static read = async (info, sessionToken) =>
     ServiceBase.read(StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix);

@@ -9,7 +9,7 @@ import StapleTemplateShoppingListService from './StapleTemplateShoppingListServi
 export default class StapleShoppingListService extends ServiceBase {
   static messagePrefix = 'No staple shopping list found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(StapleShoppingList, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(StapleShoppingList, info, acl, sessionToken);
 
   static read = async (info, sessionToken) => ServiceBase.read(StapleShoppingList, info, sessionToken, StapleShoppingListService.messagePrefix);
 
@@ -31,7 +31,7 @@ export default class StapleShoppingListService extends ServiceBase {
     const items = await StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList(sessionToken);
     const splittedItems = ServiceBase.splitIntoChunks(items, 100);
     await BluebirdPromise.each(splittedItems.toArray(), chunck =>
-      Promise.all(chunck.map(item => StapleShoppingListService.create(item.set('userId', userId), acl)).toArray()),
+      Promise.all(chunck.map(item => StapleShoppingListService.create(item.set('userId', userId), acl, sessionToken)).toArray()),
     );
   };
 

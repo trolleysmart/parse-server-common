@@ -7,7 +7,7 @@ import ServiceBase from './ServiceBase';
 export default class StapleTemplateService extends ServiceBase {
   static messagePrefix = 'No staple template found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(StapleTemplate, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(StapleTemplate, info, acl, sessionToken);
 
   static read = async (info, sessionToken) => ServiceBase.read(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
 

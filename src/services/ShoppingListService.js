@@ -7,7 +7,7 @@ import ServiceBase from './ServiceBase';
 export default class ShoppingListService extends ServiceBase {
   static messagePrefix = 'No shopping list found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(ShoppingList, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(ShoppingList, info, acl, sessionToken);
 
   static read = async (info, sessionToken) => ServiceBase.read(ShoppingList, info, sessionToken, ShoppingListService.messagePrefix);
 

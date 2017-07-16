@@ -7,7 +7,7 @@ import ServiceBase from './ServiceBase';
 export default class StoreTagService extends ServiceBase {
   static messagePrefix = 'No store tag found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(StoreTag, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(StoreTag, info, acl, sessionToken);
 
   static read = async (info, sessionToken) => ServiceBase.read(StoreTag, info, sessionToken, StoreTagService.messagePrefix);
 

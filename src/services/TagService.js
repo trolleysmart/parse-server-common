@@ -7,7 +7,7 @@ import ServiceBase from './ServiceBase';
 export default class TagService extends ServiceBase {
   static messagePrefix = 'No tag found with Id: ';
 
-  static create = async (info, acl) => ServiceBase.create(Tag, info, acl);
+  static create = async (info, acl, sessionToken) => ServiceBase.create(Tag, info, acl, sessionToken);
 
   static read = async (info, sessionToken) => ServiceBase.read(Tag, info, sessionToken, TagService.messagePrefix);
 

@@ -31,7 +31,7 @@ ServiceBase.splitIntoChunks = function (list, chunkSize) {
 };
 
 ServiceBase.create = function () {
-  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ObjectType, info, acl) {
+  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ObjectType, info, acl, sessionToken) {
     var object, result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -43,7 +43,7 @@ ServiceBase.create = function () {
             ServiceBase.setACL(object, acl);
 
             _context.next = 4;
-            return object.save();
+            return object.save({ sessionToken: sessionToken });
 
           case 4:
             result = _context.sent;
@@ -57,7 +57,7 @@ ServiceBase.create = function () {
     }, _callee, undefined);
   }));
 
-  return function (_x, _x2, _x3) {
+  return function (_x, _x2, _x3, _x4) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -93,7 +93,7 @@ ServiceBase.read = function () {
     }, _callee2, undefined);
   }));
 
-  return function (_x4, _x5, _x6, _x7) {
+  return function (_x5, _x6, _x7, _x8) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -134,7 +134,7 @@ ServiceBase.update = function () {
     }, _callee3, undefined);
   }));
 
-  return function (_x8, _x9, _x10, _x11) {
+  return function (_x9, _x10, _x11, _x12) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -171,7 +171,7 @@ ServiceBase.delete = function () {
     }, _callee4, undefined);
   }));
 
-  return function (_x12, _x13, _x14, _x15) {
+  return function (_x13, _x14, _x15, _x16) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -200,7 +200,7 @@ ServiceBase.search = function () {
     }, _callee5, undefined);
   }));
 
-  return function (_x16, _x17, _x18, _x19) {
+  return function (_x17, _x18, _x19, _x20) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -233,7 +233,7 @@ ServiceBase.count = function () {
     }, _callee6, undefined);
   }));
 
-  return function (_x20, _x21, _x22) {
+  return function (_x21, _x22, _x23) {
     return _ref6.apply(this, arguments);
   };
 }();
@@ -259,7 +259,7 @@ ServiceBase.exists = function () {
     }, _callee7, undefined);
   }));
 
-  return function (_x23, _x24, _x25) {
+  return function (_x24, _x25, _x26) {
     return _ref7.apply(this, arguments);
   };
 }();
