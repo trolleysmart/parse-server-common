@@ -12,7 +12,7 @@ export default class ServiceBase {
 
     ServiceBase.setACL(object, acl);
 
-    const result = await object.save({ sessionToken });
+    const result = await object.save(null, { sessionToken });
 
     return result.id;
   };

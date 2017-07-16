@@ -43,7 +43,7 @@ ServiceBase.create = function () {
             ServiceBase.setACL(object, acl);
 
             _context.next = 4;
-            return object.save({ sessionToken: sessionToken });
+            return object.save(null, { sessionToken: sessionToken });
 
           case 4:
             result = _context.sent;
