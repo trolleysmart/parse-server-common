@@ -158,16 +158,13 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
+
     const masterProductQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
 
     if (masterProductQuery) {
       query.matchesQuery('masterProduct', masterProductQuery);
-    }
-
-    const storeQuery = MasterProductPriceService.buildStoreQuery(conditions);
-
-    if (storeQuery) {
-      query.matchesQuery('store', storeQuery);
     }
 
     return query;
@@ -213,21 +210,9 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
-    const hasNameQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
     const hasDescriptionsQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
-    if (hasNameQuery || hasDescriptionsQuery || hasTagsQuery) {
-      return query;
-    }
-
-    return null;
-  };
-
-  static buildStoreQuery = (conditions) => {
-    const query = ParseWrapperService.createQuery(Store);
-    const hasNameQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'lowerCaseName');
-
-    if (hasNameQuery) {
+    if (hasDescriptionsQuery || hasTagsQuery) {
       return query;
     }
 

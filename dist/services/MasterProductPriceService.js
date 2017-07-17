@@ -320,16 +320,13 @@ MasterProductPriceService.buildSearchQueryInternal = function (criteria) {
     }
   }
 
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'name');
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
+
   var masterProductQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
 
   if (masterProductQuery) {
     query.matchesQuery('masterProduct', masterProductQuery);
-  }
-
-  var storeQuery = MasterProductPriceService.buildStoreQuery(conditions);
-
-  if (storeQuery) {
-    query.matchesQuery('store', storeQuery);
   }
 
   return query;
@@ -377,21 +374,9 @@ MasterProductPriceService.buildMasterProductQuery = function (conditions) {
     }
   }
 
-  var hasNameQuery = _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
   var hasDescriptionsQuery = _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
-  if (hasNameQuery || hasDescriptionsQuery || hasTagsQuery) {
-    return query;
-  }
-
-  return null;
-};
-
-MasterProductPriceService.buildStoreQuery = function (conditions) {
-  var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store);
-  var hasNameQuery = _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'storeName', 'lowerCaseName');
-
-  if (hasNameQuery) {
+  if (hasDescriptionsQuery || hasTagsQuery) {
     return query;
   }
 
