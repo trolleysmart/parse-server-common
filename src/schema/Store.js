@@ -13,6 +13,7 @@ export default class Store extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
+    object.set('key', info.get('key'));
     object.set('name', info.get('name'));
     object.set('lowerCaseName', info.get('name').toLowerCase());
     object.set('imageUrl', info.get('imageUrl'));
@@ -33,6 +34,7 @@ export default class Store extends BaseObject {
   getInfo = () =>
     Map({
       id: this.getId(),
+      key: this.getObject().get('key'),
       name: this.getObject().get('name'),
       imageUrl: this.getObject().get('imageUrl'),
     });

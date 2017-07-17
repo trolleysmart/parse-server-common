@@ -6,6 +6,7 @@ import { Store } from '../';
 
 export function createStoreInfo() {
   return Map({
+    key: uuid(),
     name: uuid(),
     imageUrl: uuid(),
   });
@@ -16,6 +17,7 @@ export function createStore(storeInfo) {
 }
 
 function expectStoreInfo(storeInfo, expectedStoreInfo) {
+  expect(storeInfo.get('key')).toBe(expectedStoreInfo.get('key'));
   expect(storeInfo.get('name')).toBe(expectedStoreInfo.get('name'));
   expect(storeInfo.get('imageUrl')).toBe(expectedStoreInfo.get('imageUrl'));
 }

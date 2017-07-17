@@ -24,8 +24,9 @@ function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'imageUrl'),
+    fields: _immutable.List.of('key', 'name', 'imageUrl'),
     conditions: (0, _immutable.Map)({
+      key: (0, _v2.default)(),
       name: (0, _v2.default)()
     })
   });
@@ -33,8 +34,9 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedStoreInfo(storeInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'imageUrl'),
+    fields: _immutable.List.of('key', 'name', 'imageUrl'),
     conditions: (0, _immutable.Map)({
+      key: storeInfo.get('key'),
       name: storeInfo.get('name')
     })
   });

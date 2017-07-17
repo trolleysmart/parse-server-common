@@ -14,8 +14,9 @@ function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
 
 function createCriteria() {
   return Map({
-    fields: List.of('name', 'imageUrl'),
+    fields: List.of('key', 'name', 'imageUrl'),
     conditions: Map({
+      key: uuid(),
       name: uuid(),
     }),
   });
@@ -23,8 +24,9 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedStoreInfo(storeInfo) {
   return Map({
-    fields: List.of('name', 'imageUrl'),
+    fields: List.of('key', 'name', 'imageUrl'),
     conditions: Map({
+      key: storeInfo.get('key'),
       name: storeInfo.get('name'),
     }),
   });

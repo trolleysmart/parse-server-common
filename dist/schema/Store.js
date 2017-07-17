@@ -39,6 +39,7 @@ Store.spawn = function (info) {
 };
 
 Store.updateInfoInternal = function (object, info) {
+  object.set('key', info.get('key'));
   object.set('name', info.get('name'));
   object.set('lowerCaseName', info.get('name').toLowerCase());
   object.set('imageUrl', info.get('imageUrl'));
@@ -58,6 +59,7 @@ var _initialiseProps = function _initialiseProps() {
   this.getInfo = function () {
     return (0, _immutable.Map)({
       id: _this2.getId(),
+      key: _this2.getObject().get('key'),
       name: _this2.getObject().get('name'),
       imageUrl: _this2.getObject().get('imageUrl')
     });

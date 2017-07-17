@@ -58,6 +58,14 @@ export default class StoreMasterProductService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
+    if (conditions.has('key')) {
+      const value = conditions.get('key');
+
+      if (value) {
+        query.equalTo('key', value);
+      }
+    }
+
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
     if (conditions.has('with_name')) {

@@ -220,20 +220,28 @@ StoreMasterProductService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  if (conditions.has('key')) {
+    var _value3 = conditions.get('key');
+
+    if (_value3) {
+      query.equalTo('key', _value3);
+    }
+  }
+
   _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   if (conditions.has('with_name')) {
-    var _value3 = conditions.get('with_name');
+    var _value4 = conditions.get('with_name');
 
-    if (_value3) {
+    if (_value4) {
       query.exists('name');
     }
   }
 
   if (conditions.has('without_name')) {
-    var _value4 = conditions.get('without_name');
+    var _value5 = conditions.get('without_name');
 
-    if (_value4) {
+    if (_value5) {
       query.doesNotExist('name');
     }
   }
@@ -241,140 +249,140 @@ StoreMasterProductService.buildSearchQuery = function (criteria) {
   _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
 
   if (conditions.has('barcode')) {
-    var _value5 = conditions.get('barcode');
+    var _value6 = conditions.get('barcode');
 
-    if (_value5) {
-      query.equalTo('barcode', _value5);
+    if (_value6) {
+      query.equalTo('barcode', _value6);
     }
   }
 
   if (conditions.has('productPageUrl')) {
-    var _value6 = conditions.get('productPageUrl');
+    var _value7 = conditions.get('productPageUrl');
 
-    if (_value6) {
-      query.equalTo('productPageUrl', _value6);
+    if (_value7) {
+      query.equalTo('productPageUrl', _value7);
     }
   }
 
   if (conditions.has('imageUrl')) {
-    var _value7 = conditions.get('imageUrl');
+    var _value8 = conditions.get('imageUrl');
 
-    if (_value7) {
-      query.equalTo('imageUrl', _value7);
+    if (_value8) {
+      query.equalTo('imageUrl', _value8);
     }
   }
 
   if (conditions.has('size')) {
-    var _value8 = conditions.get('size');
+    var _value9 = conditions.get('size');
 
-    if (_value8) {
-      query.equalTo('size', _value8);
+    if (_value9) {
+      query.equalTo('size', _value9);
     }
   }
 
   if (conditions.has('lastCrawlDateTime')) {
-    var _value9 = conditions.get('lastCrawlDateTime');
+    var _value10 = conditions.get('lastCrawlDateTime');
 
-    if (_value9) {
-      query.equalTo('lastCrawlDateTime', _value9);
+    if (_value10) {
+      query.equalTo('lastCrawlDateTime', _value10);
     }
   }
 
   if (conditions.has('lessThanOrEqualTo_lastCrawlDateTime')) {
-    var _value10 = conditions.get('lessThanOrEqualTo_lastCrawlDateTime');
+    var _value11 = conditions.get('lessThanOrEqualTo_lastCrawlDateTime');
 
-    if (_value10) {
-      query.lessThanOrEqualTo('lastCrawlDateTime', _value10);
+    if (_value11) {
+      query.lessThanOrEqualTo('lastCrawlDateTime', _value11);
     }
   }
 
   if (conditions.has('greaterThanOrEqualTo_lastCrawlDateTime')) {
-    var _value11 = conditions.get('greaterThanOrEqualTo_lastCrawlDateTime');
+    var _value12 = conditions.get('greaterThanOrEqualTo_lastCrawlDateTime');
 
-    if (_value11) {
-      query.greaterThanOrEqualTo('lastCrawlDateTime', _value11);
+    if (_value12) {
+      query.greaterThanOrEqualTo('lastCrawlDateTime', _value12);
     }
   }
 
   if (conditions.has('storeTag')) {
-    var _value12 = conditions.get('storeTag');
+    var _value13 = conditions.get('storeTag');
 
-    if (_value12) {
-      query.equalTo('storeTags', _value12);
+    if (_value13) {
+      query.equalTo('storeTags', _value13);
     }
   }
 
   if (conditions.has('storeTags')) {
-    var _value13 = conditions.get('storeTags');
+    var _value14 = conditions.get('storeTags');
 
-    if (_value13) {
-      query.containedIn('storeTags', _value13.toArray());
+    if (_value14) {
+      query.containedIn('storeTags', _value14.toArray());
     }
   }
 
   if (conditions.has('storeTagId')) {
-    var _value14 = conditions.get('storeTagId');
+    var _value15 = conditions.get('storeTagId');
 
-    if (_value14) {
-      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value14));
+    if (_value15) {
+      query.equalTo('storeTags', _schema.StoreTag.createWithoutData(_value15));
     }
   }
 
   if (conditions.has('storeTagIds')) {
-    var _value15 = conditions.get('storeTagIds');
+    var _value16 = conditions.get('storeTagIds');
 
-    if (_value15) {
-      query.containedIn('storeTags', _value15.map(function (storeTagId) {
+    if (_value16) {
+      query.containedIn('storeTags', _value16.map(function (storeTagId) {
         return _schema.StoreTag.createWithoutData(storeTagId);
       }).toArray());
     }
   }
 
   if (conditions.has('store')) {
-    var _value16 = conditions.get('store');
+    var _value17 = conditions.get('store');
 
-    if (_value16) {
-      query.equalTo('store', _value16);
+    if (_value17) {
+      query.equalTo('store', _value17);
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value17 = conditions.get('storeId');
+    var _value18 = conditions.get('storeId');
 
-    if (_value17) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value17));
+    if (_value18) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value18));
     }
   }
 
   if (conditions.has('with_masterProduct')) {
-    var _value18 = conditions.get('with_masterProduct');
+    var _value19 = conditions.get('with_masterProduct');
 
-    if (_value18) {
+    if (_value19) {
       query.exists('masterProduct');
     }
   }
 
   if (conditions.has('without_masterProduct')) {
-    var _value19 = conditions.get('without_masterProduct');
+    var _value20 = conditions.get('without_masterProduct');
 
-    if (_value19) {
+    if (_value20) {
       query.doesNotExist('masterProduct');
     }
   }
 
   if (conditions.has('masterProduct')) {
-    var _value20 = conditions.get('masterProduct');
+    var _value21 = conditions.get('masterProduct');
 
-    if (_value20) {
-      query.equalTo('masterProduct', _value20);
+    if (_value21) {
+      query.equalTo('masterProduct', _value21);
     }
   }
 
   if (conditions.has('masterProductId')) {
-    var _value21 = conditions.get('masterProductId');
+    var _value22 = conditions.get('masterProductId');
 
-    if (_value21) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value21));
+    if (_value22) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value22));
     }
   }
 

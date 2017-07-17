@@ -18,6 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createStoreInfo() {
   return (0, _immutable.Map)({
+    key: (0, _v2.default)(),
     name: (0, _v2.default)(),
     imageUrl: (0, _v2.default)()
   });
@@ -28,6 +29,7 @@ function createStore(storeInfo) {
 }
 
 function expectStoreInfo(storeInfo, expectedStoreInfo) {
+  expect(storeInfo.get('key')).toBe(expectedStoreInfo.get('key'));
   expect(storeInfo.get('name')).toBe(expectedStoreInfo.get('name'));
   expect(storeInfo.get('imageUrl')).toBe(expectedStoreInfo.get('imageUrl'));
 }
