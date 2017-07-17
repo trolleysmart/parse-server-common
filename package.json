@@ -1,6 +1,6 @@
 {
   "name": "smart-grocery-parse-server-common",
-  "version": "0.1.187",
+  "version": "0.1.188",
   "description": "Smart Grocery Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "immutable": "^3.8.1",
-    "micro-business-parse-server-common": "^0.1.90"
+    "micro-business-parse-server-common": "^0.1.92"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -37,7 +37,7 @@
     "eslint-plugin-react": "^7.1.0",
     "flow-bin": "^0.50.0",
     "jest": "^20.0.4",
-    "lint-staged": "^4.0.1",
+    "lint-staged": "^4.0.2",
     "parse": "^1.10.0",
     "prettier": "^1.5.3",
     "uuid": "^3.1.0"
