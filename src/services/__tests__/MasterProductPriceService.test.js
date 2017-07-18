@@ -14,6 +14,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
+  expect(masterProductPriceInfo.get('saving')).toEqual(expectedMasterProductPriceInfo.get('saving'));
+  expect(masterProductPriceInfo.get('savingPercentage')).toEqual(expectedMasterProductPriceInfo.get('savingPercentage'));
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
@@ -21,7 +23,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 export function createCriteria() {
   return Map({
-    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
+    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -33,13 +35,15 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProduct, store) {
   return Map({
-    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
+    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
       name: masterProduct.get('name'),
       storeName: store.get('name'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
+      saving: masterProductPriceInfo.get('saving'),
+      savingPercentage: masterProductPriceInfo.get('savingPercentage'),
       status: masterProductPriceInfo.get('status'),
       masterProductId: masterProduct.get('id'),
       storeId: store.get('id'),
@@ -167,7 +171,7 @@ describe('search', () => {
     const masterProductId = await MasterProductService.create(masterProduct);
     const store = createStoreInfo();
     const storeId = await StoreService.create(store);
-    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     const masterProductPriceInfos = await MasterProductPriceService.search(
       createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store),
@@ -201,7 +205,7 @@ describe('searchAll', () => {
     const masterProductId = await MasterProductService.create(masterProduct);
     const store = createStoreInfo();
     const storeId = await StoreService.create(store);
-    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
     const masterProductPriceId1 = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     const masterProductPriceId2 = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
@@ -235,7 +239,7 @@ describe('exists', () => {
     const masterProductId = await MasterProductService.create(masterProduct);
     const store = createStoreInfo();
     const storeId = await StoreService.create(store);
-    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
 
     await MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
@@ -258,7 +262,7 @@ describe('count', () => {
     const masterProductId = await MasterProductService.create(masterProduct);
     const store = createStoreInfo();
     const storeId = await StoreService.create(store);
-    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
 
     await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     await MasterProductPriceService.create(expectedMasterProductPriceInfo);

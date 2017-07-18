@@ -195,6 +195,14 @@ StoreService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  if (conditions.has('key')) {
+    var value = conditions.get('key');
+
+    if (value) {
+      query.equalTo('key', value);
+    }
+  }
+
   _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   return query;

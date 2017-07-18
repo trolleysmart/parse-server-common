@@ -118,6 +118,54 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
+    if (conditions.has('saving')) {
+      const value = conditions.get('saving');
+
+      if (value) {
+        query.equalTo('saving', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_saving')) {
+      const value = conditions.get('lessThanOrEqualTo_saving');
+
+      if (value) {
+        query.lessThanOrEqualTo('saving', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_saving')) {
+      const value = conditions.get('greaterThanOrEqualTo_saving');
+
+      if (value) {
+        query.greaterThanOrEqualTo('saving', value);
+      }
+    }
+
+    if (conditions.has('savingPercentage')) {
+      const value = conditions.get('savingPercentage');
+
+      if (value) {
+        query.equalTo('savingPercentage', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_savingPercentage')) {
+      const value = conditions.get('lessThanOrEqualTo_savingPercentage');
+
+      if (value) {
+        query.lessThanOrEqualTo('savingPercentage', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_savingPercentage')) {
+      const value = conditions.get('greaterThanOrEqualTo_savingPercentage');
+
+      if (value) {
+        query.greaterThanOrEqualTo('savingPercentage', value);
+      }
+    }
+
     if (conditions.has('status')) {
       const value = conditions.get('status');
 

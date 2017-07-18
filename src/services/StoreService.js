@@ -31,6 +31,14 @@ export default class StoreService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
+    if (conditions.has('key')) {
+      const value = conditions.get('key');
+
+      if (value) {
+        query.equalTo('key', value);
+      }
+    }
+
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
     return query;

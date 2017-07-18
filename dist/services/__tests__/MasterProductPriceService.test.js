@@ -32,6 +32,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
+  expect(masterProductPriceInfo.get('saving')).toEqual(expectedMasterProductPriceInfo.get('saving'));
+  expect(masterProductPriceInfo.get('savingPercentage')).toEqual(expectedMasterProductPriceInfo.get('savingPercentage'));
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
@@ -39,7 +41,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
+    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
@@ -51,13 +53,15 @@ function createCriteria() {
 
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProduct, store) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'status', 'masterProduct', 'store'),
+    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'status', 'masterProduct', 'store'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
       name: masterProduct.get('name'),
       storeName: store.get('name'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
+      saving: masterProductPriceInfo.get('saving'),
+      savingPercentage: masterProductPriceInfo.get('savingPercentage'),
       status: masterProductPriceInfo.get('status'),
       masterProductId: masterProduct.get('id'),
       storeId: store.get('id')
@@ -452,7 +456,7 @@ describe('search', function () {
 
           case 7:
             storeId = _context11.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store);
             _context11.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
@@ -534,7 +538,7 @@ describe('searchAll', function () {
 
           case 7:
             storeId = _context13.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store);
             _context13.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
@@ -622,7 +626,7 @@ describe('exists', function () {
 
           case 7:
             storeId = _context15.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store);
             _context15.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
@@ -686,7 +690,7 @@ describe('count', function () {
 
           case 7:
             storeId = _context17.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store);
             _context17.next = 11;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 

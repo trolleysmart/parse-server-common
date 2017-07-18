@@ -20,14 +20,16 @@ var _Store = require('./Store.test');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function createMasterProductPriceInfo(masterProductId, storeId) {
+function createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store) {
   return (0, _immutable.Map)({
-    name: (0, _v2.default)(),
-    storeName: (0, _v2.default)(),
+    name: masterProduct ? masterProduct.get('name') : (0, _v2.default)(),
+    storeName: store ? store.get('name') : (0, _v2.default)(),
     priceDetails: (0, _immutable.Map)({
-      price: (0, _v2.default)()
+      price: 10.56
     }),
     priceToDisplay: 12.34,
+    saving: 2.3,
+    savingPercentage: 12,
     status: 'A',
     masterProductId: masterProductId || (0, _MasterProduct.createMasterProduct)().getId(),
     storeId: storeId || (0, _Store.createStore)().getId()
@@ -43,6 +45,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeName')).toBe(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
+  expect(masterProductPriceInfo.get('saving')).toEqual(expectedMasterProductPriceInfo.get('saving'));
+  expect(masterProductPriceInfo.get('savingPercentage')).toEqual(expectedMasterProductPriceInfo.get('savingPercentage'));
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
   expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));

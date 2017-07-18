@@ -6,14 +6,16 @@ import { MasterProductPrice } from '../';
 import { createMasterProduct } from './MasterProduct.test';
 import { createStore } from './Store.test';
 
-export function createMasterProductPriceInfo(masterProductId, storeId) {
+export function createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store) {
   return Map({
-    name: uuid(),
-    storeName: uuid(),
+    name: masterProduct ? masterProduct.get('name') : uuid(),
+    storeName: store ? store.get('name') : uuid(),
     priceDetails: Map({
-      price: uuid(),
+      price: 10.56,
     }),
     priceToDisplay: 12.34,
+    saving: 2.3,
+    savingPercentage: 12,
     status: 'A',
     masterProductId: masterProductId || createMasterProduct().getId(),
     storeId: storeId || createStore().getId(),
@@ -29,6 +31,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('storeName')).toBe(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
+  expect(masterProductPriceInfo.get('saving')).toEqual(expectedMasterProductPriceInfo.get('saving'));
+  expect(masterProductPriceInfo.get('savingPercentage')).toEqual(expectedMasterProductPriceInfo.get('savingPercentage'));
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
   expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));
