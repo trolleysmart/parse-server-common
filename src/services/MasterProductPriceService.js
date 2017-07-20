@@ -166,6 +166,54 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
+    if (conditions.has('offerEndDate')) {
+      const value = conditions.get('offerEndDate');
+
+      if (value) {
+        query.equalTo('offerEndDate', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_offerEndDate')) {
+      const value = conditions.get('lessThanOrEqualTo_offerEndDate');
+
+      if (value) {
+        query.lessThanOrEqualTo('offerEndDate', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_offerEndDate')) {
+      const value = conditions.get('greaterThanOrEqualTo_offerEndDate');
+
+      if (value) {
+        query.greaterThanOrEqualTo('offerEndDate', value);
+      }
+    }
+
+    if (conditions.has('firstCrawledDate')) {
+      const value = conditions.get('firstCrawledDate');
+
+      if (value) {
+        query.equalTo('firstCrawledDate', value);
+      }
+    }
+
+    if (conditions.has('lessThanOrEqualTo_firstCrawledDate')) {
+      const value = conditions.get('lessThanOrEqualTo_firstCrawledDate');
+
+      if (value) {
+        query.lessThanOrEqualTo('firstCrawledDate', value);
+      }
+    }
+
+    if (conditions.has('greaterThanOrEqualTo_firstCrawledDate')) {
+      const value = conditions.get('greaterThanOrEqualTo_firstCrawledDate');
+
+      if (value) {
+        query.greaterThanOrEqualTo('firstCrawledDate', value);
+      }
+    }
+
     if (conditions.has('status')) {
       const value = conditions.get('status');
 

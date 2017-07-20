@@ -16,6 +16,8 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
   expect(masterProductPriceInfo.get('saving')).toEqual(expectedMasterProductPriceInfo.get('saving'));
   expect(masterProductPriceInfo.get('savingPercentage')).toEqual(expectedMasterProductPriceInfo.get('savingPercentage'));
+  expect(masterProductPriceInfo.get('offerEndDate')).toEqual(expectedMasterProductPriceInfo.get('offerEndDate'));
+  expect(masterProductPriceInfo.get('firstCrawledDate')).toEqual(expectedMasterProductPriceInfo.get('firstCrawledDate'));
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
@@ -23,7 +25,19 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
 
 export function createCriteria() {
   return Map({
-    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'status', 'masterProduct', 'store'),
+    fields: List.of(
+      'name',
+      'storeName',
+      'priceDetails',
+      'priceToDisplay',
+      'saving',
+      'savingPercentage',
+      'offerEndDate',
+      'firstCrawledDate',
+      'status',
+      'masterProduct',
+      'store',
+    ),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -35,7 +49,19 @@ export function createCriteria() {
 
 export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProduct, store) {
   return Map({
-    fields: List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'status', 'masterProduct', 'store'),
+    fields: List.of(
+      'name',
+      'storeName',
+      'priceDetails',
+      'priceToDisplay',
+      'saving',
+      'savingPercentage',
+      'offerEndDate',
+      'firstCrawledDate',
+      'status',
+      'masterProduct',
+      'store',
+    ),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
@@ -44,6 +70,8 @@ export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductP
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
       saving: masterProductPriceInfo.get('saving'),
       savingPercentage: masterProductPriceInfo.get('savingPercentage'),
+      offerEndDate: masterProductPriceInfo.get('offerEndDate'),
+      firstCrawledDate: masterProductPriceInfo.get('firstCrawledDate'),
       status: masterProductPriceInfo.get('status'),
       masterProductId: masterProduct.get('id'),
       storeId: store.get('id'),

@@ -328,43 +328,91 @@ MasterProductPriceService.buildSearchQueryInternal = function (criteria) {
     }
   }
 
-  if (conditions.has('status')) {
-    var _value12 = conditions.get('status');
+  if (conditions.has('offerEndDate')) {
+    var _value12 = conditions.get('offerEndDate');
 
     if (_value12) {
-      query.equalTo('status', _value12);
+      query.equalTo('offerEndDate', _value12);
+    }
+  }
+
+  if (conditions.has('lessThanOrEqualTo_offerEndDate')) {
+    var _value13 = conditions.get('lessThanOrEqualTo_offerEndDate');
+
+    if (_value13) {
+      query.lessThanOrEqualTo('offerEndDate', _value13);
+    }
+  }
+
+  if (conditions.has('greaterThanOrEqualTo_offerEndDate')) {
+    var _value14 = conditions.get('greaterThanOrEqualTo_offerEndDate');
+
+    if (_value14) {
+      query.greaterThanOrEqualTo('offerEndDate', _value14);
+    }
+  }
+
+  if (conditions.has('firstCrawledDate')) {
+    var _value15 = conditions.get('firstCrawledDate');
+
+    if (_value15) {
+      query.equalTo('firstCrawledDate', _value15);
+    }
+  }
+
+  if (conditions.has('lessThanOrEqualTo_firstCrawledDate')) {
+    var _value16 = conditions.get('lessThanOrEqualTo_firstCrawledDate');
+
+    if (_value16) {
+      query.lessThanOrEqualTo('firstCrawledDate', _value16);
+    }
+  }
+
+  if (conditions.has('greaterThanOrEqualTo_firstCrawledDate')) {
+    var _value17 = conditions.get('greaterThanOrEqualTo_firstCrawledDate');
+
+    if (_value17) {
+      query.greaterThanOrEqualTo('firstCrawledDate', _value17);
+    }
+  }
+
+  if (conditions.has('status')) {
+    var _value18 = conditions.get('status');
+
+    if (_value18) {
+      query.equalTo('status', _value18);
     }
   }
 
   if (conditions.has('specialType')) {
-    var _value13 = conditions.get('specialType');
+    var _value19 = conditions.get('specialType');
 
-    if (_value13) {
-      query.equalTo('priceDetails.specialType', _value13);
+    if (_value19) {
+      query.equalTo('priceDetails.specialType', _value19);
     }
   }
 
   if (conditions.has('not_specialType')) {
-    var _value14 = conditions.get('not_specialType');
+    var _value20 = conditions.get('not_specialType');
 
-    if (_value14) {
-      query.notEqualTo('priceDetails.specialType', _value14);
+    if (_value20) {
+      query.notEqualTo('priceDetails.specialType', _value20);
     }
   }
 
   if (conditions.has('masterProductId')) {
-    var _value15 = conditions.get('masterProductId');
+    var _value21 = conditions.get('masterProductId');
 
-    if (_value15) {
-      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value15));
+    if (_value21) {
+      query.equalTo('masterProduct', _schema.MasterProduct.createWithoutData(_value21));
     }
   }
 
   if (conditions.has('storeId')) {
-    var _value16 = conditions.get('storeId');
+    var _value22 = conditions.get('storeId');
 
-    if (_value16) {
-      query.equalTo('store', _schema.Store.createWithoutData(_value16));
+    if (_value22) {
+      query.equalTo('store', _schema.Store.createWithoutData(_value22));
     }
   }
 
@@ -394,28 +442,28 @@ MasterProductPriceService.buildMasterProductQuery = function (conditions) {
   }
 
   if (conditions.has('tags')) {
-    var _value17 = conditions.get('tags');
+    var _value23 = conditions.get('tags');
 
-    if (_value17) {
-      query.containedIn('tags', _value17.toArray());
+    if (_value23) {
+      query.containedIn('tags', _value23.toArray());
       hasTagsQuery = true;
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value18 = conditions.get('tagId');
+    var _value24 = conditions.get('tagId');
 
-    if (_value18) {
-      query.equalTo('tags', _schema.Tag.createWithoutData(_value18));
+    if (_value24) {
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value24));
       hasTagsQuery = true;
     }
   }
 
   if (conditions.has('tagIds')) {
-    var _value19 = conditions.get('tagIds');
+    var _value25 = conditions.get('tagIds');
 
-    if (_value19) {
-      query.containedIn('tags', _value19.map(function (tagId) {
+    if (_value25) {
+      query.containedIn('tags', _value25.map(function (tagId) {
         return _schema.Tag.createWithoutData(tagId);
       }).toArray());
       hasTagsQuery = true;

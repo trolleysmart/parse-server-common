@@ -63,6 +63,8 @@ MasterProductPrice.updateInfoInternal = function (object, info) {
   object.set('priceToDisplay', info.get('priceToDisplay'));
   object.set('saving', info.get('saving'));
   object.set('savingPercentage', info.get('savingPercentage'));
+  object.set('offerEndDate', info.get('offerEndDate'));
+  object.set('firstCrawledDate', info.get('firstCrawledDate'));
   object.set('status', info.get('status'));
 
   if (info.has('masterProductId')) {
@@ -117,6 +119,8 @@ var _initialiseProps = function _initialiseProps() {
       priceToDisplay: _this2.getObject().get('priceToDisplay'),
       saving: _this2.getObject().get('saving'),
       savingPercentage: _this2.getObject().get('savingPercentage'),
+      offerEndDate: _this2.getObject().get('offerEndDate'),
+      firstCrawledDate: _this2.getObject().get('firstCrawledDate'),
       status: _this2.getObject().get('status'),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),

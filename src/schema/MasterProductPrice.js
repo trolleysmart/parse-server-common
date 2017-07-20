@@ -27,6 +27,8 @@ export default class MasterProductPrice extends BaseObject {
     object.set('priceToDisplay', info.get('priceToDisplay'));
     object.set('saving', info.get('saving'));
     object.set('savingPercentage', info.get('savingPercentage'));
+    object.set('offerEndDate', info.get('offerEndDate'));
+    object.set('firstCrawledDate', info.get('firstCrawledDate'));
     object.set('status', info.get('status'));
 
     if (info.has('masterProductId')) {
@@ -82,6 +84,8 @@ export default class MasterProductPrice extends BaseObject {
       priceToDisplay: this.getObject().get('priceToDisplay'),
       saving: this.getObject().get('saving'),
       savingPercentage: this.getObject().get('savingPercentage'),
+      offerEndDate: this.getObject().get('offerEndDate'),
+      firstCrawledDate: this.getObject().get('firstCrawledDate'),
       status: this.getObject().get('status'),
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),
