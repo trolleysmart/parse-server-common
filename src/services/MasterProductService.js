@@ -59,6 +59,14 @@ export default class MasterProductService extends ServiceBase {
       }
     }
 
+    if (conditions.has('importedImageUrl')) {
+      const value = conditions.get('importedImageUrl');
+
+      if (value) {
+        query.equalTo('importedImageUrl', value);
+      }
+    }
+
     if (conditions.has('size')) {
       const value = conditions.get('size');
 

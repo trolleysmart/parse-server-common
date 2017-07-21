@@ -59,6 +59,7 @@ MasterProduct.updateInfoInternal = function (object, info) {
 
   object.set('barcode', info.get('barcode'));
   object.set('imageUrl', info.get('imageUrl'));
+  object.set('importedImageUrl', info.get('importedImageUrl'));
   object.set('size', info.get('size'));
 
   if (info.has('tagIds')) {
@@ -105,6 +106,7 @@ var _initialiseProps = function _initialiseProps() {
       description: _this2.getObject().get('description'),
       barcode: _this2.getObject().get('barcode'),
       imageUrl: _this2.getObject().get('imageUrl'),
+      importedImageUrl: _this2.getObject().get('importedImageUrl'),
       size: _this2.getObject().get('size'),
       tags: tags,
       tagIds: tags ? tags.map(function (tag) {
