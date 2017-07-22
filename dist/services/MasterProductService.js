@@ -223,51 +223,67 @@ MasterProductService.buildSearchQuery = function (criteria) {
     }
   }
 
-  if (conditions.has('importedImageUrl')) {
-    var _value3 = conditions.get('importedImageUrl');
+  if (conditions.has('without_imageUrl')) {
+    var _value3 = conditions.get('without_imageUrl');
 
     if (_value3) {
-      query.equalTo('importedImageUrl', _value3);
+      query.doesNotExist('imageUrl', _value3);
+    }
+  }
+
+  if (conditions.has('with_imageUrl')) {
+    var _value4 = conditions.get('with_imageUrl');
+
+    if (_value4) {
+      query.exists('imageUrl', _value4);
+    }
+  }
+
+  if (conditions.has('importedImageUrl')) {
+    var _value5 = conditions.get('importedImageUrl');
+
+    if (_value5) {
+      query.equalTo('importedImageUrl', _value5);
     }
   }
 
   if (conditions.has('size')) {
-    var _value4 = conditions.get('size');
+    var _value6 = conditions.get('size');
 
-    if (_value4) {
-      query.equalTo('size', _value4);
+    if (_value6) {
+      query.equalTo('size', _value6);
     }
   }
 
   if (conditions.has('tag')) {
-    var _value5 = conditions.get('tag');
+    var _value7 = conditions.get('tag');
 
-    if (_value5) {
-      query.equalTo('tags', _value5);
+    if (_value7) {
+      query.equalTo('tags', _value7);
     }
   }
 
   if (conditions.has('tags')) {
-    var _value6 = conditions.get('tags');
+    var _value8 = conditions.get('tags');
 
-    if (_value6) {
-      query.containedIn('tags', _value6.toArray());
+    if (_value8) {
+      query.containedIn('tags', _value8.toArray());
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value7 = conditions.get('tagId');
+    var _value9 = conditions.get('tagId');
 
-    if (_value7) {
-      query.equalTo('tags', _schema.Tag.createWithoutData(_value7));
+    if (_value9) {
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value9));
     }
   }
 
   if (conditions.has('tagIds')) {
-    var _value8 = conditions.get('tagIds');
+    var _value10 = conditions.get('tagIds');
 
-    if (_value8) {
-      query.containedIn('tags', _value8.map(function (tagId) {
+    if (_value10) {
+      query.containedIn('tags', _value10.map(function (tagId) {
         return _schema.Tag.createWithoutData(tagId);
       }).toArray());
     }
