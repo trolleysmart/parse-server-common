@@ -171,7 +171,9 @@ describe('searchAll', () => {
     try {
       let masterProductInfos = List();
 
-      result.event.subscribe(info => (masterProductInfos = masterProductInfos.push(info)));
+      result.event.subscribe((info) => {
+        masterProductInfos = masterProductInfos.push(info);
+      });
 
       await result.promise;
       expect(masterProductInfos.count()).toBe(0);
@@ -191,7 +193,9 @@ describe('searchAll', () => {
     try {
       let masterProductInfos = List();
 
-      result.event.subscribe(info => (masterProductInfos = masterProductInfos.push(info)));
+      result.event.subscribe((info) => {
+        masterProductInfos = masterProductInfos.push(info);
+      });
 
       await result.promise;
       expect(masterProductInfos.count()).toBe(2);

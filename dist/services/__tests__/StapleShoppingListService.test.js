@@ -433,7 +433,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return stapleShoppingListInfos = stapleShoppingListInfos.push(info);
+              stapleShoppingListInfos = stapleShoppingListInfos.push(info);
             });
 
             _context13.next = 6;
@@ -479,7 +479,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return stapleShoppingListInfos = stapleShoppingListInfos.push(info);
+              stapleShoppingListInfos = stapleShoppingListInfos.push(info);
             });
 
             _context14.next = 13;

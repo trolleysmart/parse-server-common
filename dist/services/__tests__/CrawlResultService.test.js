@@ -435,7 +435,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (crawlResult) {
-              return crawlResults = crawlResults.push(crawlResult);
+              crawlResults = crawlResults.push(crawlResult);
             });
 
             _context12.next = 6;

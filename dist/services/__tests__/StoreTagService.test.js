@@ -480,7 +480,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return storeTags = storeTags.push(info);
+              storeTags = storeTags.push(info);
             });
 
             _context12.next = 6;
@@ -536,7 +536,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return storeTags = storeTags.push(info);
+              storeTags = storeTags.push(info);
             });
 
             _context13.next = 19;

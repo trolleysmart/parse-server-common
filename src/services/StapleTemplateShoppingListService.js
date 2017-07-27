@@ -34,7 +34,9 @@ export default class StapleTemplateShoppingListService extends ServiceBase {
     const result = await StapleTemplateShoppingListService.searchAll(Map({}), sessionToken);
 
     try {
-      result.event.subscribe(info => (stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info)));
+      result.event.subscribe((info) => {
+        stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info);
+      });
 
       await result.promise;
     } finally {

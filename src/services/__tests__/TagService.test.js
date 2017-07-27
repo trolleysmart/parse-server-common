@@ -151,7 +151,9 @@ describe('searchAll', () => {
     try {
       let tags = List();
 
-      result.event.subscribe(info => (tags = tags.push(info)));
+      result.event.subscribe((info) => {
+        tags = tags.push(info);
+      });
 
       await result.promise;
       expect(tags.count()).toBe(0);
@@ -169,7 +171,9 @@ describe('searchAll', () => {
     try {
       let tags = List();
 
-      result.event.subscribe(info => (tags = tags.push(info)));
+      result.event.subscribe((info) => {
+        tags = tags.push(info);
+      });
 
       await result.promise;
       expect(tags.count()).toBe(2);

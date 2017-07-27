@@ -548,7 +548,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return shoppingList = shoppingList.push(info);
+              shoppingList = shoppingList.push(info);
             });
 
             _context13.prev = 3;
@@ -603,7 +603,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return shoppingList = shoppingList.push(info);
+              shoppingList = shoppingList.push(info);
             });
 
             _context14.prev = 14;

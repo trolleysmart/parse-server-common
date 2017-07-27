@@ -159,7 +159,9 @@ describe('searchAll', () => {
     try {
       let stapleTemplateShoppingListInfos = List();
 
-      result.event.subscribe(info => (stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info)));
+      result.event.subscribe((info) => {
+        stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info);
+      });
 
       await result.promise;
       expect(stapleTemplateShoppingListInfos.count()).toBe(0);
@@ -181,7 +183,9 @@ describe('searchAll', () => {
     try {
       let stapleTemplateShoppingListInfos = List();
 
-      result.event.subscribe(info => (stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info)));
+      result.event.subscribe((info) => {
+        stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info);
+      });
 
       await result.promise;
       expect(stapleTemplateShoppingListInfos.count()).toBe(2);

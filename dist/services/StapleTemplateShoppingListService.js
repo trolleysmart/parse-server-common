@@ -205,7 +205,7 @@ StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList = function (
             _context8.prev = 4;
 
             result.event.subscribe(function (info) {
-              return stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info);
+              stapleTemplateShoppingListItems = stapleTemplateShoppingListItems.push(info);
             });
 
             _context8.next = 8;

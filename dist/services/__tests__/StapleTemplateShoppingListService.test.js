@@ -438,7 +438,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info);
+              stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info);
             });
 
             _context12.next = 6;
@@ -494,7 +494,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info);
+              stapleTemplateShoppingListInfos = stapleTemplateShoppingListInfos.push(info);
             });
 
             _context13.next = 19;

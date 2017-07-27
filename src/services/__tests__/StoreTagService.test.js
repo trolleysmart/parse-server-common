@@ -172,7 +172,9 @@ describe('searchAll', () => {
     try {
       let storeTags = List();
 
-      result.event.subscribe(info => (storeTags = storeTags.push(info)));
+      result.event.subscribe((info) => {
+        storeTags = storeTags.push(info);
+      });
 
       await result.promise;
       expect(storeTags.count()).toBe(0);
@@ -192,7 +194,9 @@ describe('searchAll', () => {
     try {
       let storeTags = List();
 
-      result.event.subscribe(info => (storeTags = storeTags.push(info)));
+      result.event.subscribe((info) => {
+        storeTags = storeTags.push(info);
+      });
 
       await result.promise;
       expect(storeTags.count()).toBe(2);

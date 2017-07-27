@@ -205,7 +205,9 @@ describe('searchAll', () => {
     const result = ShoppingListService.searchAll(createCriteria(), sessionToken);
     let shoppingList = List();
 
-    result.event.subscribe(info => (shoppingList = shoppingList.push(info)));
+    result.event.subscribe((info) => {
+      shoppingList = shoppingList.push(info);
+    });
 
     try {
       await result.promise;
@@ -230,7 +232,9 @@ describe('searchAll', () => {
     );
     let shoppingList = List();
 
-    result.event.subscribe(info => (shoppingList = shoppingList.push(info)));
+    result.event.subscribe((info) => {
+      shoppingList = shoppingList.push(info);
+    });
 
     try {
       await result.promise;

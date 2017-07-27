@@ -219,7 +219,9 @@ describe('searchAll', () => {
     const result = MasterProductPriceService.searchAll(createCriteria());
 
     try {
-      result.event.subscribe(info => (masterProductPrices = masterProductPrices.push(info)));
+      result.event.subscribe((info) => {
+        masterProductPrices = masterProductPrices.push(info);
+      });
 
       await result.promise;
       expect(masterProductPrices.count()).toBe(0);
@@ -243,7 +245,9 @@ describe('searchAll', () => {
     );
 
     try {
-      result.event.subscribe(info => (masterProductPrices = masterProductPrices.push(info)));
+      result.event.subscribe((info) => {
+        masterProductPrices = masterProductPrices.push(info);
+      });
 
       await result.promise;
     } finally {

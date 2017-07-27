@@ -145,7 +145,9 @@ describe('searchAll', () => {
     try {
       let stores = List();
 
-      result.event.subscribe(info => (stores = stores.push(info)));
+      result.event.subscribe((info) => {
+        stores = stores.push(info);
+      });
 
       await result.promise;
       expect(stores.count()).toBe(0);
@@ -163,7 +165,9 @@ describe('searchAll', () => {
     try {
       let stores = List();
 
-      result.event.subscribe(info => (stores = stores.push(info)));
+      result.event.subscribe((info) => {
+        stores = stores.push(info);
+      });
 
       await result.promise;
       expect(stores.count()).toBe(2);

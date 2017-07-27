@@ -394,7 +394,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return tags = tags.push(info);
+              tags = tags.push(info);
             });
 
             _context12.next = 6;
@@ -440,7 +440,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return tags = tags.push(info);
+              tags = tags.push(info);
             });
 
             _context13.next = 13;

@@ -453,7 +453,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return masterProductInfos = masterProductInfos.push(info);
+              masterProductInfos = masterProductInfos.push(info);
             });
 
             _context12.next = 6;
@@ -509,7 +509,7 @@ describe('searchAll', function () {
 
 
             result.event.subscribe(function (info) {
-              return masterProductInfos = masterProductInfos.push(info);
+              masterProductInfos = masterProductInfos.push(info);
             });
 
             _context13.next = 19;

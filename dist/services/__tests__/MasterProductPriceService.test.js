@@ -501,7 +501,7 @@ describe('searchAll', function () {
             _context12.prev = 2;
 
             result.event.subscribe(function (info) {
-              return masterProductPrices = masterProductPrices.push(info);
+              masterProductPrices = masterProductPrices.push(info);
             });
 
             _context12.next = 6;
@@ -558,7 +558,7 @@ describe('searchAll', function () {
             _context13.prev = 17;
 
             result.event.subscribe(function (info) {
-              return masterProductPrices = masterProductPrices.push(info);
+              masterProductPrices = masterProductPrices.push(info);
             });
 
             _context13.next = 21;
