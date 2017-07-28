@@ -13,6 +13,7 @@ export {
   Tag,
   StoreMasterProduct,
   StoreTag,
+  UserFeedback,
 } from './schema';
 export {
   CrawlResultService,
@@ -28,4 +29,5 @@ export {
   TagService,
   StoreMasterProductService,
   StoreTagService,
+  UserFeedbackService,
 } from './services';

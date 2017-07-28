@@ -78,6 +78,12 @@ Object.defineProperty(exports, 'StoreTag', {
     return _schema.StoreTag;
   }
 });
+Object.defineProperty(exports, 'UserFeedback', {
+  enumerable: true,
+  get: function get() {
+    return _schema.UserFeedback;
+  }
+});
 
 var _services = require('./services');
 
@@ -157,5 +163,11 @@ Object.defineProperty(exports, 'StoreTagService', {
   enumerable: true,
   get: function get() {
     return _services.StoreTagService;
+  }
+});
+Object.defineProperty(exports, 'UserFeedbackService', {
+  enumerable: true,
+  get: function get() {
+    return _services.UserFeedbackService;
   }
 });

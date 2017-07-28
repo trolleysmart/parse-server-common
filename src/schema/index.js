@@ -12,3 +12,4 @@ export Store from './Store';
 export Tag from './Tag';
 export StoreMasterProduct from './StoreMasterProduct';
 export StoreTag from './StoreTag';
+export UserFeedback from './UserFeedback';

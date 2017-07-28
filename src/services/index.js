@@ -13,3 +13,4 @@ export StapleTemplateShoppingListService from './StapleTemplateShoppingListServi
 export TagService from './TagService';
 export StoreMasterProductService from './StoreMasterProductService';
 export StoreTagService from './StoreTagService';
+export UserFeedbackService from './UserFeedbackService';
