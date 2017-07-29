@@ -1,6 +1,6 @@
 {
   "name": "trolley-smart-parse-server-common",
-  "version": "0.1.197",
+  "version": "0.1.198",
   "description": "Trolley Smart Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "immutable": "^3.8.1",
-    "micro-business-parse-server-common": "^0.1.94"
+    "micro-business-parse-server-common": "^0.1.95"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
