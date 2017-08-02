@@ -9,11 +9,11 @@ export default class StoreService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(Store, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(Store, info, sessionToken, StoreService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(Store, id, sessionToken, StoreService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(Store, info, sessionToken, StoreService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(Store, info, sessionToken, StoreService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(Store, id, sessionToken, StoreService.messagePrefix);
 
   static search = async (criteria, sessionToken) => ServiceBase.search(Store, StoreService.buildSearchQuery, criteria, sessionToken);
 

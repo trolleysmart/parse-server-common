@@ -9,11 +9,11 @@ export default class StapleTemplateService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(StapleTemplate, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(StapleTemplate, id, sessionToken, StapleTemplateService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(StapleTemplate, id, sessionToken, StapleTemplateService.messagePrefix);
 
   static search = async (criteria, sessionToken) =>
     ServiceBase.search(StapleTemplate, StapleTemplateService.buildSearchQuery, criteria, sessionToken);

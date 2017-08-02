@@ -9,11 +9,11 @@ export default class MasterProductPriceService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(MasterProductPrice, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(MasterProductPrice, info, sessionToken, MasterProductPriceService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(MasterProductPrice, id, sessionToken, MasterProductPriceService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(MasterProductPrice, info, sessionToken, MasterProductPriceService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(MasterProductPrice, info, sessionToken, MasterProductPriceService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(MasterProductPrice, id, sessionToken, MasterProductPriceService.messagePrefix);
 
   static search = async (criteria, sessionToken) =>
     ServiceBase.search(MasterProductPrice, MasterProductPriceService.buildSearchQuery, criteria, sessionToken);

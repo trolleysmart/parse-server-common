@@ -9,11 +9,11 @@ export default class TagService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(Tag, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(Tag, info, sessionToken, TagService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(Tag, id, sessionToken, TagService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(Tag, info, sessionToken, TagService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(Tag, info, sessionToken, TagService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(Tag, id, sessionToken, TagService.messagePrefix);
 
   static search = async (criteria, sessionToken) => ServiceBase.search(Tag, TagService.buildSearchQuery, criteria, sessionToken);
 

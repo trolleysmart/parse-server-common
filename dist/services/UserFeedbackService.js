@@ -58,12 +58,12 @@ UserFeedbackService.create = function () {
 }();
 
 UserFeedbackService.read = function () {
-  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(info, sessionToken) {
+  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(id, sessionToken) {
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            return _context2.abrupt('return', _ServiceBase3.default.read(_schema.UserFeedback, info, sessionToken, UserFeedbackService.messagePrefix));
+            return _context2.abrupt('return', _ServiceBase3.default.read(_schema.UserFeedback, id, sessionToken, UserFeedbackService.messagePrefix));
 
           case 1:
           case 'end':
@@ -100,12 +100,12 @@ UserFeedbackService.update = function () {
 }();
 
 UserFeedbackService.delete = function () {
-  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(info, sessionToken) {
+  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(id, sessionToken) {
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            return _context4.abrupt('return', _ServiceBase3.default.delete(_schema.UserFeedback, info, sessionToken, UserFeedbackService.messagePrefix));
+            return _context4.abrupt('return', _ServiceBase3.default.delete(_schema.UserFeedback, id, sessionToken, UserFeedbackService.messagePrefix));
 
           case 1:
           case 'end':

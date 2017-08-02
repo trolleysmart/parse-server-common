@@ -9,11 +9,11 @@ export default class CrawlResultService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(CrawlResult, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(CrawlResult, info, sessionToken, CrawlResultService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(CrawlResult, id, sessionToken, CrawlResultService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(CrawlResult, info, sessionToken, CrawlResultService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(CrawlResult, info, sessionToken, CrawlResultService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(CrawlResult, id, sessionToken, CrawlResultService.messagePrefix);
 
   static search = async (criteria, sessionToken) => ServiceBase.search(CrawlResult, CrawlResultService.buildSearchQuery, criteria, sessionToken);
 

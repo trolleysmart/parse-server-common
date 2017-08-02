@@ -9,11 +9,11 @@ export default class ShoppingListService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(ShoppingList, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(ShoppingList, info, sessionToken, ShoppingListService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(ShoppingList, id, sessionToken, ShoppingListService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(ShoppingList, info, sessionToken, ShoppingListService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(ShoppingList, info, sessionToken, ShoppingListService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(ShoppingList, id, sessionToken, ShoppingListService.messagePrefix);
 
   static search = async (criteria, sessionToken) => ServiceBase.search(ShoppingList, ShoppingListService.buildSearchQuery, criteria, sessionToken);
 

@@ -9,11 +9,11 @@ export default class StoreTagService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(StoreTag, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(StoreTag, info, sessionToken, StoreTagService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(StoreTag, id, sessionToken, StoreTagService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(StoreTag, info, sessionToken, StoreTagService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(StoreTag, info, sessionToken, StoreTagService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(StoreTag, id, sessionToken, StoreTagService.messagePrefix);
 
   static search = async (criteria, sessionToken) => ServiceBase.search(StoreTag, StoreTagService.buildSearchQuery, criteria, sessionToken);
 

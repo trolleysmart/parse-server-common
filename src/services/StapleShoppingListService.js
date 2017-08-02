@@ -11,11 +11,11 @@ export default class StapleShoppingListService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(StapleShoppingList, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(StapleShoppingList, info, sessionToken, StapleShoppingListService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(StapleShoppingList, id, sessionToken, StapleShoppingListService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(StapleShoppingList, info, sessionToken, StapleShoppingListService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(StapleShoppingList, info, sessionToken, StapleShoppingListService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(StapleShoppingList, id, sessionToken, StapleShoppingListService.messagePrefix);
 
   static search = async (criteria, sessionToken) =>
     ServiceBase.search(StapleShoppingList, StapleShoppingListService.buildSearchQuery, criteria, sessionToken);

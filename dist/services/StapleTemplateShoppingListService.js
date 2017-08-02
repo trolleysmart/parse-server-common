@@ -60,12 +60,12 @@ StapleTemplateShoppingListService.create = function () {
 }();
 
 StapleTemplateShoppingListService.read = function () {
-  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(info, sessionToken) {
+  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(id, sessionToken) {
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            return _context2.abrupt('return', _ServiceBase3.default.read(_schema.StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix));
+            return _context2.abrupt('return', _ServiceBase3.default.read(_schema.StapleTemplateShoppingList, id, sessionToken, StapleTemplateShoppingListService.messagePrefix));
 
           case 1:
           case 'end':
@@ -102,12 +102,12 @@ StapleTemplateShoppingListService.update = function () {
 }();
 
 StapleTemplateShoppingListService.delete = function () {
-  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(info, sessionToken) {
+  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(id, sessionToken) {
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            return _context4.abrupt('return', _ServiceBase3.default.delete(_schema.StapleTemplateShoppingList, info, sessionToken, StapleTemplateShoppingListService.messagePrefix));
+            return _context4.abrupt('return', _ServiceBase3.default.delete(_schema.StapleTemplateShoppingList, id, sessionToken, StapleTemplateShoppingListService.messagePrefix));
 
           case 1:
           case 'end':

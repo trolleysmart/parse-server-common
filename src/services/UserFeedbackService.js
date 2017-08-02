@@ -9,11 +9,11 @@ export default class UserFeedbackService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(UserFeedback, info, acl, sessionToken);
 
-  static read = async (info, sessionToken) => ServiceBase.read(UserFeedback, info, sessionToken, UserFeedbackService.messagePrefix);
+  static read = async (id, sessionToken) => ServiceBase.read(UserFeedback, id, sessionToken, UserFeedbackService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(UserFeedback, info, sessionToken, UserFeedbackService.messagePrefix);
 
-  static delete = async (info, sessionToken) => ServiceBase.delete(UserFeedback, info, sessionToken, UserFeedbackService.messagePrefix);
+  static delete = async (id, sessionToken) => ServiceBase.delete(UserFeedback, id, sessionToken, UserFeedbackService.messagePrefix);
 
   static search = async (criteria, sessionToken) => ServiceBase.search(UserFeedback, UserFeedbackService.buildSearchQuery, criteria, sessionToken);
 
