@@ -1,9 +1,10 @@
 // @flow
 
-import Immutable, { Map } from 'immutable';
+import Immutable, { List, Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 import MasterProduct from './MasterProduct';
 import Store from './Store';
+import Tag from './Tag';
 
 export default class MasterProductPrice extends BaseObject {
   static spawn = (info) => {
@@ -18,6 +19,10 @@ export default class MasterProductPrice extends BaseObject {
     const name = info.get('name');
 
     object.set('name', name ? name.toLowerCase() : undefined);
+
+    const description = info.get('description');
+
+    object.set('description', description ? description.toLowerCase() : undefined);
 
     const storeName = info.get('storeName');
 
@@ -58,6 +63,24 @@ export default class MasterProductPrice extends BaseObject {
         object.set('store', store);
       }
     }
+
+    if (info.has('tagIds')) {
+      const tagIds = info.get('tagIds');
+
+      if (tagIds.isEmpty()) {
+        object.set('tags', []);
+      } else {
+        object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId)).toArray());
+      }
+    } else if (info.has('tags')) {
+      const tags = info.get('tags');
+
+      if (tags.isEmpty()) {
+        object.set('tags', []);
+      } else {
+        object.set('tags', tags.toArray());
+      }
+    }
   };
 
   constructor(object) {
@@ -75,10 +98,13 @@ export default class MasterProductPrice extends BaseObject {
   getInfo = () => {
     const masterProduct = new MasterProduct(this.getObject().get('masterProduct'));
     const store = new Store(this.getObject().get('store'));
+    const tagObjects = this.getObject().get('tags');
+    const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
 
     return Map({
       id: this.getId(),
       name: this.getObject().get('name'),
+      description: this.getObject().get('description'),
       storeName: this.getObject().get('storeName'),
       priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
       priceToDisplay: this.getObject().get('priceToDisplay'),
@@ -91,6 +117,8 @@ export default class MasterProductPrice extends BaseObject {
       masterProductId: masterProduct.getId(),
       store: store.getInfo(),
       storeId: store.getId(),
+      tags,
+      tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });
   };
 }

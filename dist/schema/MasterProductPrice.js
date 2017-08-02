@@ -18,6 +18,10 @@ var _Store = require('./Store');
 
 var _Store2 = _interopRequireDefault(_Store);
 
+var _Tag = require('./Tag');
+
+var _Tag2 = _interopRequireDefault(_Tag);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54,6 +58,10 @@ MasterProductPrice.updateInfoInternal = function (object, info) {
   var name = info.get('name');
 
   object.set('name', name ? name.toLowerCase() : undefined);
+
+  var description = info.get('description');
+
+  object.set('description', description ? description.toLowerCase() : undefined);
 
   var storeName = info.get('storeName');
 
@@ -94,6 +102,26 @@ MasterProductPrice.updateInfoInternal = function (object, info) {
       object.set('store', store);
     }
   }
+
+  if (info.has('tagIds')) {
+    var tagIds = info.get('tagIds');
+
+    if (tagIds.isEmpty()) {
+      object.set('tags', []);
+    } else {
+      object.set('tags', tagIds.map(function (tagId) {
+        return _Tag2.default.createWithoutData(tagId);
+      }).toArray());
+    }
+  } else if (info.has('tags')) {
+    var tags = info.get('tags');
+
+    if (tags.isEmpty()) {
+      object.set('tags', []);
+    } else {
+      object.set('tags', tags.toArray());
+    }
+  }
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -110,10 +138,15 @@ var _initialiseProps = function _initialiseProps() {
   this.getInfo = function () {
     var masterProduct = new _MasterProduct2.default(_this2.getObject().get('masterProduct'));
     var store = new _Store2.default(_this2.getObject().get('store'));
+    var tagObjects = _this2.getObject().get('tags');
+    var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
+      return new _Tag2.default(tag).getInfo();
+    }) : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
       name: _this2.getObject().get('name'),
+      description: _this2.getObject().get('description'),
       storeName: _this2.getObject().get('storeName'),
       priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),
       priceToDisplay: _this2.getObject().get('priceToDisplay'),
@@ -125,7 +158,11 @@ var _initialiseProps = function _initialiseProps() {
       masterProduct: masterProduct.getInfo(),
       masterProductId: masterProduct.getId(),
       store: store.getInfo(),
-      storeId: store.getId()
+      storeId: store.getId(),
+      tags: tags,
+      tagIds: tags ? tags.map(function (tag) {
+        return tag.get('id');
+      }) : (0, _immutable.List)()
     });
   };
 };

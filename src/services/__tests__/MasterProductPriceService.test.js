@@ -3,14 +3,23 @@
 import { List, Map } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
-import { MasterProductService, MasterProductPriceService, StoreService } from '../';
+import { MasterProductService, MasterProductPriceService, StoreService, TagService } from '../';
 import { createMasterProductInfo } from '../../schema/__tests__/MasterProduct.test';
 import { createMasterProductPriceInfo } from '../../schema/__tests__/MasterProductPrice.test';
 import { createStoreInfo } from '../../schema/__tests__/Store.test';
+import { createTagInfo } from '../../schema/__tests__/Tag.test';
 
-function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
+function expectMasterProductPriceInfo(
+  masterProductPriceInfo,
+  expectedMasterProductPriceInfo,
+  masterProductPriceId,
+  masterProductId,
+  storeId,
+  tagIds,
+) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
   expect(masterProductPriceInfo.get('name')).toEqual(expectedMasterProductPriceInfo.get('name'));
+  expect(masterProductPriceInfo.get('description')).toEqual(expectedMasterProductPriceInfo.get('description'));
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
@@ -21,12 +30,14 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
+  expect(masterProductPriceInfo.get('tagIds')).toEqual(tagIds);
 }
 
 export function createCriteria() {
   return Map({
     fields: List.of(
       'name',
+      'description',
       'storeName',
       'priceDetails',
       'priceToDisplay',
@@ -37,12 +48,14 @@ export function createCriteria() {
       'status',
       'masterProduct',
       'store',
+      'tags',
     ),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
       masterProductId: uuid(),
       storeId: uuid(),
+      tagIds: List.of(uuid(), uuid()),
     }),
   });
 }
@@ -51,6 +64,7 @@ export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductP
   return Map({
     fields: List.of(
       'name',
+      'description',
       'storeName',
       'priceDetails',
       'priceToDisplay',
@@ -61,11 +75,13 @@ export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductP
       'status',
       'masterProduct',
       'store',
+      'tags',
     ),
     includeStore: true,
     includeMasterProduct: true,
     conditions: Map({
       name: masterProduct.get('name'),
+      description: masterProduct.get('description'),
       storeName: store.get('name'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
       saving: masterProductPriceInfo.get('saving'),
@@ -75,27 +91,34 @@ export function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductP
       status: masterProductPriceInfo.get('status'),
       masterProductId: masterProduct.get('id'),
       storeId: store.get('id'),
+      tagIds: masterProduct.get('tagIds'),
     }),
   });
 }
 
 describe('create', () => {
   test('should return the created master product price Id', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
-    const result = await MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId));
+    const tagIds = List.of(await TagService.create(createTagInfo()));
+    const masterProduct = createMasterProductInfo(tagIds);
+    const masterProductId = await MasterProductService.create(masterProduct);
+    const store = createStoreInfo();
+    const storeId = await StoreService.create(store);
+    const result = await MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds));
 
     expect(result).toBeDefined();
   });
 
   test('should create the master product price', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
-    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const tagIds = List.of(await TagService.create(createTagInfo()));
+    const masterProduct = createMasterProductInfo(tagIds);
+    const masterProductId = await MasterProductService.create(masterProduct);
+    const store = createStoreInfo();
+    const storeId = await StoreService.create(store);
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     const masterProductPriceInfo = await MasterProductPriceService.read(masterProductPriceId);
 
-    expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
+    expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId, tagIds);
   });
 });
 
@@ -111,13 +134,16 @@ describe('read', () => {
   });
 
   test('should read the existing master product price', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
-    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
+    const tagIds = List.of(await TagService.create(createTagInfo()));
+    const masterProduct = createMasterProductInfo(tagIds);
+    const masterProductId = await MasterProductService.create(masterProduct);
+    const store = createStoreInfo();
+    const storeId = await StoreService.create(store);
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     const masterProductPriceInfo = await MasterProductPriceService.read(masterProductPriceId);
 
-    expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
+    expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId, tagIds);
   });
 });
 
@@ -142,11 +168,16 @@ describe('update', () => {
   });
 
   test('should update the existing master product price', async () => {
-    const masterProductId = await MasterProductService.create(createMasterProductInfo());
+    const tagIds = List.of(await TagService.create(createTagInfo()));
+    const masterProduct = createMasterProductInfo(tagIds);
+    const masterProductId = await MasterProductService.create(masterProduct);
     const storeId = await StoreService.create(createStoreInfo());
     const expectedMasterProductId = await MasterProductService.create(createMasterProductInfo());
-    const expectedStoreId = await StoreService.create(createStoreInfo());
-    const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId));
+    const store = createStoreInfo();
+    const expectedStoreId = await StoreService.create(store);
+    const masterProductPriceId = await MasterProductPriceService.create(
+      createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds),
+    );
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(expectedMasterProductId, expectedStoreId);
     await MasterProductPriceService.update(expectedMasterProductPriceInfo.set('id', masterProductPriceId));
     const masterProductPriceInfo = await MasterProductPriceService.read(masterProductPriceId);
@@ -157,6 +188,7 @@ describe('update', () => {
       masterProductPriceId,
       expectedMasterProductId,
       expectedStoreId,
+      tagIds,
     );
   });
 });
@@ -195,11 +227,12 @@ describe('search', () => {
   });
 
   test('should return the master products price matches the criteria', async () => {
-    const masterProduct = createMasterProductInfo();
+    const tagIds = List.of(await TagService.create(createTagInfo()));
+    const masterProduct = createMasterProductInfo(tagIds);
     const masterProductId = await MasterProductService.create(masterProduct);
     const store = createStoreInfo();
     const storeId = await StoreService.create(store);
-    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
+    const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     const masterProductPriceInfos = await MasterProductPriceService.search(
       createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store),
@@ -209,7 +242,7 @@ describe('search', () => {
 
     const masterProductPriceInfo = masterProductPriceInfos.first();
 
-    expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
+    expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId, tagIds);
   });
 });
 

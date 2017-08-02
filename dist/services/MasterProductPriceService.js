@@ -416,67 +416,45 @@ MasterProductPriceService.buildSearchQueryInternal = function (criteria) {
     }
   }
 
-  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'name');
-  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
-
-  var masterProductQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
-
-  if (masterProductQuery) {
-    query.matchesQuery('masterProduct', masterProductQuery);
-  }
-
-  return query;
-};
-
-MasterProductPriceService.buildMasterProductQuery = function (conditions) {
-  var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MasterProduct);
-  var hasTagsQuery = false;
-
   if (conditions.has('tag')) {
-    var value = conditions.get('tag');
+    var _value23 = conditions.get('tag');
 
-    if (value) {
-      query.equalTo('tags', value);
-      hasTagsQuery = true;
+    if (_value23) {
+      query.equalTo('tags', _value23);
     }
   }
 
   if (conditions.has('tags')) {
-    var _value23 = conditions.get('tags');
+    var _value24 = conditions.get('tags');
 
-    if (_value23) {
-      query.containedIn('tags', _value23.toArray());
-      hasTagsQuery = true;
+    if (_value24) {
+      query.containedIn('tags', _value24.toArray());
     }
   }
 
   if (conditions.has('tagId')) {
-    var _value24 = conditions.get('tagId');
+    var _value25 = conditions.get('tagId');
 
-    if (_value24) {
-      query.equalTo('tags', _schema.Tag.createWithoutData(_value24));
-      hasTagsQuery = true;
+    if (_value25) {
+      query.equalTo('tags', _schema.Tag.createWithoutData(_value25));
     }
   }
 
   if (conditions.has('tagIds')) {
-    var _value25 = conditions.get('tagIds');
+    var _value26 = conditions.get('tagIds');
 
-    if (_value25) {
-      query.containedIn('tags', _value25.map(function (tagId) {
+    if (_value26) {
+      query.containedIn('tags', _value26.map(function (tagId) {
         return _schema.Tag.createWithoutData(tagId);
       }).toArray());
-      hasTagsQuery = true;
     }
   }
 
-  var hasDescriptionsQuery = _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'name');
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'description', 'description');
+  _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
 
-  if (hasDescriptionsQuery || hasTagsQuery) {
-    return query;
-  }
-
-  return null;
+  return query;
 };
 
 exports.default = MasterProductPriceService;

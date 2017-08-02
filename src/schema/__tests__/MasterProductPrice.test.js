@@ -6,9 +6,10 @@ import { MasterProductPrice } from '../';
 import { createMasterProduct } from './MasterProduct.test';
 import { createStore } from './Store.test';
 
-export function createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store) {
+export function createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds) {
   return Map({
     name: masterProduct ? masterProduct.get('name') : uuid(),
+    description: masterProduct ? masterProduct.get('description') : uuid(),
     storeName: store ? store.get('name') : uuid(),
     priceDetails: Map({
       price: 10.56,
@@ -21,7 +22,7 @@ export function createMasterProductPriceInfo(masterProductId, storeId, masterPro
     status: 'A',
     masterProductId: masterProductId || createMasterProduct().getId(),
     storeId: storeId || createStore().getId(),
-  });
+  }).merge(tagIds ? Map({ tagIds }) : Map());
 }
 
 export function createMasterProductPrice(masterProductPriceInfo) {
@@ -30,6 +31,7 @@ export function createMasterProductPrice(masterProductPriceInfo) {
 
 function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo) {
   expect(masterProductPriceInfo.get('name')).toBe(expectedMasterProductPriceInfo.get('name'));
+  expect(masterProductPriceInfo.get('description')).toBe(expectedMasterProductPriceInfo.get('description'));
   expect(masterProductPriceInfo.get('storeName')).toBe(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
@@ -40,6 +42,7 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(expectedMasterProductPriceInfo.get('masterProductId'));
   expect(masterProductPriceInfo.get('storeId')).toBe(expectedMasterProductPriceInfo.get('storeId'));
+  expect(masterProductPriceInfo.get('tags')).toEqual(expectedMasterProductPriceInfo.get('tags'));
 }
 
 describe('constructor', () => {

@@ -5,20 +5,14 @@ import uuid from 'uuid/v4';
 import { MasterProduct } from '../';
 
 export function createMasterProductInfo(tagIds) {
-  const info = Map({
+  return Map({
     name: uuid(),
     description: uuid(),
     barcode: uuid(),
     imageUrl: uuid(),
     importedImageUrl: uuid(),
     size: uuid(),
-  });
-
-  return tagIds
-    ? info.merge({
-      tagIds,
-    })
-    : info;
+  }).merge(tagIds ? Map({ tagIds }) : Map());
 }
 
 export function createMasterProduct(masterProductInfo) {

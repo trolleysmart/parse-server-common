@@ -17,18 +17,14 @@ var _ = require('../');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function createMasterProductInfo(tagIds) {
-  var info = (0, _immutable.Map)({
+  return (0, _immutable.Map)({
     name: (0, _v2.default)(),
     description: (0, _v2.default)(),
     barcode: (0, _v2.default)(),
     imageUrl: (0, _v2.default)(),
     importedImageUrl: (0, _v2.default)(),
     size: (0, _v2.default)()
-  });
-
-  return tagIds ? info.merge({
-    tagIds: tagIds
-  }) : info;
+  }).merge(tagIds ? (0, _immutable.Map)({ tagIds: tagIds }) : (0, _immutable.Map)());
 }
 
 function createMasterProduct(masterProductInfo) {

@@ -22,13 +22,16 @@ var _MasterProductPrice = require('../../schema/__tests__/MasterProductPrice.tes
 
 var _Store = require('../../schema/__tests__/Store.test');
 
+var _Tag = require('../../schema/__tests__/Tag.test');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId) {
+function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId, tagIds) {
   expect(masterProductPriceInfo.get('id')).toBe(masterProductPriceId);
   expect(masterProductPriceInfo.get('name')).toEqual(expectedMasterProductPriceInfo.get('name'));
+  expect(masterProductPriceInfo.get('description')).toEqual(expectedMasterProductPriceInfo.get('description'));
   expect(masterProductPriceInfo.get('storeName')).toEqual(expectedMasterProductPriceInfo.get('storeName'));
   expect(masterProductPriceInfo.get('priceDetails')).toEqual(expectedMasterProductPriceInfo.get('priceDetails'));
   expect(masterProductPriceInfo.get('priceToDisplay')).toEqual(expectedMasterProductPriceInfo.get('priceToDisplay'));
@@ -39,27 +42,30 @@ function expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProd
   expect(masterProductPriceInfo.get('status')).toEqual(expectedMasterProductPriceInfo.get('status'));
   expect(masterProductPriceInfo.get('masterProductId')).toBe(masterProductId);
   expect(masterProductPriceInfo.get('storeId')).toBe(storeId);
+  expect(masterProductPriceInfo.get('tagIds')).toEqual(tagIds);
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'firstCrawledDate', 'status', 'masterProduct', 'store'),
+    fields: _immutable.List.of('name', 'description', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'firstCrawledDate', 'status', 'masterProduct', 'store', 'tags'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
       masterProductId: (0, _v2.default)(),
-      storeId: (0, _v2.default)()
+      storeId: (0, _v2.default)(),
+      tagIds: _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
     })
   });
 }
 
 function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInfo, masterProduct, store) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'firstCrawledDate', 'status', 'masterProduct', 'store'),
+    fields: _immutable.List.of('name', 'description', 'storeName', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'firstCrawledDate', 'status', 'masterProduct', 'store', 'tags'),
     includeStore: true,
     includeMasterProduct: true,
     conditions: (0, _immutable.Map)({
       name: masterProduct.get('name'),
+      description: masterProduct.get('description'),
       storeName: store.get('name'),
       priceToDisplay: masterProductPriceInfo.get('priceToDisplay'),
       saving: masterProductPriceInfo.get('saving'),
@@ -68,38 +74,48 @@ function createCriteriaUsingProvidedMasterProductPriceInfo(masterProductPriceInf
       firstCrawledDate: masterProductPriceInfo.get('firstCrawledDate'),
       status: masterProductPriceInfo.get('status'),
       masterProductId: masterProduct.get('id'),
-      storeId: store.get('id')
+      storeId: store.get('id'),
+      tagIds: masterProduct.get('tagIds')
     })
   });
 }
 
 describe('create', function () {
   test('should return the created master product price Id', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var masterProductId, storeId, result;
+    var tagIds, masterProduct, masterProductId, store, storeId, result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            _context.t0 = _immutable.List;
+            _context.next = 3;
+            return _2.TagService.create((0, _Tag.createTagInfo)());
 
-          case 2:
-            masterProductId = _context.sent;
-            _context.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
-
-          case 5:
-            storeId = _context.sent;
+          case 3:
+            _context.t1 = _context.sent;
+            tagIds = _context.t0.of.call(_context.t0, _context.t1);
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)(tagIds);
             _context.next = 8;
-            return _2.MasterProductPriceService.create((0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
+            return _2.MasterProductService.create(masterProduct);
 
           case 8:
+            masterProductId = _context.sent;
+            store = (0, _Store.createStoreInfo)();
+            _context.next = 12;
+            return _2.StoreService.create(store);
+
+          case 12:
+            storeId = _context.sent;
+            _context.next = 15;
+            return _2.MasterProductPriceService.create((0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store, tagIds));
+
+          case 15:
             result = _context.sent;
 
 
             expect(result).toBeDefined();
 
-          case 10:
+          case 17:
           case 'end':
             return _context.stop();
         }
@@ -108,37 +124,46 @@ describe('create', function () {
   })));
 
   test('should create the master product price', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-    var masterProductId, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfo;
+    var tagIds, masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfo;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            _context2.t0 = _immutable.List;
+            _context2.next = 3;
+            return _2.TagService.create((0, _Tag.createTagInfo)());
 
-          case 2:
+          case 3:
+            _context2.t1 = _context2.sent;
+            tagIds = _context2.t0.of.call(_context2.t0, _context2.t1);
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)(tagIds);
+            _context2.next = 8;
+            return _2.MasterProductService.create(masterProduct);
+
+          case 8:
             masterProductId = _context2.sent;
-            _context2.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
-
-          case 5:
-            storeId = _context2.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
-            _context2.next = 9;
-            return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
-
-          case 9:
-            masterProductPriceId = _context2.sent;
+            store = (0, _Store.createStoreInfo)();
             _context2.next = 12;
-            return _2.MasterProductPriceService.read(masterProductPriceId);
+            return _2.StoreService.create(store);
 
           case 12:
+            storeId = _context2.sent;
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store, tagIds);
+            _context2.next = 16;
+            return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
+
+          case 16:
+            masterProductPriceId = _context2.sent;
+            _context2.next = 19;
+            return _2.MasterProductPriceService.read(masterProductPriceId);
+
+          case 19:
             masterProductPriceInfo = _context2.sent;
 
 
-            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
+            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId, tagIds);
 
-          case 14:
+          case 21:
           case 'end':
             return _context2.stop();
         }
@@ -178,37 +203,46 @@ describe('read', function () {
   })));
 
   test('should read the existing master product price', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
-    var masterProductId, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfo;
+    var tagIds, masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfo;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            _context4.t0 = _immutable.List;
+            _context4.next = 3;
+            return _2.TagService.create((0, _Tag.createTagInfo)());
 
-          case 2:
+          case 3:
+            _context4.t1 = _context4.sent;
+            tagIds = _context4.t0.of.call(_context4.t0, _context4.t1);
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)(tagIds);
+            _context4.next = 8;
+            return _2.MasterProductService.create(masterProduct);
+
+          case 8:
             masterProductId = _context4.sent;
-            _context4.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
-
-          case 5:
-            storeId = _context4.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId);
-            _context4.next = 9;
-            return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
-
-          case 9:
-            masterProductPriceId = _context4.sent;
+            store = (0, _Store.createStoreInfo)();
             _context4.next = 12;
-            return _2.MasterProductPriceService.read(masterProductPriceId);
+            return _2.StoreService.create(store);
 
           case 12:
+            storeId = _context4.sent;
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store, tagIds);
+            _context4.next = 16;
+            return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
+
+          case 16:
+            masterProductPriceId = _context4.sent;
+            _context4.next = 19;
+            return _2.MasterProductPriceService.read(masterProductPriceId);
+
+          case 19:
             masterProductPriceInfo = _context4.sent;
 
 
-            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
+            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId, tagIds);
 
-          case 14:
+          case 21:
           case 'end':
             return _context4.stop();
         }
@@ -286,51 +320,60 @@ describe('update', function () {
   })));
 
   test('should update the existing master product price', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
-    var masterProductId, storeId, expectedMasterProductId, expectedStoreId, masterProductPriceId, expectedMasterProductPriceInfo, masterProductPriceInfo;
+    var tagIds, masterProduct, masterProductId, storeId, expectedMasterProductId, store, expectedStoreId, masterProductPriceId, expectedMasterProductPriceInfo, masterProductPriceInfo;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            _context7.next = 2;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            _context7.t0 = _immutable.List;
+            _context7.next = 3;
+            return _2.TagService.create((0, _Tag.createTagInfo)());
 
-          case 2:
-            masterProductId = _context7.sent;
-            _context7.next = 5;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
-
-          case 5:
-            storeId = _context7.sent;
+          case 3:
+            _context7.t1 = _context7.sent;
+            tagIds = _context7.t0.of.call(_context7.t0, _context7.t1);
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)(tagIds);
             _context7.next = 8;
-            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
+            return _2.MasterProductService.create(masterProduct);
 
           case 8:
-            expectedMasterProductId = _context7.sent;
+            masterProductId = _context7.sent;
             _context7.next = 11;
             return _2.StoreService.create((0, _Store.createStoreInfo)());
 
           case 11:
-            expectedStoreId = _context7.sent;
+            storeId = _context7.sent;
             _context7.next = 14;
-            return _2.MasterProductPriceService.create((0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId));
+            return _2.MasterProductService.create((0, _MasterProduct.createMasterProductInfo)());
 
           case 14:
-            masterProductPriceId = _context7.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(expectedMasterProductId, expectedStoreId);
+            expectedMasterProductId = _context7.sent;
+            store = (0, _Store.createStoreInfo)();
             _context7.next = 18;
-            return _2.MasterProductPriceService.update(expectedMasterProductPriceInfo.set('id', masterProductPriceId));
+            return _2.StoreService.create(store);
 
           case 18:
-            _context7.next = 20;
+            expectedStoreId = _context7.sent;
+            _context7.next = 21;
+            return _2.MasterProductPriceService.create((0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store, tagIds));
+
+          case 21:
+            masterProductPriceId = _context7.sent;
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(expectedMasterProductId, expectedStoreId);
+            _context7.next = 25;
+            return _2.MasterProductPriceService.update(expectedMasterProductPriceInfo.set('id', masterProductPriceId));
+
+          case 25:
+            _context7.next = 27;
             return _2.MasterProductPriceService.read(masterProductPriceId);
 
-          case 20:
+          case 27:
             masterProductPriceInfo = _context7.sent;
 
 
-            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, expectedMasterProductId, expectedStoreId);
+            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, expectedMasterProductId, expectedStoreId, tagIds);
 
-          case 22:
+          case 29:
           case 'end':
             return _context7.stop();
         }
@@ -443,33 +486,40 @@ describe('search', function () {
   })));
 
   test('should return the master products price matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
-    var masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfos, masterProductPriceInfo;
+    var tagIds, masterProduct, masterProductId, store, storeId, expectedMasterProductPriceInfo, masterProductPriceId, masterProductPriceInfos, masterProductPriceInfo;
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            masterProduct = (0, _MasterProduct.createMasterProductInfo)();
+            _context11.t0 = _immutable.List;
             _context11.next = 3;
-            return _2.MasterProductService.create(masterProduct);
+            return _2.TagService.create((0, _Tag.createTagInfo)());
 
           case 3:
+            _context11.t1 = _context11.sent;
+            tagIds = _context11.t0.of.call(_context11.t0, _context11.t1);
+            masterProduct = (0, _MasterProduct.createMasterProductInfo)(tagIds);
+            _context11.next = 8;
+            return _2.MasterProductService.create(masterProduct);
+
+          case 8:
             masterProductId = _context11.sent;
             store = (0, _Store.createStoreInfo)();
-            _context11.next = 7;
+            _context11.next = 12;
             return _2.StoreService.create(store);
 
-          case 7:
+          case 12:
             storeId = _context11.sent;
-            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store);
-            _context11.next = 11;
+            expectedMasterProductPriceInfo = (0, _MasterProductPrice.createMasterProductPriceInfo)(masterProductId, storeId, masterProduct, store, tagIds);
+            _context11.next = 16;
             return _2.MasterProductPriceService.create(expectedMasterProductPriceInfo);
 
-          case 11:
+          case 16:
             masterProductPriceId = _context11.sent;
-            _context11.next = 14;
+            _context11.next = 19;
             return _2.MasterProductPriceService.search(createCriteriaUsingProvidedMasterProductPriceInfo(expectedMasterProductPriceInfo, masterProduct, store));
 
-          case 14:
+          case 19:
             masterProductPriceInfos = _context11.sent;
 
 
@@ -478,9 +528,9 @@ describe('search', function () {
             masterProductPriceInfo = masterProductPriceInfos.first();
 
 
-            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId);
+            expectMasterProductPriceInfo(masterProductPriceInfo, expectedMasterProductPriceInfo, masterProductPriceId, masterProductId, storeId, tagIds);
 
-          case 18:
+          case 23:
           case 'end':
             return _context11.stop();
         }

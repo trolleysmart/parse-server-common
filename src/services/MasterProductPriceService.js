@@ -254,28 +254,11 @@ export default class MasterProductPriceService extends ServiceBase {
       }
     }
 
-    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
-    ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
-
-    const masterProductQuery = MasterProductPriceService.buildMasterProductQuery(conditions);
-
-    if (masterProductQuery) {
-      query.matchesQuery('masterProduct', masterProductQuery);
-    }
-
-    return query;
-  };
-
-  static buildMasterProductQuery = (conditions) => {
-    const query = ParseWrapperService.createQuery(MasterProduct);
-    let hasTagsQuery = false;
-
     if (conditions.has('tag')) {
       const value = conditions.get('tag');
 
       if (value) {
         query.equalTo('tags', value);
-        hasTagsQuery = true;
       }
     }
 
@@ -284,7 +267,6 @@ export default class MasterProductPriceService extends ServiceBase {
 
       if (value) {
         query.containedIn('tags', value.toArray());
-        hasTagsQuery = true;
       }
     }
 
@@ -293,7 +275,6 @@ export default class MasterProductPriceService extends ServiceBase {
 
       if (value) {
         query.equalTo('tags', Tag.createWithoutData(value));
-        hasTagsQuery = true;
       }
     }
 
@@ -302,16 +283,13 @@ export default class MasterProductPriceService extends ServiceBase {
 
       if (value) {
         query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
-        hasTagsQuery = true;
       }
     }
 
-    const hasDescriptionsQuery = ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'lowerCaseDescription');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'storeName', 'storeName');
 
-    if (hasDescriptionsQuery || hasTagsQuery) {
-      return query;
-    }
-
-    return null;
+    return query;
   };
 }
