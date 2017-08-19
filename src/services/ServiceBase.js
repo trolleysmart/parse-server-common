@@ -82,7 +82,7 @@ export default class ServiceBase {
       const value = conditions.get(conditionPropKey);
 
       if (value) {
-        query.equalTo(columnName, value.toLowerCase());
+        query.matches(columnName, new RegExp(`^${value}$`, 'i'));
 
         return true;
       }
@@ -92,7 +92,17 @@ export default class ServiceBase {
       const value = conditions.get(`startsWith_${conditionPropKey}`);
 
       if (value) {
-        query.startsWith(columnName, value.toLowerCase());
+        query.matches(columnName, new RegExp(`^${value}`, 'i'));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`endsWith_${conditionPropKey}`)) {
+      const value = conditions.get(`endsWith_${conditionPropKey}`);
+
+      if (value) {
+        query.matches(columnName, new RegExp(`${value}$`, 'i'));
 
         return true;
       }
@@ -102,7 +112,7 @@ export default class ServiceBase {
       const value = conditions.get(`contains_${conditionPropKey}`);
 
       if (value) {
-        query.contains(columnName, value.toLowerCase());
+        query.matches(columnName, new RegExp(`(?=.*${value})`, 'i'));
 
         return true;
       }
@@ -111,12 +121,8 @@ export default class ServiceBase {
     if (conditions.has(`contains_${conditionPropKey}s`)) {
       const values = conditions.get(`contains_${conditionPropKey}s`);
 
-      if (values && values.count() === 1) {
-        query.contains(columnName, values.first().toLowerCase());
-
-        return true;
-      } else if (values && values.count() > 1) {
-        query.matches(columnName, values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value));
+      if (values && !values.isEmpty()) {
+        query.matches(columnName, new RegExp(values.map(value => `(?=.*${value})`).reduce((reduction, value) => reduction + value)), 'i');
 
         return true;
       }

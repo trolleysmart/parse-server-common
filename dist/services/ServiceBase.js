@@ -275,7 +275,7 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropK
     var value = conditions.get(conditionPropKey);
 
     if (value) {
-      query.equalTo(columnName, value.toLowerCase());
+      query.matches(columnName, new RegExp('^' + value + '$', 'i'));
 
       return true;
     }
@@ -285,17 +285,27 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropK
     var _value = conditions.get('startsWith_' + conditionPropKey);
 
     if (_value) {
-      query.startsWith(columnName, _value.toLowerCase());
+      query.matches(columnName, new RegExp('^' + _value, 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('endsWith_' + conditionPropKey)) {
+    var _value2 = conditions.get('endsWith_' + conditionPropKey);
+
+    if (_value2) {
+      query.matches(columnName, new RegExp(_value2 + '$', 'i'));
 
       return true;
     }
   }
 
   if (conditions.has('contains_' + conditionPropKey)) {
-    var _value2 = conditions.get('contains_' + conditionPropKey);
+    var _value3 = conditions.get('contains_' + conditionPropKey);
 
-    if (_value2) {
-      query.contains(columnName, _value2.toLowerCase());
+    if (_value3) {
+      query.matches(columnName, new RegExp('(?=.*' + _value3 + ')', 'i'));
 
       return true;
     }
@@ -304,16 +314,12 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropK
   if (conditions.has('contains_' + conditionPropKey + 's')) {
     var values = conditions.get('contains_' + conditionPropKey + 's');
 
-    if (values && values.count() === 1) {
-      query.contains(columnName, values.first().toLowerCase());
-
-      return true;
-    } else if (values && values.count() > 1) {
-      query.matches(columnName, values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
+    if (values && !values.isEmpty()) {
+      query.matches(columnName, new RegExp(values.map(function (value) {
+        return '(?=.*' + value + ')';
       }).reduce(function (reduction, value) {
         return reduction + value;
-      }));
+      })), 'i');
 
       return true;
     }
