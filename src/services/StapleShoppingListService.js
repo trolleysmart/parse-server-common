@@ -60,6 +60,12 @@ export default class StapleShoppingListService extends ServiceBase {
       }
     }
 
+    if (conditions.has('addedByUser')) {
+      const value = conditions.get('addedByUser');
+
+      query.equalTo('addedByUser', value);
+    }
+
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
     return query;

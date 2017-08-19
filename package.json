@@ -1,6 +1,6 @@
 {
   "name": "trolley-smart-parse-server-common",
-  "version": "0.1.200",
+  "version": "0.1.201",
   "description": "Trolley Smart Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -21,23 +21,23 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "immutable": "^3.8.1",
-    "micro-business-parse-server-common": "^0.1.95"
+    "micro-business-parse-server-common": "^0.1.96"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^4.3.0",
+    "eslint": "^4.4.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "6.0.2",
-    "eslint-plugin-react": "^7.1.0",
-    "flow-bin": "^0.51.1",
+    "eslint-plugin-react": "^7.2.1",
+    "flow-bin": "^0.53.1",
     "jest": "^20.0.4",
-    "lint-staged": "^4.0.2",
+    "lint-staged": "^4.0.3",
     "parse": "^1.10.0",
     "prettier": "^1.5.3",
     "uuid": "^3.1.0"

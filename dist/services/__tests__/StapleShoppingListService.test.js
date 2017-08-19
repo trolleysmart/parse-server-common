@@ -21,23 +21,29 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function expectStapleShoppingListInfo(stapleShoppingListInfo, expectedStapleShoppingListInfo, shoppingListId) {
   expect(stapleShoppingListInfo.get('id')).toBe(shoppingListId);
   expect(stapleShoppingListInfo.get('userId')).toBe(expectedStapleShoppingListInfo.get('userId'));
+  expect(stapleShoppingListInfo.get('name')).toBe(expectedStapleShoppingListInfo.get('name'));
+  expect(stapleShoppingListInfo.get('addedByUser')).toBe(expectedStapleShoppingListInfo.get('addedByUser'));
   expect(stapleShoppingListInfo.get('items')).toEqual(expectedStapleShoppingListInfo.get('items'));
 }
 
 function createCriteria() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('user', 'items'),
+    fields: _immutable.List.of('user', 'name', 'addedByUser', 'items'),
     conditions: (0, _immutable.Map)({
-      userId: (0, _v2.default)()
+      userId: (0, _v2.default)(),
+      name: (0, _v2.default)(),
+      addedByUser: false
     })
   });
 }
 
 function createCriteriaUsingProvidedStapleShoppingListInfo(stapleShoppingListInfo) {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('user', 'items'),
+    fields: _immutable.List.of('user', 'name', 'addedByUser', 'items'),
     conditions: (0, _immutable.Map)({
-      userId: stapleShoppingListInfo.get('userId')
+      userId: stapleShoppingListInfo.get('userId'),
+      name: stapleShoppingListInfo.get('name'),
+      addedByUser: stapleShoppingListInfo.get('addedByUser')
     })
   });
 }

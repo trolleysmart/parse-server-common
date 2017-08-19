@@ -253,6 +253,12 @@ StapleShoppingListService.buildSearchQuery = function (criteria) {
     }
   }
 
+  if (conditions.has('addedByUser')) {
+    var _value2 = conditions.get('addedByUser');
+
+    query.equalTo('addedByUser', _value2);
+  }
+
   _ServiceBase3.default.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
 
   return query;

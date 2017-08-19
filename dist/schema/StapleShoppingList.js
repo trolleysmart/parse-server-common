@@ -50,6 +50,7 @@ StapleShoppingList.updateInfoInternal = function (object, info) {
   object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(info.get('userId')));
   object.set('name', info.get('name'));
   object.set('lowerCaseName', info.get('name').toLowerCase());
+  object.set('addedByUser', info.has('addedByUser') ? info.get('addedByUser') : false);
 
   if (info.has('tagIds')) {
     var tagIds = info.get('tagIds');
@@ -94,6 +95,7 @@ var _initialiseProps = function _initialiseProps() {
       id: _this2.getId(),
       userId: user ? user.id : undefined,
       name: _this2.getObject().get('name'),
+      addedByUser: _this2.getObject().get('addedByUser'),
       tags: tags,
       tagIds: tags ? tags.map(function (tag) {
         return tag.get('id');

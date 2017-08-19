@@ -10,23 +10,29 @@ import { createStapleShoppingListInfo } from '../../schema/__tests__/StapleShopp
 function expectStapleShoppingListInfo(stapleShoppingListInfo, expectedStapleShoppingListInfo, shoppingListId) {
   expect(stapleShoppingListInfo.get('id')).toBe(shoppingListId);
   expect(stapleShoppingListInfo.get('userId')).toBe(expectedStapleShoppingListInfo.get('userId'));
+  expect(stapleShoppingListInfo.get('name')).toBe(expectedStapleShoppingListInfo.get('name'));
+  expect(stapleShoppingListInfo.get('addedByUser')).toBe(expectedStapleShoppingListInfo.get('addedByUser'));
   expect(stapleShoppingListInfo.get('items')).toEqual(expectedStapleShoppingListInfo.get('items'));
 }
 
 function createCriteria() {
   return Map({
-    fields: List.of('user', 'items'),
+    fields: List.of('user', 'name', 'addedByUser', 'items'),
     conditions: Map({
       userId: uuid(),
+      name: uuid(),
+      addedByUser: false,
     }),
   });
 }
 
 function createCriteriaUsingProvidedStapleShoppingListInfo(stapleShoppingListInfo) {
   return Map({
-    fields: List.of('user', 'items'),
+    fields: List.of('user', 'name', 'addedByUser', 'items'),
     conditions: Map({
       userId: stapleShoppingListInfo.get('userId'),
+      name: stapleShoppingListInfo.get('name'),
+      addedByUser: stapleShoppingListInfo.get('addedByUser'),
     }),
   });
 }

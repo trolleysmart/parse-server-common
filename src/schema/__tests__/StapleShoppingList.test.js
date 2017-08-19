@@ -5,16 +5,11 @@ import uuid from 'uuid/v4';
 import { StapleShoppingList } from '../';
 
 export function createStapleShoppingListInfo(userId, tagIds) {
-  const info = Map({
+  return Map({
     userId: userId || uuid(),
     name: uuid(),
-  });
-
-  return tagIds
-    ? info.merge({
-      tagIds,
-    })
-    : info;
+    addedByUser: false,
+  }).merge(tagIds ? Map({ tagIds }) : Map());
 }
 
 export function createStapleShoppingList(stapleShoppingListInfo) {
@@ -24,6 +19,7 @@ export function createStapleShoppingList(stapleShoppingListInfo) {
 function expectStapleShoppingListInfo(stapleShoppingListInfo, expectedStapleShoppingListInfo) {
   expect(stapleShoppingListInfo.get('userId')).toBe(expectedStapleShoppingListInfo.get('userId'));
   expect(stapleShoppingListInfo.get('name')).toBe(expectedStapleShoppingListInfo.get('name'));
+  expect(stapleShoppingListInfo.get('addedByUser')).toBe(expectedStapleShoppingListInfo.get('addedByUser'));
   expect(stapleShoppingListInfo.get('tags')).toEqual(expectedStapleShoppingListInfo.get('tags'));
 }
 
