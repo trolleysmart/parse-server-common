@@ -5,6 +5,7 @@ export {
   CrawlSession,
   MasterProduct,
   MasterProductPrice,
+  ProductPrice,
   ShoppingList,
   StapleShoppingList,
   StapleTemplate,

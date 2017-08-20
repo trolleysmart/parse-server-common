@@ -3,6 +3,7 @@
 export CrawlResult from './CrawlResult';
 export CrawlSession from './CrawlSession';
 export MasterProduct from './MasterProduct';
+export ProductPrice from './ProductPrice';
 export MasterProductPrice from './MasterProductPrice';
 export ShoppingList from './ShoppingList';
 export StapleShoppingList from './StapleShoppingList';
