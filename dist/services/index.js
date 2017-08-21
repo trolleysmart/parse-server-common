@@ -1,9 +1,9 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+  value: true,
 });
-exports.UserFeedbackService = exports.StoreTagService = exports.StoreMasterProductService = exports.TagService = exports.StapleTemplateShoppingListService = exports.StapleTemplateService = exports.StapleShoppingListService = exports.ShoppingListService = exports.StoreService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
+exports.UserFeedbackService = exports.StoreTagService = exports.StoreMasterProductService = exports.TagService = exports.StapleTemplateShoppingListService = exports.StapleTemplateService = exports.StapleShoppingListService = exports.ShoppingListService = exports.StoreService = exports.ProductPriceService = exports.NewSearchResultReceivedEvent = exports.MasterProductPriceService = exports.MasterProductService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _CrawlResultService2 = require('./CrawlResultService');
 
@@ -24,6 +24,10 @@ var _MasterProductPriceService3 = _interopRequireDefault(_MasterProductPriceServ
 var _NewSearchResultReceivedEvent2 = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent3 = _interopRequireDefault(_NewSearchResultReceivedEvent2);
+
+var _ProductPriceService2 = require('./ProductPriceService');
+
+var _ProductPriceService3 = _interopRequireDefault(_ProductPriceService2);
 
 var _StoreService2 = require('./StoreService');
 
@@ -61,13 +65,16 @@ var _UserFeedbackService2 = require('./UserFeedbackService');
 
 var _UserFeedbackService3 = _interopRequireDefault(_UserFeedbackService2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 exports.CrawlResultService = _CrawlResultService3.default;
 exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.MasterProductService = _MasterProductService3.default;
 exports.MasterProductPriceService = _MasterProductPriceService3.default;
 exports.NewSearchResultReceivedEvent = _NewSearchResultReceivedEvent3.default;
+exports.ProductPriceService = _ProductPriceService3.default;
 exports.StoreService = _StoreService3.default;
 exports.ShoppingListService = _ShoppingListService3.default;
 exports.StapleShoppingListService = _StapleShoppingListService3.default;
