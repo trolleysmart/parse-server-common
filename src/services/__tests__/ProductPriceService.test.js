@@ -150,9 +150,9 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no product price if provided criteria matches no product price', async () => {
-    const productPriceInfos = await ProductPriceService.search(createCriteria());
+    const productPrices = await ProductPriceService.search(createCriteria());
 
-    expect(productPriceInfos.count()).toBe(0);
+    expect(productPrices.count()).toBe(0);
   });
 
   test('should return the products price matches the criteria', async () => {
