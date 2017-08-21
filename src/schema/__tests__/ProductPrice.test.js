@@ -5,7 +5,7 @@ import uuid from 'uuid/v4';
 import { ProductPrice } from '../';
 import { createStore } from './Store.test';
 
-export function createProductPriceInfo(storeId, tagIds) {
+export function createLightWeigthProductPriceInfo({ storeId, tagIds } = {}) {
   return Map({
     name: uuid(),
     description: uuid(),
@@ -22,7 +22,7 @@ export function createProductPriceInfo(storeId, tagIds) {
 }
 
 export function createProductPrice(productPriceInfo) {
-  return ProductPrice.spawn(productPriceInfo || createProductPriceInfo());
+  return ProductPrice.spawn(productPriceInfo || createLightWeigthProductPriceInfo());
 }
 
 function expectProductPriceInfo(productPriceInfo, expectedProductPriceInfo) {
@@ -46,7 +46,7 @@ describe('constructor', () => {
 
 describe('static public methods', () => {
   test('spawn should set provided info', () => {
-    const productPriceInfo = createProductPriceInfo();
+    const productPriceInfo = createLightWeigthProductPriceInfo();
     const object = createProductPrice(productPriceInfo);
     const info = object.getInfo();
 
@@ -69,7 +69,7 @@ describe('public methods', () => {
 
   test('updateInfo should update object info', () => {
     const object = createProductPrice();
-    const updatedProductPriceInfo = createProductPriceInfo();
+    const updatedProductPriceInfo = createLightWeigthProductPriceInfo();
 
     object.updateInfo(updatedProductPriceInfo);
 
@@ -79,7 +79,7 @@ describe('public methods', () => {
   });
 
   test('getInfo should return provided info', () => {
-    const productPriceInfo = createProductPriceInfo();
+    const productPriceInfo = createLightWeigthProductPriceInfo();
     const object = createProductPrice(productPriceInfo);
     const info = object.getInfo();
 

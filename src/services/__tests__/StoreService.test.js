@@ -1,10 +1,13 @@
 // @flow
 
-import { List, Map } from 'immutable';
+import Immutable, { List, Map, Range } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
 import { StoreService } from '../';
 import { createStoreInfo } from '../../schema/__tests__/Store.test';
+
+export const createStores = async count =>
+  Immutable.fromJS(await Promise.all(Range(0, count).map(async () => StoreService.read(await StoreService.create(createStoreInfo()))).toArray()));
 
 function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
   expect(storeInfo.get('id')).toBe(storeId);

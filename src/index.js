@@ -22,6 +22,7 @@ export {
   MasterProductService,
   MasterProductPriceService,
   NewSearchResultReceivedEvent,
+  ProductPriceService,
   StoreService,
   ShoppingListService,
   StapleShoppingListService,

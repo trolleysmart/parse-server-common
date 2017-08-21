@@ -21,7 +21,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "immutable": "^3.8.1",
-    "micro-business-parse-server-common": "1.0.2-alpha.1"
+    "micro-business-parse-server-common": "1.0.2-alpha.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

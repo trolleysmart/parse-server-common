@@ -1,10 +1,13 @@
 // @flow
 
-import { List, Map } from 'immutable';
+import Immutable, { List, Map, Range } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
 import { TagService } from '../';
 import { createTagInfo } from '../../schema/__tests__/Tag.test';
+
+export const createTags = async count =>
+  Immutable.fromJS(await Promise.all(Range(0, count).map(async () => TagService.read(await TagService.create(createTagInfo()))).toArray()));
 
 function expectTagInfo(tagInfo, expectedTagInfo, tagId) {
   expect(tagInfo.get('id')).toBe(tagId);

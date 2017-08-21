@@ -5,6 +5,7 @@ export CrawlSessionService from './CrawlSessionService';
 export MasterProductService from './MasterProductService';
 export MasterProductPriceService from './MasterProductPriceService';
 export NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
+export ProductPriceService from './ProductPriceService';
 export StoreService from './StoreService';
 export ShoppingListService from './ShoppingListService';
 export StapleShoppingListService from './StapleShoppingListService';
