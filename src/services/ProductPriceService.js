@@ -55,8 +55,8 @@ export default class ProductPriceService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    this.addStringSearchToQuery(conditions, query, 'name', 'name');
-    this.addStringSearchToQuery(conditions, query, 'description', 'description');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
 
     if (conditions.has('tag')) {
       const value = conditions.get('tag');
