@@ -1,5 +1,6 @@
 // @flow
 
+import Chance from 'chance';
 import Immutable, { List, Map, Range } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
@@ -8,13 +9,6 @@ import { createLightWeigthProductPriceInfo } from '../../schema/__tests__/Produc
 import { createStores } from './StoreService.test';
 import { createTags } from './TagService.test';
 
-const getRandomInt = (min, max) => {
-  const intMin = Math.ceil(min);
-  const intMax = Math.floor(max);
-
-  return Math.floor(Math.random() * (intMax - intMin)) + intMin;
-};
-
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'store', 'tags'),
@@ -22,21 +16,24 @@ const createCriteriaWthoutConditions = () =>
     includeTags: true,
   });
 
-const createCriteria = productPrice =>
-  Map({
+const createCriteria = productPrice => {
+    const chance = new Chnace();
+
+  return Map({
     conditions: Map({
       name: productPrice ? productPrice.get('name') : uuid(),
       description: productPrice ? productPrice.get('description') : uuid(),
-      priceDetails: productPrice ? productPrice.get('priceDetails') : Map({ price: getRandomInt(1, 1000) }),
-      priceToDisplay: productPrice ? productPrice.get('priceToDisplay') : getRandomInt(1, 1000),
-      saving: productPrice ? productPrice.get('saving') : getRandomInt(1, 1000),
-      savingPercentage: productPrice ? productPrice.get('savingPercentage') : getRandomInt(1, 1000),
+      priceDetails: productPrice ? productPrice.get('priceDetails') : Map({ price: chance.floating({ min: 0, max: 1000 }) }),
+      priceToDisplay: productPrice ? productPrice.get('priceToDisplay') : chance.floating({ min: 0, max: 1000 }),
+      saving: productPrice ? productPrice.get('saving') : chance.floating({ min: 0, max: 1000 }),
+      savingPercentage: productPrice ? productPrice.get('savingPercentage') : chance.floating({ min: 0, max: 100 }),
       offerEndDate: productPrice ? productPrice.get('offerEndDate') : new Date(),
       status: productPrice ? productPrice.get('status') : uuid(),
       storeId: productPrice ? productPrice.get('storeId') : undefined,
       tagIds: productPrice ? productPrice.get('tagIds') : undefined,
     }),
   }).merge(createCriteriaWthoutConditions());
+}
 
 const expectProductPrice = (productPrice, expectedProductPrice, productPriceId, expectedStore, expectedTags) => {
   expect(productPrice.get('id')).toBe(productPriceId);
@@ -54,7 +51,7 @@ const expectProductPrice = (productPrice, expectedProductPrice, productPriceId, 
 
 export const createProductPriceInfo = async () => {
   const store = (await createStores(1)).first();
-  const tags = await createTags(getRandomInt(1, 10));
+  const tags = await createTags(new Chance().integer({ min: 1, max: 10 }));
 
   return { productPrice: createLightWeigthProductPriceInfo({ storeId: store.get('id'), tagIds: tags.map(_ => _.get('id')) }), store, tags };
 };
@@ -194,7 +191,7 @@ describe('search', () => {
   test('should return the products price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, getRandomInt(2, 5)).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
     );
     const productPrices = await ProductPriceService.search(createCriteria(expectedProductPrice));
 
@@ -227,7 +224,7 @@ describe('searchAll', () => {
   test('should return the products price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, getRandomInt(2, 5)).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
     );
 
     let productPrices = List();
@@ -257,7 +254,7 @@ describe('exists', () => {
   });
 
   test('should return true if any product price match provided criteria', async () => {
-    const productPrices = await createProductPrices(getRandomInt(1, 10), true);
+    const productPrices = await createProductPrices(new Chance().integer({ min: 1, max: 10 }), true);
 
     expect(await ProductPriceService.exists(createCriteria(productPrices.first()))).toBeTruthy();
   });
@@ -269,7 +266,7 @@ describe('count', () => {
   });
 
   test('should return the count of master product price match provided criteria', async () => {
-    const productPrices = await createProductPrices(getRandomInt(1, 10), true);
+    const productPrices = await createProductPrices(new Chance().integer({ min: 1, max: 10 }), true);
 
     expect(await ProductPriceService.count(createCriteria(productPrices.first()))).toBe(productPrices.count());
   });

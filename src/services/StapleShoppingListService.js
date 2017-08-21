@@ -1,6 +1,7 @@
 // @flow
 
 import BluebirdPromise from 'bluebird';
+import { ImmutableEx } from 'micro-business-common-javascript';
 import { ParseWrapperService } from 'micro-business-parse-server-common';
 import { StapleShoppingList } from '../schema';
 import ServiceBase from './ServiceBase';
@@ -29,7 +30,7 @@ export default class StapleShoppingListService extends ServiceBase {
 
   static cloneStapleShoppingList = async (userId, acl, sessionToken) => {
     const items = await StapleTemplateShoppingListService.loadAllStapleTemplateShoppingList(sessionToken);
-    const splittedItems = ServiceBase.splitIntoChunks(items, 100);
+    const splittedItems = ImmutableEx.splitIntoChunks(items, 100);
     await BluebirdPromise.each(splittedItems.toArray(), chunck =>
       Promise.all(chunck.map(item => StapleShoppingListService.create(item.set('userId', userId), acl, sessionToken)).toArray()),
     );

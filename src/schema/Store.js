@@ -15,8 +15,10 @@ export default class Store extends BaseObject {
   static updateInfoInternal = (object, info) => {
     object.set('key', info.get('key'));
     object.set('name', info.get('name'));
-    object.set('lowerCaseName', info.get('name').toLowerCase());
     object.set('imageUrl', info.get('imageUrl'));
+    object.set('address', info.get('address'));
+    object.set('phones', info.get('phones'));
+    object.set('geoLocation', info.get('geoLocation'));
   };
 
   constructor(object) {
@@ -37,5 +39,8 @@ export default class Store extends BaseObject {
       key: this.getObject().get('key'),
       name: this.getObject().get('name'),
       imageUrl: this.getObject().get('imageUrl'),
+      address: this.getObject().get('address'),
+      phones: this.getObject().get('phones'),
+      geoLocation: this.getObject().get('geoLocation'),
     });
 }

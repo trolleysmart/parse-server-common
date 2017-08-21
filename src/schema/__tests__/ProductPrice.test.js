@@ -1,27 +1,23 @@
 // @flow
 
+import Chance from 'chance';
 import { Map } from 'immutable';
 import uuid from 'uuid/v4';
 import { ProductPrice } from '../';
 import { createStore } from './Store.test';
 
-const getRandomInt = (min, max) => {
-  const intMin = Math.ceil(min);
-  const intMax = Math.floor(max);
-
-  return Math.floor(Math.random() * (intMax - intMin)) + intMin;
-};
-
 export function createLightWeigthProductPriceInfo({ storeId, tagIds } = {}) {
+    const chance = new Chnace();
+
   return Map({
     name: uuid(),
     description: uuid(),
     priceDetails: Map({
-      price: getRandomInt(1, 1000),
+      price: chance.floating({ min: 0, max: 1000 }),
     }),
-    priceToDisplay: getRandomInt(1, 1000),
-    saving: getRandomInt(1, 1000),
-    savingPercentage: getRandomInt(1, 1000),
+    priceToDisplay: chance.floating({ min: 0, max: 1000 }),
+    saving: chance.floating({ min: 0, max: 1000 }),
+    savingPercentage: chance.floating({ min: 0, max: 100 }),
     offerEndDate: new Date(),
     status: uuid(),
     storeId: storeId || createStore().getId(),

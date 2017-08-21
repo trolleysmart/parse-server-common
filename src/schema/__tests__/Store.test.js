@@ -9,6 +9,9 @@ export function createStoreInfo() {
     key: uuid(),
     name: uuid(),
     imageUrl: uuid(),
+    address: uuid(),
+    phones: uuid(),
+    geoLocation: uuid(),
   });
 }
 
