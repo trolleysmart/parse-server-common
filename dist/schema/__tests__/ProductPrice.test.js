@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 exports.createLightWeigthProductPriceInfo = createLightWeigthProductPriceInfo;
 exports.createProductPrice = createProductPrice;
@@ -16,27 +16,32 @@ var _ = require('../');
 
 var _Store = require('./Store.test');
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getRandomInt = function getRandomInt(min, max) {
+  var intMin = Math.ceil(min);
+  var intMax = Math.floor(max);
+
+  return Math.floor(Math.random() * (intMax - intMin)) + intMin;
+};
 
 function createLightWeigthProductPriceInfo() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-    storeId = _ref.storeId,
-    tagIds = _ref.tagIds;
+      storeId = _ref.storeId,
+      tagIds = _ref.tagIds;
 
   return (0, _immutable.Map)({
     name: (0, _v2.default)(),
     description: (0, _v2.default)(),
     priceDetails: (0, _immutable.Map)({
-      price: 10.56,
+      price: getRandomInt(1, 1000)
     }),
-    priceToDisplay: 12.34,
-    saving: 2.3,
-    savingPercentage: 12,
+    priceToDisplay: getRandomInt(1, 1000),
+    saving: getRandomInt(1, 1000),
+    savingPercentage: getRandomInt(1, 1000),
     offerEndDate: new Date(),
-    status: 'A',
-    storeId: storeId || (0, _Store.createStore)().getId(),
+    status: (0, _v2.default)(),
+    storeId: storeId || (0, _Store.createStore)().getId()
   }).merge(tagIds ? (0, _immutable.Map)({ tagIds: tagIds }) : (0, _immutable.Map)());
 }
 
@@ -57,14 +62,14 @@ function expectProductPriceInfo(productPriceInfo, expectedProductPriceInfo) {
   expect(productPriceInfo.get('tags')).toEqual(expectedProductPriceInfo.get('tags'));
 }
 
-describe('constructor', function() {
-  test('should set class name', function() {
+describe('constructor', function () {
+  test('should set class name', function () {
     expect(createProductPrice().className).toBe('ProductPrice');
   });
 });
 
-describe('static public methods', function() {
-  test('spawn should set provided info', function() {
+describe('static public methods', function () {
+  test('spawn should set provided info', function () {
     var productPriceInfo = createLightWeigthProductPriceInfo();
     var object = createProductPrice(productPriceInfo);
     var info = object.getInfo();
@@ -73,20 +78,20 @@ describe('static public methods', function() {
   });
 });
 
-describe('public methods', function() {
-  test('getObject should return provided object', function() {
+describe('public methods', function () {
+  test('getObject should return provided object', function () {
     var object = createProductPrice();
 
     expect(new _.ProductPrice(object).getObject()).toBe(object);
   });
 
-  test('getId should return provided object Id', function() {
+  test('getId should return provided object Id', function () {
     var object = createProductPrice();
 
     expect(new _.ProductPrice(object).getId()).toBe(object.id);
   });
 
-  test('updateInfo should update object info', function() {
+  test('updateInfo should update object info', function () {
     var object = createProductPrice();
     var updatedProductPriceInfo = createLightWeigthProductPriceInfo();
 
@@ -97,7 +102,7 @@ describe('public methods', function() {
     expectProductPriceInfo(info, updatedProductPriceInfo);
   });
 
-  test('getInfo should return provided info', function() {
+  test('getInfo should return provided info', function () {
     var productPriceInfo = createLightWeigthProductPriceInfo();
     var object = createProductPrice(productPriceInfo);
     var info = object.getInfo();

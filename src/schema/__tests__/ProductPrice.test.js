@@ -5,18 +5,25 @@ import uuid from 'uuid/v4';
 import { ProductPrice } from '../';
 import { createStore } from './Store.test';
 
+const getRandomInt = (min, max) => {
+  const intMin = Math.ceil(min);
+  const intMax = Math.floor(max);
+
+  return Math.floor(Math.random() * (intMax - intMin)) + intMin;
+};
+
 export function createLightWeigthProductPriceInfo({ storeId, tagIds } = {}) {
   return Map({
     name: uuid(),
     description: uuid(),
     priceDetails: Map({
-      price: 10.56,
+      price: getRandomInt(1, 1000),
     }),
-    priceToDisplay: 12.34,
-    saving: 2.3,
-    savingPercentage: 12,
+    priceToDisplay: getRandomInt(1, 1000),
+    saving: getRandomInt(1, 1000),
+    savingPercentage: getRandomInt(1, 1000),
     offerEndDate: new Date(),
-    status: 'A',
+    status: uuid(),
     storeId: storeId || createStore().getId(),
   }).merge(tagIds ? Map({ tagIds }) : Map());
 }
