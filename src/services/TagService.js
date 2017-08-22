@@ -52,8 +52,8 @@ export default class TagService extends ServiceBase {
     ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
-    ServiceBase.addNumberQuery(conditions, query, 'level', 'level');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+    ServiceBase.addNumberQuery(conditions, query, 'level', 'level');
     ServiceBase.addEqualityQuery(conditions, query, 'forDisplay', 'forDisplay');
     ServiceBase.addLinkQuery(conditions, query, 'parentTag', 'parentTag', Tag);
 

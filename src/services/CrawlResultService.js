@@ -42,6 +42,11 @@ export default class CrawlResultService extends ServiceBase {
   static buildSearchQuery = (criteria) => {
     const queryWithoutIncludes = ParseWrapperService.createQuery(CrawlResult, criteria);
     const query = CrawlResultService.buildIncludeQuery(queryWithoutIncludes, criteria);
+
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
     const conditions = criteria.get('conditions');
 
     ServiceBase.addLinkQuery(conditions, query, 'crawlSession', 'crawlSession', CrawlSession);

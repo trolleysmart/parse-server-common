@@ -212,8 +212,8 @@ TagService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'level', 'level');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'level', 'level');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'forDisplay', 'forDisplay');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'parentTag', 'parentTag', _schema.Tag);
 
