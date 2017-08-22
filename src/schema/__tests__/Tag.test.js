@@ -7,7 +7,7 @@ import { Tag } from '../';
 
 const chance = new Chance();
 
-export const createTagInfo = async () => {
+export const createTagInfo = async ({ parentTagId } = {}) => {
   const tag = Map({
     key: uuid(),
     name: uuid(),
@@ -15,6 +15,7 @@ export const createTagInfo = async () => {
     imageUrl: uuid(),
     level: chance.integer({ min: 1, max: 1000 }),
     forDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+    parentTagId,
   });
 
   return { tag };

@@ -92,7 +92,9 @@ describe('read', () => {
   });
 
   test('should read the existing tag', async () => {
-    const { tag: expectedTag } = await createTagInfo();
+    const { tag: parentTag } = await createTagInfo();
+    const parentTagId = await TagService.create(parentTag);
+    const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const tagId = await TagService.create(expectedTag);
     const tag = await TagService.read(tagId, createCriteriaWthoutConditions());
 
@@ -122,7 +124,9 @@ describe('update', () => {
   });
 
   test('should update the existing tag', async () => {
-    const { tag: expectedTag } = await createTagInfo();
+    const { tag: parentTag } = await createTagInfo();
+    const parentTagId = await TagService.create(parentTag);
+    const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const tagId = await TagService.create((await createTagInfo()).tag);
 
     await TagService.update(expectedTag.set('id', tagId));
@@ -164,7 +168,9 @@ describe('search', () => {
   });
 
   test('should return the products price matches the criteria', async () => {
-    const { tag: expectedTag } = await createTagInfo();
+    const { tag: parentTag } = await createTagInfo();
+    const parentTagId = await TagService.create(parentTag);
+    const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => TagService.create(expectedTag)).toArray()),
     );
@@ -197,7 +203,9 @@ describe('searchAll', () => {
   });
 
   test('should return the products price matches the criteria', async () => {
-    const { tag: expectedTag } = await createTagInfo();
+    const { tag: parentTag } = await createTagInfo();
+    const parentTagId = await TagService.create(parentTag);
+    const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => TagService.create(expectedTag)).toArray()),
     );

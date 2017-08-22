@@ -10,7 +10,8 @@ import { createStoreInfo, expectStore } from '../../schema/__tests__/Store.test'
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation'),
+    fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'parentStore'),
+    includeParentStore: true,
   });
 
 const createCriteria = (store) => {
@@ -98,7 +99,9 @@ describe('read', () => {
   });
 
   test('should read the existing store', async () => {
-    const { store: expectedStore } = await createStoreInfo();
+    const { store: parentStore } = await createStoreInfo();
+    const parentStoreId = await StoreService.create(parentStore);
+    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const storeId = await StoreService.create(expectedStore);
     const store = await StoreService.read(storeId, createCriteriaWthoutConditions());
 
@@ -128,7 +131,9 @@ describe('update', () => {
   });
 
   test('should update the existing store', async () => {
-    const { store: expectedStore } = await createStoreInfo();
+    const { store: parentStore } = await createStoreInfo();
+    const parentStoreId = await StoreService.create(parentStore);
+    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const storeId = await StoreService.create((await createStoreInfo()).store);
 
     await StoreService.update(expectedStore.set('id', storeId));
@@ -170,7 +175,9 @@ describe('search', () => {
   });
 
   test('should return the products price matches the criteria', async () => {
-    const { store: expectedStore } = await createStoreInfo();
+    const { store: parentStore } = await createStoreInfo();
+    const parentStoreId = await StoreService.create(parentStore);
+    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(
       await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
     );
@@ -203,7 +210,9 @@ describe('searchAll', () => {
   });
 
   test('should return the products price matches the criteria', async () => {
-    const { store: expectedStore } = await createStoreInfo();
+    const { store: parentStore } = await createStoreInfo();
+    const parentStoreId = await StoreService.create(parentStore);
+    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(
       await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
     );

@@ -6,7 +6,7 @@ import { ParseWrapperService } from 'micro-business-parse-server-common';
 import uuid from 'uuid/v4';
 import { Store } from '../';
 
-export const createStoreInfo = async () => {
+export const createStoreInfo = async ({ parentStoreId } = {}) => {
   const chance = new Chance();
   const store = Map({
     key: uuid(),
@@ -18,6 +18,7 @@ export const createStoreInfo = async () => {
       latitude: chance.floating({ min: 1, max: 20 }),
       longitude: chance.floating({ min: -30, max: -1 }),
     }),
+    parentStoreId,
   });
 
   return { store };
