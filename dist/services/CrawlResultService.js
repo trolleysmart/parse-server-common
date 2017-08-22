@@ -61,21 +61,21 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var ProductPriceService = (function(_ServiceBase) {
-  _inherits(ProductPriceService, _ServiceBase);
+var CrawlResultService = (function(_ServiceBase) {
+  _inherits(CrawlResultService, _ServiceBase);
 
-  function ProductPriceService() {
-    _classCallCheck(this, ProductPriceService);
+  function CrawlResultService() {
+    _classCallCheck(this, CrawlResultService);
 
-    return _possibleConstructorReturn(this, (ProductPriceService.__proto__ || Object.getPrototypeOf(ProductPriceService)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CrawlResultService.__proto__ || Object.getPrototypeOf(CrawlResultService)).apply(this, arguments));
   }
 
-  return ProductPriceService;
+  return CrawlResultService;
 })(_microBusinessParseServerCommon.ServiceBase);
 
-ProductPriceService.messagePrefix = 'No product price found with Id: ';
+CrawlResultService.messagePrefix = 'No crawl result found with Id: ';
 
-ProductPriceService.create = (function() {
+CrawlResultService.create = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee(info, acl, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -83,7 +83,7 @@ ProductPriceService.create = (function() {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
-                return _context.abrupt('return', _microBusinessParseServerCommon.ServiceBase.create(_schema.ProductPrice, info, acl, sessionToken));
+                return _context.abrupt('return', _microBusinessParseServerCommon.ServiceBase.create(_schema.CrawlResult, info, acl, sessionToken));
 
               case 1:
               case 'end':
@@ -102,7 +102,7 @@ ProductPriceService.create = (function() {
   };
 })();
 
-ProductPriceService.read = (function() {
+CrawlResultService.read = (function() {
   var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(id, criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -112,15 +112,11 @@ ProductPriceService.read = (function() {
               case 0:
                 return _context2.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.read(
-                    _schema.ProductPrice,
-                    id,
-                    sessionToken,
-                    ProductPriceService.messagePrefix,
-                    function(query) {
-                      return ProductPriceService.buildIncludeQuery(query, criteria);
-                    },
-                  ),
+                  _microBusinessParseServerCommon.ServiceBase.read(_schema.CrawlResult, id, sessionToken, CrawlResultService.messagePrefix, function(
+                    query,
+                  ) {
+                    return CrawlResultService.buildIncludeQuery(query, criteria);
+                  }),
                 );
 
               case 1:
@@ -140,7 +136,7 @@ ProductPriceService.read = (function() {
   };
 })();
 
-ProductPriceService.update = (function() {
+CrawlResultService.update = (function() {
   var _ref3 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee3(info, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -150,7 +146,7 @@ ProductPriceService.update = (function() {
               case 0:
                 return _context3.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.update(_schema.ProductPrice, info, sessionToken, ProductPriceService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.update(_schema.CrawlResult, info, sessionToken, CrawlResultService.messagePrefix),
                 );
 
               case 1:
@@ -170,7 +166,7 @@ ProductPriceService.update = (function() {
   };
 })();
 
-ProductPriceService.delete = (function() {
+CrawlResultService.delete = (function() {
   var _ref4 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee4(id, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -180,7 +176,7 @@ ProductPriceService.delete = (function() {
               case 0:
                 return _context4.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.delete(_schema.ProductPrice, id, sessionToken, ProductPriceService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.delete(_schema.CrawlResult, id, sessionToken, CrawlResultService.messagePrefix),
                 );
 
               case 1:
@@ -200,7 +196,7 @@ ProductPriceService.delete = (function() {
   };
 })();
 
-ProductPriceService.search = (function() {
+CrawlResultService.search = (function() {
   var _ref5 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee5(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -211,8 +207,8 @@ ProductPriceService.search = (function() {
                 return _context5.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.search(
-                    _schema.ProductPrice,
-                    ProductPriceService.buildSearchQuery,
+                    _schema.CrawlResult,
+                    CrawlResultService.buildSearchQuery,
                     criteria,
                     sessionToken,
                   ),
@@ -235,11 +231,11 @@ ProductPriceService.search = (function() {
   };
 })();
 
-ProductPriceService.searchAll = function(criteria, sessionToken) {
-  return _microBusinessParseServerCommon.ServiceBase.searchAll(_schema.ProductPrice, ProductPriceService.buildSearchQuery, criteria, sessionToken);
+CrawlResultService.searchAll = function(criteria, sessionToken) {
+  return _microBusinessParseServerCommon.ServiceBase.searchAll(_schema.CrawlResult, CrawlResultService.buildSearchQuery, criteria, sessionToken);
 };
 
-ProductPriceService.count = (function() {
+CrawlResultService.count = (function() {
   var _ref6 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee6(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -249,7 +245,7 @@ ProductPriceService.count = (function() {
               case 0:
                 return _context6.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.count(ProductPriceService.buildSearchQuery, criteria, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.count(CrawlResultService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -269,7 +265,7 @@ ProductPriceService.count = (function() {
   };
 })();
 
-ProductPriceService.exists = (function() {
+CrawlResultService.exists = (function() {
   var _ref7 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee7(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -279,7 +275,7 @@ ProductPriceService.exists = (function() {
               case 0:
                 return _context7.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.exists(ProductPriceService.buildSearchQuery, criteria, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.exists(CrawlResultService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -299,46 +295,30 @@ ProductPriceService.exists = (function() {
   };
 })();
 
-ProductPriceService.buildIncludeQuery = function(query, criteria) {
+CrawlResultService.buildIncludeQuery = function(query, criteria) {
   if (!criteria) {
     return query;
   }
 
-  if (criteria.has('includeStore')) {
-    var value = criteria.get('includeStore');
+  if (criteria.has('includeCrawlSession')) {
+    var value = criteria.get('includeCrawlSession');
 
     if (value) {
-      query.include('store');
-    }
-  }
-
-  if (criteria.has('includeTags')) {
-    var _value = criteria.get('includeTags');
-
-    if (_value) {
-      query.include('tags');
+      query.include('crawlSession');
     }
   }
 
   return query;
 };
 
-ProductPriceService.buildSearchQuery = function(criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ProductPrice, criteria);
-  var query = ProductPriceService.buildIncludeQuery(queryWithoutIncludes, criteria);
+CrawlResultService.buildSearchQuery = function(criteria) {
+  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlResult, criteria);
+  var query = CrawlResultService.buildIncludeQuery(queryWithoutIncludes, criteria);
   var conditions = criteria.get('conditions');
 
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'saving', 'saving');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');
-  _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
+  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'crawlSession', 'crawlSession', _schema.CrawlSession);
 
   return query;
 };
 
-exports.default = ProductPriceService;
+exports.default = CrawlResultService;
