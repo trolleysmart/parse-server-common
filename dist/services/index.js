@@ -1,9 +1,9 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StapleShoppingListTemplateService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
+exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StapleShoppingListTemplateService = exports.StapleShoppingListDetailsTemplateService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _CrawlResultService2 = require('./CrawlResultService');
 
@@ -16,6 +16,10 @@ var _CrawlSessionService3 = _interopRequireDefault(_CrawlSessionService2);
 var _ProductPriceService2 = require('./ProductPriceService');
 
 var _ProductPriceService3 = _interopRequireDefault(_ProductPriceService2);
+
+var _StapleShoppingListDetailsTemplateService2 = require('./StapleShoppingListDetailsTemplateService');
+
+var _StapleShoppingListDetailsTemplateService3 = _interopRequireDefault(_StapleShoppingListDetailsTemplateService2);
 
 var _StapleShoppingListTemplateService2 = require('./StapleShoppingListTemplateService');
 
@@ -37,13 +41,12 @@ var _UserFeedbackService2 = require('./UserFeedbackService');
 
 var _UserFeedbackService3 = _interopRequireDefault(_UserFeedbackService2);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.CrawlResultService = _CrawlResultService3.default;
 exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;
+exports.StapleShoppingListDetailsTemplateService = _StapleShoppingListDetailsTemplateService3.default;
 exports.StapleShoppingListTemplateService = _StapleShoppingListTemplateService3.default;
 exports.StoreService = _StoreService3.default;
 exports.StoreTagService = _StoreTagService3.default;
