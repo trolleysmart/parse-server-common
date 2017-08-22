@@ -4,7 +4,7 @@ import { List, Map } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
 import { StoreService, TagService, StoreTagService } from '../';
-import { createStoreInfo } from '../../schema/__tests__/Store.test';
+import { createLightWeightStoreInfo } from '../../schema/__tests__/Store.test';
 import { createTagInfo } from '../../schema/__tests__/Tag.test';
 import { createStoreTagInfo } from '../../schema/__tests__/StoreTag.test';
 
@@ -44,7 +44,7 @@ function createCriteriaUsingProvidedStoreTagInfo(storeTagInfo) {
 
 describe('create', () => {
   test('should return the created store tag Id', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const result = await StoreTagService.create(createStoreTagInfo(storeId, tagId));
 
@@ -52,7 +52,7 @@ describe('create', () => {
   });
 
   test('should create the tag', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const expectedStoreTagInfo = createStoreTagInfo(tagId, storeId);
     const storeTagId = await StoreTagService.create(expectedStoreTagInfo);
@@ -74,7 +74,7 @@ describe('read', () => {
   });
 
   test('should read the existing tag', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const expectedStoreTagInfo = createStoreTagInfo(tagId, storeId);
     const storeTagId = await StoreTagService.create(expectedStoreTagInfo);
@@ -89,7 +89,7 @@ describe('update', () => {
     const storeTagId = uuid();
 
     try {
-      const storeId = await StoreService.create(createStoreInfo());
+      const storeId = await StoreService.create(createLightWeightStoreInfo());
       const tagId = await TagService.create(createTagInfo());
 
       await StoreTagService.update(createStoreTagInfo(storeId, tagId).set('id', storeTagId));
@@ -99,7 +99,7 @@ describe('update', () => {
   });
 
   test('should return the Id of the updated tag', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const storeTagId = await StoreTagService.create(createStoreTagInfo(storeId, tagId));
     const id = await StoreTagService.update(createStoreTagInfo().set('id', storeTagId));
@@ -108,7 +108,7 @@ describe('update', () => {
   });
 
   test('should update the existing tag', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const expectedStoreTagInfo = createStoreTagInfo(storeId, tagId);
     const id = await StoreTagService.create(createStoreTagInfo());
@@ -131,7 +131,7 @@ describe('delete', () => {
   });
 
   test('should delete the existing tag', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const storeTagId = await StoreTagService.create(createStoreTagInfo(tagId, storeId));
     await StoreTagService.delete(storeTagId);
@@ -152,7 +152,7 @@ describe('search', () => {
   });
 
   test('should return the store tags matches the criteria', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const expectedStoreTagInfo = createStoreTagInfo(tagId, storeId);
     const storeTagId = await StoreTagService.create(expectedStoreTagInfo);
@@ -184,7 +184,7 @@ describe('searchAll', () => {
   });
 
   test('should return the store tags matches the criteria', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const expectedStoreTagInfo = createStoreTagInfo(tagId, storeId);
     const storeTagId1 = await StoreTagService.create(expectedStoreTagInfo);
@@ -216,7 +216,7 @@ describe('exists', () => {
   });
 
   test('should return true if any store tag match provided criteria', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const storeTagInfo = createStoreTagInfo(storeId, tagId);
 
@@ -235,7 +235,7 @@ describe('count', () => {
   });
 
   test('should return the count of store tag match provided criteria', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const tagId = await TagService.create(createTagInfo());
     const storeTagInfo = createStoreTagInfo(storeId, tagId);
 

@@ -6,7 +6,7 @@ import '../../../bootstrap';
 import { MasterProductService, MasterProductPriceService, StoreService, TagService } from '../';
 import { createMasterProductInfo } from '../../schema/__tests__/MasterProduct.test';
 import { createMasterProductPriceInfo } from '../../schema/__tests__/MasterProductPrice.test';
-import { createStoreInfo } from '../../schema/__tests__/Store.test';
+import { createLightWeightStoreInfo } from '../../schema/__tests__/Store.test';
 import { createTagInfo } from '../../schema/__tests__/Tag.test';
 
 function expectMasterProductPriceInfo(
@@ -101,7 +101,7 @@ describe('create', () => {
     const tagIds = List.of(await TagService.create(createTagInfo()));
     const masterProduct = createMasterProductInfo(tagIds);
     const masterProductId = await MasterProductService.create(masterProduct);
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const storeId = await StoreService.create(store);
     const result = await MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds));
 
@@ -112,7 +112,7 @@ describe('create', () => {
     const tagIds = List.of(await TagService.create(createTagInfo()));
     const masterProduct = createMasterProductInfo(tagIds);
     const masterProductId = await MasterProductService.create(masterProduct);
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
@@ -137,7 +137,7 @@ describe('read', () => {
     const tagIds = List.of(await TagService.create(createTagInfo()));
     const masterProduct = createMasterProductInfo(tagIds);
     const masterProductId = await MasterProductService.create(masterProduct);
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
@@ -160,7 +160,7 @@ describe('update', () => {
 
   test('should return the Id of the updated master product price', async () => {
     const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const masterProductPriceId = await MasterProductPriceService.create(createMasterProductPriceInfo(masterProductId, storeId));
     const id = await MasterProductPriceService.update(createMasterProductPriceInfo().set('id', masterProductPriceId));
 
@@ -171,9 +171,9 @@ describe('update', () => {
     const tagIds = List.of(await TagService.create(createTagInfo()));
     const masterProduct = createMasterProductInfo(tagIds);
     const masterProductId = await MasterProductService.create(masterProduct);
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const expectedMasterProductId = await MasterProductService.create(createMasterProductInfo());
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const expectedStoreId = await StoreService.create(store);
     const masterProductPriceId = await MasterProductPriceService.create(
       createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds),
@@ -206,7 +206,7 @@ describe('delete', () => {
 
   test('should delete the existing master product price', async () => {
     const masterProductId = await MasterProductService.create(createMasterProductInfo());
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
     await MasterProductPriceService.delete(masterProductPriceId);
@@ -230,7 +230,7 @@ describe('search', () => {
     const tagIds = List.of(await TagService.create(createTagInfo()));
     const masterProduct = createMasterProductInfo(tagIds);
     const masterProductId = await MasterProductService.create(masterProduct);
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store, tagIds);
     const masterProductPriceId = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
@@ -266,7 +266,7 @@ describe('searchAll', () => {
   test('should return the master products price matches the criteria', async () => {
     const masterProduct = createMasterProductInfo();
     const masterProductId = await MasterProductService.create(masterProduct);
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
     const masterProductPriceId1 = await MasterProductPriceService.create(expectedMasterProductPriceInfo);
@@ -302,7 +302,7 @@ describe('exists', () => {
   test('should return true if any master product price match provided criteria', async () => {
     const masterProduct = createMasterProductInfo();
     const masterProductId = await MasterProductService.create(masterProduct);
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
 
@@ -325,7 +325,7 @@ describe('count', () => {
   test('should return the count of master product price match provided criteria', async () => {
     const masterProduct = createMasterProductInfo();
     const masterProductId = await MasterProductService.create(masterProduct);
-    const store = createStoreInfo();
+    const store = createLightWeightStoreInfo();
     const storeId = await StoreService.create(store);
     const expectedMasterProductPriceInfo = createMasterProductPriceInfo(masterProductId, storeId, masterProduct, store);
 

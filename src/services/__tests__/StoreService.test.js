@@ -4,10 +4,12 @@ import Immutable, { List, Map, Range } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
 import { StoreService } from '../';
-import { createStoreInfo } from '../../schema/__tests__/Store.test';
+import { createLightWeightStoreInfo } from '../../schema/__tests__/Store.test';
 
 export const createStores = async count =>
-  Immutable.fromJS(await Promise.all(Range(0, count).map(async () => StoreService.read(await StoreService.create(createStoreInfo()))).toArray()));
+  Immutable.fromJS(
+    await Promise.all(Range(0, count).map(async () => StoreService.read(await StoreService.create(createLightWeightStoreInfo()))).toArray()),
+  );
 
 function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
   expect(storeInfo.get('id')).toBe(storeId);
@@ -37,13 +39,13 @@ function createCriteriaUsingProvidedStoreInfo(storeInfo) {
 
 describe('create', () => {
   test('should return the created store Id', async () => {
-    const result = await StoreService.create(createStoreInfo());
+    const result = await StoreService.create(createLightWeightStoreInfo());
 
     expect(result).toBeDefined();
   });
 
   test('should create the store', async () => {
-    const expectedStoreInfo = createStoreInfo();
+    const expectedStoreInfo = createLightWeightStoreInfo();
     const storeId = await StoreService.create(expectedStoreInfo);
     const storeInfo = await StoreService.read(storeId);
 
@@ -63,7 +65,7 @@ describe('read', () => {
   });
 
   test('should read the existing store', async () => {
-    const expectedStoreInfo = createStoreInfo();
+    const expectedStoreInfo = createLightWeightStoreInfo();
     const storeId = await StoreService.create(expectedStoreInfo);
     const storeInfo = await StoreService.read(storeId);
 
@@ -76,22 +78,22 @@ describe('update', () => {
     const storeId = uuid();
 
     try {
-      await StoreService.update(createStoreInfo().set('id', storeId));
+      await StoreService.update(createLightWeightStoreInfo().set('id', storeId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
     }
   });
 
   test('should return the Id of the updated store', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
-    const id = await StoreService.update(createStoreInfo().set('id', storeId));
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
+    const id = await StoreService.update(createLightWeightStoreInfo().set('id', storeId));
 
     expect(id).toBe(storeId);
   });
 
   test('should update the existing store', async () => {
-    const expectedStoreInfo = createStoreInfo();
-    const id = await StoreService.create(createStoreInfo());
+    const expectedStoreInfo = createLightWeightStoreInfo();
+    const id = await StoreService.create(createLightWeightStoreInfo());
     const storeId = await StoreService.update(expectedStoreInfo.set('id', id));
     const storeInfo = await StoreService.read(storeId);
 
@@ -111,7 +113,7 @@ describe('delete', () => {
   });
 
   test('should delete the existing store', async () => {
-    const storeId = await StoreService.create(createStoreInfo());
+    const storeId = await StoreService.create(createLightWeightStoreInfo());
     await StoreService.delete(storeId);
 
     try {
@@ -130,7 +132,7 @@ describe('search', () => {
   });
 
   test('should return the stores matches the criteria', async () => {
-    const expectedStoreInfo = createStoreInfo();
+    const expectedStoreInfo = createLightWeightStoreInfo();
     const storeId = await StoreService.create(expectedStoreInfo);
     const storeInfos = await StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
 
@@ -160,7 +162,7 @@ describe('searchAll', () => {
   });
 
   test('should return the stores matches the criteria', async () => {
-    const expectedStoreInfo = createStoreInfo();
+    const expectedStoreInfo = createLightWeightStoreInfo();
     const storeId1 = await StoreService.create(expectedStoreInfo);
     const storeId2 = await StoreService.create(expectedStoreInfo);
 
@@ -190,7 +192,7 @@ describe('exists', () => {
   });
 
   test('should return true if any store match provided criteria', async () => {
-    const storeInfo = createStoreInfo();
+    const storeInfo = createLightWeightStoreInfo();
 
     await StoreService.create(storeInfo);
     const response = StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo));
@@ -207,7 +209,7 @@ describe('count', () => {
   });
 
   test('should return the count of store match provided criteria', async () => {
-    const storeInfo = createStoreInfo();
+    const storeInfo = createLightWeightStoreInfo();
 
     await StoreService.create(storeInfo);
     await StoreService.create(storeInfo);

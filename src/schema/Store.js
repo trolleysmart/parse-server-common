@@ -1,6 +1,6 @@
 // @flow
 
-import { Map } from 'immutable';
+import Immutable, { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
 export default class Store extends BaseObject {
@@ -17,7 +17,15 @@ export default class Store extends BaseObject {
     object.set('name', info.get('name'));
     object.set('imageUrl', info.get('imageUrl'));
     object.set('address', info.get('address'));
-    object.set('phones', info.get('phones'));
+
+    if (info.has('phones')) {
+      const phones = info.get('phones');
+
+      if (phones) {
+        object.set('phones', phones.toJS());
+      }
+    }
+
     object.set('geoLocation', info.get('geoLocation'));
   };
 
@@ -40,7 +48,7 @@ export default class Store extends BaseObject {
       name: this.getObject().get('name'),
       imageUrl: this.getObject().get('imageUrl'),
       address: this.getObject().get('address'),
-      phones: this.getObject().get('phones'),
+      phones: Immutable.fromJS(this.getObject().get('phones')),
       geoLocation: this.getObject().get('geoLocation'),
     });
 }

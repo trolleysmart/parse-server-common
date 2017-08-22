@@ -5,9 +5,7 @@ import Immutable, { List, Map, Range } from 'immutable';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
 import { ProductPriceService } from '../';
-import { createLightWeigthProductPriceInfo } from '../../schema/__tests__/ProductPrice.test';
-import { createStores } from './StoreService.test';
-import { createTags } from './TagService.test';
+import { createProductPriceInfo, expectProductPrice } from '../../schema/__tests__/ProductPrice.test';
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -16,8 +14,8 @@ const createCriteriaWthoutConditions = () =>
     includeTags: true,
   });
 
-const createCriteria = productPrice => {
-    const chance = new Chnace();
+const createCriteria = (productPrice) => {
+  const chance = new Chance();
 
   return Map({
     conditions: Map({
@@ -33,30 +31,9 @@ const createCriteria = productPrice => {
       tagIds: productPrice ? productPrice.get('tagIds') : undefined,
     }),
   }).merge(createCriteriaWthoutConditions());
-}
-
-const expectProductPrice = (productPrice, expectedProductPrice, productPriceId, expectedStore, expectedTags) => {
-  expect(productPrice.get('id')).toBe(productPriceId);
-  expect(productPrice.get('name')).toBe(expectedProductPrice.get('name'));
-  expect(productPrice.get('description')).toBe(expectedProductPrice.get('description'));
-  expect(productPrice.get('priceDetails')).toEqual(expectedProductPrice.get('priceDetails'));
-  expect(productPrice.get('priceToDisplay')).toEqual(expectedProductPrice.get('priceToDisplay'));
-  expect(productPrice.get('saving')).toEqual(expectedProductPrice.get('saving'));
-  expect(productPrice.get('savingPercentage')).toEqual(expectedProductPrice.get('savingPercentage'));
-  expect(productPrice.get('offerEndDate')).toEqual(expectedProductPrice.get('offerEndDate'));
-  expect(productPrice.get('status')).toEqual(expectedProductPrice.get('status'));
-  expect(productPrice.get('store')).toEqual(expectedStore);
-  expect(productPrice.get('tags')).toEqual(expectedTags);
 };
 
-export const createProductPriceInfo = async () => {
-  const store = (await createStores(1)).first();
-  const tags = await createTags(new Chance().integer({ min: 1, max: 10 }));
-
-  return { productPrice: createLightWeigthProductPriceInfo({ storeId: store.get('id'), tagIds: tags.map(_ => _.get('id')) }), store, tags };
-};
-
-export const createProductPrices = async (count, useSameInfo = false) => {
+const createProductPrices = async (count, useSameInfo = false) => {
   let productPrice;
 
   if (useSameInfo) {
@@ -85,6 +62,8 @@ export const createProductPrices = async (count, useSameInfo = false) => {
     ),
   );
 };
+
+export default createProductPrices;
 
 describe('create', () => {
   test('should return the created product price Id', async () => {
@@ -118,7 +97,7 @@ describe('read', () => {
     const productPriceId = await ProductPriceService.create(expectedProductPrice);
     const productPrice = await ProductPriceService.read(productPriceId, createCriteriaWthoutConditions());
 
-    expectProductPrice(productPrice, expectedProductPrice, productPriceId, expectedStore, expectedTags);
+    expectProductPrice(productPrice, expectedProductPrice, { productPriceId, expectedStore, expectedTags });
   });
 });
 
@@ -154,7 +133,7 @@ describe('update', () => {
 
     const productPrice = await ProductPriceService.read(productPriceId, createCriteriaWthoutConditions());
 
-    expectProductPrice(productPrice, expectedProductPrice, productPriceId, expectedStore, expectedTags);
+    expectProductPrice(productPrice, expectedProductPrice, { productPriceId, expectedStore, expectedTags });
   });
 });
 
@@ -191,14 +170,16 @@ describe('search', () => {
   test('should return the products price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(
+        Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray(),
+      ),
     );
     const productPrices = await ProductPriceService.search(createCriteria(expectedProductPrice));
 
     expect(productPrices.count).toBe(results.count);
     productPrices.forEach((productPrice) => {
       expect(results.find(_ => _.localeCompare(productPrice.get('id')) === 0)).toBeDefined();
-      expectProductPrice(productPrice, expectedProductPrice, productPrice.get('id'), expectedStore, expectedTags);
+      expectProductPrice(productPrice, expectedProductPrice, { productPriceId: productPrice.get('id'), expectedStore, expectedTags });
     });
   });
 });
@@ -224,7 +205,9 @@ describe('searchAll', () => {
   test('should return the products price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(
+        Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray(),
+      ),
     );
 
     let productPrices = List();
@@ -243,7 +226,7 @@ describe('searchAll', () => {
     expect(productPrices.count).toBe(results.count);
     productPrices.forEach((productPrice) => {
       expect(results.find(_ => _.localeCompare(productPrice.get('id')) === 0)).toBeDefined();
-      expectProductPrice(productPrice, expectedProductPrice, productPrice.get('id'), expectedStore, expectedTags);
+      expectProductPrice(productPrice, expectedProductPrice, { productPriceId: productPrice.get('id'), expectedStore, expectedTags });
     });
   });
 });
