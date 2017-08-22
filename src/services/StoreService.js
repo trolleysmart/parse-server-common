@@ -79,7 +79,7 @@ export default class StoreService extends ServiceBase {
       }
     }
 
-    ServiceBase.addGeoLocationToQuery(conditions, query, 'geoLocation', 'geoLocation');
+    ServiceBase.addGeoLocationSearchToQuery(conditions, query, 'geoLocation', 'geoLocation');
 
     if (conditions.has('parentStore')) {
       const value = conditions.get('parentStore');

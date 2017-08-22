@@ -7,6 +7,8 @@ import '../../../bootstrap';
 import { ProductPriceService } from '../';
 import { createProductPriceInfo, expectProductPrice } from '../../schema/__tests__/ProductPrice.test';
 
+const chance = new Chance();
+
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'store', 'tags'),
@@ -14,10 +16,8 @@ const createCriteriaWthoutConditions = () =>
     includeTags: true,
   });
 
-const createCriteria = (productPrice) => {
-  const chance = new Chance();
-
-  return Map({
+const createCriteria = productPrice =>
+  Map({
     conditions: Map({
       name: productPrice ? productPrice.get('name') : uuid(),
       description: productPrice ? productPrice.get('description') : uuid(),
@@ -31,7 +31,6 @@ const createCriteria = (productPrice) => {
       tagIds: productPrice ? productPrice.get('tagIds') : undefined,
     }),
   }).merge(createCriteriaWthoutConditions());
-};
 
 const createProductPrices = async (count, useSameInfo = false) => {
   let productPrice;
@@ -170,9 +169,7 @@ describe('search', () => {
   test('should return the products price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray(),
-      ),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
     );
     const productPrices = await ProductPriceService.search(createCriteria(expectedProductPrice));
 
@@ -205,9 +202,7 @@ describe('searchAll', () => {
   test('should return the products price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray(),
-      ),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
     );
 
     let productPrices = List();
@@ -237,7 +232,7 @@ describe('exists', () => {
   });
 
   test('should return true if any product price match provided criteria', async () => {
-    const productPrices = await createProductPrices(new Chance().integer({ min: 1, max: 10 }), true);
+    const productPrices = await createProductPrices(chance.integer({ min: 1, max: 10 }), true);
 
     expect(await ProductPriceService.exists(createCriteria(productPrices.first()))).toBeTruthy();
   });
@@ -249,7 +244,7 @@ describe('count', () => {
   });
 
   test('should return the count of product price match provided criteria', async () => {
-    const productPrices = await createProductPrices(new Chance().integer({ min: 1, max: 10 }), true);
+    const productPrices = await createProductPrices(chance.integer({ min: 1, max: 10 }), true);
 
     expect(await ProductPriceService.count(createCriteria(productPrices.first()))).toBe(productPrices.count());
   });

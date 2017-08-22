@@ -61,21 +61,21 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StoreService = (function(_ServiceBase) {
-  _inherits(StoreService, _ServiceBase);
+var CrawlSessionService = (function(_ServiceBase) {
+  _inherits(CrawlSessionService, _ServiceBase);
 
-  function StoreService() {
-    _classCallCheck(this, StoreService);
+  function CrawlSessionService() {
+    _classCallCheck(this, CrawlSessionService);
 
-    return _possibleConstructorReturn(this, (StoreService.__proto__ || Object.getPrototypeOf(StoreService)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CrawlSessionService.__proto__ || Object.getPrototypeOf(CrawlSessionService)).apply(this, arguments));
   }
 
-  return StoreService;
+  return CrawlSessionService;
 })(_microBusinessParseServerCommon.ServiceBase);
 
-StoreService.messagePrefix = 'No store found with Id: ';
+CrawlSessionService.messagePrefix = 'No crawl session found with Id: ';
 
-StoreService.create = (function() {
+CrawlSessionService.create = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee(info, acl, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -83,7 +83,7 @@ StoreService.create = (function() {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
-                return _context.abrupt('return', _microBusinessParseServerCommon.ServiceBase.create(_schema.Store, info, acl, sessionToken));
+                return _context.abrupt('return', _microBusinessParseServerCommon.ServiceBase.create(_schema.CrawlSession, info, acl, sessionToken));
 
               case 1:
               case 'end':
@@ -102,9 +102,9 @@ StoreService.create = (function() {
   };
 })();
 
-StoreService.read = (function() {
+CrawlSessionService.read = (function() {
   var _ref2 = _asyncToGenerator(
-    regeneratorRuntime.mark(function _callee2(id, criteria, sessionToken) {
+    regeneratorRuntime.mark(function _callee2(id, sessionToken) {
       return regeneratorRuntime.wrap(
         function _callee2$(_context2) {
           while (1) {
@@ -112,9 +112,7 @@ StoreService.read = (function() {
               case 0:
                 return _context2.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.read(_schema.Store, id, sessionToken, StoreService.messagePrefix, function(query) {
-                    return StoreService.buildIncludeQuery(query, criteria);
-                  }),
+                  _microBusinessParseServerCommon.ServiceBase.read(_schema.CrawlSession, id, sessionToken, CrawlSessionService.messagePrefix),
                 );
 
               case 1:
@@ -129,14 +127,14 @@ StoreService.read = (function() {
     }),
   );
 
-  return function(_x4, _x5, _x6) {
+  return function(_x4, _x5) {
     return _ref2.apply(this, arguments);
   };
 })();
 
-StoreService.read = (function() {
+CrawlSessionService.update = (function() {
   var _ref3 = _asyncToGenerator(
-    regeneratorRuntime.mark(function _callee3(id, criteria, sessionToken) {
+    regeneratorRuntime.mark(function _callee3(info, sessionToken) {
       return regeneratorRuntime.wrap(
         function _callee3$(_context3) {
           while (1) {
@@ -144,7 +142,7 @@ StoreService.read = (function() {
               case 0:
                 return _context3.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.read(_schema.Store, id, sessionToken, StoreService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.update(_schema.CrawlSession, info, sessionToken, CrawlSessionService.messagePrefix),
                 );
 
               case 1:
@@ -159,12 +157,12 @@ StoreService.read = (function() {
     }),
   );
 
-  return function(_x7, _x8, _x9) {
+  return function(_x6, _x7) {
     return _ref3.apply(this, arguments);
   };
 })();
 
-StoreService.read = (function() {
+CrawlSessionService.delete = (function() {
   var _ref4 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee4(id, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -174,7 +172,7 @@ StoreService.read = (function() {
               case 0:
                 return _context4.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.read(_schema.Store, id, sessionToken, StoreService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.delete(_schema.CrawlSession, id, sessionToken, CrawlSessionService.messagePrefix),
                 );
 
               case 1:
@@ -189,14 +187,14 @@ StoreService.read = (function() {
     }),
   );
 
-  return function(_x10, _x11) {
+  return function(_x8, _x9) {
     return _ref4.apply(this, arguments);
   };
 })();
 
-StoreService.update = (function() {
+CrawlSessionService.search = (function() {
   var _ref5 = _asyncToGenerator(
-    regeneratorRuntime.mark(function _callee5(info, sessionToken) {
+    regeneratorRuntime.mark(function _callee5(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
         function _callee5$(_context5) {
           while (1) {
@@ -204,7 +202,12 @@ StoreService.update = (function() {
               case 0:
                 return _context5.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.update(_schema.Store, info, sessionToken, StoreService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.search(
+                    _schema.CrawlSession,
+                    CrawlSessionService.buildSearchQuery,
+                    criteria,
+                    sessionToken,
+                  ),
                 );
 
               case 1:
@@ -219,14 +222,18 @@ StoreService.update = (function() {
     }),
   );
 
-  return function(_x12, _x13) {
+  return function(_x10, _x11) {
     return _ref5.apply(this, arguments);
   };
 })();
 
-StoreService.delete = (function() {
+CrawlSessionService.searchAll = function(criteria, sessionToken) {
+  return _microBusinessParseServerCommon.ServiceBase.searchAll(_schema.CrawlSession, CrawlSessionService.buildSearchQuery, criteria, sessionToken);
+};
+
+CrawlSessionService.count = (function() {
   var _ref6 = _asyncToGenerator(
-    regeneratorRuntime.mark(function _callee6(id, sessionToken) {
+    regeneratorRuntime.mark(function _callee6(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
         function _callee6$(_context6) {
           while (1) {
@@ -234,7 +241,7 @@ StoreService.delete = (function() {
               case 0:
                 return _context6.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.delete(_schema.Store, id, sessionToken, StoreService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.count(CrawlSessionService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -249,12 +256,12 @@ StoreService.delete = (function() {
     }),
   );
 
-  return function(_x14, _x15) {
+  return function(_x12, _x13) {
     return _ref6.apply(this, arguments);
   };
 })();
 
-StoreService.search = (function() {
+CrawlSessionService.exists = (function() {
   var _ref7 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee7(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -264,7 +271,7 @@ StoreService.search = (function() {
               case 0:
                 return _context7.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.search(_schema.Store, StoreService.buildSearchQuery, criteria, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.exists(CrawlSessionService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -279,94 +286,13 @@ StoreService.search = (function() {
     }),
   );
 
-  return function(_x16, _x17) {
+  return function(_x14, _x15) {
     return _ref7.apply(this, arguments);
   };
 })();
 
-StoreService.searchAll = function(criteria, sessionToken) {
-  return _microBusinessParseServerCommon.ServiceBase.searchAll(_schema.Store, StoreService.buildSearchQuery, criteria, sessionToken);
-};
-
-StoreService.count = (function() {
-  var _ref8 = _asyncToGenerator(
-    regeneratorRuntime.mark(function _callee8(criteria, sessionToken) {
-      return regeneratorRuntime.wrap(
-        function _callee8$(_context8) {
-          while (1) {
-            switch ((_context8.prev = _context8.next)) {
-              case 0:
-                return _context8.abrupt(
-                  'return',
-                  _microBusinessParseServerCommon.ServiceBase.count(StoreService.buildSearchQuery, criteria, sessionToken),
-                );
-
-              case 1:
-              case 'end':
-                return _context8.stop();
-            }
-          }
-        },
-        _callee8,
-        undefined,
-      );
-    }),
-  );
-
-  return function(_x18, _x19) {
-    return _ref8.apply(this, arguments);
-  };
-})();
-
-StoreService.exists = (function() {
-  var _ref9 = _asyncToGenerator(
-    regeneratorRuntime.mark(function _callee9(criteria, sessionToken) {
-      return regeneratorRuntime.wrap(
-        function _callee9$(_context9) {
-          while (1) {
-            switch ((_context9.prev = _context9.next)) {
-              case 0:
-                return _context9.abrupt(
-                  'return',
-                  _microBusinessParseServerCommon.ServiceBase.exists(StoreService.buildSearchQuery, criteria, sessionToken),
-                );
-
-              case 1:
-              case 'end':
-                return _context9.stop();
-            }
-          }
-        },
-        _callee9,
-        undefined,
-      );
-    }),
-  );
-
-  return function(_x20, _x21) {
-    return _ref9.apply(this, arguments);
-  };
-})();
-
-StoreService.buildIncludeQuery = function(query, criteria) {
-  if (!criteria) {
-    return query;
-  }
-
-  if (criteria.has('includeParentStore')) {
-    var value = criteria.get('includeParentStore');
-
-    if (value) {
-      query.include('parentStore');
-    }
-  }
-
-  return query;
-};
-
-StoreService.buildSearchQuery = function(criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
-  var query = StoreService.buildIncludeQuery(queryWithoutIncludes, criteria);
+CrawlSessionService.buildSearchQuery = function(criteria) {
+  var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawlSession, criteria);
 
   if (!criteria.has('conditions')) {
     return query;
@@ -382,43 +308,10 @@ StoreService.buildSearchQuery = function(criteria) {
     }
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
-
-  if (conditions.has('imageUrl')) {
-    var _value = conditions.get('imageUrl');
-
-    if (_value) {
-      query.equalTo('imageUrl', _value);
-    }
-  }
-
-  if (conditions.has('address')) {
-    var _value2 = conditions.get('address');
-
-    if (_value2) {
-      query.equalTo('address', _value2);
-    }
-  }
-
-  _microBusinessParseServerCommon.ServiceBase.addGeoLocationSearchToQuery(conditions, query, 'geoLocation', 'geoLocation');
-
-  if (conditions.has('parentStore')) {
-    var _value3 = conditions.get('parentStore');
-
-    if (_value3) {
-      query.equalTo('parentStore', _value3);
-    }
-  }
-
-  if (conditions.has('parentStoreId')) {
-    var _value4 = conditions.get('parentStoreId');
-
-    if (_value4) {
-      query.equalTo('parentStore', _schema.Store.createWithoutData(_value4));
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addDateTimeSearchToQuery(conditions, query, 'startDateTime', 'startDateTime');
+  _microBusinessParseServerCommon.ServiceBase.addDateTimeSearchToQuery(conditions, query, 'endDateTime', 'endDateTime');
 
   return query;
 };
 
-exports.default = StoreService;
+exports.default = CrawlSessionService;

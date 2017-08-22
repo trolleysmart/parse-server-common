@@ -59,20 +59,13 @@ export default class TagService extends ServiceBase {
 
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
+    ServiceBase.addNumberSearchToQuery(conditions, query, 'level', 'level');
 
     if (conditions.has('imageUrl')) {
       const value = conditions.get('imageUrl');
 
       if (value) {
         query.equalTo('imageUrl', value);
-      }
-    }
-
-    if (conditions.has('level')) {
-      const value = conditions.get('level');
-
-      if (value) {
-        query.equalTo('level', value);
       }
     }
 

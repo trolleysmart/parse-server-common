@@ -1,9 +1,13 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+  value: true,
 });
-exports.TagService = exports.StoreService = exports.ProductPriceService = undefined;
+exports.TagService = exports.StoreService = exports.ProductPriceService = exports.CrawlSessionService = undefined;
+
+var _CrawlSessionService2 = require('./CrawlSessionService');
+
+var _CrawlSessionService3 = _interopRequireDefault(_CrawlSessionService2);
 
 var _ProductPriceService2 = require('./ProductPriceService');
 
@@ -17,8 +21,11 @@ var _TagService2 = require('./TagService');
 
 var _TagService3 = _interopRequireDefault(_TagService2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
+exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;
 exports.StoreService = _StoreService3.default;
 exports.TagService = _TagService3.default;

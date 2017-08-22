@@ -56,6 +56,18 @@ export default class ProductPriceService extends ServiceBase {
 
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
+    ServiceBase.addNumberSearchToQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
+    ServiceBase.addNumberSearchToQuery(conditions, query, 'saving', 'saving');
+    ServiceBase.addNumberSearchToQuery(conditions, query, 'savingPercentage', 'savingPercentage');
+    ServiceBase.addDateTimeSearchToQuery(conditions, query, 'offerEndDate', 'offerEndDate');
+
+    if (conditions.has('status')) {
+      const value = conditions.get('status');
+
+      if (value) {
+        query.equalTo('status', value);
+      }
+    }
 
     if (conditions.has('tag')) {
       const value = conditions.get('tag');

@@ -8,16 +8,16 @@ import '../../../bootstrap';
 import { StoreService } from '../';
 import { createStoreInfo, expectStore } from '../../schema/__tests__/Store.test';
 
+const chance = new Chance();
+
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'parentStore'),
     includeParentStore: true,
   });
 
-const createCriteria = (store) => {
-  const chance = new Chance();
-
-  return Map({
+const createCriteria = store =>
+  Map({
     conditions: Map({
       key: store ? store.get('key') : uuid(),
       name: store ? store.get('name') : uuid(),
@@ -33,7 +33,6 @@ const createCriteria = (store) => {
       parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined,
     }),
   }).merge(createCriteriaWthoutConditions());
-};
 
 const createStores = async (count, useSameInfo = false, createParentStore = true) => {
   const parentStore = createParentStore ? await createStores(1, false, false) : undefined;
@@ -179,7 +178,7 @@ describe('search', () => {
     const parentStoreId = await StoreService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
     );
     const stores = await StoreService.search(createCriteria(expectedStore));
 
@@ -214,7 +213,7 @@ describe('searchAll', () => {
     const parentStoreId = await StoreService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
     );
 
     let stores = List();
@@ -244,7 +243,7 @@ describe('exists', () => {
   });
 
   test('should return true if any store match provided criteria', async () => {
-    const stores = await createStores(new Chance().integer({ min: 1, max: 10 }), true);
+    const stores = await createStores(chance.integer({ min: 1, max: 10 }), true);
 
     expect(await StoreService.exists(createCriteria(stores.first()))).toBeTruthy();
   });
@@ -256,7 +255,7 @@ describe('count', () => {
   });
 
   test('should return the count of store match provided criteria', async () => {
-    const stores = await createStores(new Chance().integer({ min: 1, max: 10 }), true);
+    const stores = await createStores(chance.integer({ min: 1, max: 10 }), true);
 
     expect(await StoreService.count(createCriteria(stores.first()))).toBe(stores.count());
   });

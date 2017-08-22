@@ -3,11 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.expectTag = exports.createTag = exports.createTagInfo = undefined;
-
-var _chance = require('chance');
-
-var _chance2 = _interopRequireDefault(_chance);
+exports.expectCrawlSession = exports.createCrawlSession = exports.createCrawlSessionInfo = undefined;
 
 var _immutable = require('immutable');
 
@@ -51,30 +47,22 @@ function _asyncToGenerator(fn) {
   };
 }
 
-var chance = new _chance2.default();
-
-var createTagInfo = (exports.createTagInfo = (function() {
+var createCrawlSessionInfo = (exports.createCrawlSessionInfo = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee() {
-      var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        parentTagId = _ref2.parentTagId;
-
-      var tag;
+      var crawlSession;
       return regeneratorRuntime.wrap(
         function _callee$(_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
-                tag = (0, _immutable.Map)({
+                crawlSession = (0, _immutable.Map)({
                   key: (0, _v2.default)(),
-                  name: (0, _v2.default)(),
-                  description: (0, _v2.default)(),
-                  imageUrl: (0, _v2.default)(),
-                  level: chance.integer({ min: 1, max: 1000 }),
-                  forDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
-                  parentTagId: parentTagId,
+                  startDateTime: new Date(),
+                  endDateTime: new Date(),
+                  additionalInfo: (0, _immutable.Map)({ info1: (0, _v2.default)(), info2: (0, _v2.default)() }),
                 });
-                return _context.abrupt('return', { tag: tag });
+                return _context.abrupt('return', { crawlSession: crawlSession });
 
               case 2:
               case 'end':
@@ -88,20 +76,20 @@ var createTagInfo = (exports.createTagInfo = (function() {
     }),
   );
 
-  return function createTagInfo() {
+  return function createCrawlSessionInfo() {
     return _ref.apply(this, arguments);
   };
 })());
 
-var createTag = (exports.createTag = (function() {
-  var _ref3 = _asyncToGenerator(
+var createCrawlSession = (exports.createCrawlSession = (function() {
+  var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(object) {
       return regeneratorRuntime.wrap(
         function _callee2$(_context2) {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                _context2.t0 = _.Tag;
+                _context2.t0 = _.CrawlSession;
                 _context2.t1 = object;
 
                 if (_context2.t1) {
@@ -110,10 +98,10 @@ var createTag = (exports.createTag = (function() {
                 }
 
                 _context2.next = 5;
-                return createTagInfo();
+                return createCrawlSessionInfo();
 
               case 5:
-                _context2.t1 = _context2.sent.tag;
+                _context2.t1 = _context2.sent.crawlSession;
 
               case 6:
                 _context2.t2 = _context2.t1;
@@ -131,19 +119,16 @@ var createTag = (exports.createTag = (function() {
     }),
   );
 
-  return function createTag(_x2) {
-    return _ref3.apply(this, arguments);
+  return function createCrawlSession(_x) {
+    return _ref2.apply(this, arguments);
   };
 })());
 
-var expectTag = (exports.expectTag = function expectTag(object, expectedObject) {
+var expectCrawlSession = (exports.expectCrawlSession = function expectCrawlSession(object, expectedObject) {
   expect(object.get('key')).toBe(expectedObject.get('key'));
-  expect(object.get('name')).toBe(expectedObject.get('name'));
-  expect(object.get('description')).toBe(expectedObject.get('description'));
-  expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
-  expect(object.get('level')).toBe(expectedObject.get('level'));
-  expect(object.get('forDisplay')).toBe(expectedObject.get('forDisplay'));
-  expect(object.get('parentTagId')).toBe(expectedObject.get('parentTagId'));
+  expect(object.get('startDateTime')).toEqual(expectedObject.get('startDateTime'));
+  expect(object.get('endDateTime')).toEqual(expectedObject.get('endDateTime'));
+  expect(object.get('additionalInfo')).toEqual(expectedObject.get('additionalInfo'));
 });
 
 describe('constructor', function() {
@@ -158,11 +143,11 @@ describe('constructor', function() {
                 case 0:
                   _context3.t0 = expect;
                   _context3.next = 3;
-                  return createTag();
+                  return createCrawlSession();
 
                 case 3:
                   _context3.t1 = _context3.sent.className;
-                  (0, _context3.t0)(_context3.t1).toBe('Tag');
+                  (0, _context3.t0)(_context3.t1).toBe('CrawlSession');
 
                 case 5:
                 case 'end':
@@ -183,7 +168,7 @@ describe('static public methods', function() {
     'spawn should set provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee4() {
-        var _ref6, tag, object, info;
+        var _ref5, crawlSession, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee4$(_context4) {
@@ -191,19 +176,19 @@ describe('static public methods', function() {
               switch ((_context4.prev = _context4.next)) {
                 case 0:
                   _context4.next = 2;
-                  return createTagInfo();
+                  return createCrawlSessionInfo();
 
                 case 2:
-                  _ref6 = _context4.sent;
-                  tag = _ref6.tag;
+                  _ref5 = _context4.sent;
+                  crawlSession = _ref5.crawlSession;
                   _context4.next = 6;
-                  return createTag(tag);
+                  return createCrawlSession(crawlSession);
 
                 case 6:
                   object = _context4.sent;
                   info = object.getInfo();
 
-                  expectTag(info, tag);
+                  expectCrawlSession(info, crawlSession);
 
                 case 9:
                 case 'end':
@@ -231,12 +216,12 @@ describe('public methods', function() {
               switch ((_context5.prev = _context5.next)) {
                 case 0:
                   _context5.next = 2;
-                  return createTag();
+                  return createCrawlSession();
 
                 case 2:
                   object = _context5.sent;
 
-                  expect(new _.Tag(object).getObject()).toBe(object);
+                  expect(new _.CrawlSession(object).getObject()).toBe(object);
 
                 case 4:
                 case 'end':
@@ -262,12 +247,12 @@ describe('public methods', function() {
               switch ((_context6.prev = _context6.next)) {
                 case 0:
                   _context6.next = 2;
-                  return createTag();
+                  return createCrawlSession();
 
                 case 2:
                   object = _context6.sent;
 
-                  expect(new _.Tag(object).getId()).toBe(object.id);
+                  expect(new _.CrawlSession(object).getId()).toBe(object.id);
 
                 case 4:
                 case 'end':
@@ -286,7 +271,7 @@ describe('public methods', function() {
     'updateInfo should update object info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee7() {
-        var object, _ref10, updatedTag, info;
+        var object, _ref9, updatedCrawlSession, info;
 
         return regeneratorRuntime.wrap(
           function _callee7$(_context7) {
@@ -294,22 +279,22 @@ describe('public methods', function() {
               switch ((_context7.prev = _context7.next)) {
                 case 0:
                   _context7.next = 2;
-                  return createTag();
+                  return createCrawlSession();
 
                 case 2:
                   object = _context7.sent;
                   _context7.next = 5;
-                  return createTagInfo();
+                  return createCrawlSessionInfo();
 
                 case 5:
-                  _ref10 = _context7.sent;
-                  updatedTag = _ref10.tag;
+                  _ref9 = _context7.sent;
+                  updatedCrawlSession = _ref9.crawlSession;
 
-                  object.updateInfo(updatedTag);
+                  object.updateInfo(updatedCrawlSession);
 
                   info = object.getInfo();
 
-                  expectTag(info, updatedTag);
+                  expectCrawlSession(info, updatedCrawlSession);
 
                 case 10:
                 case 'end':
@@ -328,7 +313,7 @@ describe('public methods', function() {
     'getInfo should return provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee8() {
-        var _ref12, tag, object, info;
+        var _ref11, crawlSession, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee8$(_context8) {
@@ -336,20 +321,20 @@ describe('public methods', function() {
               switch ((_context8.prev = _context8.next)) {
                 case 0:
                   _context8.next = 2;
-                  return createTagInfo();
+                  return createCrawlSessionInfo();
 
                 case 2:
-                  _ref12 = _context8.sent;
-                  tag = _ref12.tag;
+                  _ref11 = _context8.sent;
+                  crawlSession = _ref11.crawlSession;
                   _context8.next = 6;
-                  return createTag(tag);
+                  return createCrawlSession(crawlSession);
 
                 case 6:
                   object = _context8.sent;
                   info = object.getInfo();
 
                   expect(info.get('id')).toBe(object.getId());
-                  expectTag(info, tag);
+                  expectCrawlSession(info, crawlSession);
 
                 case 10:
                 case 'end':
