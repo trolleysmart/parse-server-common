@@ -1,7 +1,7 @@
 // @flow
 
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
-import { ProductPrice, Tag } from '../schema';
+import { ProductPrice, Store, Tag } from '../schema';
 
 export default class ProductPriceService extends ServiceBase {
   static messagePrefix = 'No product price found with Id: ';
@@ -61,6 +61,7 @@ export default class ProductPriceService extends ServiceBase {
     ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');
     ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
     ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+    ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
 
     return query;
