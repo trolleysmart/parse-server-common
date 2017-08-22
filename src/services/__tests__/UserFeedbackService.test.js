@@ -156,7 +156,7 @@ describe('search', () => {
     expect(userFeedbacks.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the user feedback matches the criteria', async () => {
     const { userFeedback: expectedUserFeedback } = await createUserFeedbackInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => UserFeedbackService.create(expectedUserFeedback)).toArray()),
@@ -189,7 +189,7 @@ describe('searchAll', () => {
     expect(userFeedbacks.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the user feedback matches the criteria', async () => {
     const { userFeedback: expectedUserFeedback } = await createUserFeedbackInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => UserFeedbackService.create(expectedUserFeedback)).toArray()),

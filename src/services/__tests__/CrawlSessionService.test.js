@@ -158,7 +158,7 @@ describe('search', () => {
     expect(crawlSessions.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the crawl session matches the criteria', async () => {
     const { crawlSession: expectedCrawlSession } = await createCrawlSessionInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => CrawlSessionService.create(expectedCrawlSession)).toArray()),
@@ -191,7 +191,7 @@ describe('searchAll', () => {
     expect(crawlSessions.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the crawl session matches the criteria', async () => {
     const { crawlSession: expectedCrawlSession } = await createCrawlSessionInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => CrawlSessionService.create(expectedCrawlSession)).toArray()),

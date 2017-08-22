@@ -166,7 +166,7 @@ describe('search', () => {
     expect(productPrices.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the product price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
@@ -199,7 +199,7 @@ describe('searchAll', () => {
     expect(productPrices.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the product price matches the criteria', async () => {
     const { productPrice: expectedProductPrice, store: expectedStore, tags: expectedTags } = await createProductPriceInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),

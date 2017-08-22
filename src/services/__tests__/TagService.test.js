@@ -167,7 +167,7 @@ describe('search', () => {
     expect(tags.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the tag matches the criteria', async () => {
     const { tag: parentTag } = await createTagInfo();
     const parentTagId = await TagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
@@ -202,7 +202,7 @@ describe('searchAll', () => {
     expect(tags.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the tag matches the criteria', async () => {
     const { tag: parentTag } = await createTagInfo();
     const parentTagId = await TagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });

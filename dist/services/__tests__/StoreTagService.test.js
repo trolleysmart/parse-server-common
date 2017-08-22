@@ -20,7 +20,7 @@ require('../../../bootstrap');
 
 var _2 = require('../');
 
-var _Tag = require('../../schema/__tests__/Tag.test');
+var _StoreTag = require('../../schema/__tests__/StoreTag.test');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -60,45 +60,49 @@ var chance = new _chance2.default();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'parentTag'),
+    fields: _immutable.List.of('key', 'name', 'description', 'imageUrl', 'url', 'level', 'parentStoreTag', 'store', 'tag'),
     includeParentTag: true,
+    includeStore: true,
+    includeTag: true,
   });
 };
 
-var createCriteria = function createCriteria(tag) {
+var createCriteria = function createCriteria(storeTag) {
   return (0, _immutable.Map)({
     conditions: (0, _immutable.Map)({
-      key: tag ? tag.get('key') : (0, _v2.default)(),
-      name: tag ? tag.get('name') : (0, _v2.default)(),
-      description: tag ? tag.get('description') : (0, _v2.default)(),
-      imageUrl: tag ? tag.get('imageUrl') : (0, _v2.default)(),
-      level: tag ? tag.get('level') : chance.integer({ min: 1, max: 1000 }),
-      forDisplay: tag ? tag.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
-      parentTagId: tag && tag.get('parentTagId') ? tag.get('parentTagId') : undefined,
+      key: storeTag ? storeTag.get('key') : (0, _v2.default)(),
+      name: storeTag ? storeTag.get('name') : (0, _v2.default)(),
+      description: storeTag ? storeTag.get('description') : (0, _v2.default)(),
+      imageUrl: storeTag ? storeTag.get('imageUrl') : (0, _v2.default)(),
+      url: storeTag ? storeTag.get('url') : (0, _v2.default)(),
+      level: storeTag ? storeTag.get('level') : chance.integer({ min: 1, max: 1000 }),
+      parentStoreTagId: storeTag && storeTag.get('parentStoreTagId') ? storeTag.get('parentStoreTagId') : undefined,
+      storeId: storeTag ? storeTag.get('storeId') : (0, _v2.default)(),
+      tagId: storeTag ? storeTag.get('tagId') : (0, _v2.default)(),
     }),
   }).merge(createCriteriaWthoutConditions());
 };
 
-var createTags = (function() {
+var createStoreTags = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(count) {
       var useSameInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var createParentTag = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var createParentStoreTag = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-      var parentTag, tag, _ref2, tempTag;
+      var parentStoreTag, storeTag, _ref2, tempStoreTag;
 
       return regeneratorRuntime.wrap(
         function _callee2$(_context2) {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                if (!createParentTag) {
+                if (!createParentStoreTag) {
                   _context2.next = 6;
                   break;
                 }
 
                 _context2.next = 3;
-                return createTags(1, false, false);
+                return createStoreTags(1, false, false);
 
               case 3:
                 _context2.t0 = _context2.sent;
@@ -109,8 +113,8 @@ var createTags = (function() {
                 _context2.t0 = undefined;
 
               case 7:
-                parentTag = _context2.t0;
-                tag = void 0;
+                parentStoreTag = _context2.t0;
+                storeTag = void 0;
 
                 if (!useSameInfo) {
                   _context2.next = 15;
@@ -118,13 +122,13 @@ var createTags = (function() {
                 }
 
                 _context2.next = 12;
-                return (0, _Tag.createTagInfo)();
+                return (0, _StoreTag.createStoreTagInfo)();
 
               case 12:
                 _ref2 = _context2.sent;
-                tempTag = _ref2.tag;
+                tempStoreTag = _ref2.storeTag;
 
-                tag = tempTag;
+                storeTag = tempStoreTag;
 
               case 15:
                 _context2.t1 = _immutable2.default;
@@ -134,39 +138,41 @@ var createTags = (function() {
                     .map(
                       _asyncToGenerator(
                         regeneratorRuntime.mark(function _callee() {
-                          var finalTag, _ref4, _tempTag;
+                          var finalStoreTag, _ref4, _tempStoreTag;
 
                           return regeneratorRuntime.wrap(
                             function _callee$(_context) {
                               while (1) {
                                 switch ((_context.prev = _context.next)) {
                                   case 0:
-                                    finalTag = void 0;
+                                    finalStoreTag = void 0;
 
                                     if (!useSameInfo) {
                                       _context.next = 5;
                                       break;
                                     }
 
-                                    finalTag = tag;
+                                    finalStoreTag = storeTag;
                                     _context.next = 10;
                                     break;
 
                                   case 5:
                                     _context.next = 7;
-                                    return (0, _Tag.createTagInfo)();
+                                    return (0, _StoreTag.createStoreTagInfo)();
 
                                   case 7:
                                     _ref4 = _context.sent;
-                                    _tempTag = _ref4.tag;
+                                    _tempStoreTag = _ref4.storeTag;
 
-                                    finalTag = _tempTag;
+                                    finalStoreTag = _tempStoreTag;
 
                                   case 10:
-                                    _context.t0 = _2.TagService;
+                                    _context.t0 = _2.StoreTagService;
                                     _context.next = 13;
-                                    return _2.TagService.create(
-                                      createParentTag ? finalTag.merge((0, _immutable.Map)({ parentTagId: parentTag.get('id') })) : finalTag,
+                                    return _2.StoreTagService.create(
+                                      createParentStoreTag
+                                        ? finalStoreTag.merge((0, _immutable.Map)({ parentStoreTagId: parentStoreTag.get('id') }))
+                                        : finalStoreTag,
                                     );
 
                                   case 13:
@@ -205,37 +211,37 @@ var createTags = (function() {
     }),
   );
 
-  return function createTags(_x) {
+  return function createStoreTags(_x) {
     return _ref.apply(this, arguments);
   };
 })();
 
-exports.default = createTags;
+exports.default = createStoreTags;
 
 describe('create', function() {
   test(
-    'should return the created tag Id',
+    'should return the created store tag Id',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee3() {
-        var tagId;
+        var storeTagId;
         return regeneratorRuntime.wrap(
           function _callee3$(_context3) {
             while (1) {
               switch ((_context3.prev = _context3.next)) {
                 case 0:
-                  _context3.t0 = _2.TagService;
+                  _context3.t0 = _2.StoreTagService;
                   _context3.next = 3;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 3:
-                  _context3.t1 = _context3.sent.tag;
+                  _context3.t1 = _context3.sent.storeTag;
                   _context3.next = 6;
                   return _context3.t0.create.call(_context3.t0, _context3.t1);
 
                 case 6:
-                  tagId = _context3.sent;
+                  storeTagId = _context3.sent;
 
-                  expect(tagId).toBeDefined();
+                  expect(storeTagId).toBeDefined();
 
                 case 8:
                 case 'end':
@@ -251,10 +257,10 @@ describe('create', function() {
   );
 
   test(
-    'should create the tag',
+    'should create the store tag',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee4() {
-        var _ref7, tag, tagId, fetchedTag;
+        var _ref7, storeTag, storeTagId, fetchedStoreTag;
 
         return regeneratorRuntime.wrap(
           function _callee4$(_context4) {
@@ -262,23 +268,23 @@ describe('create', function() {
               switch ((_context4.prev = _context4.next)) {
                 case 0:
                   _context4.next = 2;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 2:
                   _ref7 = _context4.sent;
-                  tag = _ref7.tag;
+                  storeTag = _ref7.storeTag;
                   _context4.next = 6;
-                  return _2.TagService.create(tag);
+                  return _2.StoreTagService.create(storeTag);
 
                 case 6:
-                  tagId = _context4.sent;
+                  storeTagId = _context4.sent;
                   _context4.next = 9;
-                  return _2.TagService.read(tagId, createCriteriaWthoutConditions());
+                  return _2.StoreTagService.read(storeTagId, createCriteriaWthoutConditions());
 
                 case 9:
-                  fetchedTag = _context4.sent;
+                  fetchedStoreTag = _context4.sent;
 
-                  expect(fetchedTag).toBeDefined();
+                  expect(fetchedStoreTag).toBeDefined();
 
                 case 11:
                 case 'end':
@@ -296,19 +302,19 @@ describe('create', function() {
 
 describe('read', function() {
   test(
-    'should reject if the provided tag Id does not exist',
+    'should reject if the provided store tag Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee5() {
-        var tagId;
+        var storeTagId;
         return regeneratorRuntime.wrap(
           function _callee5$(_context5) {
             while (1) {
               switch ((_context5.prev = _context5.next)) {
                 case 0:
-                  tagId = (0, _v2.default)();
+                  storeTagId = (0, _v2.default)();
                   _context5.prev = 1;
                   _context5.next = 4;
-                  return _2.TagService.read(tagId);
+                  return _2.StoreTagService.read(storeTagId);
 
                 case 4:
                   _context5.next = 9;
@@ -318,7 +324,7 @@ describe('read', function() {
                   _context5.prev = 6;
                   _context5.t0 = _context5['catch'](1);
 
-                  expect(_context5.t0.getErrorMessage()).toBe('No tag found with Id: ' + tagId);
+                  expect(_context5.t0.getErrorMessage()).toBe('No store tag found with Id: ' + storeTagId);
 
                 case 9:
                 case 'end':
@@ -335,10 +341,10 @@ describe('read', function() {
   );
 
   test(
-    'should read the existing tag',
+    'should read the existing store tag',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee6() {
-        var _ref10, parentTag, parentTagId, _ref11, expectedTag, tagId, tag;
+        var _ref10, parentStoreTag, parentStoreTagId, _ref11, expectedStoreTag, expectedStore, expectedTags, storeTagId, storeTag;
 
         return regeneratorRuntime.wrap(
           function _callee6$(_context6) {
@@ -346,36 +352,42 @@ describe('read', function() {
               switch ((_context6.prev = _context6.next)) {
                 case 0:
                   _context6.next = 2;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 2:
                   _ref10 = _context6.sent;
-                  parentTag = _ref10.tag;
+                  parentStoreTag = _ref10.storeTag;
                   _context6.next = 6;
-                  return _2.TagService.create(parentTag);
+                  return _2.StoreTagService.create(parentStoreTag);
 
                 case 6:
-                  parentTagId = _context6.sent;
+                  parentStoreTagId = _context6.sent;
                   _context6.next = 9;
-                  return (0, _Tag.createTagInfo)({ parentTagId: parentTagId });
+                  return (0, _StoreTag.createStoreTagInfo)({ parentStoreTagId: parentStoreTagId });
 
                 case 9:
                   _ref11 = _context6.sent;
-                  expectedTag = _ref11.tag;
-                  _context6.next = 13;
-                  return _2.TagService.create(expectedTag);
+                  expectedStoreTag = _ref11.storeTag;
+                  expectedStore = _ref11.store;
+                  expectedTags = _ref11.tags;
+                  _context6.next = 15;
+                  return _2.StoreTagService.create(expectedStoreTag);
 
-                case 13:
-                  tagId = _context6.sent;
-                  _context6.next = 16;
-                  return _2.TagService.read(tagId, createCriteriaWthoutConditions());
-
-                case 16:
-                  tag = _context6.sent;
-
-                  (0, _Tag.expectTag)(tag, expectedTag);
+                case 15:
+                  storeTagId = _context6.sent;
+                  _context6.next = 18;
+                  return _2.StoreTagService.read(storeTagId, createCriteriaWthoutConditions());
 
                 case 18:
+                  storeTag = _context6.sent;
+
+                  (0, _StoreTag.expectStoreTag)(storeTag, expectedStoreTag, {
+                    storeTagId: storeTagId,
+                    expectedStore: expectedStore,
+                    expectedTags: expectedTags,
+                  });
+
+                case 20:
                 case 'end':
                   return _context6.stop();
               }
@@ -391,24 +403,24 @@ describe('read', function() {
 
 describe('update', function() {
   test(
-    'should reject if the provided tag Id does not exist',
+    'should reject if the provided store tag Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee7() {
-        var tagId, tag;
+        var storeTagId, storeTag;
         return regeneratorRuntime.wrap(
           function _callee7$(_context7) {
             while (1) {
               switch ((_context7.prev = _context7.next)) {
                 case 0:
-                  tagId = (0, _v2.default)();
+                  storeTagId = (0, _v2.default)();
                   _context7.prev = 1;
-                  _context7.t0 = _2.TagService;
-                  _context7.t1 = _2.TagService;
+                  _context7.t0 = _2.StoreTagService;
+                  _context7.t1 = _2.StoreTagService;
                   _context7.next = 6;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 6:
-                  _context7.t2 = _context7.sent.tag;
+                  _context7.t2 = _context7.sent.storeTag;
                   _context7.next = 9;
                   return _context7.t1.create.call(_context7.t1, _context7.t2);
 
@@ -419,9 +431,9 @@ describe('update', function() {
                   return _context7.t0.read.call(_context7.t0, _context7.t3, _context7.t4);
 
                 case 13:
-                  tag = _context7.sent;
+                  storeTag = _context7.sent;
                   _context7.next = 16;
-                  return _2.TagService.update(tag.set('id', tagId));
+                  return _2.StoreTagService.update(storeTag.set('id', storeTagId));
 
                 case 16:
                   _context7.next = 21;
@@ -431,7 +443,7 @@ describe('update', function() {
                   _context7.prev = 18;
                   _context7.t5 = _context7['catch'](1);
 
-                  expect(_context7.t5.getErrorMessage()).toBe('No tag found with Id: ' + tagId);
+                  expect(_context7.t5.getErrorMessage()).toBe('No store tag found with Id: ' + storeTagId);
 
                 case 21:
                 case 'end':
@@ -448,10 +460,10 @@ describe('update', function() {
   );
 
   test(
-    'should return the Id of the updated tag',
+    'should return the Id of the updated store tag',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee8() {
-        var _ref14, expectedTag, tagId, id;
+        var _ref14, expectedStoreTag, storeTagId, id;
 
         return regeneratorRuntime.wrap(
           function _callee8$(_context8) {
@@ -459,29 +471,29 @@ describe('update', function() {
               switch ((_context8.prev = _context8.next)) {
                 case 0:
                   _context8.next = 2;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 2:
                   _ref14 = _context8.sent;
-                  expectedTag = _ref14.tag;
-                  _context8.t0 = _2.TagService;
+                  expectedStoreTag = _ref14.storeTag;
+                  _context8.t0 = _2.StoreTagService;
                   _context8.next = 7;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 7:
-                  _context8.t1 = _context8.sent.tag;
+                  _context8.t1 = _context8.sent.storeTag;
                   _context8.next = 10;
                   return _context8.t0.create.call(_context8.t0, _context8.t1);
 
                 case 10:
-                  tagId = _context8.sent;
+                  storeTagId = _context8.sent;
                   _context8.next = 13;
-                  return _2.TagService.update(expectedTag.set('id', tagId));
+                  return _2.StoreTagService.update(expectedStoreTag.set('id', storeTagId));
 
                 case 13:
                   id = _context8.sent;
 
-                  expect(id).toBe(tagId);
+                  expect(id).toBe(storeTagId);
 
                 case 15:
                 case 'end':
@@ -497,10 +509,10 @@ describe('update', function() {
   );
 
   test(
-    'should update the existing tag',
+    'should update the existing store tag',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee9() {
-        var _ref16, parentTag, parentTagId, _ref17, expectedTag, tagId, tag;
+        var _ref16, parentStoreTag, parentStoreTagId, _ref17, expectedStoreTag, expectedStore, expectedTags, storeTagId, storeTag;
 
         return regeneratorRuntime.wrap(
           function _callee9$(_context9) {
@@ -508,46 +520,52 @@ describe('update', function() {
               switch ((_context9.prev = _context9.next)) {
                 case 0:
                   _context9.next = 2;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 2:
                   _ref16 = _context9.sent;
-                  parentTag = _ref16.tag;
+                  parentStoreTag = _ref16.storeTag;
                   _context9.next = 6;
-                  return _2.TagService.create(parentTag);
+                  return _2.StoreTagService.create(parentStoreTag);
 
                 case 6:
-                  parentTagId = _context9.sent;
+                  parentStoreTagId = _context9.sent;
                   _context9.next = 9;
-                  return (0, _Tag.createTagInfo)({ parentTagId: parentTagId });
+                  return (0, _StoreTag.createStoreTagInfo)({ parentStoreTagId: parentStoreTagId });
 
                 case 9:
                   _ref17 = _context9.sent;
-                  expectedTag = _ref17.tag;
-                  _context9.t0 = _2.TagService;
-                  _context9.next = 14;
-                  return (0, _Tag.createTagInfo)();
+                  expectedStoreTag = _ref17.storeTag;
+                  expectedStore = _ref17.store;
+                  expectedTags = _ref17.tags;
+                  _context9.t0 = _2.StoreTagService;
+                  _context9.next = 16;
+                  return (0, _StoreTag.createStoreTagInfo)();
 
-                case 14:
-                  _context9.t1 = _context9.sent.tag;
-                  _context9.next = 17;
+                case 16:
+                  _context9.t1 = _context9.sent.storeTag;
+                  _context9.next = 19;
                   return _context9.t0.create.call(_context9.t0, _context9.t1);
 
-                case 17:
-                  tagId = _context9.sent;
-                  _context9.next = 20;
-                  return _2.TagService.update(expectedTag.set('id', tagId));
-
-                case 20:
+                case 19:
+                  storeTagId = _context9.sent;
                   _context9.next = 22;
-                  return _2.TagService.read(tagId, createCriteriaWthoutConditions());
+                  return _2.StoreTagService.update(expectedStoreTag.set('id', storeTagId));
 
                 case 22:
-                  tag = _context9.sent;
-
-                  (0, _Tag.expectTag)(tag, expectedTag);
+                  _context9.next = 24;
+                  return _2.StoreTagService.read(storeTagId, createCriteriaWthoutConditions());
 
                 case 24:
+                  storeTag = _context9.sent;
+
+                  (0, _StoreTag.expectStoreTag)(storeTag, expectedStoreTag, {
+                    storeTagId: storeTagId,
+                    expectedStore: expectedStore,
+                    expectedTags: expectedTags,
+                  });
+
+                case 26:
                 case 'end':
                   return _context9.stop();
               }
@@ -563,19 +581,19 @@ describe('update', function() {
 
 describe('delete', function() {
   test(
-    'should reject if the provided tag Id does not exist',
+    'should reject if the provided store tag Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee10() {
-        var tagId;
+        var storeTagId;
         return regeneratorRuntime.wrap(
           function _callee10$(_context10) {
             while (1) {
               switch ((_context10.prev = _context10.next)) {
                 case 0:
-                  tagId = (0, _v2.default)();
+                  storeTagId = (0, _v2.default)();
                   _context10.prev = 1;
                   _context10.next = 4;
-                  return _2.TagService.delete(tagId);
+                  return _2.StoreTagService.delete(storeTagId);
 
                 case 4:
                   _context10.next = 9;
@@ -585,7 +603,7 @@ describe('delete', function() {
                   _context10.prev = 6;
                   _context10.t0 = _context10['catch'](1);
 
-                  expect(_context10.t0.getErrorMessage()).toBe('No tag found with Id: ' + tagId);
+                  expect(_context10.t0.getErrorMessage()).toBe('No store tag found with Id: ' + storeTagId);
 
                 case 9:
                 case 'end':
@@ -602,33 +620,33 @@ describe('delete', function() {
   );
 
   test(
-    'should delete the existing tag',
+    'should delete the existing store tag',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee11() {
-        var tagId;
+        var storeTagId;
         return regeneratorRuntime.wrap(
           function _callee11$(_context11) {
             while (1) {
               switch ((_context11.prev = _context11.next)) {
                 case 0:
-                  _context11.t0 = _2.TagService;
+                  _context11.t0 = _2.StoreTagService;
                   _context11.next = 3;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 3:
-                  _context11.t1 = _context11.sent.tag;
+                  _context11.t1 = _context11.sent.storeTag;
                   _context11.next = 6;
                   return _context11.t0.create.call(_context11.t0, _context11.t1);
 
                 case 6:
-                  tagId = _context11.sent;
+                  storeTagId = _context11.sent;
                   _context11.next = 9;
-                  return _2.TagService.delete(tagId);
+                  return _2.StoreTagService.delete(storeTagId);
 
                 case 9:
                   _context11.prev = 9;
                   _context11.next = 12;
-                  return _2.TagService.delete(tagId);
+                  return _2.StoreTagService.delete(storeTagId);
 
                 case 12:
                   _context11.next = 17;
@@ -638,7 +656,7 @@ describe('delete', function() {
                   _context11.prev = 14;
                   _context11.t2 = _context11['catch'](9);
 
-                  expect(_context11.t2.getErrorMessage()).toBe('No tag found with Id: ' + tagId);
+                  expect(_context11.t2.getErrorMessage()).toBe('No store tag found with Id: ' + storeTagId);
 
                 case 17:
                 case 'end':
@@ -657,22 +675,22 @@ describe('delete', function() {
 
 describe('search', function() {
   test(
-    'should return no tag if provided criteria matches no tag',
+    'should return no store tag if provided criteria matches no store tag',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee12() {
-        var tags;
+        var storeTags;
         return regeneratorRuntime.wrap(
           function _callee12$(_context12) {
             while (1) {
               switch ((_context12.prev = _context12.next)) {
                 case 0:
                   _context12.next = 2;
-                  return _2.TagService.search(createCriteria());
+                  return _2.StoreTagService.search(createCriteria());
 
                 case 2:
-                  tags = _context12.sent;
+                  storeTags = _context12.sent;
 
-                  expect(tags.count()).toBe(0);
+                  expect(storeTags.count()).toBe(0);
 
                 case 4:
                 case 'end':
@@ -688,10 +706,10 @@ describe('search', function() {
   );
 
   test(
-    'should return the tag matches the criteria',
+    'should return the store tags matches the criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee14() {
-        var _ref22, parentTag, parentTagId, _ref23, expectedTag, results, tags;
+        var _ref22, parentStoreTag, parentStoreTagId, _ref23, expectedStoreTag, expectedStore, expectedTags, results, storeTags;
 
         return regeneratorRuntime.wrap(
           function _callee14$(_context14) {
@@ -699,24 +717,26 @@ describe('search', function() {
               switch ((_context14.prev = _context14.next)) {
                 case 0:
                   _context14.next = 2;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 2:
                   _ref22 = _context14.sent;
-                  parentTag = _ref22.tag;
+                  parentStoreTag = _ref22.storeTag;
                   _context14.next = 6;
-                  return _2.TagService.create(parentTag);
+                  return _2.StoreTagService.create(parentStoreTag);
 
                 case 6:
-                  parentTagId = _context14.sent;
+                  parentStoreTagId = _context14.sent;
                   _context14.next = 9;
-                  return (0, _Tag.createTagInfo)({ parentTagId: parentTagId });
+                  return (0, _StoreTag.createStoreTagInfo)({ parentStoreTagId: parentStoreTagId });
 
                 case 9:
                   _ref23 = _context14.sent;
-                  expectedTag = _ref23.tag;
+                  expectedStoreTag = _ref23.storeTag;
+                  expectedStore = _ref23.store;
+                  expectedTags = _ref23.tags;
                   _context14.t0 = _immutable2.default;
-                  _context14.next = 14;
+                  _context14.next = 16;
                   return Promise.all(
                     (0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 }))
                       .map(
@@ -727,7 +747,7 @@ describe('search', function() {
                                 while (1) {
                                   switch ((_context13.prev = _context13.next)) {
                                     case 0:
-                                      return _context13.abrupt('return', _2.TagService.create(expectedTag));
+                                      return _context13.abrupt('return', _2.StoreTagService.create(expectedStoreTag));
 
                                     case 1:
                                     case 'end':
@@ -744,26 +764,29 @@ describe('search', function() {
                       .toArray(),
                   );
 
-                case 14:
+                case 16:
                   _context14.t1 = _context14.sent;
                   results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
-                  _context14.next = 18;
-                  return _2.TagService.search(createCriteria(expectedTag));
+                  _context14.next = 20;
+                  return _2.StoreTagService.search(createCriteria(expectedStoreTag));
 
-                case 18:
-                  tags = _context14.sent;
+                case 20:
+                  storeTags = _context14.sent;
 
-                  expect(tags.count).toBe(results.count);
-                  tags.forEach(function(tag) {
+                  expect(storeTags.count).toBe(results.count);
+                  storeTags.forEach(function(storeTag) {
                     expect(
                       results.find(function(_) {
-                        return _.localeCompare(tag.get('id')) === 0;
+                        return _.localeCompare(storeTag.get('id')) === 0;
                       }),
                     ).toBeDefined();
-                    (0, _Tag.expectTag)(tag, expectedTag);
+                    (
+                      0,
+                      _StoreTag.expectStoreTag
+                    )(storeTag, expectedStoreTag, { storeTagId: storeTag.get('id'), expectedStore: expectedStore, expectedTags: expectedTags });
                   });
 
-                case 21:
+                case 23:
                 case 'end':
                   return _context14.stop();
               }
@@ -779,21 +802,21 @@ describe('search', function() {
 
 describe('searchAll', function() {
   test(
-    'should return no tag if provided criteria matches no tag',
+    'should return no store tag if provided criteria matches no store tag',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee15() {
-        var tags, result;
+        var storeTags, result;
         return regeneratorRuntime.wrap(
           function _callee15$(_context15) {
             while (1) {
               switch ((_context15.prev = _context15.next)) {
                 case 0:
-                  tags = (0, _immutable.List)();
-                  result = _2.TagService.searchAll(createCriteria());
+                  storeTags = (0, _immutable.List)();
+                  result = _2.StoreTagService.searchAll(createCriteria());
                   _context15.prev = 2;
 
                   result.event.subscribe(function(info) {
-                    tags = tags.push(info);
+                    storeTags = storeTags.push(info);
                   });
 
                   _context15.next = 6;
@@ -806,7 +829,7 @@ describe('searchAll', function() {
                   return _context15.finish(6);
 
                 case 9:
-                  expect(tags.count()).toBe(0);
+                  expect(storeTags.count()).toBe(0);
 
                 case 10:
                 case 'end':
@@ -823,10 +846,10 @@ describe('searchAll', function() {
   );
 
   test(
-    'should return the tag matches the criteria',
+    'should return the store tags matches the criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee17() {
-        var _ref27, parentTag, parentTagId, _ref28, expectedTag, results, tags, result;
+        var _ref27, parentStoreTag, parentStoreTagId, _ref28, expectedStoreTag, expectedStore, expectedTags, results, storeTags, result;
 
         return regeneratorRuntime.wrap(
           function _callee17$(_context17) {
@@ -834,24 +857,26 @@ describe('searchAll', function() {
               switch ((_context17.prev = _context17.next)) {
                 case 0:
                   _context17.next = 2;
-                  return (0, _Tag.createTagInfo)();
+                  return (0, _StoreTag.createStoreTagInfo)();
 
                 case 2:
                   _ref27 = _context17.sent;
-                  parentTag = _ref27.tag;
+                  parentStoreTag = _ref27.storeTag;
                   _context17.next = 6;
-                  return _2.TagService.create(parentTag);
+                  return _2.StoreTagService.create(parentStoreTag);
 
                 case 6:
-                  parentTagId = _context17.sent;
+                  parentStoreTagId = _context17.sent;
                   _context17.next = 9;
-                  return (0, _Tag.createTagInfo)({ parentTagId: parentTagId });
+                  return (0, _StoreTag.createStoreTagInfo)({ parentStoreTagId: parentStoreTagId });
 
                 case 9:
                   _ref28 = _context17.sent;
-                  expectedTag = _ref28.tag;
+                  expectedStoreTag = _ref28.storeTag;
+                  expectedStore = _ref28.store;
+                  expectedTags = _ref28.tags;
                   _context17.t0 = _immutable2.default;
-                  _context17.next = 14;
+                  _context17.next = 16;
                   return Promise.all(
                     (0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 }))
                       .map(
@@ -862,7 +887,7 @@ describe('searchAll', function() {
                                 while (1) {
                                   switch ((_context16.prev = _context16.next)) {
                                     case 0:
-                                      return _context16.abrupt('return', _2.TagService.create(expectedTag));
+                                      return _context16.abrupt('return', _2.StoreTagService.create(expectedStoreTag));
 
                                     case 1:
                                     case 'end':
@@ -879,38 +904,41 @@ describe('searchAll', function() {
                       .toArray(),
                   );
 
-                case 14:
+                case 16:
                   _context17.t1 = _context17.sent;
                   results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
-                  tags = (0, _immutable.List)();
-                  result = _2.TagService.searchAll(createCriteria(expectedTag));
-                  _context17.prev = 18;
+                  storeTags = (0, _immutable.List)();
+                  result = _2.StoreTagService.searchAll(createCriteria(expectedStoreTag));
+                  _context17.prev = 20;
 
                   result.event.subscribe(function(info) {
-                    tags = tags.push(info);
+                    storeTags = storeTags.push(info);
                   });
 
-                  _context17.next = 22;
+                  _context17.next = 24;
                   return result.promise;
 
-                case 22:
-                  _context17.prev = 22;
+                case 24:
+                  _context17.prev = 24;
 
                   result.event.unsubscribeAll();
-                  return _context17.finish(22);
-
-                case 25:
-                  expect(tags.count).toBe(results.count);
-                  tags.forEach(function(tag) {
-                    expect(
-                      results.find(function(_) {
-                        return _.localeCompare(tag.get('id')) === 0;
-                      }),
-                    ).toBeDefined();
-                    (0, _Tag.expectTag)(tag, expectedTag);
-                  });
+                  return _context17.finish(24);
 
                 case 27:
+                  expect(storeTags.count).toBe(results.count);
+                  storeTags.forEach(function(storeTag) {
+                    expect(
+                      results.find(function(_) {
+                        return _.localeCompare(storeTag.get('id')) === 0;
+                      }),
+                    ).toBeDefined();
+                    (
+                      0,
+                      _StoreTag.expectStoreTag
+                    )(storeTag, expectedStoreTag, { storeTagId: storeTag.get('id'), expectedStore: expectedStore, expectedTags: expectedTags });
+                  });
+
+                case 29:
                 case 'end':
                   return _context17.stop();
               }
@@ -918,7 +946,7 @@ describe('searchAll', function() {
           },
           _callee17,
           undefined,
-          [[18, , 22, 25]],
+          [[20, , 24, 27]],
         );
       }),
     ),
@@ -927,7 +955,7 @@ describe('searchAll', function() {
 
 describe('exists', function() {
   test(
-    'should return false if no tag match provided criteria',
+    'should return false if no store tag match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee18() {
         return regeneratorRuntime.wrap(
@@ -937,7 +965,7 @@ describe('exists', function() {
                 case 0:
                   _context18.t0 = expect;
                   _context18.next = 3;
-                  return _2.TagService.exists(createCriteria());
+                  return _2.StoreTagService.exists(createCriteria());
 
                 case 3:
                   _context18.t1 = _context18.sent;
@@ -957,23 +985,23 @@ describe('exists', function() {
   );
 
   test(
-    'should return true if any tag match provided criteria',
+    'should return true if any store tag match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee19() {
-        var tags;
+        var storeTags;
         return regeneratorRuntime.wrap(
           function _callee19$(_context19) {
             while (1) {
               switch ((_context19.prev = _context19.next)) {
                 case 0:
                   _context19.next = 2;
-                  return createTags(chance.integer({ min: 1, max: 10 }), true);
+                  return createStoreTags(chance.integer({ min: 1, max: 10 }), true);
 
                 case 2:
-                  tags = _context19.sent;
+                  storeTags = _context19.sent;
                   _context19.t0 = expect;
                   _context19.next = 6;
-                  return _2.TagService.exists(createCriteria(tags.first()));
+                  return _2.StoreTagService.exists(createCriteria(storeTags.first()));
 
                 case 6:
                   _context19.t1 = _context19.sent;
@@ -995,7 +1023,7 @@ describe('exists', function() {
 
 describe('count', function() {
   test(
-    'should return 0 if no tag match provided criteria',
+    'should return 0 if no store tag match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee20() {
         return regeneratorRuntime.wrap(
@@ -1005,7 +1033,7 @@ describe('count', function() {
                 case 0:
                   _context20.t0 = expect;
                   _context20.next = 3;
-                  return _2.TagService.count(createCriteria());
+                  return _2.StoreTagService.count(createCriteria());
 
                 case 3:
                   _context20.t1 = _context20.sent;
@@ -1025,27 +1053,27 @@ describe('count', function() {
   );
 
   test(
-    'should return the count of tag match provided criteria',
+    'should return the count of store tag match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee21() {
-        var tags;
+        var storeTags;
         return regeneratorRuntime.wrap(
           function _callee21$(_context21) {
             while (1) {
               switch ((_context21.prev = _context21.next)) {
                 case 0:
                   _context21.next = 2;
-                  return createTags(chance.integer({ min: 1, max: 10 }), true);
+                  return createStoreTags(chance.integer({ min: 1, max: 10 }), true);
 
                 case 2:
-                  tags = _context21.sent;
+                  storeTags = _context21.sent;
                   _context21.t0 = expect;
                   _context21.next = 6;
-                  return _2.TagService.count(createCriteria(tags.first()));
+                  return _2.StoreTagService.count(createCriteria(storeTags.first()));
 
                 case 6:
                   _context21.t1 = _context21.sent;
-                  _context21.t2 = tags.count();
+                  _context21.t2 = storeTags.count();
                   (0, _context21.t0)(_context21.t1).toBe(_context21.t2);
 
                 case 9:

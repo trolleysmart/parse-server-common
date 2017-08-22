@@ -173,7 +173,7 @@ describe('search', () => {
     expect(stores.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the store matches the criteria', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await StoreService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
@@ -208,7 +208,7 @@ describe('searchAll', () => {
     expect(stores.count()).toBe(0);
   });
 
-  test('should return the products price matches the criteria', async () => {
+  test('should return the store matches the criteria', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await StoreService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
