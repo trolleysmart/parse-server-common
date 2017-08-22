@@ -24,6 +24,12 @@ Object.defineProperty(exports, 'ProductPrice', {
     return _schema.ProductPrice;
   },
 });
+Object.defineProperty(exports, 'StapleTemplate', {
+  enumerable: true,
+  get: function get() {
+    return _schema.StapleTemplate;
+  },
+});
 Object.defineProperty(exports, 'Store', {
   enumerable: true,
   get: function get() {
@@ -67,6 +73,12 @@ Object.defineProperty(exports, 'ProductPriceService', {
   enumerable: true,
   get: function get() {
     return _services.ProductPriceService;
+  },
+});
+Object.defineProperty(exports, 'StapleTemplateService', {
+  enumerable: true,
+  get: function get() {
+    return _services.StapleTemplateService;
   },
 });
 Object.defineProperty(exports, 'StoreService', {
