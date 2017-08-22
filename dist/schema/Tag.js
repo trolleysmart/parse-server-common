@@ -41,21 +41,22 @@ Tag.spawn = function (info) {
 Tag.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
   object.set('name', info.get('name'));
+  object.set('description', info.get('description'));
   object.set('imageUrl', info.get('imageUrl'));
   object.set('level', info.get('level'));
   object.set('forDisplay', info.get('forDisplay'));
 
-  if (info.has('tagId')) {
-    var tagId = info.get('tagId');
+  if (info.has('parentTagId')) {
+    var parentTagId = info.get('parentTagId');
 
-    if (tagId) {
-      object.set('tag', Tag.createWithoutData(tagId));
+    if (parentTagId) {
+      object.set('parentTag', Tag.createWithoutData(parentTagId));
     }
-  } else if (info.has('tag')) {
-    var tag = info.get('tag');
+  } else if (info.has('parentTag')) {
+    var parentTag = info.get('parentTag');
 
-    if (tag) {
-      object.set('tag', tag);
+    if (parentTag) {
+      object.set('parentTag', parentTag);
     }
   }
 };
@@ -72,18 +73,19 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
-    var tagObject = _this2.getObject().get('tag');
-    var tag = tagObject ? new Tag(tagObject) : undefined;
+    var parentTagObject = _this2.getObject().get('parentTag');
+    var parentTag = parentTagObject ? new Tag(parentTagObject) : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
       key: _this2.getObject().get('key'),
       name: _this2.getObject().get('name'),
+      description: _this2.getObject().get('description'),
       imageUrl: _this2.getObject().get('imageUrl'),
       level: _this2.getObject().get('level'),
       forDisplay: _this2.getObject().get('forDisplay'),
-      tag: tag ? tag.getInfo() : undefined,
-      tagId: tag ? tag.getId() : undefined
+      parentTag: parentTag ? parentTag.getInfo() : undefined,
+      parentTagId: parentTag ? parentTag.getId() : undefined
     });
   };
 };

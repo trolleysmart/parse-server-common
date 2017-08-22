@@ -101,6 +101,7 @@ var expectStore = exports.expectStore = function expectStore(object, expectedObj
   expect(object.get('address')).toBe(expectedObject.get('address'));
   expect(object.get('phones')).toEqual(expectedObject.get('phones'));
   expect(object.get('geoLocation')).toEqual(expectedObject.get('geoLocation'));
+  expect(object.get('parentStoreId')).toBe(expectedObject.get('parentStoreId'));
 };
 
 describe('constructor', function () {

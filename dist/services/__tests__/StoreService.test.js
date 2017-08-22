@@ -44,10 +44,11 @@ var createCriteria = function createCriteria(store) {
       imageUrl: store ? store.get('imageUrl') : (0, _v2.default)(),
       address: store ? store.get('address') : (0, _v2.default)(),
       phones: store ? store.get('phones') : (0, _immutable.Map)({ business: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
-      geoLocation: store ? store.get('geoLocation') : _microBusinessParseServerCommon.ParseWrapperService.createGeoPoint({
+      near_geoLocation: store ? store.get('geoLocation') : _microBusinessParseServerCommon.ParseWrapperService.createGeoPoint({
         latitude: chance.floating({ min: 1, max: 20 }),
         longitude: chance.floating({ min: -30, max: -1 })
-      })
+      }),
+      parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined
     })
   }).merge(createCriteriaWthoutConditions());
 };
@@ -55,33 +56,52 @@ var createCriteria = function createCriteria(store) {
 var createStores = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(count) {
     var useSameInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var createParentStore = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-    var store, _ref2, tempStore;
+    var parentStore, store, _ref2, tempStore;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            store = void 0;
-
-            if (!useSameInfo) {
-              _context2.next = 7;
+            if (!createParentStore) {
+              _context2.next = 6;
               break;
             }
 
-            _context2.next = 4;
+            _context2.next = 3;
+            return createStores(1, false, false);
+
+          case 3:
+            _context2.t0 = _context2.sent;
+            _context2.next = 7;
+            break;
+
+          case 6:
+            _context2.t0 = undefined;
+
+          case 7:
+            parentStore = _context2.t0;
+            store = void 0;
+
+            if (!useSameInfo) {
+              _context2.next = 15;
+              break;
+            }
+
+            _context2.next = 12;
             return (0, _Store.createStoreInfo)();
 
-          case 4:
+          case 12:
             _ref2 = _context2.sent;
             tempStore = _ref2.store;
 
 
             store = tempStore;
 
-          case 7:
-            _context2.t0 = _immutable2.default;
-            _context2.next = 10;
+          case 15:
+            _context2.t1 = _immutable2.default;
+            _context2.next = 18;
             return Promise.all((0, _immutable.Range)(0, count).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
               var finalStore, _ref4, _tempStore;
 
@@ -114,7 +134,7 @@ var createStores = function () {
                     case 10:
                       _context.t0 = _2.StoreService;
                       _context.next = 13;
-                      return _2.StoreService.create(finalStore);
+                      return _2.StoreService.create(createParentStore ? finalStore.merge((0, _immutable.Map)({ parentStoreId: parentStore.get('id') })) : finalStore);
 
                     case 13:
                       _context.t1 = _context.sent;
@@ -129,11 +149,11 @@ var createStores = function () {
               }, _callee, undefined);
             }))).toArray());
 
-          case 10:
-            _context2.t1 = _context2.sent;
-            return _context2.abrupt('return', _context2.t0.fromJS.call(_context2.t0, _context2.t1));
+          case 18:
+            _context2.t2 = _context2.sent;
+            return _context2.abrupt('return', _context2.t1.fromJS.call(_context2.t1, _context2.t2));
 
-          case 12:
+          case 20:
           case 'end':
             return _context2.stop();
         }

@@ -30,7 +30,8 @@ var chance = new _chance2.default();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'imageUrl', 'level', 'forDisplay', 'tag')
+    fields: _immutable.List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'parentTag'),
+    includeParentTag: true
   });
 };
 
@@ -39,9 +40,11 @@ var createCriteria = function createCriteria(tag) {
     conditions: (0, _immutable.Map)({
       key: tag ? tag.get('key') : (0, _v2.default)(),
       name: tag ? tag.get('name') : (0, _v2.default)(),
+      description: tag ? tag.get('description') : (0, _v2.default)(),
       imageUrl: tag ? tag.get('imageUrl') : (0, _v2.default)(),
       level: tag ? tag.get('level') : chance.integer({ min: 1, max: 1000 }),
-      forDisplay: tag ? tag.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0
+      forDisplay: tag ? tag.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+      parentTagId: tag && tag.get('parentTagId') ? tag.get('parentTagId') : undefined
     })
   }).merge(createCriteriaWthoutConditions());
 };
@@ -49,33 +52,52 @@ var createCriteria = function createCriteria(tag) {
 var createTags = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(count) {
     var useSameInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var createParentTag = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-    var tag, _ref2, tempTag;
+    var parentTag, tag, _ref2, tempTag;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            tag = void 0;
-
-            if (!useSameInfo) {
-              _context2.next = 7;
+            if (!createParentTag) {
+              _context2.next = 6;
               break;
             }
 
-            _context2.next = 4;
+            _context2.next = 3;
+            return createTags(1, false, false);
+
+          case 3:
+            _context2.t0 = _context2.sent;
+            _context2.next = 7;
+            break;
+
+          case 6:
+            _context2.t0 = undefined;
+
+          case 7:
+            parentTag = _context2.t0;
+            tag = void 0;
+
+            if (!useSameInfo) {
+              _context2.next = 15;
+              break;
+            }
+
+            _context2.next = 12;
             return (0, _Tag.createTagInfo)();
 
-          case 4:
+          case 12:
             _ref2 = _context2.sent;
             tempTag = _ref2.tag;
 
 
             tag = tempTag;
 
-          case 7:
-            _context2.t0 = _immutable2.default;
-            _context2.next = 10;
+          case 15:
+            _context2.t1 = _immutable2.default;
+            _context2.next = 18;
             return Promise.all((0, _immutable.Range)(0, count).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
               var finalTag, _ref4, _tempTag;
 
@@ -108,7 +130,7 @@ var createTags = function () {
                     case 10:
                       _context.t0 = _2.TagService;
                       _context.next = 13;
-                      return _2.TagService.create(finalTag);
+                      return _2.TagService.create(createParentTag ? finalTag.merge((0, _immutable.Map)({ parentTagId: parentTag.get('id') })) : finalTag);
 
                     case 13:
                       _context.t1 = _context.sent;
@@ -123,11 +145,11 @@ var createTags = function () {
               }, _callee, undefined);
             }))).toArray());
 
-          case 10:
-            _context2.t1 = _context2.sent;
-            return _context2.abrupt('return', _context2.t0.fromJS.call(_context2.t0, _context2.t1));
+          case 18:
+            _context2.t2 = _context2.sent;
+            return _context2.abrupt('return', _context2.t1.fromJS.call(_context2.t1, _context2.t2));
 
-          case 12:
+          case 20:
           case 'end':
             return _context2.stop();
         }

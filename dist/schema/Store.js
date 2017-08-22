@@ -57,6 +57,20 @@ Store.updateInfoInternal = function (object, info) {
   }
 
   object.set('geoLocation', info.get('geoLocation'));
+
+  if (info.has('parentStoreId')) {
+    var parentStoreId = info.get('parentStoreId');
+
+    if (parentStoreId) {
+      object.set('parentStore', Store.createWithoutData(parentStoreId));
+    }
+  } else if (info.has('parentStore')) {
+    var parentStore = info.get('parentStore');
+
+    if (parentStore) {
+      object.set('parentStore', parentStore);
+    }
+  }
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -71,6 +85,9 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
+    var parentStoreObject = _this2.getObject().get('parentStore');
+    var parentStore = parentStoreObject ? new Store(parentStoreObject) : undefined;
+
     return (0, _immutable.Map)({
       id: _this2.getId(),
       key: _this2.getObject().get('key'),
@@ -78,7 +95,9 @@ var _initialiseProps = function _initialiseProps() {
       imageUrl: _this2.getObject().get('imageUrl'),
       address: _this2.getObject().get('address'),
       phones: _immutable2.default.fromJS(_this2.getObject().get('phones')),
-      geoLocation: _this2.getObject().get('geoLocation')
+      geoLocation: _this2.getObject().get('geoLocation'),
+      parentStore: parentStore ? parentStore.getInfo() : undefined,
+      parentStoreId: parentStore ? parentStore.getId() : undefined
     });
   };
 };

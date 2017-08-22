@@ -188,11 +188,11 @@ TagService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeTag')) {
-    var value = criteria.get('includeTag');
+  if (criteria.has('includeParentTag')) {
+    var value = criteria.get('includeParentTag');
 
     if (value) {
-      query.include('tag');
+      query.include('parentTag');
     }
   }
 
@@ -218,6 +218,7 @@ TagService.buildSearchQuery = function (criteria) {
   }
 
   _microBusinessParseServerCommon.ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
+  _microBusinessParseServerCommon.ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
 
   if (conditions.has('imageUrl')) {
     var _value = conditions.get('imageUrl');
@@ -241,19 +242,19 @@ TagService.buildSearchQuery = function (criteria) {
     query.equalTo('forDisplay', _value3);
   }
 
-  if (conditions.has('tag')) {
-    var _value4 = conditions.get('tag');
+  if (conditions.has('parentTag')) {
+    var _value4 = conditions.get('parentTag');
 
     if (_value4) {
-      query.equalTo('tag', _value4);
+      query.equalTo('parentTag', _value4);
     }
   }
 
-  if (conditions.has('tagId')) {
-    var _value5 = conditions.get('tagId');
+  if (conditions.has('parentTagId')) {
+    var _value5 = conditions.get('parentTagId');
 
     if (_value5) {
-      query.equalTo('tag', _schema.Tag.createWithoutData(_value5));
+      query.equalTo('parentTag', _schema.Tag.createWithoutData(_value5));
     }
   }
 
