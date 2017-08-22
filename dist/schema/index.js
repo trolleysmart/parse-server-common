@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.UserFeedback = exports.Tag = exports.Store = exports.ProductPrice = exports.CrawlSession = exports.CrawlResult = undefined;
+exports.UserFeedback = exports.Tag = exports.StoreTag = exports.Store = exports.ProductPrice = exports.CrawlSession = exports.CrawlResult = undefined;
 
 var _CrawlResult2 = require('./CrawlResult');
 
@@ -21,6 +21,10 @@ var _Store2 = require('./Store');
 
 var _Store3 = _interopRequireDefault(_Store2);
 
+var _StoreTag2 = require('./StoreTag');
+
+var _StoreTag3 = _interopRequireDefault(_StoreTag2);
+
 var _Tag2 = require('./Tag');
 
 var _Tag3 = _interopRequireDefault(_Tag2);
@@ -37,5 +41,6 @@ exports.CrawlResult = _CrawlResult3.default;
 exports.CrawlSession = _CrawlSession3.default;
 exports.ProductPrice = _ProductPrice3.default;
 exports.Store = _Store3.default;
+exports.StoreTag = _StoreTag3.default;
 exports.Tag = _Tag3.default;
 exports.UserFeedback = _UserFeedback3.default;
