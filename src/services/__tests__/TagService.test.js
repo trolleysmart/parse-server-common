@@ -11,7 +11,8 @@ const chance = new Chance();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'tag'),
+    fields: List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'parentTag'),
+    includeParentTag: true,
   });
 
 const createCriteria = tag =>
@@ -23,10 +24,12 @@ const createCriteria = tag =>
       imageUrl: tag ? tag.get('imageUrl') : uuid(),
       level: tag ? tag.get('level') : chance.integer({ min: 1, max: 1000 }),
       forDisplay: tag ? tag.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+      parentTagId: tag && tag.get('parentTagId') ? tag.get('parentTagId') : undefined,
     }),
   }).merge(createCriteriaWthoutConditions());
 
-const createTags = async (count, useSameInfo = false) => {
+const createTags = async (count, useSameInfo = false, createParentTag = true) => {
+  const parentTag = createParentTag ? await createTags(1, false, false) : undefined;
   let tag;
 
   if (useSameInfo) {
@@ -49,7 +52,10 @@ const createTags = async (count, useSameInfo = false) => {
             finalTag = tempTag;
           }
 
-          return TagService.read(await TagService.create(finalTag), createCriteriaWthoutConditions());
+          return TagService.read(
+            await TagService.create(createParentTag ? finalTag.merge(Map({ parentTagId: parentTag.get('id') })) : finalTag),
+            createCriteriaWthoutConditions(),
+          );
         })
         .toArray(),
     ),

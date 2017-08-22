@@ -28,11 +28,11 @@ export default class TagService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeTag')) {
-      const value = criteria.get('includeTag');
+    if (criteria.has('includeParentTag')) {
+      const value = criteria.get('includeParentTag');
 
       if (value) {
-        query.include('tag');
+        query.include('parentTag');
       }
     }
 
@@ -82,19 +82,19 @@ export default class TagService extends ServiceBase {
       query.equalTo('forDisplay', value);
     }
 
-    if (conditions.has('tag')) {
-      const value = conditions.get('tag');
+    if (conditions.has('parentTag')) {
+      const value = conditions.get('parentTag');
 
       if (value) {
-        query.equalTo('tag', value);
+        query.equalTo('parentTag', value);
       }
     }
 
-    if (conditions.has('tagId')) {
-      const value = conditions.get('tagId');
+    if (conditions.has('parentTagId')) {
+      const value = conditions.get('parentTagId');
 
       if (value) {
-        query.equalTo('tag', Tag.createWithoutData(value));
+        query.equalTo('parentTag', Tag.createWithoutData(value));
       }
     }
 

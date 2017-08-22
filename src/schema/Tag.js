@@ -20,17 +20,17 @@ export default class Tag extends BaseObject {
     object.set('level', info.get('level'));
     object.set('forDisplay', info.get('forDisplay'));
 
-    if (info.has('tagId')) {
-      const tagId = info.get('tagId');
+    if (info.has('parentTagId')) {
+      const parentTagId = info.get('parentTagId');
 
-      if (tagId) {
-        object.set('tag', Tag.createWithoutData(tagId));
+      if (parentTagId) {
+        object.set('parentTag', Tag.createWithoutData(parentTagId));
       }
-    } else if (info.has('tag')) {
-      const tag = info.get('tag');
+    } else if (info.has('parentTag')) {
+      const parentTag = info.get('parentTag');
 
-      if (tag) {
-        object.set('tag', tag);
+      if (parentTag) {
+        object.set('parentTag', parentTag);
       }
     }
   };
@@ -48,8 +48,8 @@ export default class Tag extends BaseObject {
   };
 
   getInfo = () => {
-    const tagObject = this.getObject().get('tag');
-    const tag = tagObject ? new Tag(tagObject) : undefined;
+    const parentTagObject = this.getObject().get('parentTag');
+    const parentTag = parentTagObject ? new Tag(parentTagObject) : undefined;
 
     return Map({
       id: this.getId(),
@@ -59,8 +59,8 @@ export default class Tag extends BaseObject {
       imageUrl: this.getObject().get('imageUrl'),
       level: this.getObject().get('level'),
       forDisplay: this.getObject().get('forDisplay'),
-      tag: tag ? tag.getInfo() : undefined,
-      tagId: tag ? tag.getId() : undefined,
+      parentTag: parentTag ? parentTag.getInfo() : undefined,
+      parentTagId: parentTag ? parentTag.getId() : undefined,
     });
   };
 }

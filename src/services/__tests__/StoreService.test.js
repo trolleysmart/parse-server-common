@@ -29,11 +29,13 @@ const createCriteria = (store) => {
           latitude: chance.floating({ min: 1, max: 20 }),
           longitude: chance.floating({ min: -30, max: -1 }),
         }),
+      parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined,
     }),
   }).merge(createCriteriaWthoutConditions());
 };
 
-const createStores = async (count, useSameInfo = false) => {
+const createStores = async (count, useSameInfo = false, createParentStore = true) => {
+  const parentStore = createParentStore ? await createStores(1, false, false) : undefined;
   let store;
 
   if (useSameInfo) {
@@ -56,7 +58,10 @@ const createStores = async (count, useSameInfo = false) => {
             finalStore = tempStore;
           }
 
-          return StoreService.read(await StoreService.create(finalStore), createCriteriaWthoutConditions());
+          return StoreService.read(
+            await StoreService.create(createParentStore ? finalStore.merge(Map({ parentStoreId: parentStore.get('id') })) : finalStore),
+            createCriteriaWthoutConditions(),
+          );
         })
         .toArray(),
     ),

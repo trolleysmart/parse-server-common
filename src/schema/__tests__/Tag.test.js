@@ -29,6 +29,7 @@ export const expectTag = (object, expectedObject) => {
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('level')).toBe(expectedObject.get('level'));
   expect(object.get('forDisplay')).toBe(expectedObject.get('forDisplay'));
+  expect(object.get('parentTagId')).toBe(expectedObject.get('parentTagId'));
 };
 
 describe('constructor', () => {
