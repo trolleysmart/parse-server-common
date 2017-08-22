@@ -3,11 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createStores = undefined;
+
+var _chance = require('chance');
+
+var _chance2 = _interopRequireDefault(_chance);
 
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
+
+var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _v = require('uuid/v4');
 
@@ -23,28 +28,100 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var createStores = exports.createStores = function () {
+var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
+  return (0, _immutable.Map)({
+    fields: _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation')
+  });
+};
+
+var createCriteria = function createCriteria(store) {
+  var chance = new _chance2.default();
+
+  return (0, _immutable.Map)({
+    conditions: (0, _immutable.Map)({
+      key: store ? store.get('key') : (0, _v2.default)(),
+      name: store ? store.get('name') : (0, _v2.default)(),
+      imageUrl: store ? store.get('imageUrl') : (0, _v2.default)(),
+      address: store ? store.get('address') : (0, _v2.default)(),
+      phones: store ? store.get('phones') : (0, _immutable.Map)({ business: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
+      geoLocation: store ? store.get('geoLocation') : _microBusinessParseServerCommon.ParseWrapperService.createGeoPoint({
+        latitude: chance.floating({ min: 1, max: 20 }),
+        longitude: chance.floating({ min: -30, max: -1 })
+      })
+    })
+  }).merge(createCriteriaWthoutConditions());
+};
+
+var createStores = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(count) {
+    var useSameInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    var store, _ref2, tempStore;
+
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            store = void 0;
+
+            if (!useSameInfo) {
+              _context2.next = 7;
+              break;
+            }
+
+            _context2.next = 4;
+            return (0, _Store.createStoreInfo)();
+
+          case 4:
+            _ref2 = _context2.sent;
+            tempStore = _ref2.store;
+
+
+            store = tempStore;
+
+          case 7:
             _context2.t0 = _immutable2.default;
-            _context2.next = 3;
+            _context2.next = 10;
             return Promise.all((0, _immutable.Range)(0, count).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+              var finalStore, _ref4, _tempStore;
+
               return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      _context.t0 = _2.StoreService;
-                      _context.next = 3;
-                      return _2.StoreService.create((0, _Store.createStoreInfo)());
+                      finalStore = void 0;
 
-                    case 3:
-                      _context.t1 = _context.sent;
-                      return _context.abrupt('return', _context.t0.read.call(_context.t0, _context.t1));
+                      if (!useSameInfo) {
+                        _context.next = 5;
+                        break;
+                      }
+
+                      finalStore = store;
+                      _context.next = 10;
+                      break;
 
                     case 5:
+                      _context.next = 7;
+                      return (0, _Store.createStoreInfo)();
+
+                    case 7:
+                      _ref4 = _context.sent;
+                      _tempStore = _ref4.store;
+
+
+                      finalStore = _tempStore;
+
+                    case 10:
+                      _context.t0 = _2.StoreService;
+                      _context.next = 13;
+                      return _2.StoreService.create(finalStore);
+
+                    case 13:
+                      _context.t1 = _context.sent;
+                      _context.t2 = createCriteriaWthoutConditions();
+                      return _context.abrupt('return', _context.t0.read.call(_context.t0, _context.t1, _context.t2));
+
+                    case 16:
                     case 'end':
                       return _context.stop();
                   }
@@ -52,11 +129,11 @@ var createStores = exports.createStores = function () {
               }, _callee, undefined);
             }))).toArray());
 
-          case 3:
+          case 10:
             _context2.t1 = _context2.sent;
             return _context2.abrupt('return', _context2.t0.fromJS.call(_context2.t0, _context2.t1));
 
-          case 5:
+          case 12:
           case 'end':
             return _context2.stop();
         }
@@ -69,49 +146,32 @@ var createStores = exports.createStores = function () {
   };
 }();
 
-function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
-  expect(storeInfo.get('id')).toBe(storeId);
-  expect(storeInfo.get('name')).toBe(expectedStoreInfo.get('name'));
-  expect(storeInfo.get('imageUrl')).toBe(expectedStoreInfo.get('imageUrl'));
-}
+exports.default = createStores;
 
-function createCriteria() {
-  return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'imageUrl'),
-    conditions: (0, _immutable.Map)({
-      key: (0, _v2.default)(),
-      name: (0, _v2.default)()
-    })
-  });
-}
-
-function createCriteriaUsingProvidedStoreInfo(storeInfo) {
-  return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'imageUrl'),
-    conditions: (0, _immutable.Map)({
-      key: storeInfo.get('key'),
-      name: storeInfo.get('name')
-    })
-  });
-}
 
 describe('create', function () {
   test('should return the created store Id', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-    var result;
+    var storeId;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.next = 2;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            _context3.t0 = _2.StoreService;
+            _context3.next = 3;
+            return (0, _Store.createStoreInfo)();
 
-          case 2:
-            result = _context3.sent;
+          case 3:
+            _context3.t1 = _context3.sent.store;
+            _context3.next = 6;
+            return _context3.t0.create.call(_context3.t0, _context3.t1);
+
+          case 6:
+            storeId = _context3.sent;
 
 
-            expect(result).toBeDefined();
+            expect(storeId).toBeDefined();
 
-          case 4:
+          case 8:
           case 'end':
             return _context3.stop();
         }
@@ -120,27 +180,33 @@ describe('create', function () {
   })));
 
   test('should create the store', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
-    var expectedStoreInfo, storeId, storeInfo;
+    var _ref7, store, storeId, fetchedStore;
+
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            expectedStoreInfo = (0, _Store.createStoreInfo)();
-            _context4.next = 3;
-            return _2.StoreService.create(expectedStoreInfo);
+            _context4.next = 2;
+            return (0, _Store.createStoreInfo)();
 
-          case 3:
-            storeId = _context4.sent;
+          case 2:
+            _ref7 = _context4.sent;
+            store = _ref7.store;
             _context4.next = 6;
-            return _2.StoreService.read(storeId);
+            return _2.StoreService.create(store);
 
           case 6:
-            storeInfo = _context4.sent;
+            storeId = _context4.sent;
+            _context4.next = 9;
+            return _2.StoreService.read(storeId, createCriteriaWthoutConditions());
+
+          case 9:
+            fetchedStore = _context4.sent;
 
 
-            expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+            expect(fetchedStore).toBeDefined();
 
-          case 8:
+          case 11:
           case 'end':
             return _context4.stop();
         }
@@ -180,27 +246,33 @@ describe('read', function () {
   })));
 
   test('should read the existing store', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
-    var expectedStoreInfo, storeId, storeInfo;
+    var _ref10, expectedStore, storeId, store;
+
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            expectedStoreInfo = (0, _Store.createStoreInfo)();
-            _context6.next = 3;
-            return _2.StoreService.create(expectedStoreInfo);
+            _context6.next = 2;
+            return (0, _Store.createStoreInfo)();
 
-          case 3:
-            storeId = _context6.sent;
+          case 2:
+            _ref10 = _context6.sent;
+            expectedStore = _ref10.store;
             _context6.next = 6;
-            return _2.StoreService.read(storeId);
+            return _2.StoreService.create(expectedStore);
 
           case 6:
-            storeInfo = _context6.sent;
+            storeId = _context6.sent;
+            _context6.next = 9;
+            return _2.StoreService.read(storeId, createCriteriaWthoutConditions());
+
+          case 9:
+            store = _context6.sent;
 
 
-            expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+            (0, _Store.expectStore)(store, expectedStore);
 
-          case 8:
+          case 11:
           case 'end':
             return _context6.stop();
         }
@@ -211,55 +283,86 @@ describe('read', function () {
 
 describe('update', function () {
   test('should reject if the provided store Id does not exist', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
-    var storeId;
+    var storeId, store;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
             storeId = (0, _v2.default)();
             _context7.prev = 1;
-            _context7.next = 4;
-            return _2.StoreService.update((0, _Store.createStoreInfo)().set('id', storeId));
-
-          case 4:
-            _context7.next = 9;
-            break;
+            _context7.t0 = _2.StoreService;
+            _context7.t1 = _2.StoreService;
+            _context7.next = 6;
+            return (0, _Store.createStoreInfo)();
 
           case 6:
-            _context7.prev = 6;
-            _context7.t0 = _context7['catch'](1);
-
-            expect(_context7.t0.getErrorMessage()).toBe('No store found with Id: ' + storeId);
+            _context7.t2 = _context7.sent.store;
+            _context7.next = 9;
+            return _context7.t1.create.call(_context7.t1, _context7.t2);
 
           case 9:
+            _context7.t3 = _context7.sent;
+            _context7.t4 = createCriteriaWthoutConditions();
+            _context7.next = 13;
+            return _context7.t0.read.call(_context7.t0, _context7.t3, _context7.t4);
+
+          case 13:
+            store = _context7.sent;
+            _context7.next = 16;
+            return _2.StoreService.update(store.set('id', storeId));
+
+          case 16:
+            _context7.next = 21;
+            break;
+
+          case 18:
+            _context7.prev = 18;
+            _context7.t5 = _context7['catch'](1);
+
+            expect(_context7.t5.getErrorMessage()).toBe('No store found with Id: ' + storeId);
+
+          case 21:
           case 'end':
             return _context7.stop();
         }
       }
-    }, _callee7, undefined, [[1, 6]]);
+    }, _callee7, undefined, [[1, 18]]);
   })));
 
   test('should return the Id of the updated store', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
-    var storeId, id;
+    var _ref13, expectedStore, storeId, id;
+
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.next = 2;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            return (0, _Store.createStoreInfo)();
 
           case 2:
-            storeId = _context8.sent;
-            _context8.next = 5;
-            return _2.StoreService.update((0, _Store.createStoreInfo)().set('id', storeId));
+            _ref13 = _context8.sent;
+            expectedStore = _ref13.store;
+            _context8.t0 = _2.StoreService;
+            _context8.next = 7;
+            return (0, _Store.createStoreInfo)();
 
-          case 5:
+          case 7:
+            _context8.t1 = _context8.sent.store;
+            _context8.next = 10;
+            return _context8.t0.create.call(_context8.t0, _context8.t1);
+
+          case 10:
+            storeId = _context8.sent;
+            _context8.next = 13;
+            return _2.StoreService.update(expectedStore.set('id', storeId));
+
+          case 13:
             id = _context8.sent;
 
 
             expect(id).toBe(storeId);
 
-          case 7:
+          case 15:
           case 'end':
             return _context8.stop();
         }
@@ -268,32 +371,43 @@ describe('update', function () {
   })));
 
   test('should update the existing store', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
-    var expectedStoreInfo, id, storeId, storeInfo;
+    var _ref15, expectedStore, storeId, store;
+
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            expectedStoreInfo = (0, _Store.createStoreInfo)();
-            _context9.next = 3;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            _context9.next = 2;
+            return (0, _Store.createStoreInfo)();
 
-          case 3:
-            id = _context9.sent;
-            _context9.next = 6;
-            return _2.StoreService.update(expectedStoreInfo.set('id', id));
+          case 2:
+            _ref15 = _context9.sent;
+            expectedStore = _ref15.store;
+            _context9.t0 = _2.StoreService;
+            _context9.next = 7;
+            return (0, _Store.createStoreInfo)();
 
-          case 6:
+          case 7:
+            _context9.t1 = _context9.sent.store;
+            _context9.next = 10;
+            return _context9.t0.create.call(_context9.t0, _context9.t1);
+
+          case 10:
             storeId = _context9.sent;
-            _context9.next = 9;
-            return _2.StoreService.read(storeId);
+            _context9.next = 13;
+            return _2.StoreService.update(expectedStore.set('id', storeId));
 
-          case 9:
-            storeInfo = _context9.sent;
+          case 13:
+            _context9.next = 15;
+            return _2.StoreService.read(storeId, createCriteriaWthoutConditions());
+
+          case 15:
+            store = _context9.sent;
 
 
-            expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+            (0, _Store.expectStore)(store, expectedStore);
 
-          case 11:
+          case 17:
           case 'end':
             return _context9.stop();
         }
@@ -338,41 +452,47 @@ describe('delete', function () {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.next = 2;
-            return _2.StoreService.create((0, _Store.createStoreInfo)());
+            _context11.t0 = _2.StoreService;
+            _context11.next = 3;
+            return (0, _Store.createStoreInfo)();
 
-          case 2:
+          case 3:
+            _context11.t1 = _context11.sent.store;
+            _context11.next = 6;
+            return _context11.t0.create.call(_context11.t0, _context11.t1);
+
+          case 6:
             storeId = _context11.sent;
-            _context11.next = 5;
+            _context11.next = 9;
             return _2.StoreService.delete(storeId);
 
-          case 5:
-            _context11.prev = 5;
-            _context11.next = 8;
-            return _2.StoreService.read(storeId);
+          case 9:
+            _context11.prev = 9;
+            _context11.next = 12;
+            return _2.StoreService.delete(storeId);
 
-          case 8:
-            _context11.next = 13;
+          case 12:
+            _context11.next = 17;
             break;
 
-          case 10:
-            _context11.prev = 10;
-            _context11.t0 = _context11['catch'](5);
+          case 14:
+            _context11.prev = 14;
+            _context11.t2 = _context11['catch'](9);
 
-            expect(_context11.t0.getErrorMessage()).toBe('No store found with Id: ' + storeId);
+            expect(_context11.t2.getErrorMessage()).toBe('No store found with Id: ' + storeId);
 
-          case 13:
+          case 17:
           case 'end':
             return _context11.stop();
         }
       }
-    }, _callee11, undefined, [[5, 10]]);
+    }, _callee11, undefined, [[9, 14]]);
   })));
 });
 
 describe('search', function () {
   test('should return no store if provided criteria matches no store', _asyncToGenerator(regeneratorRuntime.mark(function _callee12() {
-    var storeInfos;
+    var stores;
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
         switch (_context12.prev = _context12.next) {
@@ -381,10 +501,10 @@ describe('search', function () {
             return _2.StoreService.search(createCriteria());
 
           case 2:
-            storeInfos = _context12.sent;
+            stores = _context12.sent;
 
 
-            expect(storeInfos.count()).toBe(0);
+            expect(stores.count()).toBe(0);
 
           case 4:
           case 'end':
@@ -394,195 +514,183 @@ describe('search', function () {
     }, _callee12, undefined);
   })));
 
-  test('should return the stores matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
-    var expectedStoreInfo, storeId, storeInfos, storeInfo;
-    return regeneratorRuntime.wrap(function _callee13$(_context13) {
-      while (1) {
-        switch (_context13.prev = _context13.next) {
-          case 0:
-            expectedStoreInfo = (0, _Store.createStoreInfo)();
-            _context13.next = 3;
-            return _2.StoreService.create(expectedStoreInfo);
+  test('should return the products price matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee14() {
+    var _ref20, expectedStore, results, stores;
 
-          case 3:
-            storeId = _context13.sent;
-            _context13.next = 6;
-            return _2.StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
-
-          case 6:
-            storeInfos = _context13.sent;
-
-
-            expect(storeInfos.count()).toBe(1);
-
-            storeInfo = storeInfos.first();
-
-            expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
-
-          case 10:
-          case 'end':
-            return _context13.stop();
-        }
-      }
-    }, _callee13, undefined);
-  })));
-});
-
-describe('searchAll', function () {
-  test('should return no store if provided criteria matches no store', _asyncToGenerator(regeneratorRuntime.mark(function _callee14() {
-    var result, stores;
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
         switch (_context14.prev = _context14.next) {
           case 0:
-            result = _2.StoreService.searchAll(createCriteria());
-            _context14.prev = 1;
-            stores = (0, _immutable.List)();
+            _context14.next = 2;
+            return (0, _Store.createStoreInfo)();
 
+          case 2:
+            _ref20 = _context14.sent;
+            expectedStore = _ref20.store;
+            _context14.t0 = _immutable2.default;
+            _context14.next = 7;
+            return Promise.all((0, _immutable.Range)(0, new _chance2.default().integer({ min: 2, max: 5 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
+              return regeneratorRuntime.wrap(function _callee13$(_context13) {
+                while (1) {
+                  switch (_context13.prev = _context13.next) {
+                    case 0:
+                      return _context13.abrupt('return', _2.StoreService.create(expectedStore));
 
-            result.event.subscribe(function (info) {
-              stores = stores.push(info);
-            });
-
-            _context14.next = 6;
-            return result.promise;
-
-          case 6:
-            expect(stores.count()).toBe(0);
+                    case 1:
+                    case 'end':
+                      return _context13.stop();
+                  }
+                }
+              }, _callee13, undefined);
+            }))).toArray());
 
           case 7:
-            _context14.prev = 7;
+            _context14.t1 = _context14.sent;
+            results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
+            _context14.next = 11;
+            return _2.StoreService.search(createCriteria(expectedStore));
 
-            result.event.unsubscribeAll();
-            return _context14.finish(7);
+          case 11:
+            stores = _context14.sent;
 
-          case 10:
+
+            expect(stores.count).toBe(results.count);
+            stores.forEach(function (store) {
+              expect(results.find(function (_) {
+                return _.localeCompare(store.get('id')) === 0;
+              })).toBeDefined();
+              (0, _Store.expectStore)(store, expectedStore);
+            });
+
+          case 14:
           case 'end':
             return _context14.stop();
         }
       }
-    }, _callee14, undefined, [[1,, 7, 10]]);
+    }, _callee14, undefined);
   })));
+});
 
-  test('should return the stores matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee15() {
-    var expectedStoreInfo, storeId1, storeId2, result, stores;
+describe('searchAll', function () {
+  test('should return no store if provided criteria matches no store', _asyncToGenerator(regeneratorRuntime.mark(function _callee15() {
+    var stores, result;
     return regeneratorRuntime.wrap(function _callee15$(_context15) {
       while (1) {
         switch (_context15.prev = _context15.next) {
           case 0:
-            expectedStoreInfo = (0, _Store.createStoreInfo)();
-            _context15.next = 3;
-            return _2.StoreService.create(expectedStoreInfo);
-
-          case 3:
-            storeId1 = _context15.sent;
-            _context15.next = 6;
-            return _2.StoreService.create(expectedStoreInfo);
-
-          case 6:
-            storeId2 = _context15.sent;
-            result = _2.StoreService.searchAll(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
-            _context15.prev = 8;
             stores = (0, _immutable.List)();
-
+            result = _2.StoreService.searchAll(createCriteria());
+            _context15.prev = 2;
 
             result.event.subscribe(function (info) {
               stores = stores.push(info);
             });
 
-            _context15.next = 13;
+            _context15.next = 6;
             return result.promise;
 
-          case 13:
-            expect(stores.count()).toBe(2);
-            expect(stores.find(function (_) {
-              return _.get('id').localeCompare(storeId1) === 0;
-            })).toBeTruthy();
-            expect(stores.find(function (_) {
-              return _.get('id').localeCompare(storeId2) === 0;
-            })).toBeTruthy();
-
-          case 16:
-            _context15.prev = 16;
+          case 6:
+            _context15.prev = 6;
 
             result.event.unsubscribeAll();
-            return _context15.finish(16);
+            return _context15.finish(6);
 
-          case 19:
+          case 9:
+
+            expect(stores.count()).toBe(0);
+
+          case 10:
           case 'end':
             return _context15.stop();
         }
       }
-    }, _callee15, undefined, [[8,, 16, 19]]);
-  })));
-});
-
-describe('exists', function () {
-  test('should return false if no store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee16() {
-    var response;
-    return regeneratorRuntime.wrap(function _callee16$(_context16) {
-      while (1) {
-        switch (_context16.prev = _context16.next) {
-          case 0:
-            _context16.next = 2;
-            return _2.StoreService.exists(createCriteria());
-
-          case 2:
-            response = _context16.sent;
-
-
-            expect(response).toBeFalsy();
-
-          case 4:
-          case 'end':
-            return _context16.stop();
-        }
-      }
-    }, _callee16, undefined);
+    }, _callee15, undefined, [[2,, 6, 9]]);
   })));
 
-  test('should return true if any store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
-    var storeInfo, response;
+  test('should return the products price matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
+    var _ref24, expectedStore, results, stores, result;
+
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
         switch (_context17.prev = _context17.next) {
           case 0:
-            storeInfo = (0, _Store.createStoreInfo)();
-            _context17.next = 3;
-            return _2.StoreService.create(storeInfo);
+            _context17.next = 2;
+            return (0, _Store.createStoreInfo)();
 
-          case 3:
-            response = _2.StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo));
+          case 2:
+            _ref24 = _context17.sent;
+            expectedStore = _ref24.store;
+            _context17.t0 = _immutable2.default;
+            _context17.next = 7;
+            return Promise.all((0, _immutable.Range)(0, new _chance2.default().integer({ min: 2, max: 5 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee16() {
+              return regeneratorRuntime.wrap(function _callee16$(_context16) {
+                while (1) {
+                  switch (_context16.prev = _context16.next) {
+                    case 0:
+                      return _context16.abrupt('return', _2.StoreService.create(expectedStore));
 
+                    case 1:
+                    case 'end':
+                      return _context16.stop();
+                  }
+                }
+              }, _callee16, undefined);
+            }))).toArray());
 
-            expect(response).toBeTruthy();
+          case 7:
+            _context17.t1 = _context17.sent;
+            results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
+            stores = (0, _immutable.List)();
+            result = _2.StoreService.searchAll(createCriteria(expectedStore));
+            _context17.prev = 11;
 
-          case 5:
+            result.event.subscribe(function (info) {
+              stores = stores.push(info);
+            });
+
+            _context17.next = 15;
+            return result.promise;
+
+          case 15:
+            _context17.prev = 15;
+
+            result.event.unsubscribeAll();
+            return _context17.finish(15);
+
+          case 18:
+
+            expect(stores.count).toBe(results.count);
+            stores.forEach(function (store) {
+              expect(results.find(function (_) {
+                return _.localeCompare(store.get('id')) === 0;
+              })).toBeDefined();
+              (0, _Store.expectStore)(store, expectedStore);
+            });
+
+          case 20:
           case 'end':
             return _context17.stop();
         }
       }
-    }, _callee17, undefined);
+    }, _callee17, undefined, [[11,, 15, 18]]);
   })));
 });
 
-describe('count', function () {
-  test('should return 0 if no store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee18() {
-    var response;
+describe('exists', function () {
+  test('should return false if no store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee18() {
     return regeneratorRuntime.wrap(function _callee18$(_context18) {
       while (1) {
         switch (_context18.prev = _context18.next) {
           case 0:
-            _context18.next = 2;
-            return _2.StoreService.count(createCriteria());
+            _context18.t0 = expect;
+            _context18.next = 3;
+            return _2.StoreService.exists(createCriteria());
 
-          case 2:
-            response = _context18.sent;
+          case 3:
+            _context18.t1 = _context18.sent;
+            (0, _context18.t0)(_context18.t1).toBeFalsy();
 
-
-            expect(response).toBe(0);
-
-          case 4:
+          case 5:
           case 'end':
             return _context18.stop();
         }
@@ -590,35 +698,81 @@ describe('count', function () {
     }, _callee18, undefined);
   })));
 
-  test('should return the count of store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee19() {
-    var storeInfo, response;
+  test('should return true if any store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee19() {
+    var stores;
     return regeneratorRuntime.wrap(function _callee19$(_context19) {
       while (1) {
         switch (_context19.prev = _context19.next) {
           case 0:
-            storeInfo = (0, _Store.createStoreInfo)();
-            _context19.next = 3;
-            return _2.StoreService.create(storeInfo);
+            _context19.next = 2;
+            return createStores(new _chance2.default().integer({ min: 1, max: 10 }), true);
 
-          case 3:
-            _context19.next = 5;
-            return _2.StoreService.create(storeInfo);
+          case 2:
+            stores = _context19.sent;
+            _context19.t0 = expect;
+            _context19.next = 6;
+            return _2.StoreService.exists(createCriteria(stores.first()));
 
-          case 5:
-            _context19.next = 7;
-            return _2.StoreService.count(createCriteriaUsingProvidedStoreInfo(storeInfo));
+          case 6:
+            _context19.t1 = _context19.sent;
+            (0, _context19.t0)(_context19.t1).toBeTruthy();
 
-          case 7:
-            response = _context19.sent;
-
-
-            expect(response).toBe(2);
-
-          case 9:
+          case 8:
           case 'end':
             return _context19.stop();
         }
       }
     }, _callee19, undefined);
+  })));
+});
+
+describe('count', function () {
+  test('should return 0 if no store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee20() {
+    return regeneratorRuntime.wrap(function _callee20$(_context20) {
+      while (1) {
+        switch (_context20.prev = _context20.next) {
+          case 0:
+            _context20.t0 = expect;
+            _context20.next = 3;
+            return _2.StoreService.count(createCriteria());
+
+          case 3:
+            _context20.t1 = _context20.sent;
+            (0, _context20.t0)(_context20.t1).toBe(0);
+
+          case 5:
+          case 'end':
+            return _context20.stop();
+        }
+      }
+    }, _callee20, undefined);
+  })));
+
+  test('should return the count of store match provided criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee21() {
+    var stores;
+    return regeneratorRuntime.wrap(function _callee21$(_context21) {
+      while (1) {
+        switch (_context21.prev = _context21.next) {
+          case 0:
+            _context21.next = 2;
+            return createStores(new _chance2.default().integer({ min: 1, max: 10 }), true);
+
+          case 2:
+            stores = _context21.sent;
+            _context21.t0 = expect;
+            _context21.next = 6;
+            return _2.StoreService.count(createCriteria(stores.first()));
+
+          case 6:
+            _context21.t1 = _context21.sent;
+            _context21.t2 = stores.count();
+            (0, _context21.t0)(_context21.t1).toBe(_context21.t2);
+
+          case 9:
+          case 'end':
+            return _context21.stop();
+        }
+      }
+    }, _callee21, undefined);
   })));
 });

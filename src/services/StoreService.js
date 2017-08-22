@@ -1,13 +1,14 @@
 // @flow
 
-import { ParseWrapperService } from 'micro-business-parse-server-common';
+import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { Store } from '../schema';
-import ServiceBase from './ServiceBase';
 
 export default class StoreService extends ServiceBase {
   static messagePrefix = 'No store found with Id: ';
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(Store, info, acl, sessionToken);
+
+  static read = async (id, criteria, sessionToken) => ServiceBase.read(Store, id, sessionToken, StoreService.messagePrefix);
 
   static read = async (id, sessionToken) => ServiceBase.read(Store, id, sessionToken, StoreService.messagePrefix);
 
@@ -39,7 +40,7 @@ export default class StoreService extends ServiceBase {
       }
     }
 
-    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
 
     return query;
   };

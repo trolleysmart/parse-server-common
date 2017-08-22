@@ -1,6 +1,6 @@
 // @flow
 
-import Immutable, { List, Map } from 'immutable';
+import { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
 export default class Tag extends BaseObject {
@@ -14,29 +14,22 @@ export default class Tag extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('key', info.get('key'));
-
-    const name = info.get('name');
-
-    object.set('name', name);
-    object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
-    object.set('weight', info.get('weight'));
+    object.set('name', info.get('name'));
+    object.set('imageUrl', info.get('imageUrl'));
+    object.set('level', info.get('level'));
     object.set('forDisplay', info.get('forDisplay'));
 
-    if (info.has('tagIds')) {
-      const tagIds = info.get('tagIds');
+    if (info.has('tagId')) {
+      const tagId = info.get('tagId');
 
-      if (tagIds.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId)).toArray());
+      if (tagId) {
+        object.set('tag', Tag.createWithoutData(tagId));
       }
-    } else if (info.has('tags')) {
-      const tags = info.get('tags');
+    } else if (info.has('tag')) {
+      const tag = info.get('tag');
 
-      if (tags.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tags.toArray());
+      if (tag) {
+        object.set('tag', tag);
       }
     }
   };
@@ -54,17 +47,18 @@ export default class Tag extends BaseObject {
   };
 
   getInfo = () => {
-    const tagObjects = this.getObject().get('tags');
-    const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
+    const tagObject = this.getObject().get('tag');
+    const tag = tagObject ? new Tag(tagObject) : undefined;
 
     return Map({
       id: this.getId(),
       key: this.getObject().get('key'),
       name: this.getObject().get('name'),
-      weight: this.getObject().get('weight'),
+      imageUrl: this.getObject().get('imageUrl'),
+      level: this.getObject().get('level'),
       forDisplay: this.getObject().get('forDisplay'),
-      tags,
-      tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
+      tag: tag ? tag.getInfo() : undefined,
+      tagId: tag ? tag.getId() : undefined,
     });
   };
 }

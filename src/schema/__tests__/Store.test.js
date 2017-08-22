@@ -6,81 +6,80 @@ import { ParseWrapperService } from 'micro-business-parse-server-common';
 import uuid from 'uuid/v4';
 import { Store } from '../';
 
-export function createLightWeightStoreInfo() {
+export const createStoreInfo = async () => {
   const chance = new Chance();
-
-  return Map({
+  const store = Map({
     key: uuid(),
     name: uuid(),
     imageUrl: uuid(),
     address: uuid(),
-    phones: Map({ business: '021147258' }),
+    phones: Map({ business: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
     geoLocation: ParseWrapperService.createGeoPoint({
       latitude: chance.floating({ min: 1, max: 20 }),
       longitude: chance.floating({ min: -30, max: -1 }),
     }),
   });
-}
 
-export function createStore(store) {
-  return Store.spawn(store || createLightWeightStoreInfo());
-}
+  return { store };
+};
 
-function expectStoreInfo(store, expectedStore) {
-  expect(store.get('key')).toBe(expectedStore.get('key'));
-  expect(store.get('name')).toBe(expectedStore.get('name'));
-  expect(store.get('imageUrl')).toBe(expectedStore.get('imageUrl'));
-  expect(store.get('address')).toBe(expectedStore.get('address'));
-  expect(store.get('phones')).toEqual(expectedStore.get('phones'));
-  expect(store.get('geoLocation')).toBe(expectedStore.get('geoLocation'));
-}
+export const createStore = async object => Store.spawn(object || (await createStoreInfo()).store);
+
+export const expectStore = (object, expectedObject) => {
+  expect(object.get('key')).toBe(expectedObject.get('key'));
+  expect(object.get('name')).toBe(expectedObject.get('name'));
+  expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
+  expect(object.get('address')).toBe(expectedObject.get('address'));
+  expect(object.get('phones')).toEqual(expectedObject.get('phones'));
+  expect(object.get('geoLocation')).toEqual(expectedObject.get('geoLocation'));
+};
 
 describe('constructor', () => {
-  test('should set class name', () => {
-    expect(createStore().className).toBe('Store');
+  test('should set class name', async () => {
+    expect((await createStore()).className).toBe('Store');
   });
 });
 
 describe('static public methods', () => {
-  test('spawn should set provided info', () => {
-    const store = createLightWeightStoreInfo();
-    const object = createStore(store);
+  test('spawn should set provided info', async () => {
+    const { store } = await createStoreInfo();
+    const object = await createStore(store);
     const info = object.getInfo();
 
-    expectStoreInfo(info, store);
+    expectStore(info, store);
   });
 });
 
 describe('public methods', () => {
-  test('getObject should return provided object', () => {
-    const object = Store.spawn(createLightWeightStoreInfo());
+  test('getObject should return provided object', async () => {
+    const object = await createStore();
 
     expect(new Store(object).getObject()).toBe(object);
   });
 
-  test('getId should return provided object Id', () => {
-    const object = createStore();
+  test('getId should return provided object Id', async () => {
+    const object = await createStore();
 
     expect(new Store(object).getId()).toBe(object.id);
   });
 
-  test('updateInfo should update object info', () => {
-    const object = createStore();
-    const updatedStore = createLightWeightStoreInfo();
+  test('updateInfo should update object info', async () => {
+    const object = await createStore();
+    const { store: updatedStore } = await createStoreInfo();
 
     object.updateInfo(updatedStore);
 
     const info = object.getInfo();
 
-    expectStoreInfo(info, updatedStore);
+    expectStore(info, updatedStore);
   });
 
-  test('getInfo should return provided info', () => {
-    const store = createLightWeightStoreInfo();
-    const object = createStore(store);
+  test('getInfo should return provided info', async () => {
+    const { store } = await createStoreInfo();
+    const object = await createStore(store);
     const info = object.getInfo();
 
     expect(info.get('id')).toBe(object.getId());
-    expectStoreInfo(info, store);
+    expectStore(info, store);
   });
 });

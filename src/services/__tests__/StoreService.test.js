@@ -1,55 +1,83 @@
 // @flow
 
+import Chance from 'chance';
 import Immutable, { List, Map, Range } from 'immutable';
+import { ParseWrapperService } from 'micro-business-parse-server-common';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
 import { StoreService } from '../';
-import { createLightWeightStoreInfo } from '../../schema/__tests__/Store.test';
+import { createStoreInfo, expectStore } from '../../schema/__tests__/Store.test';
 
-export const createStores = async count =>
-  Immutable.fromJS(
-    await Promise.all(Range(0, count).map(async () => StoreService.read(await StoreService.create(createLightWeightStoreInfo()))).toArray()),
+const createCriteriaWthoutConditions = () =>
+  Map({
+    fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation'),
+  });
+
+const createCriteria = (store) => {
+  const chance = new Chance();
+
+  return Map({
+    conditions: Map({
+      key: store ? store.get('key') : uuid(),
+      name: store ? store.get('name') : uuid(),
+      imageUrl: store ? store.get('imageUrl') : uuid(),
+      address: store ? store.get('address') : uuid(),
+      phones: store ? store.get('phones') : Map({ business: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
+      geoLocation: store
+        ? store.get('geoLocation')
+        : ParseWrapperService.createGeoPoint({
+          latitude: chance.floating({ min: 1, max: 20 }),
+          longitude: chance.floating({ min: -30, max: -1 }),
+        }),
+    }),
+  }).merge(createCriteriaWthoutConditions());
+};
+
+const createStores = async (count, useSameInfo = false) => {
+  let store;
+
+  if (useSameInfo) {
+    const { store: tempStore } = await createStoreInfo();
+
+    store = tempStore;
+  }
+
+  return Immutable.fromJS(
+    await Promise.all(
+      Range(0, count)
+        .map(async () => {
+          let finalStore;
+
+          if (useSameInfo) {
+            finalStore = store;
+          } else {
+            const { store: tempStore } = await createStoreInfo();
+
+            finalStore = tempStore;
+          }
+
+          return StoreService.read(await StoreService.create(finalStore), createCriteriaWthoutConditions());
+        })
+        .toArray(),
+    ),
   );
+};
 
-function expectStoreInfo(storeInfo, expectedStoreInfo, storeId) {
-  expect(storeInfo.get('id')).toBe(storeId);
-  expect(storeInfo.get('name')).toBe(expectedStoreInfo.get('name'));
-  expect(storeInfo.get('imageUrl')).toBe(expectedStoreInfo.get('imageUrl'));
-}
-
-function createCriteria() {
-  return Map({
-    fields: List.of('key', 'name', 'imageUrl'),
-    conditions: Map({
-      key: uuid(),
-      name: uuid(),
-    }),
-  });
-}
-
-function createCriteriaUsingProvidedStoreInfo(storeInfo) {
-  return Map({
-    fields: List.of('key', 'name', 'imageUrl'),
-    conditions: Map({
-      key: storeInfo.get('key'),
-      name: storeInfo.get('name'),
-    }),
-  });
-}
+export default createStores;
 
 describe('create', () => {
   test('should return the created store Id', async () => {
-    const result = await StoreService.create(createLightWeightStoreInfo());
+    const storeId = await StoreService.create((await createStoreInfo()).store);
 
-    expect(result).toBeDefined();
+    expect(storeId).toBeDefined();
   });
 
   test('should create the store', async () => {
-    const expectedStoreInfo = createLightWeightStoreInfo();
-    const storeId = await StoreService.create(expectedStoreInfo);
-    const storeInfo = await StoreService.read(storeId);
+    const { store } = await createStoreInfo();
+    const storeId = await StoreService.create(store);
+    const fetchedStore = await StoreService.read(storeId, createCriteriaWthoutConditions());
 
-    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+    expect(fetchedStore).toBeDefined();
   });
 });
 
@@ -65,11 +93,11 @@ describe('read', () => {
   });
 
   test('should read the existing store', async () => {
-    const expectedStoreInfo = createLightWeightStoreInfo();
-    const storeId = await StoreService.create(expectedStoreInfo);
-    const storeInfo = await StoreService.read(storeId);
+    const { store: expectedStore } = await createStoreInfo();
+    const storeId = await StoreService.create(expectedStore);
+    const store = await StoreService.read(storeId, createCriteriaWthoutConditions());
 
-    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+    expectStore(store, expectedStore);
   });
 });
 
@@ -78,26 +106,31 @@ describe('update', () => {
     const storeId = uuid();
 
     try {
-      await StoreService.update(createLightWeightStoreInfo().set('id', storeId));
+      const store = await StoreService.read(await StoreService.create((await createStoreInfo()).store), createCriteriaWthoutConditions());
+
+      await StoreService.update(store.set('id', storeId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
     }
   });
 
   test('should return the Id of the updated store', async () => {
-    const storeId = await StoreService.create(createLightWeightStoreInfo());
-    const id = await StoreService.update(createLightWeightStoreInfo().set('id', storeId));
+    const { store: expectedStore } = await createStoreInfo();
+    const storeId = await StoreService.create((await createStoreInfo()).store);
+    const id = await StoreService.update(expectedStore.set('id', storeId));
 
     expect(id).toBe(storeId);
   });
 
   test('should update the existing store', async () => {
-    const expectedStoreInfo = createLightWeightStoreInfo();
-    const id = await StoreService.create(createLightWeightStoreInfo());
-    const storeId = await StoreService.update(expectedStoreInfo.set('id', id));
-    const storeInfo = await StoreService.read(storeId);
+    const { store: expectedStore } = await createStoreInfo();
+    const storeId = await StoreService.create((await createStoreInfo()).store);
 
-    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+    await StoreService.update(expectedStore.set('id', storeId));
+
+    const store = await StoreService.read(storeId, createCriteriaWthoutConditions());
+
+    expectStore(store, expectedStore);
   });
 });
 
@@ -113,11 +146,11 @@ describe('delete', () => {
   });
 
   test('should delete the existing store', async () => {
-    const storeId = await StoreService.create(createLightWeightStoreInfo());
+    const storeId = await StoreService.create((await createStoreInfo()).store);
     await StoreService.delete(storeId);
 
     try {
-      await StoreService.read(storeId);
+      await StoreService.delete(storeId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
     }
@@ -126,96 +159,91 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no store if provided criteria matches no store', async () => {
-    const storeInfos = await StoreService.search(createCriteria());
+    const stores = await StoreService.search(createCriteria());
 
-    expect(storeInfos.count()).toBe(0);
+    expect(stores.count()).toBe(0);
   });
 
-  test('should return the stores matches the criteria', async () => {
-    const expectedStoreInfo = createLightWeightStoreInfo();
-    const storeId = await StoreService.create(expectedStoreInfo);
-    const storeInfos = await StoreService.search(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
+  test('should return the products price matches the criteria', async () => {
+    const { store: expectedStore } = await createStoreInfo();
+    const results = Immutable.fromJS(
+      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
+    );
+    const stores = await StoreService.search(createCriteria(expectedStore));
 
-    expect(storeInfos.count()).toBe(1);
-
-    const storeInfo = storeInfos.first();
-    expectStoreInfo(storeInfo, expectedStoreInfo, storeId);
+    expect(stores.count).toBe(results.count);
+    stores.forEach((store) => {
+      expect(results.find(_ => _.localeCompare(store.get('id')) === 0)).toBeDefined();
+      expectStore(store, expectedStore);
+    });
   });
 });
 
 describe('searchAll', () => {
   test('should return no store if provided criteria matches no store', async () => {
+    let stores = List();
     const result = StoreService.searchAll(createCriteria());
 
     try {
-      let stores = List();
-
       result.event.subscribe((info) => {
         stores = stores.push(info);
       });
 
       await result.promise;
-      expect(stores.count()).toBe(0);
     } finally {
       result.event.unsubscribeAll();
     }
+
+    expect(stores.count()).toBe(0);
   });
 
-  test('should return the stores matches the criteria', async () => {
-    const expectedStoreInfo = createLightWeightStoreInfo();
-    const storeId1 = await StoreService.create(expectedStoreInfo);
-    const storeId2 = await StoreService.create(expectedStoreInfo);
+  test('should return the products price matches the criteria', async () => {
+    const { store: expectedStore } = await createStoreInfo();
+    const results = Immutable.fromJS(
+      await Promise.all(Range(0, new Chance().integer({ min: 2, max: 5 })).map(async () => StoreService.create(expectedStore)).toArray()),
+    );
 
-    const result = StoreService.searchAll(createCriteriaUsingProvidedStoreInfo(expectedStoreInfo));
+    let stores = List();
+    const result = StoreService.searchAll(createCriteria(expectedStore));
+
     try {
-      let stores = List();
-
       result.event.subscribe((info) => {
         stores = stores.push(info);
       });
 
       await result.promise;
-      expect(stores.count()).toBe(2);
-      expect(stores.find(_ => _.get('id').localeCompare(storeId1) === 0)).toBeTruthy();
-      expect(stores.find(_ => _.get('id').localeCompare(storeId2) === 0)).toBeTruthy();
     } finally {
       result.event.unsubscribeAll();
     }
+
+    expect(stores.count).toBe(results.count);
+    stores.forEach((store) => {
+      expect(results.find(_ => _.localeCompare(store.get('id')) === 0)).toBeDefined();
+      expectStore(store, expectedStore);
+    });
   });
 });
 
 describe('exists', () => {
   test('should return false if no store match provided criteria', async () => {
-    const response = await StoreService.exists(createCriteria());
-
-    expect(response).toBeFalsy();
+    expect(await StoreService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any store match provided criteria', async () => {
-    const storeInfo = createLightWeightStoreInfo();
+    const stores = await createStores(new Chance().integer({ min: 1, max: 10 }), true);
 
-    await StoreService.create(storeInfo);
-    const response = StoreService.exists(createCriteriaUsingProvidedStoreInfo(storeInfo));
-
-    expect(response).toBeTruthy();
+    expect(await StoreService.exists(createCriteria(stores.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no store match provided criteria', async () => {
-    const response = await StoreService.count(createCriteria());
-
-    expect(response).toBe(0);
+    expect(await StoreService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of store match provided criteria', async () => {
-    const storeInfo = createLightWeightStoreInfo();
+    const stores = await createStores(new Chance().integer({ min: 1, max: 10 }), true);
 
-    await StoreService.create(storeInfo);
-    await StoreService.create(storeInfo);
-
-    const response = await StoreService.count(createCriteriaUsingProvidedStoreInfo(storeInfo));
-
-    expect(response).toBe(2);
+    expect(await StoreService.count(createCriteria(stores.first()))).toBe(stores.count());
   });
 });

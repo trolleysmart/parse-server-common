@@ -1,75 +1,80 @@
 // @flow
 
+import Chance from 'chance';
 import { Map } from 'immutable';
 import uuid from 'uuid/v4';
 import { Tag } from '../';
 
-export function createTagInfo() {
-  return Map({
+const chance = new Chance();
+
+export const createTagInfo = async () => {
+  const tag = Map({
     key: uuid(),
     name: uuid(),
-    weight: 1,
-    forDisplay: true,
+    imageUrl: uuid(),
+    level: chance.integer({ min: 1, max: 1000 }),
+    forDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
   });
-}
 
-export function createTag(tagInfo) {
-  return Tag.spawn(tagInfo || createTagInfo());
-}
+  return { tag };
+};
 
-function expectTagInfo(tagInfo, expectedTagInfo) {
-  expect(tagInfo.get('key')).toBe(expectedTagInfo.get('key'));
-  expect(tagInfo.get('name')).toBe(expectedTagInfo.get('name'));
-  expect(tagInfo.get('weight')).toBe(expectedTagInfo.get('weight'));
-  expect(tagInfo.get('forDisplay')).toBe(expectedTagInfo.get('forDisplay'));
-}
+export const createTag = async object => Tag.spawn(object || (await createTagInfo()).tag);
+
+export const expectTag = (object, expectedObject) => {
+  expect(object.get('key')).toBe(expectedObject.get('key'));
+  expect(object.get('name')).toBe(expectedObject.get('name'));
+  expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
+  expect(object.get('level')).toBe(expectedObject.get('level'));
+  expect(object.get('forDisplay')).toBe(expectedObject.get('forDisplay'));
+};
 
 describe('constructor', () => {
-  test('should set class name', () => {
-    expect(createTag().className).toBe('Tag');
+  test('should set class name', async () => {
+    expect((await createTag()).className).toBe('Tag');
   });
 });
 
 describe('static public methods', () => {
-  test('spawn should set provided info', () => {
-    const tagInfo = createTagInfo();
-    const object = createTag(tagInfo);
+  test('spawn should set provided info', async () => {
+    const { tag } = await createTagInfo();
+    const object = await createTag(tag);
     const info = object.getInfo();
 
-    expectTagInfo(info, tagInfo);
+    expectTag(info, tag);
   });
 });
 
 describe('public methods', () => {
-  test('getObject should return provided object', () => {
-    const object = Tag.spawn(createTagInfo());
+  test('getObject should return provided object', async () => {
+    const object = await createTag();
 
     expect(new Tag(object).getObject()).toBe(object);
   });
 
-  test('getId should return provided object Id', () => {
-    const object = createTag();
+  test('getId should return provided object Id', async () => {
+    const object = await createTag();
 
     expect(new Tag(object).getId()).toBe(object.id);
   });
 
-  test('updateInfo should update object info', () => {
-    const object = createTag();
-    const updatedTagInfo = createTagInfo();
+  test('updateInfo should update object info', async () => {
+    const object = await createTag();
+    const { tag: updatedTag } = await createTagInfo();
 
-    object.updateInfo(updatedTagInfo);
+    object.updateInfo(updatedTag);
 
     const info = object.getInfo();
 
-    expectTagInfo(info, updatedTagInfo);
+    expectTag(info, updatedTag);
   });
 
-  test('getInfo should return provided info', () => {
-    const tagInfo = createTagInfo();
-    const object = createTag(tagInfo);
+  test('getInfo should return provided info', async () => {
+    const { tag } = await createTagInfo();
+    const object = await createTag(tag);
     const info = object.getInfo();
 
     expect(info.get('id')).toBe(object.getId());
-    expectTagInfo(info, tagInfo);
+    expectTag(info, tag);
   });
 });

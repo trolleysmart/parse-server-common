@@ -6,7 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -41,8 +45,18 @@ Store.spawn = function (info) {
 Store.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
   object.set('name', info.get('name'));
-  object.set('lowerCaseName', info.get('name').toLowerCase());
   object.set('imageUrl', info.get('imageUrl'));
+  object.set('address', info.get('address'));
+
+  if (info.has('phones')) {
+    var phones = info.get('phones');
+
+    if (phones) {
+      object.set('phones', phones.toJS());
+    }
+  }
+
+  object.set('geoLocation', info.get('geoLocation'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -61,7 +75,10 @@ var _initialiseProps = function _initialiseProps() {
       id: _this2.getId(),
       key: _this2.getObject().get('key'),
       name: _this2.getObject().get('name'),
-      imageUrl: _this2.getObject().get('imageUrl')
+      imageUrl: _this2.getObject().get('imageUrl'),
+      address: _this2.getObject().get('address'),
+      phones: _immutable2.default.fromJS(_this2.getObject().get('phones')),
+      geoLocation: _this2.getObject().get('geoLocation')
     });
   };
 };

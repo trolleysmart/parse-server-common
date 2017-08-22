@@ -4,8 +4,8 @@ import Chance from 'chance';
 import { Map } from 'immutable';
 import uuid from 'uuid/v4';
 import { ProductPrice } from '../';
-import { createStores } from '../../services/__tests__/StoreService.test';
-import { createTags } from '../../services/__tests__/TagService.test';
+import createStores from '../../services/__tests__/StoreService.test';
+import createTags from '../../services/__tests__/TagService.test';
 
 export const createProductPriceInfo = async () => {
   const chance = new Chance();
@@ -29,28 +29,28 @@ export const createProductPriceInfo = async () => {
   return { productPrice, store, tags };
 };
 
-export const createProductPrice = async productPrice => ProductPrice.spawn(productPrice || (await createProductPriceInfo()).productPrice);
+export const createProductPrice = async object => ProductPrice.spawn(object || (await createProductPriceInfo()).productPrice);
 
-export const expectProductPrice = (productPrice, expectedProductPrice, { productPriceId, expectedStore, expectedTags } = {}) => {
-  expect(productPrice.get('name')).toBe(expectedProductPrice.get('name'));
-  expect(productPrice.get('description')).toBe(expectedProductPrice.get('description'));
-  expect(productPrice.get('priceDetails')).toEqual(expectedProductPrice.get('priceDetails'));
-  expect(productPrice.get('priceToDisplay')).toEqual(expectedProductPrice.get('priceToDisplay'));
-  expect(productPrice.get('saving')).toEqual(expectedProductPrice.get('saving'));
-  expect(productPrice.get('savingPercentage')).toEqual(expectedProductPrice.get('savingPercentage'));
-  expect(productPrice.get('offerEndDate')).toEqual(expectedProductPrice.get('offerEndDate'));
-  expect(productPrice.get('status')).toEqual(expectedProductPrice.get('status'));
+export const expectProductPrice = (object, expectedObject, { productPriceId, expectedStore, expectedTags } = {}) => {
+  expect(object.get('name')).toBe(expectedObject.get('name'));
+  expect(object.get('description')).toBe(expectedObject.get('description'));
+  expect(object.get('priceDetails')).toEqual(expectedObject.get('priceDetails'));
+  expect(object.get('priceToDisplay')).toEqual(expectedObject.get('priceToDisplay'));
+  expect(object.get('saving')).toEqual(expectedObject.get('saving'));
+  expect(object.get('savingPercentage')).toEqual(expectedObject.get('savingPercentage'));
+  expect(object.get('offerEndDate')).toEqual(expectedObject.get('offerEndDate'));
+  expect(object.get('status')).toEqual(expectedObject.get('status'));
 
   if (productPriceId) {
-    expect(productPrice.get('id')).toBe(productPriceId);
+    expect(object.get('id')).toBe(productPriceId);
   }
 
   if (expectedStore) {
-    expect(productPrice.get('store')).toEqual(expectedStore);
+    expect(object.get('store')).toEqual(expectedStore);
   }
 
   if (expectedTags) {
-    expect(productPrice.get('tags')).toEqual(expectedTags);
+    expect(object.get('tags')).toEqual(expectedTags);
   }
 };
 

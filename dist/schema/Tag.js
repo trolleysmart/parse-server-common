@@ -6,11 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _immutable2 = _interopRequireDefault(_immutable);
-
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -44,31 +40,22 @@ Tag.spawn = function (info) {
 
 Tag.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
-
-  var name = info.get('name');
-
-  object.set('name', name);
-  object.set('lowerCaseName', name ? name.toLowerCase() : undefined);
-  object.set('weight', info.get('weight'));
+  object.set('name', info.get('name'));
+  object.set('imageUrl', info.get('imageUrl'));
+  object.set('level', info.get('level'));
   object.set('forDisplay', info.get('forDisplay'));
 
-  if (info.has('tagIds')) {
-    var tagIds = info.get('tagIds');
+  if (info.has('tagId')) {
+    var tagId = info.get('tagId');
 
-    if (tagIds.isEmpty()) {
-      object.set('tags', []);
-    } else {
-      object.set('tags', tagIds.map(function (tagId) {
-        return Tag.createWithoutData(tagId);
-      }).toArray());
+    if (tagId) {
+      object.set('tag', Tag.createWithoutData(tagId));
     }
-  } else if (info.has('tags')) {
-    var tags = info.get('tags');
+  } else if (info.has('tag')) {
+    var tag = info.get('tag');
 
-    if (tags.isEmpty()) {
-      object.set('tags', []);
-    } else {
-      object.set('tags', tags.toArray());
+    if (tag) {
+      object.set('tag', tag);
     }
   }
 };
@@ -85,21 +72,18 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
-    var tagObjects = _this2.getObject().get('tags');
-    var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
-      return new Tag(tag).getInfo();
-    }) : undefined;
+    var tagObject = _this2.getObject().get('tag');
+    var tag = tagObject ? new Tag(tagObject) : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
       key: _this2.getObject().get('key'),
       name: _this2.getObject().get('name'),
-      weight: _this2.getObject().get('weight'),
+      imageUrl: _this2.getObject().get('imageUrl'),
+      level: _this2.getObject().get('level'),
       forDisplay: _this2.getObject().get('forDisplay'),
-      tags: tags,
-      tagIds: tags ? tags.map(function (tag) {
-        return tag.get('id');
-      }) : (0, _immutable.List)()
+      tag: tag ? tag.getInfo() : undefined,
+      tagId: tag ? tag.getId() : undefined
     });
   };
 };

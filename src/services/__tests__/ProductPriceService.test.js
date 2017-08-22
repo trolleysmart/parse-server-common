@@ -244,11 +244,11 @@ describe('exists', () => {
 });
 
 describe('count', () => {
-  test('should return 0 if no master product price match provided criteria', async () => {
+  test('should return 0 if no product price match provided criteria', async () => {
     expect(await ProductPriceService.count(createCriteria())).toBe(0);
   });
 
-  test('should return the count of master product price match provided criteria', async () => {
+  test('should return the count of product price match provided criteria', async () => {
     const productPrices = await createProductPrices(new Chance().integer({ min: 1, max: 10 }), true);
 
     expect(await ProductPriceService.count(createCriteria(productPrices.first()))).toBe(productPrices.count());

@@ -1,15 +1,15 @@
 // @flow
 
-import { ParseWrapperService } from 'micro-business-parse-server-common';
+import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { Tag } from '../schema';
-import ServiceBase from './ServiceBase';
 
 export default class TagService extends ServiceBase {
   static messagePrefix = 'No tag found with Id: ';
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(Tag, info, acl, sessionToken);
 
-  static read = async (id, sessionToken) => ServiceBase.read(Tag, id, sessionToken, TagService.messagePrefix);
+  static read = async (id, criteria, sessionToken) =>
+    ServiceBase.read(Tag, id, sessionToken, TagService.messagePrefix, query => TagService.buildIncludeQuery(query, criteria));
 
   static update = async (info, sessionToken) => ServiceBase.update(Tag, info, sessionToken, TagService.messagePrefix);
 
@@ -23,16 +23,25 @@ export default class TagService extends ServiceBase {
 
   static exists = async (criteria, sessionToken) => ServiceBase.exists(TagService.buildSearchQuery, criteria, sessionToken);
 
-  static buildSearchQuery = (criteria) => {
-    const query = ParseWrapperService.createQuery(Tag, criteria);
+  static buildIncludeQuery = (query, criteria) => {
+    if (!criteria) {
+      return query;
+    }
 
-    if (criteria.has('includeTags')) {
-      const value = criteria.get('includeTags');
+    if (criteria.has('includeTag')) {
+      const value = criteria.get('includeTag');
 
       if (value) {
-        query.include('tags');
+        query.include('tag');
       }
     }
+
+    return query;
+  };
+
+  static buildSearchQuery = (criteria) => {
+    const queryWithoutIncludes = ParseWrapperService.createQuery(Tag, criteria);
+    const query = TagService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
     if (!criteria.has('conditions')) {
       return query;
@@ -48,13 +57,21 @@ export default class TagService extends ServiceBase {
       }
     }
 
-    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'lowerCaseName');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
 
-    if (conditions.has('weight')) {
-      const value = conditions.get('weight');
+    if (conditions.has('imageUrl')) {
+      const value = conditions.get('imageUrl');
 
       if (value) {
-        query.equalTo('weight', value);
+        query.equalTo('imageUrl', value);
+      }
+    }
+
+    if (conditions.has('level')) {
+      const value = conditions.get('level');
+
+      if (value) {
+        query.equalTo('level', value);
       }
     }
 
@@ -68,15 +85,7 @@ export default class TagService extends ServiceBase {
       const value = conditions.get('tag');
 
       if (value) {
-        query.equalTo('tags', value);
-      }
-    }
-
-    if (conditions.has('tags')) {
-      const value = conditions.get('tags');
-
-      if (value) {
-        query.containedIn('tags', value.toArray());
+        query.equalTo('tag', value);
       }
     }
 
@@ -84,15 +93,7 @@ export default class TagService extends ServiceBase {
       const value = conditions.get('tagId');
 
       if (value) {
-        query.equalTo('tags', Tag.createWithoutData(value));
-      }
-    }
-
-    if (conditions.has('tagIds')) {
-      const value = conditions.get('tagIds');
-
-      if (value) {
-        query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
+        query.equalTo('tag', Tag.createWithoutData(value));
       }
     }
 

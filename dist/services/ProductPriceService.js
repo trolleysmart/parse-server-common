@@ -210,7 +210,6 @@ ProductPriceService.buildIncludeQuery = function (query, criteria) {
 ProductPriceService.buildSearchQuery = function (criteria) {
   var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ProductPrice, criteria);
   var query = ProductPriceService.buildIncludeQuery(queryWithoutIncludes, criteria);
-
   var conditions = criteria.get('conditions');
 
   _microBusinessParseServerCommon.ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');

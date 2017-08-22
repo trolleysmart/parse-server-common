@@ -52,7 +52,6 @@ export default class ProductPriceService extends ServiceBase {
   static buildSearchQuery = (criteria) => {
     const queryWithoutIncludes = ParseWrapperService.createQuery(ProductPrice, criteria);
     const query = ProductPriceService.buildIncludeQuery(queryWithoutIncludes, criteria);
-
     const conditions = criteria.get('conditions');
 
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
