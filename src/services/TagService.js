@@ -49,47 +49,13 @@ export default class TagService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('key')) {
-      const value = conditions.get('key');
-
-      if (value) {
-        query.equalTo('key', value);
-      }
-    }
-
-    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
-    ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
-    ServiceBase.addNumberSearchToQuery(conditions, query, 'level', 'level');
-
-    if (conditions.has('imageUrl')) {
-      const value = conditions.get('imageUrl');
-
-      if (value) {
-        query.equalTo('imageUrl', value);
-      }
-    }
-
-    if (conditions.has('forDisplay')) {
-      const value = conditions.get('forDisplay');
-
-      query.equalTo('forDisplay', value);
-    }
-
-    if (conditions.has('parentTag')) {
-      const value = conditions.get('parentTag');
-
-      if (value) {
-        query.equalTo('parentTag', value);
-      }
-    }
-
-    if (conditions.has('parentTagId')) {
-      const value = conditions.get('parentTagId');
-
-      if (value) {
-        query.equalTo('parentTag', Tag.createWithoutData(value));
-      }
-    }
+    ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
+    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringQuery(conditions, query, 'description', 'description');
+    ServiceBase.addNumberQuery(conditions, query, 'level', 'level');
+    ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+    ServiceBase.addEqualityQuery(conditions, query, 'forDisplay', 'forDisplay');
+    ServiceBase.addLinkQuery(conditions, query, 'parentTag', 'parentTag', Tag);
 
     return query;
   };

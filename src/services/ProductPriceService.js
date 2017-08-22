@@ -54,52 +54,14 @@ export default class ProductPriceService extends ServiceBase {
     const query = ProductPriceService.buildIncludeQuery(queryWithoutIncludes, criteria);
     const conditions = criteria.get('conditions');
 
-    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
-    ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
-    ServiceBase.addNumberSearchToQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
-    ServiceBase.addNumberSearchToQuery(conditions, query, 'saving', 'saving');
-    ServiceBase.addNumberSearchToQuery(conditions, query, 'savingPercentage', 'savingPercentage');
-    ServiceBase.addDateTimeSearchToQuery(conditions, query, 'offerEndDate', 'offerEndDate');
-
-    if (conditions.has('status')) {
-      const value = conditions.get('status');
-
-      if (value) {
-        query.equalTo('status', value);
-      }
-    }
-
-    if (conditions.has('tag')) {
-      const value = conditions.get('tag');
-
-      if (value) {
-        query.equalTo('tags', value);
-      }
-    }
-
-    if (conditions.has('tags')) {
-      const value = conditions.get('tags');
-
-      if (value) {
-        query.containedIn('tags', value.toArray());
-      }
-    }
-
-    if (conditions.has('tagId')) {
-      const value = conditions.get('tagId');
-
-      if (value) {
-        query.equalTo('tags', Tag.createWithoutData(value));
-      }
-    }
-
-    if (conditions.has('tagIds')) {
-      const value = conditions.get('tagIds');
-
-      if (value) {
-        query.containedIn('tags', value.map(tagId => Tag.createWithoutData(tagId)).toArray());
-      }
-    }
+    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringQuery(conditions, query, 'description', 'description');
+    ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
+    ServiceBase.addNumberQuery(conditions, query, 'saving', 'saving');
+    ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');
+    ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
+    ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+    ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
 
     return query;
   };

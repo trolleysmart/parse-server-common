@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
 var _immutable = require('immutable');
@@ -10,34 +10,15 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function');
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
-}
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== 'function' && superClass !== null) {
-    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: { value: subClass, enumerable: false, writable: true, configurable: true },
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
-}
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CrawlSession = (function(_BaseObject) {
+var CrawlSession = function (_BaseObject) {
   _inherits(CrawlSession, _BaseObject);
 
   function CrawlSession(object) {
@@ -51,9 +32,9 @@ var CrawlSession = (function(_BaseObject) {
   }
 
   return CrawlSession;
-})(_microBusinessParseServerCommon.BaseObject);
+}(_microBusinessParseServerCommon.BaseObject);
 
-CrawlSession.spawn = function(info) {
+CrawlSession.spawn = function (info) {
   var object = new CrawlSession();
 
   CrawlSession.updateInfoInternal(object, info);
@@ -61,7 +42,7 @@ CrawlSession.spawn = function(info) {
   return object;
 };
 
-CrawlSession.updateInfoInternal = function(object, info) {
+CrawlSession.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
   object.set('startDateTime', info.get('startDateTime'));
   object.set('endDateTime', info.get('endDateTime'));
@@ -74,7 +55,7 @@ CrawlSession.updateInfoInternal = function(object, info) {
 var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
-  this.updateInfo = function(info) {
+  this.updateInfo = function (info) {
     var object = _this2.getObject();
 
     CrawlSession.updateInfoInternal(object, info);
@@ -82,13 +63,13 @@ var _initialiseProps = function _initialiseProps() {
     return _this2;
   };
 
-  this.getInfo = function() {
+  this.getInfo = function () {
     return (0, _immutable.Map)({
       id: _this2.getId(),
       key: _this2.getObject().get('key'),
       startDateTime: _this2.getObject().get('startDateTime'),
       endDateTime: _this2.getObject().get('endDateTime'),
-      additionalInfo: _immutable2.default.fromJS(_this2.getObject().get('additionalInfo')),
+      additionalInfo: _immutable2.default.fromJS(_this2.getObject().get('additionalInfo'))
     });
   };
 };

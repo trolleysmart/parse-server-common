@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 exports.UserFeedbackService = exports.TagService = exports.StoreService = exports.ProductPriceService = exports.CrawlSessionService = undefined;
 
@@ -25,9 +25,7 @@ var _UserFeedbackService2 = require('./UserFeedbackService');
 
 var _UserFeedbackService3 = _interopRequireDefault(_UserFeedbackService2);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;

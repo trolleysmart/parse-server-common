@@ -53,49 +53,12 @@ export default class StoreService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('key')) {
-      const value = conditions.get('key');
-
-      if (value) {
-        query.equalTo('key', value);
-      }
-    }
-
-    ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
-
-    if (conditions.has('imageUrl')) {
-      const value = conditions.get('imageUrl');
-
-      if (value) {
-        query.equalTo('imageUrl', value);
-      }
-    }
-
-    if (conditions.has('address')) {
-      const value = conditions.get('address');
-
-      if (value) {
-        query.equalTo('address', value);
-      }
-    }
-
-    ServiceBase.addGeoLocationSearchToQuery(conditions, query, 'geoLocation', 'geoLocation');
-
-    if (conditions.has('parentStore')) {
-      const value = conditions.get('parentStore');
-
-      if (value) {
-        query.equalTo('parentStore', value);
-      }
-    }
-
-    if (conditions.has('parentStoreId')) {
-      const value = conditions.get('parentStoreId');
-
-      if (value) {
-        query.equalTo('parentStore', Store.createWithoutData(value));
-      }
-    }
+    ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
+    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
+    ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+    ServiceBase.addEqualityQuery(conditions, query, 'address', 'address');
+    ServiceBase.addGeoLocationQuery(conditions, query, 'geoLocation', 'geoLocation');
+    ServiceBase.addLinkQuery(conditions, query, 'parentStore', 'parentStore', Store);
 
     return query;
   };

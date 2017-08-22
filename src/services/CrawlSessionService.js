@@ -31,16 +31,9 @@ export default class CrawlSessionService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('key')) {
-      const value = conditions.get('key');
-
-      if (value) {
-        query.equalTo('key', value);
-      }
-    }
-
-    ServiceBase.addDateTimeSearchToQuery(conditions, query, 'startDateTime', 'startDateTime');
-    ServiceBase.addDateTimeSearchToQuery(conditions, query, 'endDateTime', 'endDateTime');
+    ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
+    ServiceBase.addDateTimeQuery(conditions, query, 'startDateTime', 'startDateTime');
+    ServiceBase.addDateTimeQuery(conditions, query, 'endDateTime', 'endDateTime');
 
     return query;
   };
