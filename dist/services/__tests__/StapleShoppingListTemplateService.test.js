@@ -20,7 +20,7 @@ require('../../../bootstrap');
 
 var _2 = require('../');
 
-var _StapleTemplate = require('../../schema/__tests__/StapleTemplate.test');
+var _StapleShoppingListTemplate = require('../../schema/__tests__/StapleShoppingListTemplate.test');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -64,29 +64,29 @@ var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   });
 };
 
-var createCriteria = function createCriteria(stapleTemplate) {
+var createCriteria = function createCriteria(stapleShoppingListTemplate) {
   return (0, _immutable.Map)({
     conditions: (0, _immutable.Map)({
-      name: stapleTemplate ? stapleTemplate.get('name') : (0, _v2.default)(),
-      description: stapleTemplate ? stapleTemplate.get('description') : (0, _v2.default)(),
-      imageUrl: stapleTemplate ? stapleTemplate.get('imageUrl') : (0, _v2.default)(),
+      name: stapleShoppingListTemplate ? stapleShoppingListTemplate.get('name') : (0, _v2.default)(),
+      description: stapleShoppingListTemplate ? stapleShoppingListTemplate.get('description') : (0, _v2.default)(),
+      imageUrl: stapleShoppingListTemplate ? stapleShoppingListTemplate.get('imageUrl') : (0, _v2.default)(),
     }),
   }).merge(createCriteriaWthoutConditions());
 };
 
-var createStapleTemplates = (function() {
+var createStapleShoppingListTemplates = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(count) {
       var useSameInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      var stapleTemplate, _ref2, tempStapleTemplate;
+      var stapleShoppingListTemplate, _ref2, tempStapleShoppingListTemplate;
 
       return regeneratorRuntime.wrap(
         function _callee2$(_context2) {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                stapleTemplate = void 0;
+                stapleShoppingListTemplate = void 0;
 
                 if (!useSameInfo) {
                   _context2.next = 7;
@@ -94,13 +94,13 @@ var createStapleTemplates = (function() {
                 }
 
                 _context2.next = 4;
-                return (0, _StapleTemplate.createStapleTemplateInfo)();
+                return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
               case 4:
                 _ref2 = _context2.sent;
-                tempStapleTemplate = _ref2.stapleTemplate;
+                tempStapleShoppingListTemplate = _ref2.stapleShoppingListTemplate;
 
-                stapleTemplate = tempStapleTemplate;
+                stapleShoppingListTemplate = tempStapleShoppingListTemplate;
 
               case 7:
                 _context2.t0 = _immutable2.default;
@@ -110,38 +110,38 @@ var createStapleTemplates = (function() {
                     .map(
                       _asyncToGenerator(
                         regeneratorRuntime.mark(function _callee() {
-                          var finalStapleTemplate, _ref4, _tempStapleTemplate;
+                          var finalStapleShoppingListTemplate, _ref4, _tempStapleShoppingListTemplate;
 
                           return regeneratorRuntime.wrap(
                             function _callee$(_context) {
                               while (1) {
                                 switch ((_context.prev = _context.next)) {
                                   case 0:
-                                    finalStapleTemplate = void 0;
+                                    finalStapleShoppingListTemplate = void 0;
 
                                     if (!useSameInfo) {
                                       _context.next = 5;
                                       break;
                                     }
 
-                                    finalStapleTemplate = stapleTemplate;
+                                    finalStapleShoppingListTemplate = stapleShoppingListTemplate;
                                     _context.next = 10;
                                     break;
 
                                   case 5:
                                     _context.next = 7;
-                                    return (0, _StapleTemplate.createStapleTemplateInfo)();
+                                    return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                                   case 7:
                                     _ref4 = _context.sent;
-                                    _tempStapleTemplate = _ref4.stapleTemplate;
+                                    _tempStapleShoppingListTemplate = _ref4.stapleShoppingListTemplate;
 
-                                    finalStapleTemplate = _tempStapleTemplate;
+                                    finalStapleShoppingListTemplate = _tempStapleShoppingListTemplate;
 
                                   case 10:
-                                    _context.t0 = _2.StapleTemplateService;
+                                    _context.t0 = _2.StapleShoppingListTemplateService;
                                     _context.next = 13;
-                                    return _2.StapleTemplateService.create(finalStapleTemplate);
+                                    return _2.StapleShoppingListTemplateService.create(finalStapleShoppingListTemplate);
 
                                   case 13:
                                     _context.t1 = _context.sent;
@@ -179,37 +179,37 @@ var createStapleTemplates = (function() {
     }),
   );
 
-  return function createStapleTemplates(_x) {
+  return function createStapleShoppingListTemplates(_x) {
     return _ref.apply(this, arguments);
   };
 })();
 
-exports.default = createStapleTemplates;
+exports.default = createStapleShoppingListTemplates;
 
 describe('create', function() {
   test(
-    'should return the created staple template Id',
+    'should return the created staple shopping list template Id',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee3() {
-        var stapleTemplateId;
+        var stapleShoppingListTemplateId;
         return regeneratorRuntime.wrap(
           function _callee3$(_context3) {
             while (1) {
               switch ((_context3.prev = _context3.next)) {
                 case 0:
-                  _context3.t0 = _2.StapleTemplateService;
+                  _context3.t0 = _2.StapleShoppingListTemplateService;
                   _context3.next = 3;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 3:
-                  _context3.t1 = _context3.sent.stapleTemplate;
+                  _context3.t1 = _context3.sent.stapleShoppingListTemplate;
                   _context3.next = 6;
                   return _context3.t0.create.call(_context3.t0, _context3.t1);
 
                 case 6:
-                  stapleTemplateId = _context3.sent;
+                  stapleShoppingListTemplateId = _context3.sent;
 
-                  expect(stapleTemplateId).toBeDefined();
+                  expect(stapleShoppingListTemplateId).toBeDefined();
 
                 case 8:
                 case 'end':
@@ -225,10 +225,10 @@ describe('create', function() {
   );
 
   test(
-    'should create the staple template',
+    'should create the staple shopping list template',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee4() {
-        var _ref7, stapleTemplate, stapleTemplateId, fetchedStapleTemplate;
+        var _ref7, stapleShoppingListTemplate, stapleShoppingListTemplateId, fetchedStapleShoppingListTemplate;
 
         return regeneratorRuntime.wrap(
           function _callee4$(_context4) {
@@ -236,23 +236,23 @@ describe('create', function() {
               switch ((_context4.prev = _context4.next)) {
                 case 0:
                   _context4.next = 2;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 2:
                   _ref7 = _context4.sent;
-                  stapleTemplate = _ref7.stapleTemplate;
+                  stapleShoppingListTemplate = _ref7.stapleShoppingListTemplate;
                   _context4.next = 6;
-                  return _2.StapleTemplateService.create(stapleTemplate);
+                  return _2.StapleShoppingListTemplateService.create(stapleShoppingListTemplate);
 
                 case 6:
-                  stapleTemplateId = _context4.sent;
+                  stapleShoppingListTemplateId = _context4.sent;
                   _context4.next = 9;
-                  return _2.StapleTemplateService.read(stapleTemplateId, createCriteriaWthoutConditions());
+                  return _2.StapleShoppingListTemplateService.read(stapleShoppingListTemplateId, createCriteriaWthoutConditions());
 
                 case 9:
-                  fetchedStapleTemplate = _context4.sent;
+                  fetchedStapleShoppingListTemplate = _context4.sent;
 
-                  expect(fetchedStapleTemplate).toBeDefined();
+                  expect(fetchedStapleShoppingListTemplate).toBeDefined();
 
                 case 11:
                 case 'end':
@@ -270,19 +270,19 @@ describe('create', function() {
 
 describe('read', function() {
   test(
-    'should reject if the provided staple template Id does not exist',
+    'should reject if the provided staple shopping list template Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee5() {
-        var stapleTemplateId;
+        var stapleShoppingListTemplateId;
         return regeneratorRuntime.wrap(
           function _callee5$(_context5) {
             while (1) {
               switch ((_context5.prev = _context5.next)) {
                 case 0:
-                  stapleTemplateId = (0, _v2.default)();
+                  stapleShoppingListTemplateId = (0, _v2.default)();
                   _context5.prev = 1;
                   _context5.next = 4;
-                  return _2.StapleTemplateService.read(stapleTemplateId);
+                  return _2.StapleShoppingListTemplateService.read(stapleShoppingListTemplateId);
 
                 case 4:
                   _context5.next = 9;
@@ -292,7 +292,7 @@ describe('read', function() {
                   _context5.prev = 6;
                   _context5.t0 = _context5['catch'](1);
 
-                  expect(_context5.t0.getErrorMessage()).toBe('No staple template found with Id: ' + stapleTemplateId);
+                  expect(_context5.t0.getErrorMessage()).toBe('No staple shopping list template found with Id: ' + stapleShoppingListTemplateId);
 
                 case 9:
                 case 'end':
@@ -309,10 +309,10 @@ describe('read', function() {
   );
 
   test(
-    'should read the existing staple template',
+    'should read the existing staple shopping list template',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee6() {
-        var _ref10, expectedStapleTemplate, stapleTemplateId, stapleTemplate;
+        var _ref10, expectedStapleShoppingListTemplate, stapleShoppingListTemplateId, stapleShoppingListTemplate;
 
         return regeneratorRuntime.wrap(
           function _callee6$(_context6) {
@@ -320,23 +320,23 @@ describe('read', function() {
               switch ((_context6.prev = _context6.next)) {
                 case 0:
                   _context6.next = 2;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 2:
                   _ref10 = _context6.sent;
-                  expectedStapleTemplate = _ref10.stapleTemplate;
+                  expectedStapleShoppingListTemplate = _ref10.stapleShoppingListTemplate;
                   _context6.next = 6;
-                  return _2.StapleTemplateService.create(expectedStapleTemplate);
+                  return _2.StapleShoppingListTemplateService.create(expectedStapleShoppingListTemplate);
 
                 case 6:
-                  stapleTemplateId = _context6.sent;
+                  stapleShoppingListTemplateId = _context6.sent;
                   _context6.next = 9;
-                  return _2.StapleTemplateService.read(stapleTemplateId, createCriteriaWthoutConditions());
+                  return _2.StapleShoppingListTemplateService.read(stapleShoppingListTemplateId, createCriteriaWthoutConditions());
 
                 case 9:
-                  stapleTemplate = _context6.sent;
+                  stapleShoppingListTemplate = _context6.sent;
 
-                  (0, _StapleTemplate.expectStapleTemplate)(stapleTemplate, expectedStapleTemplate);
+                  (0, _StapleShoppingListTemplate.expectStapleShoppingListTemplate)(stapleShoppingListTemplate, expectedStapleShoppingListTemplate);
 
                 case 11:
                 case 'end':
@@ -354,24 +354,24 @@ describe('read', function() {
 
 describe('update', function() {
   test(
-    'should reject if the provided staple template Id does not exist',
+    'should reject if the provided staple shopping list template Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee7() {
-        var stapleTemplateId, stapleTemplate;
+        var stapleShoppingListTemplateId, stapleShoppingListTemplate;
         return regeneratorRuntime.wrap(
           function _callee7$(_context7) {
             while (1) {
               switch ((_context7.prev = _context7.next)) {
                 case 0:
-                  stapleTemplateId = (0, _v2.default)();
+                  stapleShoppingListTemplateId = (0, _v2.default)();
                   _context7.prev = 1;
-                  _context7.t0 = _2.StapleTemplateService;
-                  _context7.t1 = _2.StapleTemplateService;
+                  _context7.t0 = _2.StapleShoppingListTemplateService;
+                  _context7.t1 = _2.StapleShoppingListTemplateService;
                   _context7.next = 6;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 6:
-                  _context7.t2 = _context7.sent.stapleTemplate;
+                  _context7.t2 = _context7.sent.stapleShoppingListTemplate;
                   _context7.next = 9;
                   return _context7.t1.create.call(_context7.t1, _context7.t2);
 
@@ -382,9 +382,9 @@ describe('update', function() {
                   return _context7.t0.read.call(_context7.t0, _context7.t3, _context7.t4);
 
                 case 13:
-                  stapleTemplate = _context7.sent;
+                  stapleShoppingListTemplate = _context7.sent;
                   _context7.next = 16;
-                  return _2.StapleTemplateService.update(stapleTemplate.set('id', stapleTemplateId));
+                  return _2.StapleShoppingListTemplateService.update(stapleShoppingListTemplate.set('id', stapleShoppingListTemplateId));
 
                 case 16:
                   _context7.next = 21;
@@ -394,7 +394,7 @@ describe('update', function() {
                   _context7.prev = 18;
                   _context7.t5 = _context7['catch'](1);
 
-                  expect(_context7.t5.getErrorMessage()).toBe('No staple template found with Id: ' + stapleTemplateId);
+                  expect(_context7.t5.getErrorMessage()).toBe('No staple shopping list template found with Id: ' + stapleShoppingListTemplateId);
 
                 case 21:
                 case 'end':
@@ -411,10 +411,10 @@ describe('update', function() {
   );
 
   test(
-    'should return the Id of the updated staple template',
+    'should return the Id of the updated staple shopping list template',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee8() {
-        var _ref13, expectedStapleTemplate, stapleTemplateId, id;
+        var _ref13, expectedStapleShoppingListTemplate, stapleShoppingListTemplateId, id;
 
         return regeneratorRuntime.wrap(
           function _callee8$(_context8) {
@@ -422,29 +422,29 @@ describe('update', function() {
               switch ((_context8.prev = _context8.next)) {
                 case 0:
                   _context8.next = 2;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 2:
                   _ref13 = _context8.sent;
-                  expectedStapleTemplate = _ref13.stapleTemplate;
-                  _context8.t0 = _2.StapleTemplateService;
+                  expectedStapleShoppingListTemplate = _ref13.stapleShoppingListTemplate;
+                  _context8.t0 = _2.StapleShoppingListTemplateService;
                   _context8.next = 7;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 7:
-                  _context8.t1 = _context8.sent.stapleTemplate;
+                  _context8.t1 = _context8.sent.stapleShoppingListTemplate;
                   _context8.next = 10;
                   return _context8.t0.create.call(_context8.t0, _context8.t1);
 
                 case 10:
-                  stapleTemplateId = _context8.sent;
+                  stapleShoppingListTemplateId = _context8.sent;
                   _context8.next = 13;
-                  return _2.StapleTemplateService.update(expectedStapleTemplate.set('id', stapleTemplateId));
+                  return _2.StapleShoppingListTemplateService.update(expectedStapleShoppingListTemplate.set('id', stapleShoppingListTemplateId));
 
                 case 13:
                   id = _context8.sent;
 
-                  expect(id).toBe(stapleTemplateId);
+                  expect(id).toBe(stapleShoppingListTemplateId);
 
                 case 15:
                 case 'end':
@@ -460,10 +460,10 @@ describe('update', function() {
   );
 
   test(
-    'should update the existing staple template',
+    'should update the existing staple shopping list template',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee9() {
-        var _ref15, expectedStapleTemplate, stapleTemplateId, stapleTemplate;
+        var _ref15, expectedStapleShoppingListTemplate, stapleShoppingListTemplateId, stapleShoppingListTemplate;
 
         return regeneratorRuntime.wrap(
           function _callee9$(_context9) {
@@ -471,33 +471,33 @@ describe('update', function() {
               switch ((_context9.prev = _context9.next)) {
                 case 0:
                   _context9.next = 2;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 2:
                   _ref15 = _context9.sent;
-                  expectedStapleTemplate = _ref15.stapleTemplate;
-                  _context9.t0 = _2.StapleTemplateService;
+                  expectedStapleShoppingListTemplate = _ref15.stapleShoppingListTemplate;
+                  _context9.t0 = _2.StapleShoppingListTemplateService;
                   _context9.next = 7;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 7:
-                  _context9.t1 = _context9.sent.stapleTemplate;
+                  _context9.t1 = _context9.sent.stapleShoppingListTemplate;
                   _context9.next = 10;
                   return _context9.t0.create.call(_context9.t0, _context9.t1);
 
                 case 10:
-                  stapleTemplateId = _context9.sent;
+                  stapleShoppingListTemplateId = _context9.sent;
                   _context9.next = 13;
-                  return _2.StapleTemplateService.update(expectedStapleTemplate.set('id', stapleTemplateId));
+                  return _2.StapleShoppingListTemplateService.update(expectedStapleShoppingListTemplate.set('id', stapleShoppingListTemplateId));
 
                 case 13:
                   _context9.next = 15;
-                  return _2.StapleTemplateService.read(stapleTemplateId, createCriteriaWthoutConditions());
+                  return _2.StapleShoppingListTemplateService.read(stapleShoppingListTemplateId, createCriteriaWthoutConditions());
 
                 case 15:
-                  stapleTemplate = _context9.sent;
+                  stapleShoppingListTemplate = _context9.sent;
 
-                  (0, _StapleTemplate.expectStapleTemplate)(stapleTemplate, expectedStapleTemplate);
+                  (0, _StapleShoppingListTemplate.expectStapleShoppingListTemplate)(stapleShoppingListTemplate, expectedStapleShoppingListTemplate);
 
                 case 17:
                 case 'end':
@@ -515,19 +515,19 @@ describe('update', function() {
 
 describe('delete', function() {
   test(
-    'should reject if the provided staple template Id does not exist',
+    'should reject if the provided staple shopping list template Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee10() {
-        var stapleTemplateId;
+        var stapleShoppingListTemplateId;
         return regeneratorRuntime.wrap(
           function _callee10$(_context10) {
             while (1) {
               switch ((_context10.prev = _context10.next)) {
                 case 0:
-                  stapleTemplateId = (0, _v2.default)();
+                  stapleShoppingListTemplateId = (0, _v2.default)();
                   _context10.prev = 1;
                   _context10.next = 4;
-                  return _2.StapleTemplateService.delete(stapleTemplateId);
+                  return _2.StapleShoppingListTemplateService.delete(stapleShoppingListTemplateId);
 
                 case 4:
                   _context10.next = 9;
@@ -537,7 +537,7 @@ describe('delete', function() {
                   _context10.prev = 6;
                   _context10.t0 = _context10['catch'](1);
 
-                  expect(_context10.t0.getErrorMessage()).toBe('No staple template found with Id: ' + stapleTemplateId);
+                  expect(_context10.t0.getErrorMessage()).toBe('No staple shopping list template found with Id: ' + stapleShoppingListTemplateId);
 
                 case 9:
                 case 'end':
@@ -554,33 +554,33 @@ describe('delete', function() {
   );
 
   test(
-    'should delete the existing staple template',
+    'should delete the existing staple shopping list template',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee11() {
-        var stapleTemplateId;
+        var stapleShoppingListTemplateId;
         return regeneratorRuntime.wrap(
           function _callee11$(_context11) {
             while (1) {
               switch ((_context11.prev = _context11.next)) {
                 case 0:
-                  _context11.t0 = _2.StapleTemplateService;
+                  _context11.t0 = _2.StapleShoppingListTemplateService;
                   _context11.next = 3;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 3:
-                  _context11.t1 = _context11.sent.stapleTemplate;
+                  _context11.t1 = _context11.sent.stapleShoppingListTemplate;
                   _context11.next = 6;
                   return _context11.t0.create.call(_context11.t0, _context11.t1);
 
                 case 6:
-                  stapleTemplateId = _context11.sent;
+                  stapleShoppingListTemplateId = _context11.sent;
                   _context11.next = 9;
-                  return _2.StapleTemplateService.delete(stapleTemplateId);
+                  return _2.StapleShoppingListTemplateService.delete(stapleShoppingListTemplateId);
 
                 case 9:
                   _context11.prev = 9;
                   _context11.next = 12;
-                  return _2.StapleTemplateService.delete(stapleTemplateId);
+                  return _2.StapleShoppingListTemplateService.delete(stapleShoppingListTemplateId);
 
                 case 12:
                   _context11.next = 17;
@@ -590,7 +590,7 @@ describe('delete', function() {
                   _context11.prev = 14;
                   _context11.t2 = _context11['catch'](9);
 
-                  expect(_context11.t2.getErrorMessage()).toBe('No staple template found with Id: ' + stapleTemplateId);
+                  expect(_context11.t2.getErrorMessage()).toBe('No staple shopping list template found with Id: ' + stapleShoppingListTemplateId);
 
                 case 17:
                 case 'end':
@@ -609,22 +609,22 @@ describe('delete', function() {
 
 describe('search', function() {
   test(
-    'should return no staple template if provided criteria matches no staple template',
+    'should return no staple shopping list template if provided criteria matches no staple shopping list template',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee12() {
-        var stapleTemplates;
+        var stapleShoppingListTemplates;
         return regeneratorRuntime.wrap(
           function _callee12$(_context12) {
             while (1) {
               switch ((_context12.prev = _context12.next)) {
                 case 0:
                   _context12.next = 2;
-                  return _2.StapleTemplateService.search(createCriteria());
+                  return _2.StapleShoppingListTemplateService.search(createCriteria());
 
                 case 2:
-                  stapleTemplates = _context12.sent;
+                  stapleShoppingListTemplates = _context12.sent;
 
-                  expect(stapleTemplates.count()).toBe(0);
+                  expect(stapleShoppingListTemplates.count()).toBe(0);
 
                 case 4:
                 case 'end':
@@ -640,10 +640,10 @@ describe('search', function() {
   );
 
   test(
-    'should return the staple template matches the criteria',
+    'should return the staple shopping list template matches the criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee14() {
-        var _ref20, expectedStapleTemplate, results, stapleTemplates;
+        var _ref20, expectedStapleShoppingListTemplate, results, stapleShoppingListTemplates;
 
         return regeneratorRuntime.wrap(
           function _callee14$(_context14) {
@@ -651,11 +651,11 @@ describe('search', function() {
               switch ((_context14.prev = _context14.next)) {
                 case 0:
                   _context14.next = 2;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 2:
                   _ref20 = _context14.sent;
-                  expectedStapleTemplate = _ref20.stapleTemplate;
+                  expectedStapleShoppingListTemplate = _ref20.stapleShoppingListTemplate;
                   _context14.t0 = _immutable2.default;
                   _context14.next = 7;
                   return Promise.all(
@@ -668,7 +668,10 @@ describe('search', function() {
                                 while (1) {
                                   switch ((_context13.prev = _context13.next)) {
                                     case 0:
-                                      return _context13.abrupt('return', _2.StapleTemplateService.create(expectedStapleTemplate));
+                                      return _context13.abrupt(
+                                        'return',
+                                        _2.StapleShoppingListTemplateService.create(expectedStapleShoppingListTemplate),
+                                      );
 
                                     case 1:
                                     case 'end':
@@ -689,19 +692,19 @@ describe('search', function() {
                   _context14.t1 = _context14.sent;
                   results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
                   _context14.next = 11;
-                  return _2.StapleTemplateService.search(createCriteria(expectedStapleTemplate));
+                  return _2.StapleShoppingListTemplateService.search(createCriteria(expectedStapleShoppingListTemplate));
 
                 case 11:
-                  stapleTemplates = _context14.sent;
+                  stapleShoppingListTemplates = _context14.sent;
 
-                  expect(stapleTemplates.count).toBe(results.count);
-                  stapleTemplates.forEach(function(stapleTemplate) {
+                  expect(stapleShoppingListTemplates.count).toBe(results.count);
+                  stapleShoppingListTemplates.forEach(function(stapleShoppingListTemplate) {
                     expect(
                       results.find(function(_) {
-                        return _.localeCompare(stapleTemplate.get('id')) === 0;
+                        return _.localeCompare(stapleShoppingListTemplate.get('id')) === 0;
                       }),
                     ).toBeDefined();
-                    (0, _StapleTemplate.expectStapleTemplate)(stapleTemplate, expectedStapleTemplate);
+                    (0, _StapleShoppingListTemplate.expectStapleShoppingListTemplate)(stapleShoppingListTemplate, expectedStapleShoppingListTemplate);
                   });
 
                 case 14:
@@ -720,21 +723,21 @@ describe('search', function() {
 
 describe('searchAll', function() {
   test(
-    'should return no staple template if provided criteria matches no staple template',
+    'should return no staple shopping list template if provided criteria matches no staple shopping list template',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee15() {
-        var stapleTemplates, result;
+        var stapleShoppingListTemplates, result;
         return regeneratorRuntime.wrap(
           function _callee15$(_context15) {
             while (1) {
               switch ((_context15.prev = _context15.next)) {
                 case 0:
-                  stapleTemplates = (0, _immutable.List)();
-                  result = _2.StapleTemplateService.searchAll(createCriteria());
+                  stapleShoppingListTemplates = (0, _immutable.List)();
+                  result = _2.StapleShoppingListTemplateService.searchAll(createCriteria());
                   _context15.prev = 2;
 
                   result.event.subscribe(function(info) {
-                    stapleTemplates = stapleTemplates.push(info);
+                    stapleShoppingListTemplates = stapleShoppingListTemplates.push(info);
                   });
 
                   _context15.next = 6;
@@ -747,7 +750,7 @@ describe('searchAll', function() {
                   return _context15.finish(6);
 
                 case 9:
-                  expect(stapleTemplates.count()).toBe(0);
+                  expect(stapleShoppingListTemplates.count()).toBe(0);
 
                 case 10:
                 case 'end':
@@ -764,10 +767,10 @@ describe('searchAll', function() {
   );
 
   test(
-    'should return the staple template matches the criteria',
+    'should return the staple shopping list template matches the criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee17() {
-        var _ref24, expectedStapleTemplate, results, stapleTemplates, result;
+        var _ref24, expectedStapleShoppingListTemplate, results, stapleShoppingListTemplates, result;
 
         return regeneratorRuntime.wrap(
           function _callee17$(_context17) {
@@ -775,11 +778,11 @@ describe('searchAll', function() {
               switch ((_context17.prev = _context17.next)) {
                 case 0:
                   _context17.next = 2;
-                  return (0, _StapleTemplate.createStapleTemplateInfo)();
+                  return (0, _StapleShoppingListTemplate.createStapleShoppingListTemplateInfo)();
 
                 case 2:
                   _ref24 = _context17.sent;
-                  expectedStapleTemplate = _ref24.stapleTemplate;
+                  expectedStapleShoppingListTemplate = _ref24.stapleShoppingListTemplate;
                   _context17.t0 = _immutable2.default;
                   _context17.next = 7;
                   return Promise.all(
@@ -792,7 +795,10 @@ describe('searchAll', function() {
                                 while (1) {
                                   switch ((_context16.prev = _context16.next)) {
                                     case 0:
-                                      return _context16.abrupt('return', _2.StapleTemplateService.create(expectedStapleTemplate));
+                                      return _context16.abrupt(
+                                        'return',
+                                        _2.StapleShoppingListTemplateService.create(expectedStapleShoppingListTemplate),
+                                      );
 
                                     case 1:
                                     case 'end':
@@ -812,12 +818,12 @@ describe('searchAll', function() {
                 case 7:
                   _context17.t1 = _context17.sent;
                   results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
-                  stapleTemplates = (0, _immutable.List)();
-                  result = _2.StapleTemplateService.searchAll(createCriteria(expectedStapleTemplate));
+                  stapleShoppingListTemplates = (0, _immutable.List)();
+                  result = _2.StapleShoppingListTemplateService.searchAll(createCriteria(expectedStapleShoppingListTemplate));
                   _context17.prev = 11;
 
                   result.event.subscribe(function(info) {
-                    stapleTemplates = stapleTemplates.push(info);
+                    stapleShoppingListTemplates = stapleShoppingListTemplates.push(info);
                   });
 
                   _context17.next = 15;
@@ -830,14 +836,14 @@ describe('searchAll', function() {
                   return _context17.finish(15);
 
                 case 18:
-                  expect(stapleTemplates.count).toBe(results.count);
-                  stapleTemplates.forEach(function(stapleTemplate) {
+                  expect(stapleShoppingListTemplates.count).toBe(results.count);
+                  stapleShoppingListTemplates.forEach(function(stapleShoppingListTemplate) {
                     expect(
                       results.find(function(_) {
-                        return _.localeCompare(stapleTemplate.get('id')) === 0;
+                        return _.localeCompare(stapleShoppingListTemplate.get('id')) === 0;
                       }),
                     ).toBeDefined();
-                    (0, _StapleTemplate.expectStapleTemplate)(stapleTemplate, expectedStapleTemplate);
+                    (0, _StapleShoppingListTemplate.expectStapleShoppingListTemplate)(stapleShoppingListTemplate, expectedStapleShoppingListTemplate);
                   });
 
                 case 20:
@@ -857,7 +863,7 @@ describe('searchAll', function() {
 
 describe('exists', function() {
   test(
-    'should return false if no staple template match provided criteria',
+    'should return false if no staple shopping list template match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee18() {
         return regeneratorRuntime.wrap(
@@ -867,7 +873,7 @@ describe('exists', function() {
                 case 0:
                   _context18.t0 = expect;
                   _context18.next = 3;
-                  return _2.StapleTemplateService.exists(createCriteria());
+                  return _2.StapleShoppingListTemplateService.exists(createCriteria());
 
                 case 3:
                   _context18.t1 = _context18.sent;
@@ -887,23 +893,23 @@ describe('exists', function() {
   );
 
   test(
-    'should return true if any staple template match provided criteria',
+    'should return true if any staple shopping list template match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee19() {
-        var stapleTemplates;
+        var stapleShoppingListTemplates;
         return regeneratorRuntime.wrap(
           function _callee19$(_context19) {
             while (1) {
               switch ((_context19.prev = _context19.next)) {
                 case 0:
                   _context19.next = 2;
-                  return createStapleTemplates(chance.integer({ min: 1, max: 10 }), true);
+                  return createStapleShoppingListTemplates(chance.integer({ min: 1, max: 10 }), true);
 
                 case 2:
-                  stapleTemplates = _context19.sent;
+                  stapleShoppingListTemplates = _context19.sent;
                   _context19.t0 = expect;
                   _context19.next = 6;
-                  return _2.StapleTemplateService.exists(createCriteria(stapleTemplates.first()));
+                  return _2.StapleShoppingListTemplateService.exists(createCriteria(stapleShoppingListTemplates.first()));
 
                 case 6:
                   _context19.t1 = _context19.sent;
@@ -925,7 +931,7 @@ describe('exists', function() {
 
 describe('count', function() {
   test(
-    'should return 0 if no staple template match provided criteria',
+    'should return 0 if no staple shopping list template match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee20() {
         return regeneratorRuntime.wrap(
@@ -935,7 +941,7 @@ describe('count', function() {
                 case 0:
                   _context20.t0 = expect;
                   _context20.next = 3;
-                  return _2.StapleTemplateService.count(createCriteria());
+                  return _2.StapleShoppingListTemplateService.count(createCriteria());
 
                 case 3:
                   _context20.t1 = _context20.sent;
@@ -955,27 +961,27 @@ describe('count', function() {
   );
 
   test(
-    'should return the count of staple template match provided criteria',
+    'should return the count of staple shopping list template match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee21() {
-        var stapleTemplates;
+        var stapleShoppingListTemplates;
         return regeneratorRuntime.wrap(
           function _callee21$(_context21) {
             while (1) {
               switch ((_context21.prev = _context21.next)) {
                 case 0:
                   _context21.next = 2;
-                  return createStapleTemplates(chance.integer({ min: 1, max: 10 }), true);
+                  return createStapleShoppingListTemplates(chance.integer({ min: 1, max: 10 }), true);
 
                 case 2:
-                  stapleTemplates = _context21.sent;
+                  stapleShoppingListTemplates = _context21.sent;
                   _context21.t0 = expect;
                   _context21.next = 6;
-                  return _2.StapleTemplateService.count(createCriteria(stapleTemplates.first()));
+                  return _2.StapleShoppingListTemplateService.count(createCriteria(stapleShoppingListTemplates.first()));
 
                 case 6:
                   _context21.t1 = _context21.sent;
-                  _context21.t2 = stapleTemplates.count();
+                  _context21.t2 = stapleShoppingListTemplates.count();
                   (0, _context21.t0)(_context21.t1).toBe(_context21.t2);
 
                 case 9:

@@ -31,15 +31,15 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StapleTemplate = (function(_BaseObject) {
-  _inherits(StapleTemplate, _BaseObject);
+var StapleShoppingListTemplate = (function(_BaseObject) {
+  _inherits(StapleShoppingListTemplate, _BaseObject);
 
-  function StapleTemplate(object) {
-    _classCallCheck(this, StapleTemplate);
+  function StapleShoppingListTemplate(object) {
+    _classCallCheck(this, StapleShoppingListTemplate);
 
     var _this = _possibleConstructorReturn(
       this,
-      (StapleTemplate.__proto__ || Object.getPrototypeOf(StapleTemplate)).call(this, object, 'StapleTemplate'),
+      (StapleShoppingListTemplate.__proto__ || Object.getPrototypeOf(StapleShoppingListTemplate)).call(this, object, 'StapleShoppingListTemplate'),
     );
 
     _initialiseProps.call(_this);
@@ -47,18 +47,18 @@ var StapleTemplate = (function(_BaseObject) {
     return _this;
   }
 
-  return StapleTemplate;
+  return StapleShoppingListTemplate;
 })(_microBusinessParseServerCommon.BaseObject);
 
-StapleTemplate.spawn = function(info) {
-  var object = new StapleTemplate();
+StapleShoppingListTemplate.spawn = function(info) {
+  var object = new StapleShoppingListTemplate();
 
-  StapleTemplate.updateInfoInternal(object, info);
+  StapleShoppingListTemplate.updateInfoInternal(object, info);
 
   return object;
 };
 
-StapleTemplate.updateInfoInternal = function(object, info) {
+StapleShoppingListTemplate.updateInfoInternal = function(object, info) {
   object.set('name', info.get('name'));
   object.set('description', info.get('description'));
   object.set('imageUrl', info.get('imageUrl'));
@@ -70,7 +70,7 @@ var _initialiseProps = function _initialiseProps() {
   this.updateInfo = function(info) {
     var object = _this2.getObject();
 
-    StapleTemplate.updateInfoInternal(object, info);
+    StapleShoppingListTemplate.updateInfoInternal(object, info);
 
     return _this2;
   };
@@ -85,4 +85,4 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
-exports.default = StapleTemplate;
+exports.default = StapleShoppingListTemplate;

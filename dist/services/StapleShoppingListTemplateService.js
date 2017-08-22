@@ -61,21 +61,24 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StapleTemplateService = (function(_ServiceBase) {
-  _inherits(StapleTemplateService, _ServiceBase);
+var StapleShoppingListTemplateService = (function(_ServiceBase) {
+  _inherits(StapleShoppingListTemplateService, _ServiceBase);
 
-  function StapleTemplateService() {
-    _classCallCheck(this, StapleTemplateService);
+  function StapleShoppingListTemplateService() {
+    _classCallCheck(this, StapleShoppingListTemplateService);
 
-    return _possibleConstructorReturn(this, (StapleTemplateService.__proto__ || Object.getPrototypeOf(StapleTemplateService)).apply(this, arguments));
+    return _possibleConstructorReturn(
+      this,
+      (StapleShoppingListTemplateService.__proto__ || Object.getPrototypeOf(StapleShoppingListTemplateService)).apply(this, arguments),
+    );
   }
 
-  return StapleTemplateService;
+  return StapleShoppingListTemplateService;
 })(_microBusinessParseServerCommon.ServiceBase);
 
-StapleTemplateService.messagePrefix = 'No staple template found with Id: ';
+StapleShoppingListTemplateService.messagePrefix = 'No staple shopping list template found with Id: ';
 
-StapleTemplateService.create = (function() {
+StapleShoppingListTemplateService.create = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee(info, acl, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -83,7 +86,10 @@ StapleTemplateService.create = (function() {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
-                return _context.abrupt('return', _microBusinessParseServerCommon.ServiceBase.create(_schema.StapleTemplate, info, acl, sessionToken));
+                return _context.abrupt(
+                  'return',
+                  _microBusinessParseServerCommon.ServiceBase.create(_schema.StapleShoppingListTemplate, info, acl, sessionToken),
+                );
 
               case 1:
               case 'end':
@@ -102,7 +108,7 @@ StapleTemplateService.create = (function() {
   };
 })();
 
-StapleTemplateService.read = (function() {
+StapleShoppingListTemplateService.read = (function() {
   var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(id, criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -112,7 +118,12 @@ StapleTemplateService.read = (function() {
               case 0:
                 return _context2.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.read(_schema.StapleTemplate, id, sessionToken, StapleTemplateService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.read(
+                    _schema.StapleShoppingListTemplate,
+                    id,
+                    sessionToken,
+                    StapleShoppingListTemplateService.messagePrefix,
+                  ),
                 );
 
               case 1:
@@ -132,7 +143,7 @@ StapleTemplateService.read = (function() {
   };
 })();
 
-StapleTemplateService.update = (function() {
+StapleShoppingListTemplateService.update = (function() {
   var _ref3 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee3(info, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -142,7 +153,12 @@ StapleTemplateService.update = (function() {
               case 0:
                 return _context3.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.update(_schema.StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.update(
+                    _schema.StapleShoppingListTemplate,
+                    info,
+                    sessionToken,
+                    StapleShoppingListTemplateService.messagePrefix,
+                  ),
                 );
 
               case 1:
@@ -162,7 +178,7 @@ StapleTemplateService.update = (function() {
   };
 })();
 
-StapleTemplateService.delete = (function() {
+StapleShoppingListTemplateService.delete = (function() {
   var _ref4 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee4(id, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -172,7 +188,12 @@ StapleTemplateService.delete = (function() {
               case 0:
                 return _context4.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.delete(_schema.StapleTemplate, id, sessionToken, StapleTemplateService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.delete(
+                    _schema.StapleShoppingListTemplate,
+                    id,
+                    sessionToken,
+                    StapleShoppingListTemplateService.messagePrefix,
+                  ),
                 );
 
               case 1:
@@ -192,7 +213,7 @@ StapleTemplateService.delete = (function() {
   };
 })();
 
-StapleTemplateService.search = (function() {
+StapleShoppingListTemplateService.search = (function() {
   var _ref5 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee5(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -203,8 +224,8 @@ StapleTemplateService.search = (function() {
                 return _context5.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.search(
-                    _schema.StapleTemplate,
-                    StapleTemplateService.buildSearchQuery,
+                    _schema.StapleShoppingListTemplate,
+                    StapleShoppingListTemplateService.buildSearchQuery,
                     criteria,
                     sessionToken,
                   ),
@@ -227,16 +248,16 @@ StapleTemplateService.search = (function() {
   };
 })();
 
-StapleTemplateService.searchAll = function(criteria, sessionToken) {
+StapleShoppingListTemplateService.searchAll = function(criteria, sessionToken) {
   return _microBusinessParseServerCommon.ServiceBase.searchAll(
-    _schema.StapleTemplate,
-    StapleTemplateService.buildSearchQuery,
+    _schema.StapleShoppingListTemplate,
+    StapleShoppingListTemplateService.buildSearchQuery,
     criteria,
     sessionToken,
   );
 };
 
-StapleTemplateService.count = (function() {
+StapleShoppingListTemplateService.count = (function() {
   var _ref6 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee6(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -246,7 +267,7 @@ StapleTemplateService.count = (function() {
               case 0:
                 return _context6.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.count(StapleTemplateService.buildSearchQuery, criteria, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.count(StapleShoppingListTemplateService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -266,7 +287,7 @@ StapleTemplateService.count = (function() {
   };
 })();
 
-StapleTemplateService.exists = (function() {
+StapleShoppingListTemplateService.exists = (function() {
   var _ref7 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee7(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -276,7 +297,7 @@ StapleTemplateService.exists = (function() {
               case 0:
                 return _context7.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.exists(StapleTemplateService.buildSearchQuery, criteria, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.exists(StapleShoppingListTemplateService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -296,8 +317,8 @@ StapleTemplateService.exists = (function() {
   };
 })();
 
-StapleTemplateService.buildSearchQuery = function(criteria) {
-  var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplate, criteria);
+StapleShoppingListTemplateService.buildSearchQuery = function(criteria) {
+  var query = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingListTemplate, criteria);
 
   if (!criteria.has('conditions')) {
     return query;
@@ -312,4 +333,4 @@ StapleTemplateService.buildSearchQuery = function(criteria) {
   return query;
 };
 
-exports.default = StapleTemplateService;
+exports.default = StapleShoppingListTemplateService;

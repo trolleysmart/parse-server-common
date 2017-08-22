@@ -7,10 +7,11 @@ import { ProductPrice } from '../';
 import createStores from '../../services/__tests__/StoreService.test';
 import createTags from '../../services/__tests__/TagService.test';
 
+const chance = new Chance();
+
 export const createProductPriceInfo = async () => {
-  const chance = new Chance();
   const store = (await createStores(1)).first();
-  const tags = await createTags(new Chance().integer({ min: 1, max: 10 }));
+  const tags = await createTags(chance.integer({ min: 1, max: 10 }));
   const productPrice = Map({
     name: uuid(),
     description: uuid(),
