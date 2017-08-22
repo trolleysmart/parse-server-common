@@ -42,6 +42,24 @@ export default class StoreService extends ServiceBase {
 
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
 
+    if (conditions.has('imageUrl')) {
+      const value = conditions.get('imageUrl');
+
+      if (value) {
+        query.equalTo('imageUrl', value);
+      }
+    }
+
+    if (conditions.has('address')) {
+      const value = conditions.get('address');
+
+      if (value) {
+        query.equalTo('address', value);
+      }
+    }
+
+    ServiceBase.addGeoLocationToQuery(conditions, query, 'geoLocation', 'geoLocation');
+
     return query;
   };
 }

@@ -11,7 +11,7 @@ const chance = new Chance();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('key', 'name', 'imageUrl', 'level', 'forDisplay', 'tag'),
+    fields: List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'tag'),
   });
 
 const createCriteria = tag =>
@@ -19,6 +19,7 @@ const createCriteria = tag =>
     conditions: Map({
       key: tag ? tag.get('key') : uuid(),
       name: tag ? tag.get('name') : uuid(),
+      description: tag ? tag.get('description') : uuid(),
       imageUrl: tag ? tag.get('imageUrl') : uuid(),
       level: tag ? tag.get('level') : chance.integer({ min: 1, max: 1000 }),
       forDisplay: tag ? tag.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,

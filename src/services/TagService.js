@@ -58,6 +58,7 @@ export default class TagService extends ServiceBase {
     }
 
     ServiceBase.addStringSearchToQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringSearchToQuery(conditions, query, 'description', 'description');
 
     if (conditions.has('imageUrl')) {
       const value = conditions.get('imageUrl');

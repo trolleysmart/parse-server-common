@@ -23,7 +23,7 @@ const createCriteria = (store) => {
       imageUrl: store ? store.get('imageUrl') : uuid(),
       address: store ? store.get('address') : uuid(),
       phones: store ? store.get('phones') : Map({ business: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
-      geoLocation: store
+      near_geoLocation: store
         ? store.get('geoLocation')
         : ParseWrapperService.createGeoPoint({
           latitude: chance.floating({ min: 1, max: 20 }),

@@ -15,6 +15,7 @@ export default class Tag extends BaseObject {
   static updateInfoInternal = (object, info) => {
     object.set('key', info.get('key'));
     object.set('name', info.get('name'));
+    object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
     object.set('level', info.get('level'));
     object.set('forDisplay', info.get('forDisplay'));
@@ -54,6 +55,7 @@ export default class Tag extends BaseObject {
       id: this.getId(),
       key: this.getObject().get('key'),
       name: this.getObject().get('name'),
+      description: this.getObject().get('description'),
       imageUrl: this.getObject().get('imageUrl'),
       level: this.getObject().get('level'),
       forDisplay: this.getObject().get('forDisplay'),
