@@ -30,6 +30,12 @@ Object.defineProperty(exports, 'Tag', {
     return _schema.Tag;
   },
 });
+Object.defineProperty(exports, 'UserFeedback', {
+  enumerable: true,
+  get: function get() {
+    return _schema.UserFeedback;
+  },
+});
 
 var _services = require('./services');
 
@@ -55,5 +61,11 @@ Object.defineProperty(exports, 'TagService', {
   enumerable: true,
   get: function get() {
     return _services.TagService;
+  },
+});
+Object.defineProperty(exports, 'UserFeedbackService', {
+  enumerable: true,
+  get: function get() {
+    return _services.UserFeedbackService;
   },
 });

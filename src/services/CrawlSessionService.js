@@ -8,7 +8,7 @@ export default class CrawlSessionService extends ServiceBase {
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(CrawlSession, info, acl, sessionToken);
 
-  static read = async (id, sessionToken) => ServiceBase.read(CrawlSession, id, sessionToken, CrawlSessionService.messagePrefix);
+  static read = async (id, criteria, sessionToken) => ServiceBase.read(CrawlSession, id, sessionToken, CrawlSessionService.messagePrefix);
 
   static update = async (info, sessionToken) => ServiceBase.update(CrawlSession, info, sessionToken, CrawlSessionService.messagePrefix);
 

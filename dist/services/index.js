@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.TagService = exports.StoreService = exports.ProductPriceService = exports.CrawlSessionService = undefined;
+exports.UserFeedbackService = exports.TagService = exports.StoreService = exports.ProductPriceService = exports.CrawlSessionService = undefined;
 
 var _CrawlSessionService2 = require('./CrawlSessionService');
 
@@ -21,6 +21,10 @@ var _TagService2 = require('./TagService');
 
 var _TagService3 = _interopRequireDefault(_TagService2);
 
+var _UserFeedbackService2 = require('./UserFeedbackService');
+
+var _UserFeedbackService3 = _interopRequireDefault(_UserFeedbackService2);
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -29,3 +33,4 @@ exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;
 exports.StoreService = _StoreService3.default;
 exports.TagService = _TagService3.default;
+exports.UserFeedbackService = _UserFeedbackService3.default;
