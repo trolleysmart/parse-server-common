@@ -27,8 +27,8 @@ const createCriteria = productPrice =>
       savingPercentage: productPrice ? productPrice.get('savingPercentage') : chance.floating({ min: 0, max: 100 }),
       offerEndDate: productPrice ? productPrice.get('offerEndDate') : new Date(),
       status: productPrice ? productPrice.get('status') : uuid(),
-      storeId: productPrice ? productPrice.get('storeId') : undefined,
-      tagIds: productPrice ? productPrice.get('tagIds') : undefined,
+      storeId: productPrice ? productPrice.get('storeId') : uuid(),
+      tagIds: productPrice ? productPrice.get('tagIds') : List.of(uuid(), uuid()),
     }),
   }).merge(createCriteriaWthoutConditions());
 
