@@ -30,7 +30,7 @@ var chance = new _chance2.default();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'store', 'tags'),
+    fields: _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'store', 'tags'),
     includeStore: true,
     includeTags: true
   });
@@ -47,6 +47,7 @@ var createCriteria = function createCriteria(productPrice) {
       savingPercentage: productPrice ? productPrice.get('savingPercentage') : chance.floating({ min: 0, max: 100 }),
       offerEndDate: productPrice ? productPrice.get('offerEndDate') : new Date(),
       status: productPrice ? productPrice.get('status') : (0, _v2.default)(),
+      special: productPrice ? productPrice.get('special') : chance.integer({ min: 0, max: 1000 }) % 2 === 0,
       storeId: productPrice ? productPrice.get('storeId') : (0, _v2.default)(),
       tagIds: productPrice ? productPrice.get('tagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
     })

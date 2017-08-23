@@ -23,6 +23,7 @@ export const createProductPriceInfo = async () => {
     savingPercentage: chance.floating({ min: 0, max: 100 }),
     offerEndDate: new Date(),
     status: uuid(),
+    special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
     storeId: store.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
   });
@@ -36,11 +37,12 @@ export const expectProductPrice = (object, expectedObject, { productPriceId, exp
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('priceDetails')).toEqual(expectedObject.get('priceDetails'));
-  expect(object.get('priceToDisplay')).toEqual(expectedObject.get('priceToDisplay'));
-  expect(object.get('saving')).toEqual(expectedObject.get('saving'));
-  expect(object.get('savingPercentage')).toEqual(expectedObject.get('savingPercentage'));
+  expect(object.get('priceToDisplay')).toBe(expectedObject.get('priceToDisplay'));
+  expect(object.get('saving')).toBe(expectedObject.get('saving'));
+  expect(object.get('savingPercentage')).toBe(expectedObject.get('savingPercentage'));
   expect(object.get('offerEndDate')).toEqual(expectedObject.get('offerEndDate'));
-  expect(object.get('status')).toEqual(expectedObject.get('status'));
+  expect(object.get('status')).toBe(expectedObject.get('status'));
+  expect(object.get('special')).toBe(expectedObject.get('special'));
 
   if (productPriceId) {
     expect(object.get('id')).toBe(productPriceId);

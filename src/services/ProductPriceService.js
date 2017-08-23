@@ -66,6 +66,7 @@ export default class ProductPriceService extends ServiceBase {
     ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');
     ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
     ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+    ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
     ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
 

@@ -11,7 +11,19 @@ const chance = new Chance();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'store', 'tags'),
+    fields: List.of(
+      'name',
+      'description',
+      'priceDetails',
+      'priceToDisplay',
+      'saving',
+      'savingPercentage',
+      'offerEndDate',
+      'status',
+      'special',
+      'store',
+      'tags',
+    ),
     includeStore: true,
     includeTags: true,
   });
@@ -27,6 +39,7 @@ const createCriteria = productPrice =>
       savingPercentage: productPrice ? productPrice.get('savingPercentage') : chance.floating({ min: 0, max: 100 }),
       offerEndDate: productPrice ? productPrice.get('offerEndDate') : new Date(),
       status: productPrice ? productPrice.get('status') : uuid(),
+      special: productPrice ? productPrice.get('special') : chance.integer({ min: 0, max: 1000 }) % 2 === 0,
       storeId: productPrice ? productPrice.get('storeId') : uuid(),
       tagIds: productPrice ? productPrice.get('tagIds') : List.of(uuid(), uuid()),
     }),

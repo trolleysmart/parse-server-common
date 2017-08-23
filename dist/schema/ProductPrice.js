@@ -59,6 +59,7 @@ ProductPrice.updateInfoInternal = function (object, info) {
   object.set('savingPercentage', info.get('savingPercentage'));
   object.set('offerEndDate', info.get('offerEndDate'));
   object.set('status', info.get('status'));
+  object.set('special', info.get('special'));
 
   if (info.has('storeId')) {
     var storeId = info.get('storeId');
@@ -123,6 +124,7 @@ var _initialiseProps = function _initialiseProps() {
       savingPercentage: _this2.getObject().get('savingPercentage'),
       offerEndDate: _this2.getObject().get('offerEndDate'),
       status: _this2.getObject().get('status'),
+      special: _this2.getObject().get('special'),
       store: store.getInfo(),
       storeId: store.getId(),
       tags: tags,

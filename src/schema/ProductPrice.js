@@ -23,6 +23,7 @@ export default class ProductPrice extends BaseObject {
     object.set('savingPercentage', info.get('savingPercentage'));
     object.set('offerEndDate', info.get('offerEndDate'));
     object.set('status', info.get('status'));
+    object.set('special', info.get('special'));
 
     if (info.has('storeId')) {
       const storeId = info.get('storeId');
@@ -84,6 +85,7 @@ export default class ProductPrice extends BaseObject {
       savingPercentage: this.getObject().get('savingPercentage'),
       offerEndDate: this.getObject().get('offerEndDate'),
       status: this.getObject().get('status'),
+      special: this.getObject().get('special'),
       store: store.getInfo(),
       storeId: store.getId(),
       tags,

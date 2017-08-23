@@ -224,6 +224,7 @@ ProductPriceService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');
   _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
 
