@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StapleTemplateItemService = exports.StapleTemplateService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
+exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StoreProductService = exports.StapleTemplateItemService = exports.StapleTemplateService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _CrawlResultService2 = require('./CrawlResultService');
 
@@ -24,6 +24,10 @@ var _StapleTemplateService3 = _interopRequireDefault(_StapleTemplateService2);
 var _StapleTemplateItemService2 = require('./StapleTemplateItemService');
 
 var _StapleTemplateItemService3 = _interopRequireDefault(_StapleTemplateItemService2);
+
+var _StoreProductService2 = require('./StoreProductService');
+
+var _StoreProductService3 = _interopRequireDefault(_StoreProductService2);
 
 var _StoreService2 = require('./StoreService');
 
@@ -50,6 +54,7 @@ exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;
 exports.StapleTemplateService = _StapleTemplateService3.default;
 exports.StapleTemplateItemService = _StapleTemplateItemService3.default;
+exports.StoreProductService = _StoreProductService3.default;
 exports.StoreService = _StoreService3.default;
 exports.StoreTagService = _StoreTagService3.default;
 exports.TagService = _TagService3.default;

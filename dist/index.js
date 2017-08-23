@@ -99,6 +99,12 @@ Object.defineProperty(exports, 'StapleTemplateService', {
     return _services.StapleTemplateService;
   },
 });
+Object.defineProperty(exports, 'StoreProductService', {
+  enumerable: true,
+  get: function get() {
+    return _services.StoreProductService;
+  },
+});
 Object.defineProperty(exports, 'StoreService', {
   enumerable: true,
   get: function get() {

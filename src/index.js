@@ -18,6 +18,7 @@ export {
   ProductPriceService,
   StapleTemplateItemService,
   StapleTemplateService,
+  StoreProductService,
   StoreService,
   StoreTagService,
   TagService,
