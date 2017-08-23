@@ -3,11 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.expectStapleShoppingListDetailsTemplate = exports.createStapleShoppingListDetailsTemplate = exports.createStapleShoppingListDetailsTemplateInfo = undefined;
-
-var _chance = require('chance');
-
-var _chance2 = _interopRequireDefault(_chance);
+exports.expectStapleTemplate = exports.createStapleTemplate = exports.createStapleTemplateInfo = undefined;
 
 var _immutable = require('immutable');
 
@@ -15,15 +11,9 @@ var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
+require('../../../bootstrap');
+
 var _ = require('../');
-
-var _StapleTemplateService = require('../../services/__tests__/StapleTemplateService.test');
-
-var _StapleTemplateService2 = _interopRequireDefault(_StapleTemplateService);
-
-var _TagService = require('../../services/__tests__/TagService.test');
-
-var _TagService2 = _interopRequireDefault(_TagService);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -59,45 +49,23 @@ function _asyncToGenerator(fn) {
   };
 }
 
-var chance = new _chance2.default();
-
-var createStapleShoppingListDetailsTemplateInfo = (exports.createStapleShoppingListDetailsTemplateInfo = (function() {
+var createStapleTemplateInfo = (exports.createStapleTemplateInfo = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee() {
-      var stapleTemplates, tags, stapleShoppingListDetailsTemplate;
+      var stapleTemplate;
       return regeneratorRuntime.wrap(
         function _callee$(_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
-                _context.next = 2;
-                return (0, _StapleTemplateService2.default)(chance.integer({ min: 1, max: 10 }));
-
-              case 2:
-                stapleTemplates = _context.sent;
-                _context.next = 5;
-                return (0, _TagService2.default)(chance.integer({ min: 1, max: 10 }));
-
-              case 5:
-                tags = _context.sent;
-                stapleShoppingListDetailsTemplate = (0, _immutable.Map)({
+                stapleTemplate = (0, _immutable.Map)({
                   name: (0, _v2.default)(),
                   description: (0, _v2.default)(),
                   imageUrl: (0, _v2.default)(),
-                  stapleTemplateIds: stapleTemplates.map(function(stapleTemplate) {
-                    return stapleTemplate.get('id');
-                  }),
-                  tagIds: tags.map(function(tag) {
-                    return tag.get('id');
-                  }),
                 });
-                return _context.abrupt('return', {
-                  stapleShoppingListDetailsTemplate: stapleShoppingListDetailsTemplate,
-                  stapleTemplates: stapleTemplates,
-                  tags: tags,
-                });
+                return _context.abrupt('return', { stapleTemplate: stapleTemplate });
 
-              case 8:
+              case 2:
               case 'end':
                 return _context.stop();
             }
@@ -109,12 +77,12 @@ var createStapleShoppingListDetailsTemplateInfo = (exports.createStapleShoppingL
     }),
   );
 
-  return function createStapleShoppingListDetailsTemplateInfo() {
+  return function createStapleTemplateInfo() {
     return _ref.apply(this, arguments);
   };
 })());
 
-var createStapleShoppingListDetailsTemplate = (exports.createStapleShoppingListDetailsTemplate = (function() {
+var createStapleTemplate = (exports.createStapleTemplate = (function() {
   var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(object) {
       return regeneratorRuntime.wrap(
@@ -122,7 +90,7 @@ var createStapleShoppingListDetailsTemplate = (exports.createStapleShoppingListD
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                _context2.t0 = _.StapleShoppingListDetailsTemplate;
+                _context2.t0 = _.StapleTemplate;
                 _context2.t1 = object;
 
                 if (_context2.t1) {
@@ -131,10 +99,10 @@ var createStapleShoppingListDetailsTemplate = (exports.createStapleShoppingListD
                 }
 
                 _context2.next = 5;
-                return createStapleShoppingListDetailsTemplateInfo();
+                return createStapleTemplateInfo();
 
               case 5:
-                _context2.t1 = _context2.sent.stapleShoppingListDetailsTemplate;
+                _context2.t1 = _context2.sent.stapleTemplate;
 
               case 6:
                 _context2.t2 = _context2.t1;
@@ -152,35 +120,15 @@ var createStapleShoppingListDetailsTemplate = (exports.createStapleShoppingListD
     }),
   );
 
-  return function createStapleShoppingListDetailsTemplate(_x) {
+  return function createStapleTemplate(_x) {
     return _ref2.apply(this, arguments);
   };
 })());
 
-var expectStapleShoppingListDetailsTemplate = (exports.expectStapleShoppingListDetailsTemplate = function expectStapleShoppingListDetailsTemplate(
-  object,
-  expectedObject,
-) {
-  var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-    stapleShoppingListDetailsTemplateId = _ref3.stapleShoppingListDetailsTemplateId,
-    expectedStapleTemplates = _ref3.expectedStapleTemplates,
-    expectedTags = _ref3.expectedTags;
-
+var expectStapleTemplate = (exports.expectStapleTemplate = function expectStapleTemplate(object, expectedObject) {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
-
-  if (stapleShoppingListDetailsTemplateId) {
-    expect(object.get('id')).toBe(stapleShoppingListDetailsTemplateId);
-  }
-
-  if (expectedStapleTemplates) {
-    expect(object.get('stapleTemplates')).toEqual(expectedStapleTemplates);
-  }
-
-  if (expectedTags) {
-    expect(object.get('tags')).toEqual(expectedTags);
-  }
 });
 
 describe('constructor', function() {
@@ -195,11 +143,11 @@ describe('constructor', function() {
                 case 0:
                   _context3.t0 = expect;
                   _context3.next = 3;
-                  return createStapleShoppingListDetailsTemplate();
+                  return createStapleTemplate();
 
                 case 3:
                   _context3.t1 = _context3.sent.className;
-                  (0, _context3.t0)(_context3.t1).toBe('StapleShoppingListDetailsTemplate');
+                  (0, _context3.t0)(_context3.t1).toBe('StapleTemplate');
 
                 case 5:
                 case 'end':
@@ -220,7 +168,7 @@ describe('static public methods', function() {
     'spawn should set provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee4() {
-        var _ref6, stapleShoppingListDetailsTemplate, object, info;
+        var _ref5, stapleTemplate, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee4$(_context4) {
@@ -228,19 +176,19 @@ describe('static public methods', function() {
               switch ((_context4.prev = _context4.next)) {
                 case 0:
                   _context4.next = 2;
-                  return createStapleShoppingListDetailsTemplateInfo();
+                  return createStapleTemplateInfo();
 
                 case 2:
-                  _ref6 = _context4.sent;
-                  stapleShoppingListDetailsTemplate = _ref6.stapleShoppingListDetailsTemplate;
+                  _ref5 = _context4.sent;
+                  stapleTemplate = _ref5.stapleTemplate;
                   _context4.next = 6;
-                  return createStapleShoppingListDetailsTemplate(stapleShoppingListDetailsTemplate);
+                  return createStapleTemplate(stapleTemplate);
 
                 case 6:
                   object = _context4.sent;
                   info = object.getInfo();
 
-                  expectStapleShoppingListDetailsTemplate(info, stapleShoppingListDetailsTemplate);
+                  expectStapleTemplate(info, stapleTemplate);
 
                 case 9:
                 case 'end':
@@ -268,12 +216,12 @@ describe('public methods', function() {
               switch ((_context5.prev = _context5.next)) {
                 case 0:
                   _context5.next = 2;
-                  return createStapleShoppingListDetailsTemplate();
+                  return createStapleTemplate();
 
                 case 2:
                   object = _context5.sent;
 
-                  expect(new _.StapleShoppingListDetailsTemplate(object).getObject()).toBe(object);
+                  expect(new _.StapleTemplate(object).getObject()).toBe(object);
 
                 case 4:
                 case 'end':
@@ -299,12 +247,12 @@ describe('public methods', function() {
               switch ((_context6.prev = _context6.next)) {
                 case 0:
                   _context6.next = 2;
-                  return createStapleShoppingListDetailsTemplate();
+                  return createStapleTemplate();
 
                 case 2:
                   object = _context6.sent;
 
-                  expect(new _.StapleShoppingListDetailsTemplate(object).getId()).toBe(object.id);
+                  expect(new _.StapleTemplate(object).getId()).toBe(object.id);
 
                 case 4:
                 case 'end':
@@ -323,7 +271,7 @@ describe('public methods', function() {
     'updateInfo should update object info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee7() {
-        var object, _ref10, updatedStapleShoppingListDetailsTemplate, info;
+        var object, _ref9, updatedStapleTemplate, info;
 
         return regeneratorRuntime.wrap(
           function _callee7$(_context7) {
@@ -331,22 +279,22 @@ describe('public methods', function() {
               switch ((_context7.prev = _context7.next)) {
                 case 0:
                   _context7.next = 2;
-                  return createStapleShoppingListDetailsTemplate();
+                  return createStapleTemplate();
 
                 case 2:
                   object = _context7.sent;
                   _context7.next = 5;
-                  return createStapleShoppingListDetailsTemplateInfo();
+                  return createStapleTemplateInfo();
 
                 case 5:
-                  _ref10 = _context7.sent;
-                  updatedStapleShoppingListDetailsTemplate = _ref10.stapleShoppingListDetailsTemplate;
+                  _ref9 = _context7.sent;
+                  updatedStapleTemplate = _ref9.stapleTemplate;
 
-                  object.updateInfo(updatedStapleShoppingListDetailsTemplate);
+                  object.updateInfo(updatedStapleTemplate);
 
                   info = object.getInfo();
 
-                  expectStapleShoppingListDetailsTemplate(info, updatedStapleShoppingListDetailsTemplate);
+                  expectStapleTemplate(info, updatedStapleTemplate);
 
                 case 10:
                 case 'end':
@@ -365,7 +313,7 @@ describe('public methods', function() {
     'getInfo should return provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee8() {
-        var _ref12, stapleShoppingListDetailsTemplate, object, info;
+        var _ref11, stapleTemplate, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee8$(_context8) {
@@ -373,20 +321,20 @@ describe('public methods', function() {
               switch ((_context8.prev = _context8.next)) {
                 case 0:
                   _context8.next = 2;
-                  return createStapleShoppingListDetailsTemplateInfo();
+                  return createStapleTemplateInfo();
 
                 case 2:
-                  _ref12 = _context8.sent;
-                  stapleShoppingListDetailsTemplate = _ref12.stapleShoppingListDetailsTemplate;
+                  _ref11 = _context8.sent;
+                  stapleTemplate = _ref11.stapleTemplate;
                   _context8.next = 6;
-                  return createStapleShoppingListDetailsTemplate(stapleShoppingListDetailsTemplate);
+                  return createStapleTemplate(stapleTemplate);
 
                 case 6:
                   object = _context8.sent;
                   info = object.getInfo();
 
                   expect(info.get('id')).toBe(object.getId());
-                  expectStapleShoppingListDetailsTemplate(info, stapleShoppingListDetailsTemplate);
+                  expectStapleTemplate(info, stapleTemplate);
 
                 case 10:
                 case 'end':

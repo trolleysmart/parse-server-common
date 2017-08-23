@@ -4,23 +4,23 @@ import Chance from 'chance';
 import { Map } from 'immutable';
 import uuid from 'uuid/v4';
 import { StapleShoppingListDetailsTemplate } from '../';
-import createStapleShoppingListTemplates from '../../services/__tests__/StapleShoppingListTemplateService.test';
+import createStapleTemplates from '../../services/__tests__/StapleTemplateService.test';
 import createTags from '../../services/__tests__/TagService.test';
 
 const chance = new Chance();
 
 export const createStapleShoppingListDetailsTemplateInfo = async () => {
-  const stapleShoppingListTemplates = await createStapleShoppingListTemplates(chance.integer({ min: 1, max: 10 }));
+  const stapleTemplates = await createStapleTemplates(chance.integer({ min: 1, max: 10 }));
   const tags = await createTags(chance.integer({ min: 1, max: 10 }));
   const stapleShoppingListDetailsTemplate = Map({
     name: uuid(),
     description: uuid(),
     imageUrl: uuid(),
-    stapleShoppingListTemplateIds: stapleShoppingListTemplates.map(stapleShoppingListTemplate => stapleShoppingListTemplate.get('id')),
+    stapleTemplateIds: stapleTemplates.map(stapleTemplate => stapleTemplate.get('id')),
     tagIds: tags.map(tag => tag.get('id')),
   });
 
-  return { stapleShoppingListDetailsTemplate, stapleShoppingListTemplates, tags };
+  return { stapleShoppingListDetailsTemplate, stapleTemplates, tags };
 };
 
 export const createStapleShoppingListDetailsTemplate = async object =>
@@ -29,7 +29,7 @@ export const createStapleShoppingListDetailsTemplate = async object =>
 export const expectStapleShoppingListDetailsTemplate = (
   object,
   expectedObject,
-  { stapleShoppingListDetailsTemplateId, expectedStapleShoppingListTemplates, expectedTags } = {},
+  { stapleShoppingListDetailsTemplateId, expectedStapleTemplates, expectedTags } = {},
 ) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
@@ -39,8 +39,8 @@ export const expectStapleShoppingListDetailsTemplate = (
     expect(object.get('id')).toBe(stapleShoppingListDetailsTemplateId);
   }
 
-  if (expectedStapleShoppingListTemplates) {
-    expect(object.get('stapleShoppingListTemplates')).toEqual(expectedStapleShoppingListTemplates);
+  if (expectedStapleTemplates) {
+    expect(object.get('stapleTemplates')).toEqual(expectedStapleTemplates);
   }
 
   if (expectedTags) {

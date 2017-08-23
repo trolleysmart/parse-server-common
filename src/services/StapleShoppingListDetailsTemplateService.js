@@ -1,7 +1,7 @@
 // @flow
 
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
-import { StapleShoppingListDetailsTemplate, StapleShoppingListTemplate, Tag } from '../schema';
+import { StapleShoppingListDetailsTemplate, StapleTemplate, Tag } from '../schema';
 
 export default class StapleShoppingListDetailsTemplateService extends ServiceBase {
   static messagePrefix = 'No staple shopping list details template found with Id: ';
@@ -36,11 +36,11 @@ export default class StapleShoppingListDetailsTemplateService extends ServiceBas
       return query;
     }
 
-    if (criteria.has('includeStapleShoppingListTemplates')) {
-      const value = criteria.get('includeStapleShoppingListTemplates');
+    if (criteria.has('includeStapleTemplates')) {
+      const value = criteria.get('includeStapleTemplates');
 
       if (value) {
-        query.include('stapleShoppingListTemplates');
+        query.include('stapleTemplates');
       }
     }
 
@@ -68,7 +68,7 @@ export default class StapleShoppingListDetailsTemplateService extends ServiceBas
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-    ServiceBase.addLinkQuery(conditions, query, 'stapleShoppingListTemplate', 'stapleShoppingListTemplates', StapleShoppingListTemplate);
+    ServiceBase.addLinkQuery(conditions, query, 'stapleTemplate', 'stapleTemplates', StapleTemplate);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
 
     return query;

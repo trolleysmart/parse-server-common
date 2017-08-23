@@ -14,8 +14,8 @@ const chance = new Chance();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'description', 'imageUrl', 'stapleShoppingListTemplates', 'tags'),
-    includeStapleShoppingListTemplates: true,
+    fields: List.of('name', 'description', 'imageUrl', 'stapleTemplates', 'tags'),
+    includeStapleTemplates: true,
     includeTags: true,
   });
 
@@ -25,9 +25,7 @@ const createCriteria = stapleShoppingListDetailsTemplate =>
       name: stapleShoppingListDetailsTemplate ? stapleShoppingListDetailsTemplate.get('name') : uuid(),
       description: stapleShoppingListDetailsTemplate ? stapleShoppingListDetailsTemplate.get('description') : uuid(),
       imageUrl: stapleShoppingListDetailsTemplate ? stapleShoppingListDetailsTemplate.get('imageUrl') : uuid(),
-      stapleShoppingListTemplateIds: stapleShoppingListDetailsTemplate
-        ? stapleShoppingListDetailsTemplate.get('stapleShoppingListTemplateIds')
-        : List.of(uuid(), uuid()),
+      stapleTemplateIds: stapleShoppingListDetailsTemplate ? stapleShoppingListDetailsTemplate.get('stapleTemplateIds') : List.of(uuid(), uuid()),
       tagIds: stapleShoppingListDetailsTemplate ? stapleShoppingListDetailsTemplate.get('tagIds') : List.of(uuid(), uuid()),
     }),
   }).merge(createCriteriaWthoutConditions());
@@ -102,7 +100,7 @@ describe('read', () => {
   test('should read the existing staple shopping list details template', async () => {
     const {
       stapleShoppingListDetailsTemplate: expectedStapleShoppingListDetailsTemplate,
-      stapleShoppingListTemplates: expectedStapleShoppingListTemplates,
+      stapleTemplates: expectedStapleTemplates,
       tags: expectedTags,
     } = await createStapleShoppingListDetailsTemplateInfo();
     const stapleShoppingListDetailsTemplateId = await StapleShoppingListDetailsTemplateService.create(expectedStapleShoppingListDetailsTemplate);
@@ -113,7 +111,7 @@ describe('read', () => {
 
     expectStapleShoppingListDetailsTemplate(stapleShoppingListDetailsTemplate, expectedStapleShoppingListDetailsTemplate, {
       stapleShoppingListDetailsTemplateId,
-      expectedStapleShoppingListTemplates,
+      expectedStapleTemplates,
       expectedTags,
     });
   });
@@ -152,7 +150,7 @@ describe('update', () => {
   test('should update the existing staple shopping list details template', async () => {
     const {
       stapleShoppingListDetailsTemplate: expectedStapleShoppingListDetailsTemplate,
-      stapleShoppingListTemplates: expectedStapleShoppingListTemplates,
+      stapleTemplates: expectedStapleTemplates,
       tags: expectedTags,
     } = await createStapleShoppingListDetailsTemplateInfo();
     const stapleShoppingListDetailsTemplateId = await StapleShoppingListDetailsTemplateService.create(
@@ -168,7 +166,7 @@ describe('update', () => {
 
     expectStapleShoppingListDetailsTemplate(stapleShoppingListDetailsTemplate, expectedStapleShoppingListDetailsTemplate, {
       stapleShoppingListDetailsTemplateId,
-      expectedStapleShoppingListTemplates,
+      expectedStapleTemplates,
       expectedTags,
     });
   });
@@ -209,7 +207,7 @@ describe('search', () => {
   test('should return the staple shopping list details template matches the criteria', async () => {
     const {
       stapleShoppingListDetailsTemplate: expectedStapleShoppingListDetailsTemplate,
-      stapleShoppingListTemplates: expectedStapleShoppingListTemplates,
+      stapleTemplates: expectedStapleTemplates,
       tags: expectedTags,
     } = await createStapleShoppingListDetailsTemplateInfo();
     const results = Immutable.fromJS(
@@ -228,7 +226,7 @@ describe('search', () => {
       expect(results.find(_ => _.localeCompare(stapleShoppingListDetailsTemplate.get('id')) === 0)).toBeDefined();
       expectStapleShoppingListDetailsTemplate(stapleShoppingListDetailsTemplate, expectedStapleShoppingListDetailsTemplate, {
         stapleShoppingListDetailsTemplateId: stapleShoppingListDetailsTemplate.get('id'),
-        expectedStapleShoppingListTemplates,
+        expectedStapleTemplates,
         expectedTags,
       });
     });
@@ -256,7 +254,7 @@ describe('searchAll', () => {
   test('should return the staple shopping list details template matches the criteria', async () => {
     const {
       stapleShoppingListDetailsTemplate: expectedStapleShoppingListDetailsTemplate,
-      stapleShoppingListTemplates: expectedStapleShoppingListTemplates,
+      stapleTemplates: expectedStapleTemplates,
       tags: expectedTags,
     } = await createStapleShoppingListDetailsTemplateInfo();
     const results = Immutable.fromJS(
@@ -285,7 +283,7 @@ describe('searchAll', () => {
       expect(results.find(_ => _.localeCompare(stapleShoppingListDetailsTemplate.get('id')) === 0)).toBeDefined();
       expectStapleShoppingListDetailsTemplate(stapleShoppingListDetailsTemplate, expectedStapleShoppingListDetailsTemplate, {
         stapleShoppingListDetailsTemplateId: stapleShoppingListDetailsTemplate.get('id'),
-        expectedStapleShoppingListTemplates,
+        expectedStapleTemplates,
         expectedTags,
       });
     });

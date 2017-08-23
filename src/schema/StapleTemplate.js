@@ -3,11 +3,11 @@
 import { Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
-export default class StapleShoppingListTemplate extends BaseObject {
+export default class StapleTemplate extends BaseObject {
   static spawn = (info) => {
-    const object = new StapleShoppingListTemplate();
+    const object = new StapleTemplate();
 
-    StapleShoppingListTemplate.updateInfoInternal(object, info);
+    StapleTemplate.updateInfoInternal(object, info);
 
     return object;
   };
@@ -19,13 +19,13 @@ export default class StapleShoppingListTemplate extends BaseObject {
   };
 
   constructor(object) {
-    super(object, 'StapleShoppingListTemplate');
+    super(object, 'StapleTemplate');
   }
 
   updateInfo = (info) => {
     const object = this.getObject();
 
-    StapleShoppingListTemplate.updateInfoInternal(object, info);
+    StapleTemplate.updateInfoInternal(object, info);
 
     return this;
   };

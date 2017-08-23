@@ -2,7 +2,7 @@
 
 import Immutable, { List, Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
-import StapleShoppingListTemplate from './StapleShoppingListTemplate';
+import StapleTemplate from './StapleTemplate';
 import Tag from './Tag';
 
 export default class StapleShoppingListDetailsTemplate extends BaseObject {
@@ -19,26 +19,21 @@ export default class StapleShoppingListDetailsTemplate extends BaseObject {
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
 
-    if (info.has('stapleShoppingListTemplateIds')) {
-      const stapleShoppingListTemplateIds = info.get('stapleShoppingListTemplateIds');
+    if (info.has('stapleTemplateIds')) {
+      const stapleTemplateIds = info.get('stapleTemplateIds');
 
-      if (stapleShoppingListTemplateIds.isEmpty()) {
-        object.set('stapleShoppingListTemplates', []);
+      if (stapleTemplateIds.isEmpty()) {
+        object.set('stapleTemplates', []);
       } else {
-        object.set(
-          'stapleShoppingListTemplates',
-          stapleShoppingListTemplateIds
-            .map(stapleShoppingListTemplateId => StapleShoppingListTemplate.createWithoutData(stapleShoppingListTemplateId))
-            .toArray(),
-        );
+        object.set('stapleTemplates', stapleTemplateIds.map(stapleTemplateId => StapleTemplate.createWithoutData(stapleTemplateId)).toArray());
       }
-    } else if (info.has('stapleShoppingListTemplates')) {
-      const stapleShoppingListTemplates = info.get('stapleShoppingListTemplates');
+    } else if (info.has('stapleTemplates')) {
+      const stapleTemplates = info.get('stapleTemplates');
 
-      if (stapleShoppingListTemplates.isEmpty()) {
-        object.set('stapleShoppingListTemplates', []);
+      if (stapleTemplates.isEmpty()) {
+        object.set('stapleTemplates', []);
       } else {
-        object.set('stapleShoppingListTemplates', stapleShoppingListTemplates.toArray());
+        object.set('stapleTemplates', stapleTemplates.toArray());
       }
     }
 
@@ -74,11 +69,9 @@ export default class StapleShoppingListDetailsTemplate extends BaseObject {
   };
 
   getInfo = () => {
-    const stapleShoppingListTemplateObjects = this.getObject().get('stapleShoppingListTemplates');
-    const stapleShoppingListTemplates = stapleShoppingListTemplateObjects
-      ? Immutable.fromJS(stapleShoppingListTemplateObjects).map(stapleShoppingListTemplate =>
-        new StapleShoppingListTemplate(stapleShoppingListTemplate).getInfo(),
-      )
+    const stapleTemplateObjects = this.getObject().get('stapleTemplates');
+    const stapleTemplates = stapleTemplateObjects
+      ? Immutable.fromJS(stapleTemplateObjects).map(stapleTemplate => new StapleTemplate(stapleTemplate).getInfo())
       : undefined;
     const tagObjects = this.getObject().get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
@@ -88,10 +81,8 @@ export default class StapleShoppingListDetailsTemplate extends BaseObject {
       name: this.getObject().get('name'),
       description: this.getObject().get('description'),
       imageUrl: this.getObject().get('imageUrl'),
-      stapleShoppingListTemplates,
-      stapleShoppingListTemplateIds: stapleShoppingListTemplates
-        ? stapleShoppingListTemplates.map(stapleShoppingListTemplate => stapleShoppingListTemplate.get('id'))
-        : List(),
+      stapleTemplates,
+      stapleTemplateIds: stapleTemplates ? stapleTemplates.map(stapleTemplate => stapleTemplate.get('id')) : List(),
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });
