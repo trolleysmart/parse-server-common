@@ -5,11 +5,11 @@ import { BaseObject } from 'micro-business-parse-server-common';
 import StapleTemplate from './StapleTemplate';
 import Tag from './Tag';
 
-export default class StapleShoppingListDetailsTemplate extends BaseObject {
+export default class StapleTemplateItem extends BaseObject {
   static spawn = (info) => {
-    const object = new StapleShoppingListDetailsTemplate();
+    const object = new StapleTemplateItem();
 
-    StapleShoppingListDetailsTemplate.updateInfoInternal(object, info);
+    StapleTemplateItem.updateInfoInternal(object, info);
 
     return object;
   };
@@ -57,13 +57,13 @@ export default class StapleShoppingListDetailsTemplate extends BaseObject {
   };
 
   constructor(object) {
-    super(object, 'StapleShoppingListDetailsTemplate');
+    super(object, 'StapleTemplateItem');
   }
 
   updateInfo = (info) => {
     const object = this.getObject();
 
-    StapleShoppingListDetailsTemplate.updateInfoInternal(object, info);
+    StapleTemplateItem.updateInfoInternal(object, info);
 
     return this;
   };

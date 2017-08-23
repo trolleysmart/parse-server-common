@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StapleTemplateService = exports.StapleShoppingListDetailsTemplateService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
+exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StapleTemplateItemService = exports.StapleTemplateService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _CrawlResultService2 = require('./CrawlResultService');
 
@@ -17,13 +17,13 @@ var _ProductPriceService2 = require('./ProductPriceService');
 
 var _ProductPriceService3 = _interopRequireDefault(_ProductPriceService2);
 
-var _StapleShoppingListDetailsTemplateService2 = require('./StapleShoppingListDetailsTemplateService');
-
-var _StapleShoppingListDetailsTemplateService3 = _interopRequireDefault(_StapleShoppingListDetailsTemplateService2);
-
 var _StapleTemplateService2 = require('./StapleTemplateService');
 
 var _StapleTemplateService3 = _interopRequireDefault(_StapleTemplateService2);
+
+var _StapleTemplateItemService2 = require('./StapleTemplateItemService');
+
+var _StapleTemplateItemService3 = _interopRequireDefault(_StapleTemplateItemService2);
 
 var _StoreService2 = require('./StoreService');
 
@@ -48,8 +48,8 @@ function _interopRequireDefault(obj) {
 exports.CrawlResultService = _CrawlResultService3.default;
 exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;
-exports.StapleShoppingListDetailsTemplateService = _StapleShoppingListDetailsTemplateService3.default;
 exports.StapleTemplateService = _StapleTemplateService3.default;
+exports.StapleTemplateItemService = _StapleTemplateItemService3.default;
 exports.StoreService = _StoreService3.default;
 exports.StoreTagService = _StoreTagService3.default;
 exports.TagService = _TagService3.default;

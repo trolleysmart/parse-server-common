@@ -24,16 +24,16 @@ Object.defineProperty(exports, 'ProductPrice', {
     return _schema.ProductPrice;
   },
 });
-Object.defineProperty(exports, 'StapleShoppingListDetailsTemplate', {
-  enumerable: true,
-  get: function get() {
-    return _schema.StapleShoppingListDetailsTemplate;
-  },
-});
 Object.defineProperty(exports, 'StapleTemplate', {
   enumerable: true,
   get: function get() {
     return _schema.StapleTemplate;
+  },
+});
+Object.defineProperty(exports, 'StapleTemplateItem', {
+  enumerable: true,
+  get: function get() {
+    return _schema.StapleTemplateItem;
   },
 });
 Object.defineProperty(exports, 'Store', {
@@ -81,10 +81,10 @@ Object.defineProperty(exports, 'ProductPriceService', {
     return _services.ProductPriceService;
   },
 });
-Object.defineProperty(exports, 'StapleShoppingListDetailsTemplateService', {
+Object.defineProperty(exports, 'StapleTemplateItemService', {
   enumerable: true,
   get: function get() {
-    return _services.StapleShoppingListDetailsTemplateService;
+    return _services.StapleTemplateItemService;
   },
 });
 Object.defineProperty(exports, 'StapleTemplateService', {

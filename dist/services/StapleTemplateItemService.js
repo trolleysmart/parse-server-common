@@ -61,24 +61,24 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StapleShoppingListDetailsTemplateService = (function(_ServiceBase) {
-  _inherits(StapleShoppingListDetailsTemplateService, _ServiceBase);
+var StapleTemplateItemService = (function(_ServiceBase) {
+  _inherits(StapleTemplateItemService, _ServiceBase);
 
-  function StapleShoppingListDetailsTemplateService() {
-    _classCallCheck(this, StapleShoppingListDetailsTemplateService);
+  function StapleTemplateItemService() {
+    _classCallCheck(this, StapleTemplateItemService);
 
     return _possibleConstructorReturn(
       this,
-      (StapleShoppingListDetailsTemplateService.__proto__ || Object.getPrototypeOf(StapleShoppingListDetailsTemplateService)).apply(this, arguments),
+      (StapleTemplateItemService.__proto__ || Object.getPrototypeOf(StapleTemplateItemService)).apply(this, arguments),
     );
   }
 
-  return StapleShoppingListDetailsTemplateService;
+  return StapleTemplateItemService;
 })(_microBusinessParseServerCommon.ServiceBase);
 
-StapleShoppingListDetailsTemplateService.messagePrefix = 'No staple shopping list details template found with Id: ';
+StapleTemplateItemService.messagePrefix = 'No staple teplate item found with Id: ';
 
-StapleShoppingListDetailsTemplateService.create = (function() {
+StapleTemplateItemService.create = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee(info, acl, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -88,7 +88,7 @@ StapleShoppingListDetailsTemplateService.create = (function() {
               case 0:
                 return _context.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.create(_schema.StapleShoppingListDetailsTemplate, info, acl, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.create(_schema.StapleTemplateItem, info, acl, sessionToken),
                 );
 
               case 1:
@@ -108,7 +108,7 @@ StapleShoppingListDetailsTemplateService.create = (function() {
   };
 })();
 
-StapleShoppingListDetailsTemplateService.read = (function() {
+StapleTemplateItemService.read = (function() {
   var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(id, criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -119,12 +119,12 @@ StapleShoppingListDetailsTemplateService.read = (function() {
                 return _context2.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.read(
-                    _schema.StapleShoppingListDetailsTemplate,
+                    _schema.StapleTemplateItem,
                     id,
                     sessionToken,
-                    StapleShoppingListDetailsTemplateService.messagePrefix,
+                    StapleTemplateItemService.messagePrefix,
                     function(query) {
-                      return StapleShoppingListDetailsTemplateService.buildIncludeQuery(query, criteria);
+                      return StapleTemplateItemService.buildIncludeQuery(query, criteria);
                     },
                   ),
                 );
@@ -146,7 +146,7 @@ StapleShoppingListDetailsTemplateService.read = (function() {
   };
 })();
 
-StapleShoppingListDetailsTemplateService.update = (function() {
+StapleTemplateItemService.update = (function() {
   var _ref3 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee3(info, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -157,10 +157,10 @@ StapleShoppingListDetailsTemplateService.update = (function() {
                 return _context3.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.update(
-                    _schema.StapleShoppingListDetailsTemplate,
+                    _schema.StapleTemplateItem,
                     info,
                     sessionToken,
-                    StapleShoppingListDetailsTemplateService.messagePrefix,
+                    StapleTemplateItemService.messagePrefix,
                   ),
                 );
 
@@ -181,7 +181,7 @@ StapleShoppingListDetailsTemplateService.update = (function() {
   };
 })();
 
-StapleShoppingListDetailsTemplateService.delete = (function() {
+StapleTemplateItemService.delete = (function() {
   var _ref4 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee4(id, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -192,10 +192,10 @@ StapleShoppingListDetailsTemplateService.delete = (function() {
                 return _context4.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.delete(
-                    _schema.StapleShoppingListDetailsTemplate,
+                    _schema.StapleTemplateItem,
                     id,
                     sessionToken,
-                    StapleShoppingListDetailsTemplateService.messagePrefix,
+                    StapleTemplateItemService.messagePrefix,
                   ),
                 );
 
@@ -216,7 +216,7 @@ StapleShoppingListDetailsTemplateService.delete = (function() {
   };
 })();
 
-StapleShoppingListDetailsTemplateService.search = (function() {
+StapleTemplateItemService.search = (function() {
   var _ref5 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee5(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -227,8 +227,8 @@ StapleShoppingListDetailsTemplateService.search = (function() {
                 return _context5.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.search(
-                    _schema.StapleShoppingListDetailsTemplate,
-                    StapleShoppingListDetailsTemplateService.buildSearchQuery,
+                    _schema.StapleTemplateItem,
+                    StapleTemplateItemService.buildSearchQuery,
                     criteria,
                     sessionToken,
                   ),
@@ -251,16 +251,16 @@ StapleShoppingListDetailsTemplateService.search = (function() {
   };
 })();
 
-StapleShoppingListDetailsTemplateService.searchAll = function(criteria, sessionToken) {
+StapleTemplateItemService.searchAll = function(criteria, sessionToken) {
   return _microBusinessParseServerCommon.ServiceBase.searchAll(
-    _schema.StapleShoppingListDetailsTemplate,
-    StapleShoppingListDetailsTemplateService.buildSearchQuery,
+    _schema.StapleTemplateItem,
+    StapleTemplateItemService.buildSearchQuery,
     criteria,
     sessionToken,
   );
 };
 
-StapleShoppingListDetailsTemplateService.count = (function() {
+StapleTemplateItemService.count = (function() {
   var _ref6 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee6(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -270,11 +270,7 @@ StapleShoppingListDetailsTemplateService.count = (function() {
               case 0:
                 return _context6.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.count(
-                    StapleShoppingListDetailsTemplateService.buildSearchQuery,
-                    criteria,
-                    sessionToken,
-                  ),
+                  _microBusinessParseServerCommon.ServiceBase.count(StapleTemplateItemService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -294,7 +290,7 @@ StapleShoppingListDetailsTemplateService.count = (function() {
   };
 })();
 
-StapleShoppingListDetailsTemplateService.exists = (function() {
+StapleTemplateItemService.exists = (function() {
   var _ref7 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee7(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -304,11 +300,7 @@ StapleShoppingListDetailsTemplateService.exists = (function() {
               case 0:
                 return _context7.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.exists(
-                    StapleShoppingListDetailsTemplateService.buildSearchQuery,
-                    criteria,
-                    sessionToken,
-                  ),
+                  _microBusinessParseServerCommon.ServiceBase.exists(StapleTemplateItemService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -328,7 +320,7 @@ StapleShoppingListDetailsTemplateService.exists = (function() {
   };
 })();
 
-StapleShoppingListDetailsTemplateService.buildIncludeQuery = function(query, criteria) {
+StapleTemplateItemService.buildIncludeQuery = function(query, criteria) {
   if (!criteria) {
     return query;
   }
@@ -352,9 +344,9 @@ StapleShoppingListDetailsTemplateService.buildIncludeQuery = function(query, cri
   return query;
 };
 
-StapleShoppingListDetailsTemplateService.buildSearchQuery = function(criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleShoppingListDetailsTemplate, criteria);
-  var query = StapleShoppingListDetailsTemplateService.buildIncludeQuery(queryWithoutIncludes, criteria);
+StapleTemplateItemService.buildSearchQuery = function(criteria) {
+  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateItem, criteria);
+  var query = StapleTemplateItemService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
     return query;
@@ -371,4 +363,4 @@ StapleShoppingListDetailsTemplateService.buildSearchQuery = function(criteria) {
   return query;
 };
 
-exports.default = StapleShoppingListDetailsTemplateService;
+exports.default = StapleTemplateItemService;

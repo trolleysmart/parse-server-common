@@ -45,16 +45,15 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StapleShoppingListDetailsTemplate = (function(_BaseObject) {
-  _inherits(StapleShoppingListDetailsTemplate, _BaseObject);
+var StapleTemplateItem = (function(_BaseObject) {
+  _inherits(StapleTemplateItem, _BaseObject);
 
-  function StapleShoppingListDetailsTemplate(object) {
-    _classCallCheck(this, StapleShoppingListDetailsTemplate);
+  function StapleTemplateItem(object) {
+    _classCallCheck(this, StapleTemplateItem);
 
     var _this = _possibleConstructorReturn(
       this,
-      (StapleShoppingListDetailsTemplate.__proto__ || Object.getPrototypeOf(StapleShoppingListDetailsTemplate))
-        .call(this, object, 'StapleShoppingListDetailsTemplate'),
+      (StapleTemplateItem.__proto__ || Object.getPrototypeOf(StapleTemplateItem)).call(this, object, 'StapleTemplateItem'),
     );
 
     _initialiseProps.call(_this);
@@ -62,18 +61,18 @@ var StapleShoppingListDetailsTemplate = (function(_BaseObject) {
     return _this;
   }
 
-  return StapleShoppingListDetailsTemplate;
+  return StapleTemplateItem;
 })(_microBusinessParseServerCommon.BaseObject);
 
-StapleShoppingListDetailsTemplate.spawn = function(info) {
-  var object = new StapleShoppingListDetailsTemplate();
+StapleTemplateItem.spawn = function(info) {
+  var object = new StapleTemplateItem();
 
-  StapleShoppingListDetailsTemplate.updateInfoInternal(object, info);
+  StapleTemplateItem.updateInfoInternal(object, info);
 
   return object;
 };
 
-StapleShoppingListDetailsTemplate.updateInfoInternal = function(object, info) {
+StapleTemplateItem.updateInfoInternal = function(object, info) {
   object.set('name', info.get('name'));
   object.set('description', info.get('description'));
   object.set('imageUrl', info.get('imageUrl'));
@@ -135,7 +134,7 @@ var _initialiseProps = function _initialiseProps() {
   this.updateInfo = function(info) {
     var object = _this2.getObject();
 
-    StapleShoppingListDetailsTemplate.updateInfoInternal(object, info);
+    StapleTemplateItem.updateInfoInternal(object, info);
 
     return _this2;
   };
@@ -175,4 +174,4 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
-exports.default = StapleShoppingListDetailsTemplate;
+exports.default = StapleTemplateItem;
