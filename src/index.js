@@ -1,6 +1,17 @@
 // @flow
 
-export { CrawlResult, CrawlSession, ProductPrice, StapleTemplate, StapleTemplateItem, Store, StoreTag, Tag, UserFeedback } from './schema';
+export {
+  CrawlResult,
+  CrawlSession,
+  ProductPrice,
+  StapleTemplate,
+  StapleTemplateItem,
+  Store,
+  StoreProduct,
+  StoreTag,
+  Tag,
+  UserFeedback,
+} from './schema';
 export {
   CrawlResultService,
   CrawlSessionService,

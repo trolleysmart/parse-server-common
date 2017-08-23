@@ -6,6 +6,7 @@ export ProductPrice from './ProductPrice';
 export StapleTemplate from './StapleTemplate';
 export StapleTemplateItem from './StapleTemplateItem';
 export Store from './Store';
+export StoreProduct from './StoreProduct';
 export StoreTag from './StoreTag';
 export Tag from './Tag';
 export UserFeedback from './UserFeedback';

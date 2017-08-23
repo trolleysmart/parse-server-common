@@ -42,6 +42,12 @@ Object.defineProperty(exports, 'Store', {
     return _schema.Store;
   },
 });
+Object.defineProperty(exports, 'StoreProduct', {
+  enumerable: true,
+  get: function get() {
+    return _schema.StoreProduct;
+  },
+});
 Object.defineProperty(exports, 'StoreTag', {
   enumerable: true,
   get: function get() {
