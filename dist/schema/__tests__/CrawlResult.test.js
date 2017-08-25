@@ -97,6 +97,7 @@ var expectCrawlResult = exports.expectCrawlResult = function expectCrawlResult(o
       expectedCrawlSession = _ref3.expectedCrawlSession;
 
   expect(object.get('resultSet')).toEqual(expectedObject.get('resultSet'));
+  expect(object.get('crawlSessionId')).toBe(expectedObject.get('crawlSessionId'));
 
   if (crawlResultId) {
     expect(object.get('id')).toBe(crawlResultId);

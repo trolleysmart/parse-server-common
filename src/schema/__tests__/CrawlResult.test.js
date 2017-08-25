@@ -21,6 +21,7 @@ export const createCrawlResult = async object => CrawlResult.spawn(object || (aw
 
 export const expectCrawlResult = (object, expectedObject, { crawlResultId, expectedCrawlSession } = {}) => {
   expect(object.get('resultSet')).toEqual(expectedObject.get('resultSet'));
+  expect(object.get('crawlSessionId')).toBe(expectedObject.get('crawlSessionId'));
 
   if (crawlResultId) {
     expect(object.get('id')).toBe(crawlResultId);

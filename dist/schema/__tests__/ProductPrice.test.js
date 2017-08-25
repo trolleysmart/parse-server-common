@@ -143,6 +143,9 @@ var expectProductPrice = exports.expectProductPrice = function expectProductPric
   expect(object.get('offerEndDate')).toEqual(expectedObject.get('offerEndDate'));
   expect(object.get('status')).toBe(expectedObject.get('status'));
   expect(object.get('special')).toBe(expectedObject.get('special'));
+  expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
+  expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
+  expect(object.get('storeProductId')).toBe(expectedObject.get('storeProductId'));
 
   if (productPriceId) {
     expect(object.get('id')).toBe(productPriceId);

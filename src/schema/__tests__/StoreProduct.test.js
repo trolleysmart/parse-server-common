@@ -38,6 +38,8 @@ export const expectStoreProduct = (object, expectedObject, { storeProductId, exp
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('size')).toBe(expectedObject.get('size'));
   expect(object.get('lastCrawlDateTime')).toEqual(expectedObject.get('lastCrawlDateTime'));
+  expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
+  expect(object.get('storeTagIds')).toEqual(expectedObject.get('storeTagIds'));
 
   if (storeProductId) {
     expect(object.get('id')).toBe(storeProductId);

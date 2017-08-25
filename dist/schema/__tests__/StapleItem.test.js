@@ -122,16 +122,24 @@ var createStapleItem = exports.createStapleItem = function () {
 var expectStapleItem = exports.expectStapleItem = function expectStapleItem(object, expectedObject) {
   var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
       stapleItemId = _ref3.stapleItemId,
-      expectedTags = _ref3.expectedTags;
+      expectedTags = _ref3.expectedTags,
+      expectedUser = _ref3.expectedUser;
 
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('popular')).toBe(expectedObject.get('popular'));
   expect(object.get('addedByUser')).toBe(expectedObject.get('addedByUser'));
+  expect(object.get('userId')).toBe(expectedObject.get('userId'));
+  expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
 
   if (stapleItemId) {
     expect(object.get('id')).toBe(stapleItemId);
+  }
+
+  if (expectedUser) {
+    expect(object.get('user').id).toEqual(expectedUser.id);
+    expect(object.get('user').username).toEqual(expectedUser.username);
   }
 
   if (expectedTags) {

@@ -126,6 +126,8 @@ var expectStoreTag = exports.expectStoreTag = function expectStoreTag(object, ex
   expect(object.get('url')).toBe(expectedObject.get('url'));
   expect(object.get('level')).toBe(expectedObject.get('level'));
   expect(object.get('parentStoreTagId')).toBe(expectedObject.get('parentStoreTagId'));
+  expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
+  expect(object.get('tagId')).toBe(expectedObject.get('tagId'));
 
   if (storeTagId) {
     expect(object.get('id')).toBe(storeTagId);

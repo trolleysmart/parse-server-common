@@ -122,6 +122,8 @@ var expectStapleTemplateItem = exports.expectStapleTemplateItem = function expec
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('popular')).toBe(expectedObject.get('popular'));
+  expect(object.get('stapleTemplateIds')).toEqual(expectedObject.get('stapleTemplateIds'));
+  expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
 
   if (stapleTemplateItemId) {
     expect(object.get('id')).toBe(stapleTemplateItemId);

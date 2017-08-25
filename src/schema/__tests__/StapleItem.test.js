@@ -35,15 +35,22 @@ export const createStapleItemInfo = async () => {
 
 export const createStapleItem = async object => StapleItem.spawn(object || (await createStapleItemInfo()).stapleItem);
 
-export const expectStapleItem = (object, expectedObject, { stapleItemId, expectedTags } = {}) => {
+export const expectStapleItem = (object, expectedObject, { stapleItemId, expectedTags, expectedUser } = {}) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('popular')).toBe(expectedObject.get('popular'));
   expect(object.get('addedByUser')).toBe(expectedObject.get('addedByUser'));
+  expect(object.get('userId')).toBe(expectedObject.get('userId'));
+  expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
 
   if (stapleItemId) {
     expect(object.get('id')).toBe(stapleItemId);
+  }
+
+  if (expectedUser) {
+    expect(object.get('user').id).toEqual(expectedUser.id);
+    expect(object.get('user').username).toEqual(expectedUser.username);
   }
 
   if (expectedTags) {
