@@ -99,6 +99,12 @@ Object.defineProperty(exports, 'ProductPriceService', {
     return _services.ProductPriceService;
   }
 });
+Object.defineProperty(exports, 'ShoppingListService', {
+  enumerable: true,
+  get: function get() {
+    return _services.ShoppingListService;
+  }
+});
 Object.defineProperty(exports, 'StapleItemService', {
   enumerable: true,
   get: function get() {

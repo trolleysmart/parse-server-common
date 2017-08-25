@@ -30,7 +30,7 @@ var chance = new _chance2.default();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('user', 'feedback'),
+    fields: _immutable.List.of('feedback', 'user'),
     includeUser: true
   });
 };
@@ -237,7 +237,7 @@ describe('read', function () {
   })));
 
   test('should read the existing user feedback', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
-    var _ref10, expectedUserFeedback, userFeedbackId, userFeedback;
+    var _ref10, expectedUserFeedback, expectedUser, userFeedbackId, userFeedback;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
@@ -249,21 +249,22 @@ describe('read', function () {
           case 2:
             _ref10 = _context6.sent;
             expectedUserFeedback = _ref10.userFeedback;
-            _context6.next = 6;
+            expectedUser = _ref10.user;
+            _context6.next = 7;
             return _2.UserFeedbackService.create(expectedUserFeedback);
 
-          case 6:
+          case 7:
             userFeedbackId = _context6.sent;
-            _context6.next = 9;
+            _context6.next = 10;
             return _2.UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
-          case 9:
+          case 10:
             userFeedback = _context6.sent;
 
 
-            (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedbackId });
+            (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedbackId, expectedUser: expectedUser });
 
-          case 11:
+          case 12:
           case 'end':
             return _context6.stop();
         }
@@ -362,7 +363,7 @@ describe('update', function () {
   })));
 
   test('should update the existing user feedback', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
-    var _ref15, expectedUserFeedback, userFeedbackId, userFeedback;
+    var _ref15, expectedUserFeedback, expectedUser, userFeedbackId, userFeedback;
 
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
@@ -374,31 +375,32 @@ describe('update', function () {
           case 2:
             _ref15 = _context9.sent;
             expectedUserFeedback = _ref15.userFeedback;
+            expectedUser = _ref15.user;
             _context9.t0 = _2.UserFeedbackService;
-            _context9.next = 7;
+            _context9.next = 8;
             return (0, _UserFeedback.createUserFeedbackInfo)();
 
-          case 7:
+          case 8:
             _context9.t1 = _context9.sent.userFeedback;
-            _context9.next = 10;
+            _context9.next = 11;
             return _context9.t0.create.call(_context9.t0, _context9.t1);
 
-          case 10:
+          case 11:
             userFeedbackId = _context9.sent;
-            _context9.next = 13;
+            _context9.next = 14;
             return _2.UserFeedbackService.update(expectedUserFeedback.set('id', userFeedbackId));
 
-          case 13:
-            _context9.next = 15;
+          case 14:
+            _context9.next = 16;
             return _2.UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
-          case 15:
+          case 16:
             userFeedback = _context9.sent;
 
 
-            (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedbackId });
+            (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedbackId, expectedUser: expectedUser });
 
-          case 17:
+          case 18:
           case 'end':
             return _context9.stop();
         }
@@ -506,7 +508,7 @@ describe('search', function () {
   })));
 
   test('should return the user feedback matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee14() {
-    var _ref20, expectedUserFeedback, results, userFeedbacks;
+    var _ref20, expectedUserFeedback, expectedUser, results, userFeedbacks;
 
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
@@ -518,8 +520,9 @@ describe('search', function () {
           case 2:
             _ref20 = _context14.sent;
             expectedUserFeedback = _ref20.userFeedback;
+            expectedUser = _ref20.user;
             _context14.t0 = _immutable2.default;
-            _context14.next = 7;
+            _context14.next = 8;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
               return regeneratorRuntime.wrap(function _callee13$(_context13) {
                 while (1) {
@@ -535,13 +538,13 @@ describe('search', function () {
               }, _callee13, undefined);
             }))).toArray());
 
-          case 7:
+          case 8:
             _context14.t1 = _context14.sent;
             results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
-            _context14.next = 11;
+            _context14.next = 12;
             return _2.UserFeedbackService.search(createCriteria(expectedUserFeedback));
 
-          case 11:
+          case 12:
             userFeedbacks = _context14.sent;
 
 
@@ -550,10 +553,10 @@ describe('search', function () {
               expect(results.find(function (_) {
                 return _.localeCompare(userFeedback.get('id')) === 0;
               })).toBeDefined();
-              (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id') });
+              (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id'), expectedUser: expectedUser });
             });
 
-          case 14:
+          case 15:
           case 'end':
             return _context14.stop();
         }
@@ -599,7 +602,7 @@ describe('searchAll', function () {
   })));
 
   test('should return the user feedback matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
-    var _ref24, expectedUserFeedback, results, userFeedbacks, result;
+    var _ref24, expectedUserFeedback, expectedUser, results, userFeedbacks, result;
 
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
@@ -611,8 +614,9 @@ describe('searchAll', function () {
           case 2:
             _ref24 = _context17.sent;
             expectedUserFeedback = _ref24.userFeedback;
+            expectedUser = _ref24.user;
             _context17.t0 = _immutable2.default;
-            _context17.next = 7;
+            _context17.next = 8;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee16() {
               return regeneratorRuntime.wrap(function _callee16$(_context16) {
                 while (1) {
@@ -628,42 +632,42 @@ describe('searchAll', function () {
               }, _callee16, undefined);
             }))).toArray());
 
-          case 7:
+          case 8:
             _context17.t1 = _context17.sent;
             results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
             userFeedbacks = (0, _immutable.List)();
             result = _2.UserFeedbackService.searchAll(createCriteria(expectedUserFeedback));
-            _context17.prev = 11;
+            _context17.prev = 12;
 
             result.event.subscribe(function (info) {
               userFeedbacks = userFeedbacks.push(info);
             });
 
-            _context17.next = 15;
+            _context17.next = 16;
             return result.promise;
 
-          case 15:
-            _context17.prev = 15;
+          case 16:
+            _context17.prev = 16;
 
             result.event.unsubscribeAll();
-            return _context17.finish(15);
+            return _context17.finish(16);
 
-          case 18:
+          case 19:
 
             expect(userFeedbacks.count).toBe(results.count);
             userFeedbacks.forEach(function (userFeedback) {
               expect(results.find(function (_) {
                 return _.localeCompare(userFeedback.get('id')) === 0;
               })).toBeDefined();
-              (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id') });
+              (0, _UserFeedback.expectUserFeedback)(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id'), expectedUser: expectedUser });
             });
 
-          case 20:
+          case 21:
           case 'end':
             return _context17.stop();
         }
       }
-    }, _callee17, undefined, [[11,, 15, 18]]);
+    }, _callee17, undefined, [[12,, 16, 19]]);
   })));
 });
 

@@ -21,7 +21,7 @@ var _v2 = _interopRequireDefault(_v);
 
 require('../../../bootstrap');
 
-var _ = require('../');
+var _2 = require('../');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -91,7 +91,7 @@ var createShoppingList = exports.createShoppingList = function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.t0 = _.ShoppingList;
+            _context2.t0 = _2.ShoppingList;
             _context2.t1 = object;
 
             if (_context2.t1) {
@@ -124,7 +124,9 @@ var createShoppingList = exports.createShoppingList = function () {
 
 var expectShoppingList = exports.expectShoppingList = function expectShoppingList(object, expectedObject) {
   var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-      shoppingListId = _ref3.shoppingListId;
+      shoppingListId = _ref3.shoppingListId,
+      expectedUser = _ref3.expectedUser,
+      expectedSharedWithUsers = _ref3.expectedSharedWithUsers;
 
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
@@ -132,6 +134,22 @@ var expectShoppingList = exports.expectShoppingList = function expectShoppingLis
 
   if (shoppingListId) {
     expect(object.get('id')).toBe(shoppingListId);
+  }
+
+  if (expectedUser) {
+    expect(object.get('user').id).toEqual(expectedUser.id);
+    expect(object.get('user').username).toEqual(expectedUser.username);
+  }
+
+  if (expectedSharedWithUsers) {
+    expectedSharedWithUsers.forEach(function (expectedSharedWithUser) {
+      var sharedWithUser = object.get('sharedWithUsers').find(function (_) {
+        return _.id.localeCompare(expectedSharedWithUser.id) === 0;
+      });
+
+      expect(sharedWithUser).toBeTruthy();
+      expect(sharedWithUser.username).toEqual(expectedSharedWithUser.username);
+    });
   }
 };
 
@@ -205,7 +223,7 @@ describe('public methods', function () {
             object = _context5.sent;
 
 
-            expect(new _.ShoppingList(object).getObject()).toBe(object);
+            expect(new _2.ShoppingList(object).getObject()).toBe(object);
 
           case 4:
           case 'end':
@@ -228,7 +246,7 @@ describe('public methods', function () {
             object = _context6.sent;
 
 
-            expect(new _.ShoppingList(object).getId()).toBe(object.id);
+            expect(new _2.ShoppingList(object).getId()).toBe(object.id);
 
           case 4:
           case 'end':

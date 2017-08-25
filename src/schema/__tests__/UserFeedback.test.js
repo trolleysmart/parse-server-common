@@ -25,12 +25,17 @@ export const createUserFeedbackInfo = async () => {
 
 export const createUserFeedback = async object => UserFeedback.spawn(object || (await createUserFeedbackInfo()).userFeedback);
 
-export const expectUserFeedback = (object, expectedObject, { userFeedbackId } = {}) => {
+export const expectUserFeedback = (object, expectedObject, { userFeedbackId, expectedUser } = {}) => {
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
   expect(object.get('feedback')).toEqual(expectedObject.get('feedback'));
 
   if (userFeedbackId) {
     expect(object.get('id')).toBe(userFeedbackId);
+  }
+
+  if (expectedUser) {
+    expect(object.get('user').id).toEqual(expectedUser.id);
+    expect(object.get('user').username).toEqual(expectedUser.username);
   }
 };
 

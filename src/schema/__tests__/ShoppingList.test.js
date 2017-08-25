@@ -45,13 +45,27 @@ export const createShoppingListInfo = async () => {
 
 export const createShoppingList = async object => ShoppingList.spawn(object || (await createShoppingListInfo()).shoppingList);
 
-export const expectShoppingList = (object, expectedObject, { shoppingListId } = {}) => {
+export const expectShoppingList = (object, expectedObject, { shoppingListId, expectedUser, expectedSharedWithUsers } = {}) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
   expect(object.get('sharedWithUserIds')).toEqual(expectedObject.get('sharedWithUserIds'));
 
   if (shoppingListId) {
     expect(object.get('id')).toBe(shoppingListId);
+  }
+
+  if (expectedUser) {
+    expect(object.get('user').id).toEqual(expectedUser.id);
+    expect(object.get('user').username).toEqual(expectedUser.username);
+  }
+
+  if (expectedSharedWithUsers) {
+    expectedSharedWithUsers.forEach((expectedSharedWithUser) => {
+      const sharedWithUser = object.get('sharedWithUsers').find(_ => _.id.localeCompare(expectedSharedWithUser.id) === 0);
+
+      expect(sharedWithUser).toBeTruthy();
+      expect(sharedWithUser.username).toEqual(expectedSharedWithUser.username);
+    });
   }
 };
 

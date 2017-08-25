@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StoreProductService = exports.StapleTemplateItemService = exports.StapleTemplateService = exports.StapleItemService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
+exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StoreProductService = exports.StapleTemplateItemService = exports.StapleTemplateService = exports.StapleItemService = exports.ShoppingListService = exports.ProductPriceService = exports.CrawlSessionService = exports.CrawlResultService = undefined;
 
 var _CrawlResultService2 = require('./CrawlResultService');
 
@@ -16,6 +16,10 @@ var _CrawlSessionService3 = _interopRequireDefault(_CrawlSessionService2);
 var _ProductPriceService2 = require('./ProductPriceService');
 
 var _ProductPriceService3 = _interopRequireDefault(_ProductPriceService2);
+
+var _ShoppingListService2 = require('./ShoppingListService');
+
+var _ShoppingListService3 = _interopRequireDefault(_ShoppingListService2);
 
 var _StapleItemService2 = require('./StapleItemService');
 
@@ -54,6 +58,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.CrawlResultService = _CrawlResultService3.default;
 exports.CrawlSessionService = _CrawlSessionService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;
+exports.ShoppingListService = _ShoppingListService3.default;
 exports.StapleItemService = _StapleItemService3.default;
 exports.StapleTemplateService = _StapleTemplateService3.default;
 exports.StapleTemplateItemService = _StapleTemplateItemService3.default;

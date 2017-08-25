@@ -99,13 +99,19 @@ var createUserFeedback = exports.createUserFeedback = function () {
 
 var expectUserFeedback = exports.expectUserFeedback = function expectUserFeedback(object, expectedObject) {
   var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-      userFeedbackId = _ref3.userFeedbackId;
+      userFeedbackId = _ref3.userFeedbackId,
+      expectedUser = _ref3.expectedUser;
 
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
   expect(object.get('feedback')).toEqual(expectedObject.get('feedback'));
 
   if (userFeedbackId) {
     expect(object.get('id')).toBe(userFeedbackId);
+  }
+
+  if (expectedUser) {
+    expect(object.get('user').id).toEqual(expectedUser.id);
+    expect(object.get('user').username).toEqual(expectedUser.username);
   }
 };
 

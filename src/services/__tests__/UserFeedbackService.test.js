@@ -11,7 +11,7 @@ const chance = new Chance();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('user', 'feedback'),
+    fields: List.of('feedback', 'user'),
     includeUser: true,
   });
 
@@ -82,11 +82,11 @@ describe('read', () => {
   });
 
   test('should read the existing user feedback', async () => {
-    const { userFeedback: expectedUserFeedback } = await createUserFeedbackInfo();
+    const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
     const userFeedbackId = await UserFeedbackService.create(expectedUserFeedback);
     const userFeedback = await UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
-    expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId });
+    expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId, expectedUser });
   });
 });
 
@@ -115,14 +115,14 @@ describe('update', () => {
   });
 
   test('should update the existing user feedback', async () => {
-    const { userFeedback: expectedUserFeedback } = await createUserFeedbackInfo();
+    const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
     const userFeedbackId = await UserFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
 
     await UserFeedbackService.update(expectedUserFeedback.set('id', userFeedbackId));
 
     const userFeedback = await UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
-    expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId });
+    expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId, expectedUser });
   });
 });
 
@@ -157,7 +157,7 @@ describe('search', () => {
   });
 
   test('should return the user feedback matches the criteria', async () => {
-    const { userFeedback: expectedUserFeedback } = await createUserFeedbackInfo();
+    const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => UserFeedbackService.create(expectedUserFeedback)).toArray()),
     );
@@ -166,7 +166,7 @@ describe('search', () => {
     expect(userFeedbacks.count).toBe(results.count);
     userFeedbacks.forEach((userFeedback) => {
       expect(results.find(_ => _.localeCompare(userFeedback.get('id')) === 0)).toBeDefined();
-      expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id') });
+      expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id'), expectedUser });
     });
   });
 });
@@ -190,7 +190,7 @@ describe('searchAll', () => {
   });
 
   test('should return the user feedback matches the criteria', async () => {
-    const { userFeedback: expectedUserFeedback } = await createUserFeedbackInfo();
+    const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
     const results = Immutable.fromJS(
       await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => UserFeedbackService.create(expectedUserFeedback)).toArray()),
     );
@@ -211,7 +211,7 @@ describe('searchAll', () => {
     expect(userFeedbacks.count).toBe(results.count);
     userFeedbacks.forEach((userFeedback) => {
       expect(results.find(_ => _.localeCompare(userFeedback.get('id')) === 0)).toBeDefined();
-      expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id') });
+      expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id'), expectedUser });
     });
   });
 });
