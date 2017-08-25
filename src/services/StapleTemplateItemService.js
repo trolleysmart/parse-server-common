@@ -4,7 +4,7 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { StapleTemplateItem, StapleTemplate, Tag } from '../schema';
 
 export default class StapleTemplateItemService extends ServiceBase {
-  static messagePrefix = 'No staple teplate item found with Id: ';
+  static messagePrefix = 'No staple template item found with Id: ';
 
   static create = async (info, acl, sessionToken) => ServiceBase.create(StapleTemplateItem, info, acl, sessionToken);
 

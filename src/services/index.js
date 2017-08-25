@@ -3,6 +3,7 @@
 export CrawlResultService from './CrawlResultService';
 export CrawlSessionService from './CrawlSessionService';
 export ProductPriceService from './ProductPriceService';
+export StapleItemService from './StapleItemService';
 export StapleTemplateService from './StapleTemplateService';
 export StapleTemplateItemService from './StapleTemplateItemService';
 export StoreProductService from './StoreProductService';

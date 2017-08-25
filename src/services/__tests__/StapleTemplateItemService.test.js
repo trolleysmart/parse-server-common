@@ -60,13 +60,13 @@ const createStapleTemplateItems = async (count, useSameInfo = false) => {
 export default createStapleTemplateItems;
 
 describe('create', () => {
-  test('should return the created staple teplate item Id', async () => {
+  test('should return the created staple template item Id', async () => {
     const stapleTemplateItemId = await StapleTemplateItemService.create((await createStapleTemplateItemInfo()).stapleTemplateItem);
 
     expect(stapleTemplateItemId).toBeDefined();
   });
 
-  test('should create the staple teplate item', async () => {
+  test('should create the staple template item', async () => {
     const { stapleTemplateItem } = await createStapleTemplateItemInfo();
     const stapleTemplateItemId = await StapleTemplateItemService.create(stapleTemplateItem);
     const fetchedStapleTemplateItem = await StapleTemplateItemService.read(stapleTemplateItemId, createCriteriaWthoutConditions());
@@ -76,17 +76,17 @@ describe('create', () => {
 });
 
 describe('read', () => {
-  test('should reject if the provided staple teplate item Id does not exist', async () => {
+  test('should reject if the provided staple template item Id does not exist', async () => {
     const stapleTemplateItemId = uuid();
 
     try {
       await StapleTemplateItemService.read(stapleTemplateItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple teplate item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 
-  test('should read the existing staple teplate item', async () => {
+  test('should read the existing staple template item', async () => {
     const {
       stapleTemplateItem: expectedStapleTemplateItem,
       stapleTemplates: expectedStapleTemplates,
@@ -104,7 +104,7 @@ describe('read', () => {
 });
 
 describe('update', () => {
-  test('should reject if the provided staple teplate item Id does not exist', async () => {
+  test('should reject if the provided staple template item Id does not exist', async () => {
     const stapleTemplateItemId = uuid();
 
     try {
@@ -115,11 +115,11 @@ describe('update', () => {
 
       await StapleTemplateItemService.update(stapleTemplateItem.set('id', stapleTemplateItemId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple teplate item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 
-  test('should return the Id of the updated staple teplate item', async () => {
+  test('should return the Id of the updated staple template item', async () => {
     const { stapleTemplateItem: expectedStapleTemplateItem } = await createStapleTemplateItemInfo();
     const stapleTemplateItemId = await StapleTemplateItemService.create((await createStapleTemplateItemInfo()).stapleTemplateItem);
     const id = await StapleTemplateItemService.update(expectedStapleTemplateItem.set('id', stapleTemplateItemId));
@@ -127,7 +127,7 @@ describe('update', () => {
     expect(id).toBe(stapleTemplateItemId);
   });
 
-  test('should update the existing staple teplate item', async () => {
+  test('should update the existing staple template item', async () => {
     const {
       stapleTemplateItem: expectedStapleTemplateItem,
       stapleTemplates: expectedStapleTemplates,
@@ -148,36 +148,36 @@ describe('update', () => {
 });
 
 describe('delete', () => {
-  test('should reject if the provided staple teplate item Id does not exist', async () => {
+  test('should reject if the provided staple template item Id does not exist', async () => {
     const stapleTemplateItemId = uuid();
 
     try {
       await StapleTemplateItemService.delete(stapleTemplateItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple teplate item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 
-  test('should delete the existing staple teplate item', async () => {
+  test('should delete the existing staple template item', async () => {
     const stapleTemplateItemId = await StapleTemplateItemService.create((await createStapleTemplateItemInfo()).stapleTemplateItem);
     await StapleTemplateItemService.delete(stapleTemplateItemId);
 
     try {
       await StapleTemplateItemService.delete(stapleTemplateItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple teplate item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 });
 
 describe('search', () => {
-  test('should return no staple teplate item if provided criteria matches no staple teplate item', async () => {
+  test('should return no staple template item if provided criteria matches no staple template item', async () => {
     const stapleTemplateItems = await StapleTemplateItemService.search(createCriteria());
 
     expect(stapleTemplateItems.count()).toBe(0);
   });
 
-  test('should return the staple teplate item matches the criteria', async () => {
+  test('should return the staple template item matches the criteria', async () => {
     const {
       stapleTemplateItem: expectedStapleTemplateItem,
       stapleTemplates: expectedStapleTemplates,
@@ -203,7 +203,7 @@ describe('search', () => {
 });
 
 describe('searchAll', () => {
-  test('should return no staple teplate item if provided criteria matches no staple teplate item', async () => {
+  test('should return no staple template item if provided criteria matches no staple template item', async () => {
     let stapleTemplateItems = List();
     const result = StapleTemplateItemService.searchAll(createCriteria());
 
@@ -220,7 +220,7 @@ describe('searchAll', () => {
     expect(stapleTemplateItems.count()).toBe(0);
   });
 
-  test('should return the staple teplate item matches the criteria', async () => {
+  test('should return the staple template item matches the criteria', async () => {
     const {
       stapleTemplateItem: expectedStapleTemplateItem,
       stapleTemplates: expectedStapleTemplates,
@@ -258,11 +258,11 @@ describe('searchAll', () => {
 });
 
 describe('exists', () => {
-  test('should return false if no staple teplate item match provided criteria', async () => {
+  test('should return false if no staple template item match provided criteria', async () => {
     expect(await StapleTemplateItemService.exists(createCriteria())).toBeFalsy();
   });
 
-  test('should return true if any staple teplate item match provided criteria', async () => {
+  test('should return true if any staple template item match provided criteria', async () => {
     const stapleTemplateItems = await createStapleTemplateItems(chance.integer({ min: 1, max: 10 }), true);
 
     expect(await StapleTemplateItemService.exists(createCriteria(stapleTemplateItems.first()))).toBeTruthy();
@@ -270,11 +270,11 @@ describe('exists', () => {
 });
 
 describe('count', () => {
-  test('should return 0 if no staple teplate item match provided criteria', async () => {
+  test('should return 0 if no staple template item match provided criteria', async () => {
     expect(await StapleTemplateItemService.count(createCriteria())).toBe(0);
   });
 
-  test('should return the count of staple teplate item match provided criteria', async () => {
+  test('should return the count of staple template item match provided criteria', async () => {
     const stapleTemplateItems = await createStapleTemplateItems(chance.integer({ min: 1, max: 10 }), true);
 
     expect(await StapleTemplateItemService.count(createCriteria(stapleTemplateItems.first()))).toBe(stapleTemplateItems.count());

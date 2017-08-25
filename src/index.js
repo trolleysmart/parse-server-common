@@ -17,6 +17,7 @@ export {
   CrawlResultService,
   CrawlSessionService,
   ProductPriceService,
+  StapleItemService,
   StapleTemplateItemService,
   StapleTemplateService,
   StoreProductService,
