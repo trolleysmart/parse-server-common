@@ -4,6 +4,7 @@ import Immutable, { List, Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 import Store from './Store';
 import Tag from './Tag';
+import StoreProduct from './StoreProduct';
 
 export default class ProductPrice extends BaseObject {
   static spawn = (info) => {
@@ -56,6 +57,20 @@ export default class ProductPrice extends BaseObject {
         object.set('tags', tags.toArray());
       }
     }
+
+    if (info.has('storeProductId')) {
+      const storeProductId = info.get('storeProductId');
+
+      if (storeProductId) {
+        object.set('storeProduct', StoreProduct.createWithoutData(storeProductId));
+      }
+    } else if (info.has('storeProduct')) {
+      const storeProduct = info.get('storeProduct');
+
+      if (storeProduct) {
+        object.set('storeProduct', storeProduct);
+      }
+    }
   };
 
   constructor(object) {
@@ -74,6 +89,7 @@ export default class ProductPrice extends BaseObject {
     const store = new Store(this.getObject().get('store'));
     const tagObjects = this.getObject().get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
+    const storeProduct = new StoreProduct(this.getObject().get('storeProduct'));
 
     return Map({
       id: this.getId(),
@@ -90,6 +106,8 @@ export default class ProductPrice extends BaseObject {
       storeId: store.getId(),
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
+      storeProduct: storeProduct.getInfo(),
+      storeProductId: storeProduct.getId(),
     });
   };
 }

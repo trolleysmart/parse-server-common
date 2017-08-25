@@ -1,7 +1,7 @@
 // @flow
 
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
-import { ProductPrice, Store, Tag } from '../schema';
+import { ProductPrice, Store, StoreProduct, Tag } from '../schema';
 
 export default class ProductPriceService extends ServiceBase {
   static messagePrefix = 'No product price found with Id: ';
@@ -46,6 +46,14 @@ export default class ProductPriceService extends ServiceBase {
       }
     }
 
+    if (criteria.has('includeStoreProduct')) {
+      const value = criteria.get('includeStoreProduct');
+
+      if (value) {
+        query.include('storeProduct');
+      }
+    }
+
     return query;
   };
 
@@ -69,6 +77,7 @@ export default class ProductPriceService extends ServiceBase {
     ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
     ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
+    ServiceBase.addLinkQuery(conditions, query, 'storeProduct', 'storeProduct', StoreProduct);
 
     return query;
   };

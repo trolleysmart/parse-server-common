@@ -6,12 +6,14 @@ import uuid from 'uuid/v4';
 import { ProductPrice } from '../';
 import createStores from '../../services/__tests__/StoreService.test';
 import createTags from '../../services/__tests__/TagService.test';
+import createStoreProducts from '../../services/__tests__/StoreProductService.test';
 
 const chance = new Chance();
 
 export const createProductPriceInfo = async () => {
   const store = (await createStores(1)).first();
   const tags = await createTags(chance.integer({ min: 1, max: 10 }));
+  const storeProduct = (await createStoreProducts(1)).first();
   const productPrice = Map({
     name: uuid(),
     description: uuid(),
@@ -26,14 +28,15 @@ export const createProductPriceInfo = async () => {
     special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
     storeId: store.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
+    storeProductId: storeProduct.get('id'),
   });
 
-  return { productPrice, store, tags };
+  return { productPrice, store, tags, storeProduct };
 };
 
 export const createProductPrice = async object => ProductPrice.spawn(object || (await createProductPriceInfo()).productPrice);
 
-export const expectProductPrice = (object, expectedObject, { productPriceId, expectedStore, expectedTags } = {}) => {
+export const expectProductPrice = (object, expectedObject, { productPriceId, expectedStore, expectedTags, expectedStoreProduct } = {}) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('priceDetails')).toEqual(expectedObject.get('priceDetails'));
@@ -54,6 +57,10 @@ export const expectProductPrice = (object, expectedObject, { productPriceId, exp
 
   if (expectedTags) {
     expect(object.get('tags')).toEqual(expectedTags);
+  }
+
+  if (expectedStoreProduct) {
+    expect(object.get('storeProductId')).toBe(expectedStoreProduct.get('id'));
   }
 };
 
