@@ -17,6 +17,7 @@ export default class StapleItem extends BaseObject {
     object.set('name', info.get('name'));
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
+    object.set('popular', info.get('popular'));
     object.set('addedByUser', info.has('addedByUser') ? info.get('addedByUser') : false);
 
     if (info.has('userId')) {
@@ -74,6 +75,7 @@ export default class StapleItem extends BaseObject {
       name: this.getObject().get('name'),
       description: this.getObject().get('description'),
       imageUrl: this.getObject().get('imageUrl'),
+      popular: this.getObject().get('popular'),
       addedByUser: this.getObject().get('addedByUser'),
       user,
       userId: user ? user.id : undefined,

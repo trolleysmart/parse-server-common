@@ -16,6 +16,7 @@ export const createStapleTemplateItemInfo = async () => {
     name: uuid(),
     description: uuid(),
     imageUrl: uuid(),
+    popular: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
     stapleTemplateIds: stapleTemplates.map(stapleTemplate => stapleTemplate.get('id')),
     tagIds: tags.map(tag => tag.get('id')),
   });
@@ -29,6 +30,7 @@ export const expectStapleTemplateItem = (object, expectedObject, { stapleTemplat
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
+  expect(object.get('popular')).toBe(expectedObject.get('popular'));
 
   if (stapleTemplateItemId) {
     expect(object.get('id')).toBe(stapleTemplateItemId);

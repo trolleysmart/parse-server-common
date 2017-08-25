@@ -11,7 +11,7 @@ const chance = new Chance();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'description', 'imageUrl', 'stapleTemplates', 'tags'),
+    fields: List.of('name', 'description', 'imageUrl', 'popular', 'stapleTemplates', 'tags'),
     includeStapleTemplates: true,
     includeTags: true,
   });
@@ -22,6 +22,7 @@ const createCriteria = stapleTemplateItem =>
       name: stapleTemplateItem ? stapleTemplateItem.get('name') : uuid(),
       description: stapleTemplateItem ? stapleTemplateItem.get('description') : uuid(),
       imageUrl: stapleTemplateItem ? stapleTemplateItem.get('imageUrl') : uuid(),
+      popular: stapleTemplateItem ? stapleTemplateItem.get('popular') : chance.integer({ min: 0, max: 1000 }) % 2 === 0,
       stapleTemplateIds: stapleTemplateItem ? stapleTemplateItem.get('stapleTemplateIds') : List.of(uuid(), uuid()),
       tagIds: stapleTemplateItem ? stapleTemplateItem.get('tagIds') : List.of(uuid(), uuid()),
     }),
