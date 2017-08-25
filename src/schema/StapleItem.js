@@ -1,7 +1,7 @@
 // @flow
 
 import Immutable, { List, Map } from 'immutable';
-import { BaseObject } from 'micro-business-parse-server-common';
+import { BaseObject, ParseWrapperService } from 'micro-business-parse-server-common';
 import Tag from './Tag';
 
 export default class StapleItem extends BaseObject {
@@ -18,6 +18,20 @@ export default class StapleItem extends BaseObject {
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
     object.set('addedByUser', info.has('addedByUser') ? info.get('addedByUser') : false);
+
+    if (info.has('userId')) {
+      const userId = info.get('userId');
+
+      if (userId) {
+        object.set('user', ParseWrapperService.createUserWithoutData(userId));
+      }
+    } else if (info.has('user')) {
+      const user = info.get('user');
+
+      if (user) {
+        object.set('user', user);
+      }
+    }
 
     if (info.has('tagIds')) {
       const tagIds = info.get('tagIds');
@@ -51,6 +65,7 @@ export default class StapleItem extends BaseObject {
   };
 
   getInfo = () => {
+    const user = this.getObject().get('user');
     const tagObjects = this.getObject().get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
 
@@ -60,6 +75,8 @@ export default class StapleItem extends BaseObject {
       description: this.getObject().get('description'),
       imageUrl: this.getObject().get('imageUrl'),
       addedByUser: this.getObject().get('addedByUser'),
+      user,
+      userId: user ? user.id : undefined,
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });

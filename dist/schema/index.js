@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.UserFeedback = exports.Tag = exports.StoreTag = exports.StoreProduct = exports.Store = exports.StapleTemplateItem = exports.StapleTemplate = exports.ProductPrice = exports.CrawlSession = exports.CrawlResult = undefined;
+exports.UserFeedback = exports.Tag = exports.StoreTag = exports.StoreProduct = exports.Store = exports.StapleTemplateItem = exports.StapleTemplate = exports.StapleItem = exports.ProductPrice = exports.CrawlSession = exports.CrawlResult = undefined;
 
 var _CrawlResult2 = require('./CrawlResult');
 
@@ -16,6 +16,10 @@ var _CrawlSession3 = _interopRequireDefault(_CrawlSession2);
 var _ProductPrice2 = require('./ProductPrice');
 
 var _ProductPrice3 = _interopRequireDefault(_ProductPrice2);
+
+var _StapleItem2 = require('./StapleItem');
+
+var _StapleItem3 = _interopRequireDefault(_StapleItem2);
 
 var _StapleTemplate2 = require('./StapleTemplate');
 
@@ -52,6 +56,7 @@ function _interopRequireDefault(obj) {
 exports.CrawlResult = _CrawlResult3.default;
 exports.CrawlSession = _CrawlSession3.default;
 exports.ProductPrice = _ProductPrice3.default;
+exports.StapleItem = _StapleItem3.default;
 exports.StapleTemplate = _StapleTemplate3.default;
 exports.StapleTemplateItem = _StapleTemplateItem3.default;
 exports.Store = _Store3.default;

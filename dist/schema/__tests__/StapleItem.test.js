@@ -3,7 +3,11 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.expectUserFeedback = exports.createUserFeedback = exports.createUserFeedbackInfo = undefined;
+exports.expectStapleItem = exports.createStapleItem = exports.createStapleItemInfo = undefined;
+
+var _chance = require('chance');
+
+var _chance2 = _interopRequireDefault(_chance);
 
 var _immutable = require('immutable');
 
@@ -16,6 +20,10 @@ var _v2 = _interopRequireDefault(_v);
 require('../../../bootstrap');
 
 var _ = require('../');
+
+var _TagService = require('../../services/__tests__/TagService.test');
+
+var _TagService2 = _interopRequireDefault(_TagService);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -51,34 +59,46 @@ function _asyncToGenerator(fn) {
   };
 }
 
-var createUserFeedbackInfo = (exports.createUserFeedbackInfo = (function() {
+var chance = new _chance2.default();
+
+var createStapleItemInfo = (exports.createStapleItemInfo = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee() {
-      var username, user, userSignUpResult, userId, userFeedback;
+      var tags, username, user, userSignUpResult, userId, stapleItem;
       return regeneratorRuntime.wrap(
         function _callee$(_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
+                _context.next = 2;
+                return (0, _TagService2.default)(chance.integer({ min: 1, max: 10 }));
+
+              case 2:
+                tags = _context.sent;
                 username = (0, _v2.default)() + '@email.com';
                 user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
 
                 user.setUsername(username);
                 user.setPassword('123456');
 
-                _context.next = 6;
+                _context.next = 9;
                 return user.signUp();
 
-              case 6:
+              case 9:
                 userSignUpResult = _context.sent;
                 userId = userSignUpResult.id;
-                userFeedback = (0, _immutable.Map)({
+                stapleItem = (0, _immutable.Map)({
+                  name: (0, _v2.default)(),
+                  description: (0, _v2.default)(),
+                  imageUrl: (0, _v2.default)(),
                   userId: userId,
-                  feedback: (0, _immutable.Map)({ info1: (0, _v2.default)(), info2: (0, _v2.default)() }),
+                  tagIds: tags.map(function(tag) {
+                    return tag.get('id');
+                  }),
                 });
-                return _context.abrupt('return', { userFeedback: userFeedback, user: userSignUpResult });
+                return _context.abrupt('return', { stapleItem: stapleItem, user: userSignUpResult, tags: tags });
 
-              case 10:
+              case 13:
               case 'end':
                 return _context.stop();
             }
@@ -90,12 +110,12 @@ var createUserFeedbackInfo = (exports.createUserFeedbackInfo = (function() {
     }),
   );
 
-  return function createUserFeedbackInfo() {
+  return function createStapleItemInfo() {
     return _ref.apply(this, arguments);
   };
 })());
 
-var createUserFeedback = (exports.createUserFeedback = (function() {
+var createStapleItem = (exports.createStapleItem = (function() {
   var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(object) {
       return regeneratorRuntime.wrap(
@@ -103,7 +123,7 @@ var createUserFeedback = (exports.createUserFeedback = (function() {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                _context2.t0 = _.UserFeedback;
+                _context2.t0 = _.StapleItem;
                 _context2.t1 = object;
 
                 if (_context2.t1) {
@@ -112,10 +132,10 @@ var createUserFeedback = (exports.createUserFeedback = (function() {
                 }
 
                 _context2.next = 5;
-                return createUserFeedbackInfo();
+                return createStapleItemInfo();
 
               case 5:
-                _context2.t1 = _context2.sent.userFeedback;
+                _context2.t1 = _context2.sent.stapleItem;
 
               case 6:
                 _context2.t2 = _context2.t1;
@@ -133,20 +153,27 @@ var createUserFeedback = (exports.createUserFeedback = (function() {
     }),
   );
 
-  return function createUserFeedback(_x) {
+  return function createStapleItem(_x) {
     return _ref2.apply(this, arguments);
   };
 })());
 
-var expectUserFeedback = (exports.expectUserFeedback = function expectUserFeedback(object, expectedObject) {
+var expectStapleItem = (exports.expectStapleItem = function expectStapleItem(object, expectedObject) {
   var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-    userFeedbackId = _ref3.userFeedbackId;
+    stapleItemId = _ref3.stapleItemId,
+    expectedTags = _ref3.expectedTags;
 
+  expect(object.get('name')).toBe(expectedObject.get('name'));
+  expect(object.get('description')).toBe(expectedObject.get('description'));
+  expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
-  expect(object.get('feedback')).toEqual(expectedObject.get('feedback'));
 
-  if (userFeedbackId) {
-    expect(object.get('id')).toBe(userFeedbackId);
+  if (stapleItemId) {
+    expect(object.get('id')).toBe(stapleItemId);
+  }
+
+  if (expectedTags) {
+    expect(object.get('tags')).toEqual(expectedTags);
   }
 });
 
@@ -162,11 +189,11 @@ describe('constructor', function() {
                 case 0:
                   _context3.t0 = expect;
                   _context3.next = 3;
-                  return createUserFeedback();
+                  return createStapleItem();
 
                 case 3:
                   _context3.t1 = _context3.sent.className;
-                  (0, _context3.t0)(_context3.t1).toBe('UserFeedback');
+                  (0, _context3.t0)(_context3.t1).toBe('StapleItem');
 
                 case 5:
                 case 'end':
@@ -187,7 +214,7 @@ describe('static public methods', function() {
     'spawn should set provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee4() {
-        var _ref6, userFeedback, object, info;
+        var _ref6, stapleItem, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee4$(_context4) {
@@ -195,19 +222,19 @@ describe('static public methods', function() {
               switch ((_context4.prev = _context4.next)) {
                 case 0:
                   _context4.next = 2;
-                  return createUserFeedbackInfo();
+                  return createStapleItemInfo();
 
                 case 2:
                   _ref6 = _context4.sent;
-                  userFeedback = _ref6.userFeedback;
+                  stapleItem = _ref6.stapleItem;
                   _context4.next = 6;
-                  return createUserFeedback(userFeedback);
+                  return createStapleItem(stapleItem);
 
                 case 6:
                   object = _context4.sent;
                   info = object.getInfo();
 
-                  expectUserFeedback(info, userFeedback);
+                  expectStapleItem(info, stapleItem);
 
                 case 9:
                 case 'end':
@@ -235,12 +262,12 @@ describe('public methods', function() {
               switch ((_context5.prev = _context5.next)) {
                 case 0:
                   _context5.next = 2;
-                  return createUserFeedback();
+                  return createStapleItem();
 
                 case 2:
                   object = _context5.sent;
 
-                  expect(new _.UserFeedback(object).getObject()).toBe(object);
+                  expect(new _.StapleItem(object).getObject()).toBe(object);
 
                 case 4:
                 case 'end':
@@ -266,12 +293,12 @@ describe('public methods', function() {
               switch ((_context6.prev = _context6.next)) {
                 case 0:
                   _context6.next = 2;
-                  return createUserFeedback();
+                  return createStapleItem();
 
                 case 2:
                   object = _context6.sent;
 
-                  expect(new _.UserFeedback(object).getId()).toBe(object.id);
+                  expect(new _.StapleItem(object).getId()).toBe(object.id);
 
                 case 4:
                 case 'end':
@@ -290,7 +317,7 @@ describe('public methods', function() {
     'updateInfo should update object info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee7() {
-        var object, _ref10, updatedUserFeedback, info;
+        var object, _ref10, updatedStapleItem, info;
 
         return regeneratorRuntime.wrap(
           function _callee7$(_context7) {
@@ -298,22 +325,22 @@ describe('public methods', function() {
               switch ((_context7.prev = _context7.next)) {
                 case 0:
                   _context7.next = 2;
-                  return createUserFeedback();
+                  return createStapleItem();
 
                 case 2:
                   object = _context7.sent;
                   _context7.next = 5;
-                  return createUserFeedbackInfo();
+                  return createStapleItemInfo();
 
                 case 5:
                   _ref10 = _context7.sent;
-                  updatedUserFeedback = _ref10.userFeedback;
+                  updatedStapleItem = _ref10.stapleItem;
 
-                  object.updateInfo(updatedUserFeedback);
+                  object.updateInfo(updatedStapleItem);
 
                   info = object.getInfo();
 
-                  expectUserFeedback(info, updatedUserFeedback);
+                  expectStapleItem(info, updatedStapleItem);
 
                 case 10:
                 case 'end':
@@ -332,7 +359,7 @@ describe('public methods', function() {
     'getInfo should return provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee8() {
-        var _ref12, userFeedback, object, info;
+        var _ref12, stapleItem, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee8$(_context8) {
@@ -340,20 +367,20 @@ describe('public methods', function() {
               switch ((_context8.prev = _context8.next)) {
                 case 0:
                   _context8.next = 2;
-                  return createUserFeedbackInfo();
+                  return createStapleItemInfo();
 
                 case 2:
                   _ref12 = _context8.sent;
-                  userFeedback = _ref12.userFeedback;
+                  stapleItem = _ref12.stapleItem;
                   _context8.next = 6;
-                  return createUserFeedback(userFeedback);
+                  return createStapleItem(stapleItem);
 
                 case 6:
                   object = _context8.sent;
                   info = object.getInfo();
 
                   expect(info.get('id')).toBe(object.getId());
-                  expectUserFeedback(info, userFeedback);
+                  expectStapleItem(info, stapleItem);
 
                 case 10:
                 case 'end':

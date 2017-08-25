@@ -168,7 +168,7 @@ describe('search', () => {
   test('should return the store product matches the criteria', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 1, max: 1 })).map(async () => StoreProductService.create(expectedStoreProduct)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 1, max: 10 })).map(async () => StoreProductService.create(expectedStoreProduct)).toArray()),
     );
     const storeProducts = await StoreProductService.search(createCriteria(expectedStoreProduct));
 

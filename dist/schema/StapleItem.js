@@ -71,6 +71,20 @@ StapleItem.updateInfoInternal = function(object, info) {
   object.set('imageUrl', info.get('imageUrl'));
   object.set('addedByUser', info.has('addedByUser') ? info.get('addedByUser') : false);
 
+  if (info.has('userId')) {
+    var userId = info.get('userId');
+
+    if (userId) {
+      object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(userId));
+    }
+  } else if (info.has('user')) {
+    var user = info.get('user');
+
+    if (user) {
+      object.set('user', user);
+    }
+  }
+
   if (info.has('tagIds')) {
     var tagIds = info.get('tagIds');
 
@@ -109,6 +123,7 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function() {
+    var user = _this2.getObject().get('user');
     var tagObjects = _this2.getObject().get('tags');
     var tags = tagObjects
       ? _immutable2.default.fromJS(tagObjects).map(function(tag) {
@@ -122,6 +137,8 @@ var _initialiseProps = function _initialiseProps() {
       description: _this2.getObject().get('description'),
       imageUrl: _this2.getObject().get('imageUrl'),
       addedByUser: _this2.getObject().get('addedByUser'),
+      user: user,
+      userId: user ? user.id : undefined,
       tags: tags,
       tagIds: tags
         ? tags.map(function(tag) {

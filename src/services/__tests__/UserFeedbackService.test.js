@@ -86,7 +86,7 @@ describe('read', () => {
     const userFeedbackId = await UserFeedbackService.create(expectedUserFeedback);
     const userFeedback = await UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
-    expectUserFeedback(userFeedback, expectedUserFeedback);
+    expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId });
   });
 });
 
@@ -122,7 +122,7 @@ describe('update', () => {
 
     const userFeedback = await UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
-    expectUserFeedback(userFeedback, expectedUserFeedback);
+    expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId });
   });
 });
 
@@ -166,7 +166,7 @@ describe('search', () => {
     expect(userFeedbacks.count).toBe(results.count);
     userFeedbacks.forEach((userFeedback) => {
       expect(results.find(_ => _.localeCompare(userFeedback.get('id')) === 0)).toBeDefined();
-      expectUserFeedback(userFeedback, expectedUserFeedback);
+      expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id') });
     });
   });
 });
@@ -211,7 +211,7 @@ describe('searchAll', () => {
     expect(userFeedbacks.count).toBe(results.count);
     userFeedbacks.forEach((userFeedback) => {
       expect(results.find(_ => _.localeCompare(userFeedback.get('id')) === 0)).toBeDefined();
-      expectUserFeedback(userFeedback, expectedUserFeedback);
+      expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId: userFeedback.get('id') });
     });
   });
 });
