@@ -13,8 +13,21 @@ export default class UserFeedback extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('user', ParseWrapperService.createUserWithoutData(info.get('userId')));
     object.set('feedback', info.get('feedback').toJS());
+
+    if (info.has('userId')) {
+      const userId = info.get('userId');
+
+      if (userId) {
+        object.set('user', ParseWrapperService.createUserWithoutData(userId));
+      }
+    } else if (info.has('user')) {
+      const user = info.get('user');
+
+      if (user) {
+        object.set('user', user);
+      }
+    }
   };
 
   constructor(object) {

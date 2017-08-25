@@ -11,7 +11,7 @@ const chance = new Chance();
 
 export const createStoreProductInfo = async () => {
   const store = (await createStores(1)).first();
-  const storeTags = await createStoreTags(chance.integer({ min: 1, max: 10 }));
+  const storeTags = await createStoreTags(chance.integer({ min: 1, max: 1 }));
   const storeProduct = Map({
     name: uuid(),
     description: uuid(),
@@ -48,7 +48,7 @@ export const expectStoreProduct = (object, expectedObject, { storeProductId, exp
   }
 
   if (expectedStoreTags) {
-    expect(object.get('storeTags')).toEqual(expectedStoreTags);
+    expect(object.get('storeTagIds')).toEqual(expectedStoreTags.map(_ => _.get('id')));
   }
 };
 

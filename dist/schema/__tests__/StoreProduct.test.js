@@ -15,7 +15,7 @@ var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
-var _ = require('../');
+var _2 = require('../');
 
 var _StoreService = require('../../services/__tests__/StoreService.test');
 
@@ -76,7 +76,7 @@ var createStoreProductInfo = (exports.createStoreProductInfo = (function() {
               case 2:
                 store = _context.sent.first();
                 _context.next = 5;
-                return (0, _StoreTagService2.default)(chance.integer({ min: 1, max: 10 }));
+                return (0, _StoreTagService2.default)(chance.integer({ min: 1, max: 1 }));
 
               case 5:
                 storeTags = _context.sent;
@@ -121,7 +121,7 @@ var createStoreProduct = (exports.createStoreProduct = (function() {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                _context2.t0 = _.StoreProduct;
+                _context2.t0 = _2.StoreProduct;
                 _context2.t1 = object;
 
                 if (_context2.t1) {
@@ -179,7 +179,11 @@ var expectStoreProduct = (exports.expectStoreProduct = function expectStoreProdu
   }
 
   if (expectedStoreTags) {
-    expect(object.get('storeTags')).toEqual(expectedStoreTags);
+    expect(object.get('storeTagIds')).toEqual(
+      expectedStoreTags.map(function(_) {
+        return _.get('id');
+      }),
+    );
   }
 });
 
@@ -273,7 +277,7 @@ describe('public methods', function() {
                 case 2:
                   object = _context5.sent;
 
-                  expect(new _.StoreProduct(object).getObject()).toBe(object);
+                  expect(new _2.StoreProduct(object).getObject()).toBe(object);
 
                 case 4:
                 case 'end':
@@ -304,7 +308,7 @@ describe('public methods', function() {
                 case 2:
                   object = _context6.sent;
 
-                  expect(new _.StoreProduct(object).getId()).toBe(object.id);
+                  expect(new _2.StoreProduct(object).getId()).toBe(object.id);
 
                 case 4:
                 case 'end':

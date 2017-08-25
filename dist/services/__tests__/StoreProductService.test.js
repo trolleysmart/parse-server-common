@@ -681,7 +681,7 @@ describe('search', function() {
                   _context14.t0 = _immutable2.default;
                   _context14.next = 9;
                   return Promise.all(
-                    (0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 }))
+                    (0, _immutable.Range)(0, chance.integer({ min: 1, max: 1 }))
                       .map(
                         _asyncToGenerator(
                           regeneratorRuntime.mark(function _callee13() {
