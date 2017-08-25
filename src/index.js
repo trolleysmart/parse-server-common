@@ -4,6 +4,7 @@ export {
   CrawlResult,
   CrawlSession,
   ProductPrice,
+  ShoppingList,
   StapleItem,
   StapleTemplate,
   StapleTemplateItem,

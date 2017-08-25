@@ -24,6 +24,12 @@ Object.defineProperty(exports, 'ProductPrice', {
     return _schema.ProductPrice;
   },
 });
+Object.defineProperty(exports, 'ShoppingList', {
+  enumerable: true,
+  get: function get() {
+    return _schema.ShoppingList;
+  },
+});
 Object.defineProperty(exports, 'StapleItem', {
   enumerable: true,
   get: function get() {
