@@ -63,23 +63,7 @@ export default class StapleItemService extends ServiceBase {
     ServiceBase.addEqualityQuery(conditions, query, 'popular', 'popular');
     ServiceBase.addEqualityQuery(conditions, query, 'addedByUser', 'addedByUser');
     ServiceBase.addLinkQuery(conditions, query, 'stapleTemplate', 'stapleTemplates', StapleTemplate);
-
-    if (conditions.has('userId')) {
-      const value = conditions.get('userId');
-
-      if (value) {
-        query.equalTo('user', ParseWrapperService.createUserWithoutData(value));
-      }
-    }
-
-    if (conditions.has('user')) {
-      const value = conditions.get('user');
-
-      if (value) {
-        query.equalTo('user', value);
-      }
-    }
-
+    ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
 
     return query;

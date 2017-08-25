@@ -51,21 +51,7 @@ export default class UserFeedbackService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    if (conditions.has('userId')) {
-      const value = conditions.get('userId');
-
-      if (value) {
-        query.equalTo('user', ParseWrapperService.createUserWithoutData(value));
-      }
-    }
-
-    if (conditions.has('user')) {
-      const value = conditions.get('user');
-
-      if (value) {
-        query.equalTo('user', value);
-      }
-    }
+    ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
 
     return query;
   };

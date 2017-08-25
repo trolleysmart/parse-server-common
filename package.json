@@ -22,7 +22,7 @@
     "bluebird": "^3.5.0",
     "immutable": "^3.8.1",
     "micro-business-common-javascript": "^1.0.0-alpha.3",
-    "micro-business-parse-server-common": "1.0.2-alpha.13"
+    "micro-business-parse-server-common": "1.0.2-alpha.14"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

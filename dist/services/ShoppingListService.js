@@ -61,21 +61,21 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var UserFeedbackService = (function(_ServiceBase) {
-  _inherits(UserFeedbackService, _ServiceBase);
+var ShoppingListService = (function(_ServiceBase) {
+  _inherits(ShoppingListService, _ServiceBase);
 
-  function UserFeedbackService() {
-    _classCallCheck(this, UserFeedbackService);
+  function ShoppingListService() {
+    _classCallCheck(this, ShoppingListService);
 
-    return _possibleConstructorReturn(this, (UserFeedbackService.__proto__ || Object.getPrototypeOf(UserFeedbackService)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ShoppingListService.__proto__ || Object.getPrototypeOf(ShoppingListService)).apply(this, arguments));
   }
 
-  return UserFeedbackService;
+  return ShoppingListService;
 })(_microBusinessParseServerCommon.ServiceBase);
 
-UserFeedbackService.messagePrefix = 'No user feedback found with Id: ';
+ShoppingListService.messagePrefix = 'No shopping list found with Id: ';
 
-UserFeedbackService.create = (function() {
+ShoppingListService.create = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee(info, acl, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -83,7 +83,7 @@ UserFeedbackService.create = (function() {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
-                return _context.abrupt('return', _microBusinessParseServerCommon.ServiceBase.create(_schema.UserFeedback, info, acl, sessionToken));
+                return _context.abrupt('return', _microBusinessParseServerCommon.ServiceBase.create(_schema.ShoppingList, info, acl, sessionToken));
 
               case 1:
               case 'end':
@@ -102,7 +102,7 @@ UserFeedbackService.create = (function() {
   };
 })();
 
-UserFeedbackService.read = (function() {
+ShoppingListService.read = (function() {
   var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(id, criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -113,12 +113,12 @@ UserFeedbackService.read = (function() {
                 return _context2.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.read(
-                    _schema.UserFeedback,
+                    _schema.ShoppingList,
                     id,
                     sessionToken,
-                    UserFeedbackService.messagePrefix,
+                    ShoppingListService.messagePrefix,
                     function(query) {
-                      return UserFeedbackService.buildIncludeQuery(query, criteria);
+                      return ShoppingListService.buildIncludeQuery(query, criteria);
                     },
                   ),
                 );
@@ -140,7 +140,7 @@ UserFeedbackService.read = (function() {
   };
 })();
 
-UserFeedbackService.update = (function() {
+ShoppingListService.update = (function() {
   var _ref3 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee3(info, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -150,7 +150,7 @@ UserFeedbackService.update = (function() {
               case 0:
                 return _context3.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.update(_schema.UserFeedback, info, sessionToken, UserFeedbackService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.update(_schema.ShoppingList, info, sessionToken, ShoppingListService.messagePrefix),
                 );
 
               case 1:
@@ -170,7 +170,7 @@ UserFeedbackService.update = (function() {
   };
 })();
 
-UserFeedbackService.delete = (function() {
+ShoppingListService.delete = (function() {
   var _ref4 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee4(id, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -180,7 +180,7 @@ UserFeedbackService.delete = (function() {
               case 0:
                 return _context4.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.delete(_schema.UserFeedback, id, sessionToken, UserFeedbackService.messagePrefix),
+                  _microBusinessParseServerCommon.ServiceBase.delete(_schema.ShoppingList, id, sessionToken, ShoppingListService.messagePrefix),
                 );
 
               case 1:
@@ -200,7 +200,7 @@ UserFeedbackService.delete = (function() {
   };
 })();
 
-UserFeedbackService.search = (function() {
+ShoppingListService.search = (function() {
   var _ref5 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee5(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -211,8 +211,8 @@ UserFeedbackService.search = (function() {
                 return _context5.abrupt(
                   'return',
                   _microBusinessParseServerCommon.ServiceBase.search(
-                    _schema.UserFeedback,
-                    UserFeedbackService.buildSearchQuery,
+                    _schema.ShoppingList,
+                    ShoppingListService.buildSearchQuery,
                     criteria,
                     sessionToken,
                   ),
@@ -235,11 +235,11 @@ UserFeedbackService.search = (function() {
   };
 })();
 
-UserFeedbackService.searchAll = function(criteria, sessionToken) {
-  return _microBusinessParseServerCommon.ServiceBase.searchAll(_schema.UserFeedback, UserFeedbackService.buildSearchQuery, criteria, sessionToken);
+ShoppingListService.searchAll = function(criteria, sessionToken) {
+  return _microBusinessParseServerCommon.ServiceBase.searchAll(_schema.ShoppingList, ShoppingListService.buildSearchQuery, criteria, sessionToken);
 };
 
-UserFeedbackService.count = (function() {
+ShoppingListService.count = (function() {
   var _ref6 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee6(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -249,7 +249,7 @@ UserFeedbackService.count = (function() {
               case 0:
                 return _context6.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.count(UserFeedbackService.buildSearchQuery, criteria, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.count(ShoppingListService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -269,7 +269,7 @@ UserFeedbackService.count = (function() {
   };
 })();
 
-UserFeedbackService.exists = (function() {
+ShoppingListService.exists = (function() {
   var _ref7 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee7(criteria, sessionToken) {
       return regeneratorRuntime.wrap(
@@ -279,7 +279,7 @@ UserFeedbackService.exists = (function() {
               case 0:
                 return _context7.abrupt(
                   'return',
-                  _microBusinessParseServerCommon.ServiceBase.exists(UserFeedbackService.buildSearchQuery, criteria, sessionToken),
+                  _microBusinessParseServerCommon.ServiceBase.exists(ShoppingListService.buildSearchQuery, criteria, sessionToken),
                 );
 
               case 1:
@@ -299,7 +299,7 @@ UserFeedbackService.exists = (function() {
   };
 })();
 
-UserFeedbackService.buildIncludeQuery = function(query, criteria) {
+ShoppingListService.buildIncludeQuery = function(query, criteria) {
   if (!criteria) {
     return query;
   }
@@ -312,12 +312,20 @@ UserFeedbackService.buildIncludeQuery = function(query, criteria) {
     }
   }
 
+  if (criteria.has('includeSharedWithUsers')) {
+    var _value = criteria.get('SharedWithUsersinclude');
+
+    if (_value) {
+      query.include('sharedWithUsers');
+    }
+  }
+
   return query;
 };
 
-UserFeedbackService.buildSearchQuery = function(criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.UserFeedback, criteria);
-  var query = UserFeedbackService.buildIncludeQuery(queryWithoutIncludes, criteria);
+ShoppingListService.buildSearchQuery = function(criteria) {
+  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList, criteria);
+  var query = ShoppingListService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
     return query;
@@ -325,9 +333,11 @@ UserFeedbackService.buildSearchQuery = function(criteria) {
 
   var conditions = criteria.get('conditions');
 
+  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
+  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'sharedWithUser', 'sharedWithUsers');
 
   return query;
 };
 
-exports.default = UserFeedbackService;
+exports.default = ShoppingListService;
