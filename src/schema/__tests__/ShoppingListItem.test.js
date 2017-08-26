@@ -33,7 +33,7 @@ export const createShoppingListItemInfo = async () => {
     imageUrl: uuid(),
     userId: userSignUpResult.id,
     shoppingListId: shoppingList.get('id'),
-    productPricesId: productPrice.get('id'),
+    productPriceId: productPrice.get('id'),
     stapleItemId: stapleItem.get('id'),
     storeId: store.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
@@ -69,15 +69,15 @@ export const expectShoppingListItem = (
   }
 
   if (expectedShoppingList) {
-    expect(object.get('shoppingList')).toEqual(expectedShoppingList);
+    expect(object.getIn(['shoppingList', 'id'])).toBe(expectedShoppingList.get('id'));
   }
 
   if (expectedProductPrice) {
-    expect(object.get('productPrice')).toEqual(expectedProductPrice);
+    expect(object.getIn(['productPrice', 'id'])).toBe(expectedProductPrice.get('id'));
   }
 
   if (expectedStapleItem) {
-    expect(object.get('stapleItem')).toEqual(expectedStapleItem);
+    expect(object.getIn(['stapleItem', 'id'])).toBe(expectedStapleItem.get('id'));
   }
 
   if (expectedStore) {
