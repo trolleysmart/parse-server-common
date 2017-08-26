@@ -29,6 +29,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var chance = new _chance2.default();
+var storeService = new _2.StoreService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
@@ -133,9 +134,9 @@ var createStores = function () {
                       finalStore = _tempStore;
 
                     case 10:
-                      _context.t0 = _2.StoreService;
+                      _context.t0 = storeService;
                       _context.next = 13;
-                      return _2.StoreService.create(createParentStore ? finalStore.merge((0, _immutable.Map)({ parentStoreId: parentStore.get('id') })) : finalStore);
+                      return storeService.create(createParentStore ? finalStore.merge((0, _immutable.Map)({ parentStoreId: parentStore.get('id') })) : finalStore);
 
                     case 13:
                       _context.t1 = _context.sent;
@@ -177,7 +178,7 @@ describe('create', function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.t0 = _2.StoreService;
+            _context3.t0 = storeService;
             _context3.next = 3;
             return (0, _Store.createStoreInfo)();
 
@@ -214,12 +215,12 @@ describe('create', function () {
             _ref7 = _context4.sent;
             store = _ref7.store;
             _context4.next = 6;
-            return _2.StoreService.create(store);
+            return storeService.create(store);
 
           case 6:
             storeId = _context4.sent;
             _context4.next = 9;
-            return _2.StoreService.read(storeId, createCriteriaWthoutConditions());
+            return storeService.read(storeId, createCriteriaWthoutConditions());
 
           case 9:
             fetchedStore = _context4.sent;
@@ -246,7 +247,7 @@ describe('read', function () {
             storeId = (0, _v2.default)();
             _context5.prev = 1;
             _context5.next = 4;
-            return _2.StoreService.read(storeId);
+            return storeService.read(storeId);
 
           case 4:
             _context5.next = 9;
@@ -280,7 +281,7 @@ describe('read', function () {
             _ref10 = _context6.sent;
             parentStore = _ref10.store;
             _context6.next = 6;
-            return _2.StoreService.create(parentStore);
+            return storeService.create(parentStore);
 
           case 6:
             parentStoreId = _context6.sent;
@@ -291,12 +292,12 @@ describe('read', function () {
             _ref11 = _context6.sent;
             expectedStore = _ref11.store;
             _context6.next = 13;
-            return _2.StoreService.create(expectedStore);
+            return storeService.create(expectedStore);
 
           case 13:
             storeId = _context6.sent;
             _context6.next = 16;
-            return _2.StoreService.read(storeId, createCriteriaWthoutConditions());
+            return storeService.read(storeId, createCriteriaWthoutConditions());
 
           case 16:
             store = _context6.sent;
@@ -322,8 +323,8 @@ describe('update', function () {
           case 0:
             storeId = (0, _v2.default)();
             _context7.prev = 1;
-            _context7.t0 = _2.StoreService;
-            _context7.t1 = _2.StoreService;
+            _context7.t0 = storeService;
+            _context7.t1 = storeService;
             _context7.next = 6;
             return (0, _Store.createStoreInfo)();
 
@@ -341,7 +342,7 @@ describe('update', function () {
           case 13:
             store = _context7.sent;
             _context7.next = 16;
-            return _2.StoreService.update(store.set('id', storeId));
+            return storeService.update(store.set('id', storeId));
 
           case 16:
             _context7.next = 21;
@@ -374,7 +375,7 @@ describe('update', function () {
           case 2:
             _ref14 = _context8.sent;
             expectedStore = _ref14.store;
-            _context8.t0 = _2.StoreService;
+            _context8.t0 = storeService;
             _context8.next = 7;
             return (0, _Store.createStoreInfo)();
 
@@ -386,7 +387,7 @@ describe('update', function () {
           case 10:
             storeId = _context8.sent;
             _context8.next = 13;
-            return _2.StoreService.update(expectedStore.set('id', storeId));
+            return storeService.update(expectedStore.set('id', storeId));
 
           case 13:
             id = _context8.sent;
@@ -416,7 +417,7 @@ describe('update', function () {
             _ref16 = _context9.sent;
             parentStore = _ref16.store;
             _context9.next = 6;
-            return _2.StoreService.create(parentStore);
+            return storeService.create(parentStore);
 
           case 6:
             parentStoreId = _context9.sent;
@@ -426,7 +427,7 @@ describe('update', function () {
           case 9:
             _ref17 = _context9.sent;
             expectedStore = _ref17.store;
-            _context9.t0 = _2.StoreService;
+            _context9.t0 = storeService;
             _context9.next = 14;
             return (0, _Store.createStoreInfo)();
 
@@ -438,11 +439,11 @@ describe('update', function () {
           case 17:
             storeId = _context9.sent;
             _context9.next = 20;
-            return _2.StoreService.update(expectedStore.set('id', storeId));
+            return storeService.update(expectedStore.set('id', storeId));
 
           case 20:
             _context9.next = 22;
-            return _2.StoreService.read(storeId, createCriteriaWthoutConditions());
+            return storeService.read(storeId, createCriteriaWthoutConditions());
 
           case 22:
             store = _context9.sent;
@@ -469,7 +470,7 @@ describe('delete', function () {
             storeId = (0, _v2.default)();
             _context10.prev = 1;
             _context10.next = 4;
-            return _2.StoreService.delete(storeId);
+            return storeService.delete(storeId);
 
           case 4:
             _context10.next = 9;
@@ -495,7 +496,7 @@ describe('delete', function () {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.t0 = _2.StoreService;
+            _context11.t0 = storeService;
             _context11.next = 3;
             return (0, _Store.createStoreInfo)();
 
@@ -507,12 +508,12 @@ describe('delete', function () {
           case 6:
             storeId = _context11.sent;
             _context11.next = 9;
-            return _2.StoreService.delete(storeId);
+            return storeService.delete(storeId);
 
           case 9:
             _context11.prev = 9;
             _context11.next = 12;
-            return _2.StoreService.delete(storeId);
+            return storeService.delete(storeId);
 
           case 12:
             _context11.next = 17;
@@ -541,7 +542,7 @@ describe('search', function () {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.next = 2;
-            return _2.StoreService.search(createCriteria());
+            return storeService.search(createCriteria());
 
           case 2:
             stores = _context12.sent;
@@ -571,7 +572,7 @@ describe('search', function () {
             _ref22 = _context14.sent;
             parentStore = _ref22.store;
             _context14.next = 6;
-            return _2.StoreService.create(parentStore);
+            return storeService.create(parentStore);
 
           case 6:
             parentStoreId = _context14.sent;
@@ -588,7 +589,7 @@ describe('search', function () {
                 while (1) {
                   switch (_context13.prev = _context13.next) {
                     case 0:
-                      return _context13.abrupt('return', _2.StoreService.create(expectedStore));
+                      return _context13.abrupt('return', storeService.create(expectedStore));
 
                     case 1:
                     case 'end':
@@ -602,7 +603,7 @@ describe('search', function () {
             _context14.t1 = _context14.sent;
             results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
             _context14.next = 18;
-            return _2.StoreService.search(createCriteria(expectedStore));
+            return storeService.search(createCriteria(expectedStore));
 
           case 18:
             stores = _context14.sent;
@@ -633,7 +634,7 @@ describe('searchAll', function () {
         switch (_context15.prev = _context15.next) {
           case 0:
             stores = (0, _immutable.List)();
-            result = _2.StoreService.searchAll(createCriteria());
+            result = storeService.searchAll(createCriteria());
             _context15.prev = 2;
 
             result.event.subscribe(function (info) {
@@ -675,7 +676,7 @@ describe('searchAll', function () {
             _ref27 = _context17.sent;
             parentStore = _ref27.store;
             _context17.next = 6;
-            return _2.StoreService.create(parentStore);
+            return storeService.create(parentStore);
 
           case 6:
             parentStoreId = _context17.sent;
@@ -692,7 +693,7 @@ describe('searchAll', function () {
                 while (1) {
                   switch (_context16.prev = _context16.next) {
                     case 0:
-                      return _context16.abrupt('return', _2.StoreService.create(expectedStore));
+                      return _context16.abrupt('return', storeService.create(expectedStore));
 
                     case 1:
                     case 'end':
@@ -706,7 +707,7 @@ describe('searchAll', function () {
             _context17.t1 = _context17.sent;
             results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
             stores = (0, _immutable.List)();
-            result = _2.StoreService.searchAll(createCriteria(expectedStore));
+            result = storeService.searchAll(createCriteria(expectedStore));
             _context17.prev = 18;
 
             result.event.subscribe(function (info) {
@@ -749,7 +750,7 @@ describe('exists', function () {
           case 0:
             _context18.t0 = expect;
             _context18.next = 3;
-            return _2.StoreService.exists(createCriteria());
+            return storeService.exists(createCriteria());
 
           case 3:
             _context18.t1 = _context18.sent;
@@ -776,7 +777,7 @@ describe('exists', function () {
             stores = _context19.sent;
             _context19.t0 = expect;
             _context19.next = 6;
-            return _2.StoreService.exists(createCriteria(stores.first()));
+            return storeService.exists(createCriteria(stores.first()));
 
           case 6:
             _context19.t1 = _context19.sent;
@@ -799,7 +800,7 @@ describe('count', function () {
           case 0:
             _context20.t0 = expect;
             _context20.next = 3;
-            return _2.StoreService.count(createCriteria());
+            return storeService.count(createCriteria());
 
           case 3:
             _context20.t1 = _context20.sent;
@@ -826,7 +827,7 @@ describe('count', function () {
             stores = _context21.sent;
             _context21.t0 = expect;
             _context21.next = 6;
-            return _2.StoreService.count(createCriteria(stores.first()));
+            return storeService.count(createCriteria(stores.first()));
 
           case 6:
             _context21.t1 = _context21.sent;

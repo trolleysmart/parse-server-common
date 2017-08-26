@@ -8,6 +8,7 @@ import { TagService } from '../';
 import { createTagInfo, expectTag } from '../../schema/__tests__/Tag.test';
 
 const chance = new Chance();
+const tagService = new TagService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -52,8 +53,8 @@ const createTags = async (count, useSameInfo = false, createParentTag = true) =>
             finalTag = tempTag;
           }
 
-          return TagService.read(
-            await TagService.create(createParentTag ? finalTag.merge(Map({ parentTagId: parentTag.get('id') })) : finalTag),
+          return tagService.read(
+            await tagService.create(createParentTag ? finalTag.merge(Map({ parentTagId: parentTag.get('id') })) : finalTag),
             createCriteriaWthoutConditions(),
           );
         })
@@ -66,15 +67,15 @@ export default createTags;
 
 describe('create', () => {
   test('should return the created tag Id', async () => {
-    const tagId = await TagService.create((await createTagInfo()).tag);
+    const tagId = await tagService.create((await createTagInfo()).tag);
 
     expect(tagId).toBeDefined();
   });
 
   test('should create the tag', async () => {
     const { tag } = await createTagInfo();
-    const tagId = await TagService.create(tag);
-    const fetchedTag = await TagService.read(tagId, createCriteriaWthoutConditions());
+    const tagId = await tagService.create(tag);
+    const fetchedTag = await tagService.read(tagId, createCriteriaWthoutConditions());
 
     expect(fetchedTag).toBeDefined();
   });
@@ -85,7 +86,7 @@ describe('read', () => {
     const tagId = uuid();
 
     try {
-      await TagService.read(tagId);
+      await tagService.read(tagId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
     }
@@ -93,10 +94,10 @@ describe('read', () => {
 
   test('should read the existing tag', async () => {
     const { tag: parentTag } = await createTagInfo();
-    const parentTagId = await TagService.create(parentTag);
+    const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
-    const tagId = await TagService.create(expectedTag);
-    const tag = await TagService.read(tagId, createCriteriaWthoutConditions());
+    const tagId = await tagService.create(expectedTag);
+    const tag = await tagService.read(tagId, createCriteriaWthoutConditions());
 
     expectTag(tag, expectedTag);
   });
@@ -107,9 +108,9 @@ describe('update', () => {
     const tagId = uuid();
 
     try {
-      const tag = await TagService.read(await TagService.create((await createTagInfo()).tag), createCriteriaWthoutConditions());
+      const tag = await tagService.read(await tagService.create((await createTagInfo()).tag), createCriteriaWthoutConditions());
 
-      await TagService.update(tag.set('id', tagId));
+      await tagService.update(tag.set('id', tagId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
     }
@@ -117,21 +118,21 @@ describe('update', () => {
 
   test('should return the Id of the updated tag', async () => {
     const { tag: expectedTag } = await createTagInfo();
-    const tagId = await TagService.create((await createTagInfo()).tag);
-    const id = await TagService.update(expectedTag.set('id', tagId));
+    const tagId = await tagService.create((await createTagInfo()).tag);
+    const id = await tagService.update(expectedTag.set('id', tagId));
 
     expect(id).toBe(tagId);
   });
 
   test('should update the existing tag', async () => {
     const { tag: parentTag } = await createTagInfo();
-    const parentTagId = await TagService.create(parentTag);
+    const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
-    const tagId = await TagService.create((await createTagInfo()).tag);
+    const tagId = await tagService.create((await createTagInfo()).tag);
 
-    await TagService.update(expectedTag.set('id', tagId));
+    await tagService.update(expectedTag.set('id', tagId));
 
-    const tag = await TagService.read(tagId, createCriteriaWthoutConditions());
+    const tag = await tagService.read(tagId, createCriteriaWthoutConditions());
 
     expectTag(tag, expectedTag);
   });
@@ -142,18 +143,18 @@ describe('delete', () => {
     const tagId = uuid();
 
     try {
-      await TagService.delete(tagId);
+      await tagService.delete(tagId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
     }
   });
 
   test('should delete the existing tag', async () => {
-    const tagId = await TagService.create((await createTagInfo()).tag);
-    await TagService.delete(tagId);
+    const tagId = await tagService.create((await createTagInfo()).tag);
+    await tagService.delete(tagId);
 
     try {
-      await TagService.delete(tagId);
+      await tagService.delete(tagId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
     }
@@ -162,19 +163,19 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no tag if provided criteria matches no tag', async () => {
-    const tags = await TagService.search(createCriteria());
+    const tags = await tagService.search(createCriteria());
 
     expect(tags.count()).toBe(0);
   });
 
   test('should return the tag matches the criteria', async () => {
     const { tag: parentTag } = await createTagInfo();
-    const parentTagId = await TagService.create(parentTag);
+    const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => TagService.create(expectedTag)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => tagService.create(expectedTag)).toArray()),
     );
-    const tags = await TagService.search(createCriteria(expectedTag));
+    const tags = await tagService.search(createCriteria(expectedTag));
 
     expect(tags.count).toBe(results.count);
     tags.forEach((tag) => {
@@ -187,7 +188,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no tag if provided criteria matches no tag', async () => {
     let tags = List();
-    const result = TagService.searchAll(createCriteria());
+    const result = tagService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -204,14 +205,14 @@ describe('searchAll', () => {
 
   test('should return the tag matches the criteria', async () => {
     const { tag: parentTag } = await createTagInfo();
-    const parentTagId = await TagService.create(parentTag);
+    const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => TagService.create(expectedTag)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => tagService.create(expectedTag)).toArray()),
     );
 
     let tags = List();
-    const result = TagService.searchAll(createCriteria(expectedTag));
+    const result = tagService.searchAll(createCriteria(expectedTag));
 
     try {
       result.event.subscribe((info) => {
@@ -233,24 +234,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no tag match provided criteria', async () => {
-    expect(await TagService.exists(createCriteria())).toBeFalsy();
+    expect(await tagService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any tag match provided criteria', async () => {
     const tags = await createTags(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await TagService.exists(createCriteria(tags.first()))).toBeTruthy();
+    expect(await tagService.exists(createCriteria(tags.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no tag match provided criteria', async () => {
-    expect(await TagService.count(createCriteria())).toBe(0);
+    expect(await tagService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of tag match provided criteria', async () => {
     const tags = await createTags(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await TagService.count(createCriteria(tags.first()))).toBe(tags.count());
+    expect(await tagService.count(createCriteria(tags.first()))).toBe(tags.count());
   });
 });

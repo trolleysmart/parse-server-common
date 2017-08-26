@@ -8,6 +8,7 @@ import { ShoppingListItemService } from '../';
 import { createShoppingListItemInfo, expectShoppingListItem } from '../../schema/__tests__/ShoppingListItem.test';
 
 const chance = new Chance();
+const shoppingListItemService = new ShoppingListItemService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -58,7 +59,7 @@ const createShoppingListItems = async (count, useSameInfo = false) => {
             finalShoppingListItem = tempShoppingListItem;
           }
 
-          return ShoppingListItemService.read(await ShoppingListItemService.create(finalShoppingListItem), createCriteriaWthoutConditions());
+          return shoppingListItemService.read(await shoppingListItemService.create(finalShoppingListItem), createCriteriaWthoutConditions());
         })
         .toArray(),
     ),
@@ -69,15 +70,15 @@ export default createShoppingListItems;
 
 describe('create', () => {
   test('should return the created shopping list item Id', async () => {
-    const shoppingListItemId = await ShoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
+    const shoppingListItemId = await shoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
 
     expect(shoppingListItemId).toBeDefined();
   });
 
   test('should create the shopping list item', async () => {
     const { shoppingListItem } = await createShoppingListItemInfo();
-    const shoppingListItemId = await ShoppingListItemService.create(shoppingListItem);
-    const fetchedShoppingListItem = await ShoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
+    const shoppingListItemId = await shoppingListItemService.create(shoppingListItem);
+    const fetchedShoppingListItem = await shoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
 
     expect(fetchedShoppingListItem).toBeDefined();
   });
@@ -88,7 +89,7 @@ describe('read', () => {
     const shoppingListItemId = uuid();
 
     try {
-      await ShoppingListItemService.read(shoppingListItemId);
+      await shoppingListItemService.read(shoppingListItemId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
@@ -104,8 +105,8 @@ describe('read', () => {
       store: expectedStore,
       tags: expectedTags,
     } = await createShoppingListItemInfo();
-    const shoppingListItemId = await ShoppingListItemService.create(expectedShoppingListItem);
-    const shoppingListItem = await ShoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
+    const shoppingListItemId = await shoppingListItemService.create(expectedShoppingListItem);
+    const shoppingListItem = await shoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
 
     expectShoppingListItem(shoppingListItem, expectedShoppingListItem, {
       shoppingListItemId,
@@ -124,12 +125,12 @@ describe('update', () => {
     const shoppingListItemId = uuid();
 
     try {
-      const shoppingListItem = await ShoppingListItemService.read(
-        await ShoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem),
+      const shoppingListItem = await shoppingListItemService.read(
+        await shoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem),
         createCriteriaWthoutConditions(),
       );
 
-      await ShoppingListItemService.update(shoppingListItem.set('id', shoppingListItemId));
+      await shoppingListItemService.update(shoppingListItem.set('id', shoppingListItemId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
@@ -137,8 +138,8 @@ describe('update', () => {
 
   test('should return the Id of the updated shopping list item', async () => {
     const { shoppingListItem: expectedShoppingListItem } = await createShoppingListItemInfo();
-    const shoppingListItemId = await ShoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
-    const id = await ShoppingListItemService.update(expectedShoppingListItem.set('id', shoppingListItemId));
+    const shoppingListItemId = await shoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
+    const id = await shoppingListItemService.update(expectedShoppingListItem.set('id', shoppingListItemId));
 
     expect(id).toBe(shoppingListItemId);
   });
@@ -153,11 +154,11 @@ describe('update', () => {
       store: expectedStore,
       tags: expectedTags,
     } = await createShoppingListItemInfo();
-    const shoppingListItemId = await ShoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
+    const shoppingListItemId = await shoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
 
-    await ShoppingListItemService.update(expectedShoppingListItem.set('id', shoppingListItemId));
+    await shoppingListItemService.update(expectedShoppingListItem.set('id', shoppingListItemId));
 
-    const shoppingListItem = await ShoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
+    const shoppingListItem = await shoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
 
     expectShoppingListItem(shoppingListItem, expectedShoppingListItem, {
       shoppingListItemId,
@@ -176,18 +177,18 @@ describe('delete', () => {
     const shoppingListItemId = uuid();
 
     try {
-      await ShoppingListItemService.delete(shoppingListItemId);
+      await shoppingListItemService.delete(shoppingListItemId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
   });
 
   test('should delete the existing shopping list item', async () => {
-    const shoppingListItemId = await ShoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
-    await ShoppingListItemService.delete(shoppingListItemId);
+    const shoppingListItemId = await shoppingListItemService.create((await createShoppingListItemInfo()).shoppingListItem);
+    await shoppingListItemService.delete(shoppingListItemId);
 
     try {
-      await ShoppingListItemService.delete(shoppingListItemId);
+      await shoppingListItemService.delete(shoppingListItemId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
@@ -196,7 +197,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no shopping list item if provided criteria matches no shopping list item', async () => {
-    const shoppingListItems = await ShoppingListItemService.search(createCriteria());
+    const shoppingListItems = await shoppingListItemService.search(createCriteria());
 
     expect(shoppingListItems.count()).toBe(0);
   });
@@ -213,10 +214,10 @@ describe('search', () => {
     } = await createShoppingListItemInfo();
     const results = Immutable.fromJS(
       await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ShoppingListItemService.create(expectedShoppingListItem)).toArray(),
+        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => shoppingListItemService.create(expectedShoppingListItem)).toArray(),
       ),
     );
-    const shoppingListItems = await ShoppingListItemService.search(createCriteria(expectedShoppingListItem));
+    const shoppingListItems = await shoppingListItemService.search(createCriteria(expectedShoppingListItem));
 
     expect(shoppingListItems.count).toBe(results.count);
     shoppingListItems.forEach((shoppingListItem) => {
@@ -237,7 +238,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no shopping list item if provided criteria matches no shopping list item', async () => {
     let shoppingListItems = List();
-    const result = ShoppingListItemService.searchAll(createCriteria());
+    const result = shoppingListItemService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -264,12 +265,12 @@ describe('searchAll', () => {
     } = await createShoppingListItemInfo();
     const results = Immutable.fromJS(
       await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ShoppingListItemService.create(expectedShoppingListItem)).toArray(),
+        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => shoppingListItemService.create(expectedShoppingListItem)).toArray(),
       ),
     );
 
     let shoppingListItems = List();
-    const result = ShoppingListItemService.searchAll(createCriteria(expectedShoppingListItem));
+    const result = shoppingListItemService.searchAll(createCriteria(expectedShoppingListItem));
 
     try {
       result.event.subscribe((info) => {
@@ -299,24 +300,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no shopping list item match provided criteria', async () => {
-    expect(await ShoppingListItemService.exists(createCriteria())).toBeFalsy();
+    expect(await shoppingListItemService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any shopping list item match provided criteria', async () => {
     const shoppingListItems = await createShoppingListItems(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await ShoppingListItemService.exists(createCriteria(shoppingListItems.first()))).toBeTruthy();
+    expect(await shoppingListItemService.exists(createCriteria(shoppingListItems.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no shopping list item match provided criteria', async () => {
-    expect(await ShoppingListItemService.count(createCriteria())).toBe(0);
+    expect(await shoppingListItemService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of shopping list item match provided criteria', async () => {
     const shoppingListItems = await createShoppingListItems(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await ShoppingListItemService.count(createCriteria(shoppingListItems.first()))).toBe(shoppingListItems.count());
+    expect(await shoppingListItemService.count(createCriteria(shoppingListItems.first()))).toBe(shoppingListItems.count());
   });
 });

@@ -27,6 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var chance = new _chance2.default();
+var tagService = new _2.TagService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
@@ -128,9 +129,9 @@ var createTags = function () {
                       finalTag = _tempTag;
 
                     case 10:
-                      _context.t0 = _2.TagService;
+                      _context.t0 = tagService;
                       _context.next = 13;
-                      return _2.TagService.create(createParentTag ? finalTag.merge((0, _immutable.Map)({ parentTagId: parentTag.get('id') })) : finalTag);
+                      return tagService.create(createParentTag ? finalTag.merge((0, _immutable.Map)({ parentTagId: parentTag.get('id') })) : finalTag);
 
                     case 13:
                       _context.t1 = _context.sent;
@@ -172,7 +173,7 @@ describe('create', function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.t0 = _2.TagService;
+            _context3.t0 = tagService;
             _context3.next = 3;
             return (0, _Tag.createTagInfo)();
 
@@ -209,12 +210,12 @@ describe('create', function () {
             _ref7 = _context4.sent;
             tag = _ref7.tag;
             _context4.next = 6;
-            return _2.TagService.create(tag);
+            return tagService.create(tag);
 
           case 6:
             tagId = _context4.sent;
             _context4.next = 9;
-            return _2.TagService.read(tagId, createCriteriaWthoutConditions());
+            return tagService.read(tagId, createCriteriaWthoutConditions());
 
           case 9:
             fetchedTag = _context4.sent;
@@ -241,7 +242,7 @@ describe('read', function () {
             tagId = (0, _v2.default)();
             _context5.prev = 1;
             _context5.next = 4;
-            return _2.TagService.read(tagId);
+            return tagService.read(tagId);
 
           case 4:
             _context5.next = 9;
@@ -275,7 +276,7 @@ describe('read', function () {
             _ref10 = _context6.sent;
             parentTag = _ref10.tag;
             _context6.next = 6;
-            return _2.TagService.create(parentTag);
+            return tagService.create(parentTag);
 
           case 6:
             parentTagId = _context6.sent;
@@ -286,12 +287,12 @@ describe('read', function () {
             _ref11 = _context6.sent;
             expectedTag = _ref11.tag;
             _context6.next = 13;
-            return _2.TagService.create(expectedTag);
+            return tagService.create(expectedTag);
 
           case 13:
             tagId = _context6.sent;
             _context6.next = 16;
-            return _2.TagService.read(tagId, createCriteriaWthoutConditions());
+            return tagService.read(tagId, createCriteriaWthoutConditions());
 
           case 16:
             tag = _context6.sent;
@@ -317,8 +318,8 @@ describe('update', function () {
           case 0:
             tagId = (0, _v2.default)();
             _context7.prev = 1;
-            _context7.t0 = _2.TagService;
-            _context7.t1 = _2.TagService;
+            _context7.t0 = tagService;
+            _context7.t1 = tagService;
             _context7.next = 6;
             return (0, _Tag.createTagInfo)();
 
@@ -336,7 +337,7 @@ describe('update', function () {
           case 13:
             tag = _context7.sent;
             _context7.next = 16;
-            return _2.TagService.update(tag.set('id', tagId));
+            return tagService.update(tag.set('id', tagId));
 
           case 16:
             _context7.next = 21;
@@ -369,7 +370,7 @@ describe('update', function () {
           case 2:
             _ref14 = _context8.sent;
             expectedTag = _ref14.tag;
-            _context8.t0 = _2.TagService;
+            _context8.t0 = tagService;
             _context8.next = 7;
             return (0, _Tag.createTagInfo)();
 
@@ -381,7 +382,7 @@ describe('update', function () {
           case 10:
             tagId = _context8.sent;
             _context8.next = 13;
-            return _2.TagService.update(expectedTag.set('id', tagId));
+            return tagService.update(expectedTag.set('id', tagId));
 
           case 13:
             id = _context8.sent;
@@ -411,7 +412,7 @@ describe('update', function () {
             _ref16 = _context9.sent;
             parentTag = _ref16.tag;
             _context9.next = 6;
-            return _2.TagService.create(parentTag);
+            return tagService.create(parentTag);
 
           case 6:
             parentTagId = _context9.sent;
@@ -421,7 +422,7 @@ describe('update', function () {
           case 9:
             _ref17 = _context9.sent;
             expectedTag = _ref17.tag;
-            _context9.t0 = _2.TagService;
+            _context9.t0 = tagService;
             _context9.next = 14;
             return (0, _Tag.createTagInfo)();
 
@@ -433,11 +434,11 @@ describe('update', function () {
           case 17:
             tagId = _context9.sent;
             _context9.next = 20;
-            return _2.TagService.update(expectedTag.set('id', tagId));
+            return tagService.update(expectedTag.set('id', tagId));
 
           case 20:
             _context9.next = 22;
-            return _2.TagService.read(tagId, createCriteriaWthoutConditions());
+            return tagService.read(tagId, createCriteriaWthoutConditions());
 
           case 22:
             tag = _context9.sent;
@@ -464,7 +465,7 @@ describe('delete', function () {
             tagId = (0, _v2.default)();
             _context10.prev = 1;
             _context10.next = 4;
-            return _2.TagService.delete(tagId);
+            return tagService.delete(tagId);
 
           case 4:
             _context10.next = 9;
@@ -490,7 +491,7 @@ describe('delete', function () {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.t0 = _2.TagService;
+            _context11.t0 = tagService;
             _context11.next = 3;
             return (0, _Tag.createTagInfo)();
 
@@ -502,12 +503,12 @@ describe('delete', function () {
           case 6:
             tagId = _context11.sent;
             _context11.next = 9;
-            return _2.TagService.delete(tagId);
+            return tagService.delete(tagId);
 
           case 9:
             _context11.prev = 9;
             _context11.next = 12;
-            return _2.TagService.delete(tagId);
+            return tagService.delete(tagId);
 
           case 12:
             _context11.next = 17;
@@ -536,7 +537,7 @@ describe('search', function () {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.next = 2;
-            return _2.TagService.search(createCriteria());
+            return tagService.search(createCriteria());
 
           case 2:
             tags = _context12.sent;
@@ -566,7 +567,7 @@ describe('search', function () {
             _ref22 = _context14.sent;
             parentTag = _ref22.tag;
             _context14.next = 6;
-            return _2.TagService.create(parentTag);
+            return tagService.create(parentTag);
 
           case 6:
             parentTagId = _context14.sent;
@@ -583,7 +584,7 @@ describe('search', function () {
                 while (1) {
                   switch (_context13.prev = _context13.next) {
                     case 0:
-                      return _context13.abrupt('return', _2.TagService.create(expectedTag));
+                      return _context13.abrupt('return', tagService.create(expectedTag));
 
                     case 1:
                     case 'end':
@@ -597,7 +598,7 @@ describe('search', function () {
             _context14.t1 = _context14.sent;
             results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
             _context14.next = 18;
-            return _2.TagService.search(createCriteria(expectedTag));
+            return tagService.search(createCriteria(expectedTag));
 
           case 18:
             tags = _context14.sent;
@@ -628,7 +629,7 @@ describe('searchAll', function () {
         switch (_context15.prev = _context15.next) {
           case 0:
             tags = (0, _immutable.List)();
-            result = _2.TagService.searchAll(createCriteria());
+            result = tagService.searchAll(createCriteria());
             _context15.prev = 2;
 
             result.event.subscribe(function (info) {
@@ -670,7 +671,7 @@ describe('searchAll', function () {
             _ref27 = _context17.sent;
             parentTag = _ref27.tag;
             _context17.next = 6;
-            return _2.TagService.create(parentTag);
+            return tagService.create(parentTag);
 
           case 6:
             parentTagId = _context17.sent;
@@ -687,7 +688,7 @@ describe('searchAll', function () {
                 while (1) {
                   switch (_context16.prev = _context16.next) {
                     case 0:
-                      return _context16.abrupt('return', _2.TagService.create(expectedTag));
+                      return _context16.abrupt('return', tagService.create(expectedTag));
 
                     case 1:
                     case 'end':
@@ -701,7 +702,7 @@ describe('searchAll', function () {
             _context17.t1 = _context17.sent;
             results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
             tags = (0, _immutable.List)();
-            result = _2.TagService.searchAll(createCriteria(expectedTag));
+            result = tagService.searchAll(createCriteria(expectedTag));
             _context17.prev = 18;
 
             result.event.subscribe(function (info) {
@@ -744,7 +745,7 @@ describe('exists', function () {
           case 0:
             _context18.t0 = expect;
             _context18.next = 3;
-            return _2.TagService.exists(createCriteria());
+            return tagService.exists(createCriteria());
 
           case 3:
             _context18.t1 = _context18.sent;
@@ -771,7 +772,7 @@ describe('exists', function () {
             tags = _context19.sent;
             _context19.t0 = expect;
             _context19.next = 6;
-            return _2.TagService.exists(createCriteria(tags.first()));
+            return tagService.exists(createCriteria(tags.first()));
 
           case 6:
             _context19.t1 = _context19.sent;
@@ -794,7 +795,7 @@ describe('count', function () {
           case 0:
             _context20.t0 = expect;
             _context20.next = 3;
-            return _2.TagService.count(createCriteria());
+            return tagService.count(createCriteria());
 
           case 3:
             _context20.t1 = _context20.sent;
@@ -821,7 +822,7 @@ describe('count', function () {
             tags = _context21.sent;
             _context21.t0 = expect;
             _context21.next = 6;
-            return _2.TagService.count(createCriteria(tags.first()));
+            return tagService.count(createCriteria(tags.first()));
 
           case 6:
             _context21.t1 = _context21.sent;

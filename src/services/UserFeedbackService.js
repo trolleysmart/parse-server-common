@@ -4,26 +4,9 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { UserFeedback } from '../schema';
 
 export default class UserFeedbackService extends ServiceBase {
-  static messagePrefix = 'No user feedback found with Id: ';
-
-  static create = async (info, acl, sessionToken) => ServiceBase.create(UserFeedback, info, acl, sessionToken);
-
-  static read = async (id, criteria, sessionToken) =>
-    ServiceBase.read(UserFeedback, id, sessionToken, UserFeedbackService.messagePrefix, query =>
-      UserFeedbackService.buildIncludeQuery(query, criteria),
-    );
-
-  static update = async (info, sessionToken) => ServiceBase.update(UserFeedback, info, sessionToken, UserFeedbackService.messagePrefix);
-
-  static delete = async (id, sessionToken) => ServiceBase.delete(UserFeedback, id, sessionToken, UserFeedbackService.messagePrefix);
-
-  static search = async (criteria, sessionToken) => ServiceBase.search(UserFeedback, UserFeedbackService.buildSearchQuery, criteria, sessionToken);
-
-  static searchAll = (criteria, sessionToken) => ServiceBase.searchAll(UserFeedback, UserFeedbackService.buildSearchQuery, criteria, sessionToken);
-
-  static count = async (criteria, sessionToken) => ServiceBase.count(UserFeedbackService.buildSearchQuery, criteria, sessionToken);
-
-  static exists = async (criteria, sessionToken) => ServiceBase.exists(UserFeedbackService.buildSearchQuery, criteria, sessionToken);
+  constructor() {
+    super(UserFeedback, UserFeedbackService.buildSearchQuery, UserFeedbackService.buildIncludeQuery, 'user feedback');
+  }
 
   static buildIncludeQuery = (query, criteria) => {
     if (!criteria) {

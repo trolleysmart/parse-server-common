@@ -8,6 +8,7 @@ import { CrawlSessionService } from '../';
 import { createCrawlSessionInfo, expectCrawlSession } from '../../schema/__tests__/CrawlSession.test';
 
 const chance = new Chance();
+const crawlSessionService = new CrawlSessionService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -47,7 +48,7 @@ const createCrawlSessions = async (count, useSameInfo = false) => {
             finalCrawlSession = tempCrawlSession;
           }
 
-          return CrawlSessionService.read(await CrawlSessionService.create(finalCrawlSession), createCriteriaWthoutConditions());
+          return crawlSessionService.read(await crawlSessionService.create(finalCrawlSession), createCriteriaWthoutConditions());
         })
         .toArray(),
     ),
@@ -58,15 +59,15 @@ export default createCrawlSessions;
 
 describe('create', () => {
   test('should return the created crawl session Id', async () => {
-    const crawlSessionId = await CrawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
+    const crawlSessionId = await crawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
 
     expect(crawlSessionId).toBeDefined();
   });
 
   test('should create the crawl session', async () => {
     const { crawlSession } = await createCrawlSessionInfo();
-    const crawlSessionId = await CrawlSessionService.create(crawlSession);
-    const fetchedCrawlSession = await CrawlSessionService.read(crawlSessionId, createCriteriaWthoutConditions());
+    const crawlSessionId = await crawlSessionService.create(crawlSession);
+    const fetchedCrawlSession = await crawlSessionService.read(crawlSessionId, createCriteriaWthoutConditions());
 
     expect(fetchedCrawlSession).toBeDefined();
   });
@@ -77,7 +78,7 @@ describe('read', () => {
     const crawlSessionId = uuid();
 
     try {
-      await CrawlSessionService.read(crawlSessionId);
+      await crawlSessionService.read(crawlSessionId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No crawl session found with Id: ${crawlSessionId}`);
     }
@@ -85,8 +86,8 @@ describe('read', () => {
 
   test('should read the existing crawl session', async () => {
     const { crawlSession: expectedCrawlSession } = await createCrawlSessionInfo();
-    const crawlSessionId = await CrawlSessionService.create(expectedCrawlSession);
-    const crawlSession = await CrawlSessionService.read(crawlSessionId, createCriteriaWthoutConditions());
+    const crawlSessionId = await crawlSessionService.create(expectedCrawlSession);
+    const crawlSession = await crawlSessionService.read(crawlSessionId, createCriteriaWthoutConditions());
 
     expectCrawlSession(crawlSession, expectedCrawlSession);
   });
@@ -97,12 +98,12 @@ describe('update', () => {
     const crawlSessionId = uuid();
 
     try {
-      const crawlSession = await CrawlSessionService.read(
-        await CrawlSessionService.create((await createCrawlSessionInfo()).crawlSession),
+      const crawlSession = await crawlSessionService.read(
+        await crawlSessionService.create((await createCrawlSessionInfo()).crawlSession),
         createCriteriaWthoutConditions(),
       );
 
-      await CrawlSessionService.update(crawlSession.set('id', crawlSessionId));
+      await crawlSessionService.update(crawlSession.set('id', crawlSessionId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No crawl session found with Id: ${crawlSessionId}`);
     }
@@ -110,19 +111,19 @@ describe('update', () => {
 
   test('should return the Id of the updated crawl session', async () => {
     const { crawlSession: expectedCrawlSession } = await createCrawlSessionInfo();
-    const crawlSessionId = await CrawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
-    const id = await CrawlSessionService.update(expectedCrawlSession.set('id', crawlSessionId));
+    const crawlSessionId = await crawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
+    const id = await crawlSessionService.update(expectedCrawlSession.set('id', crawlSessionId));
 
     expect(id).toBe(crawlSessionId);
   });
 
   test('should update the existing crawl session', async () => {
     const { crawlSession: expectedCrawlSession } = await createCrawlSessionInfo();
-    const crawlSessionId = await CrawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
+    const crawlSessionId = await crawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
 
-    await CrawlSessionService.update(expectedCrawlSession.set('id', crawlSessionId));
+    await crawlSessionService.update(expectedCrawlSession.set('id', crawlSessionId));
 
-    const crawlSession = await CrawlSessionService.read(crawlSessionId, createCriteriaWthoutConditions());
+    const crawlSession = await crawlSessionService.read(crawlSessionId, createCriteriaWthoutConditions());
 
     expectCrawlSession(crawlSession, expectedCrawlSession);
   });
@@ -133,18 +134,18 @@ describe('delete', () => {
     const crawlSessionId = uuid();
 
     try {
-      await CrawlSessionService.delete(crawlSessionId);
+      await crawlSessionService.delete(crawlSessionId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No crawl session found with Id: ${crawlSessionId}`);
     }
   });
 
   test('should delete the existing crawl session', async () => {
-    const crawlSessionId = await CrawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
-    await CrawlSessionService.delete(crawlSessionId);
+    const crawlSessionId = await crawlSessionService.create((await createCrawlSessionInfo()).crawlSession);
+    await crawlSessionService.delete(crawlSessionId);
 
     try {
-      await CrawlSessionService.delete(crawlSessionId);
+      await crawlSessionService.delete(crawlSessionId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No crawl session found with Id: ${crawlSessionId}`);
     }
@@ -153,7 +154,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no crawl session if provided criteria matches no crawl session', async () => {
-    const crawlSessions = await CrawlSessionService.search(createCriteria());
+    const crawlSessions = await crawlSessionService.search(createCriteria());
 
     expect(crawlSessions.count()).toBe(0);
   });
@@ -161,9 +162,9 @@ describe('search', () => {
   test('should return the crawl session matches the criteria', async () => {
     const { crawlSession: expectedCrawlSession } = await createCrawlSessionInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => CrawlSessionService.create(expectedCrawlSession)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => crawlSessionService.create(expectedCrawlSession)).toArray()),
     );
-    const crawlSessions = await CrawlSessionService.search(createCriteria(expectedCrawlSession));
+    const crawlSessions = await crawlSessionService.search(createCriteria(expectedCrawlSession));
 
     expect(crawlSessions.count).toBe(results.count);
     crawlSessions.forEach((crawlSession) => {
@@ -176,7 +177,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no crawl session if provided criteria matches no crawl session', async () => {
     let crawlSessions = List();
-    const result = CrawlSessionService.searchAll(createCriteria());
+    const result = crawlSessionService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -194,11 +195,11 @@ describe('searchAll', () => {
   test('should return the crawl session matches the criteria', async () => {
     const { crawlSession: expectedCrawlSession } = await createCrawlSessionInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => CrawlSessionService.create(expectedCrawlSession)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => crawlSessionService.create(expectedCrawlSession)).toArray()),
     );
 
     let crawlSessions = List();
-    const result = CrawlSessionService.searchAll(createCriteria(expectedCrawlSession));
+    const result = crawlSessionService.searchAll(createCriteria(expectedCrawlSession));
 
     try {
       result.event.subscribe((info) => {
@@ -220,24 +221,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no crawl session match provided criteria', async () => {
-    expect(await CrawlSessionService.exists(createCriteria())).toBeFalsy();
+    expect(await crawlSessionService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any crawl session match provided criteria', async () => {
     const crawlSessions = await createCrawlSessions(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await CrawlSessionService.exists(createCriteria(crawlSessions.first()))).toBeTruthy();
+    expect(await crawlSessionService.exists(createCriteria(crawlSessions.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no crawl session match provided criteria', async () => {
-    expect(await CrawlSessionService.count(createCriteria())).toBe(0);
+    expect(await crawlSessionService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of crawl session match provided criteria', async () => {
     const crawlSessions = await createCrawlSessions(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await CrawlSessionService.count(createCriteria(crawlSessions.first()))).toBe(crawlSessions.count());
+    expect(await crawlSessionService.count(createCriteria(crawlSessions.first()))).toBe(crawlSessions.count());
   });
 });

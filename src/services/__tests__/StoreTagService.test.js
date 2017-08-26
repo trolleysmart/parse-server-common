@@ -8,6 +8,7 @@ import { StoreTagService } from '../';
 import { createStoreTagInfo, expectStoreTag } from '../../schema/__tests__/StoreTag.test';
 
 const chance = new Chance();
+const storeTagService = new StoreTagService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -56,8 +57,8 @@ const createStoreTags = async (count, useSameInfo = false, createParentStoreTag 
             finalStoreTag = tempStoreTag;
           }
 
-          return StoreTagService.read(
-            await StoreTagService.create(
+          return storeTagService.read(
+            await storeTagService.create(
               createParentStoreTag ? finalStoreTag.merge(Map({ parentStoreTagId: parentStoreTag.get('id') })) : finalStoreTag,
             ),
             createCriteriaWthoutConditions(),
@@ -72,15 +73,15 @@ export default createStoreTags;
 
 describe('create', () => {
   test('should return the created store tag Id', async () => {
-    const storeTagId = await StoreTagService.create((await createStoreTagInfo()).storeTag);
+    const storeTagId = await storeTagService.create((await createStoreTagInfo()).storeTag);
 
     expect(storeTagId).toBeDefined();
   });
 
   test('should create the store tag', async () => {
     const { storeTag } = await createStoreTagInfo();
-    const storeTagId = await StoreTagService.create(storeTag);
-    const fetchedStoreTag = await StoreTagService.read(storeTagId, createCriteriaWthoutConditions());
+    const storeTagId = await storeTagService.create(storeTag);
+    const fetchedStoreTag = await storeTagService.read(storeTagId, createCriteriaWthoutConditions());
 
     expect(fetchedStoreTag).toBeDefined();
   });
@@ -91,7 +92,7 @@ describe('read', () => {
     const storeTagId = uuid();
 
     try {
-      await StoreTagService.read(storeTagId);
+      await storeTagService.read(storeTagId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
     }
@@ -99,10 +100,10 @@ describe('read', () => {
 
   test('should read the existing store tag', async () => {
     const { storeTag: parentStoreTag } = await createStoreTagInfo();
-    const parentStoreTagId = await StoreTagService.create(parentStoreTag);
+    const parentStoreTagId = await storeTagService.create(parentStoreTag);
     const { storeTag: expectedStoreTag, store: expectedStore, tags: expectedTags } = await createStoreTagInfo({ parentStoreTagId });
-    const storeTagId = await StoreTagService.create(expectedStoreTag);
-    const storeTag = await StoreTagService.read(storeTagId, createCriteriaWthoutConditions());
+    const storeTagId = await storeTagService.create(expectedStoreTag);
+    const storeTag = await storeTagService.read(storeTagId, createCriteriaWthoutConditions());
 
     expectStoreTag(storeTag, expectedStoreTag, { storeTagId, expectedStore, expectedTags });
   });
@@ -113,12 +114,12 @@ describe('update', () => {
     const storeTagId = uuid();
 
     try {
-      const storeTag = await StoreTagService.read(
-        await StoreTagService.create((await createStoreTagInfo()).storeTag),
+      const storeTag = await storeTagService.read(
+        await storeTagService.create((await createStoreTagInfo()).storeTag),
         createCriteriaWthoutConditions(),
       );
 
-      await StoreTagService.update(storeTag.set('id', storeTagId));
+      await storeTagService.update(storeTag.set('id', storeTagId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
     }
@@ -126,21 +127,21 @@ describe('update', () => {
 
   test('should return the Id of the updated store tag', async () => {
     const { storeTag: expectedStoreTag } = await createStoreTagInfo();
-    const storeTagId = await StoreTagService.create((await createStoreTagInfo()).storeTag);
-    const id = await StoreTagService.update(expectedStoreTag.set('id', storeTagId));
+    const storeTagId = await storeTagService.create((await createStoreTagInfo()).storeTag);
+    const id = await storeTagService.update(expectedStoreTag.set('id', storeTagId));
 
     expect(id).toBe(storeTagId);
   });
 
   test('should update the existing store tag', async () => {
     const { storeTag: parentStoreTag } = await createStoreTagInfo();
-    const parentStoreTagId = await StoreTagService.create(parentStoreTag);
+    const parentStoreTagId = await storeTagService.create(parentStoreTag);
     const { storeTag: expectedStoreTag, store: expectedStore, tags: expectedTags } = await createStoreTagInfo({ parentStoreTagId });
-    const storeTagId = await StoreTagService.create((await createStoreTagInfo()).storeTag);
+    const storeTagId = await storeTagService.create((await createStoreTagInfo()).storeTag);
 
-    await StoreTagService.update(expectedStoreTag.set('id', storeTagId));
+    await storeTagService.update(expectedStoreTag.set('id', storeTagId));
 
-    const storeTag = await StoreTagService.read(storeTagId, createCriteriaWthoutConditions());
+    const storeTag = await storeTagService.read(storeTagId, createCriteriaWthoutConditions());
 
     expectStoreTag(storeTag, expectedStoreTag, { storeTagId, expectedStore, expectedTags });
   });
@@ -151,18 +152,18 @@ describe('delete', () => {
     const storeTagId = uuid();
 
     try {
-      await StoreTagService.delete(storeTagId);
+      await storeTagService.delete(storeTagId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
     }
   });
 
   test('should delete the existing store tag', async () => {
-    const storeTagId = await StoreTagService.create((await createStoreTagInfo()).storeTag);
-    await StoreTagService.delete(storeTagId);
+    const storeTagId = await storeTagService.create((await createStoreTagInfo()).storeTag);
+    await storeTagService.delete(storeTagId);
 
     try {
-      await StoreTagService.delete(storeTagId);
+      await storeTagService.delete(storeTagId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
     }
@@ -171,19 +172,19 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no store tag if provided criteria matches no store tag', async () => {
-    const storeTags = await StoreTagService.search(createCriteria());
+    const storeTags = await storeTagService.search(createCriteria());
 
     expect(storeTags.count()).toBe(0);
   });
 
   test('should return the store tags matches the criteria', async () => {
     const { storeTag: parentStoreTag } = await createStoreTagInfo();
-    const parentStoreTagId = await StoreTagService.create(parentStoreTag);
+    const parentStoreTagId = await storeTagService.create(parentStoreTag);
     const { storeTag: expectedStoreTag, store: expectedStore, tags: expectedTags } = await createStoreTagInfo({ parentStoreTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => StoreTagService.create(expectedStoreTag)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeTagService.create(expectedStoreTag)).toArray()),
     );
-    const storeTags = await StoreTagService.search(createCriteria(expectedStoreTag));
+    const storeTags = await storeTagService.search(createCriteria(expectedStoreTag));
 
     expect(storeTags.count).toBe(results.count);
     storeTags.forEach((storeTag) => {
@@ -196,7 +197,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no store tag if provided criteria matches no store tag', async () => {
     let storeTags = List();
-    const result = StoreTagService.searchAll(createCriteria());
+    const result = storeTagService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -213,14 +214,14 @@ describe('searchAll', () => {
 
   test('should return the store tags matches the criteria', async () => {
     const { storeTag: parentStoreTag } = await createStoreTagInfo();
-    const parentStoreTagId = await StoreTagService.create(parentStoreTag);
+    const parentStoreTagId = await storeTagService.create(parentStoreTag);
     const { storeTag: expectedStoreTag, store: expectedStore, tags: expectedTags } = await createStoreTagInfo({ parentStoreTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => StoreTagService.create(expectedStoreTag)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeTagService.create(expectedStoreTag)).toArray()),
     );
 
     let storeTags = List();
-    const result = StoreTagService.searchAll(createCriteria(expectedStoreTag));
+    const result = storeTagService.searchAll(createCriteria(expectedStoreTag));
 
     try {
       result.event.subscribe((info) => {
@@ -242,24 +243,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no store tag match provided criteria', async () => {
-    expect(await StoreTagService.exists(createCriteria())).toBeFalsy();
+    expect(await storeTagService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any store tag match provided criteria', async () => {
     const storeTags = await createStoreTags(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await StoreTagService.exists(createCriteria(storeTags.first()))).toBeTruthy();
+    expect(await storeTagService.exists(createCriteria(storeTags.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no store tag match provided criteria', async () => {
-    expect(await StoreTagService.count(createCriteria())).toBe(0);
+    expect(await storeTagService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of store tag match provided criteria', async () => {
     const storeTags = await createStoreTags(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await StoreTagService.count(createCriteria(storeTags.first()))).toBe(storeTags.count());
+    expect(await storeTagService.count(createCriteria(storeTags.first()))).toBe(storeTags.count());
   });
 });

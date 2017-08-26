@@ -4,24 +4,9 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { StoreTag, Store, Tag } from '../schema';
 
 export default class StoreTagService extends ServiceBase {
-  static messagePrefix = 'No store tag found with Id: ';
-
-  static create = async (info, acl, sessionToken) => ServiceBase.create(StoreTag, info, acl, sessionToken);
-
-  static read = async (id, criteria, sessionToken) =>
-    ServiceBase.read(StoreTag, id, sessionToken, StoreTagService.messagePrefix, query => StoreTagService.buildIncludeQuery(query, criteria));
-
-  static update = async (info, sessionToken) => ServiceBase.update(StoreTag, info, sessionToken, StoreTagService.messagePrefix);
-
-  static delete = async (id, sessionToken) => ServiceBase.delete(StoreTag, id, sessionToken, StoreTagService.messagePrefix);
-
-  static search = async (criteria, sessionToken) => ServiceBase.search(StoreTag, StoreTagService.buildSearchQuery, criteria, sessionToken);
-
-  static searchAll = (criteria, sessionToken) => ServiceBase.searchAll(StoreTag, StoreTagService.buildSearchQuery, criteria, sessionToken);
-
-  static count = async (criteria, sessionToken) => ServiceBase.count(StoreTagService.buildSearchQuery, criteria, sessionToken);
-
-  static exists = async (criteria, sessionToken) => ServiceBase.exists(StoreTagService.buildSearchQuery, criteria, sessionToken);
+  constructor() {
+    super(StoreTag, StoreTagService.buildSearchQuery, StoreTagService.buildIncludeQuery, 'store tag');
+  }
 
   static buildIncludeQuery = (query, criteria) => {
     if (!criteria) {

@@ -8,6 +8,7 @@ import { UserFeedbackService } from '../';
 import { createUserFeedbackInfo, expectUserFeedback } from '../../schema/__tests__/UserFeedback.test';
 
 const chance = new Chance();
+const userFeedbackService = new UserFeedbackService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -45,7 +46,7 @@ const createUserFeedbacks = async (count, useSameInfo = false) => {
             finalUserFeedback = tempUserFeedback;
           }
 
-          return UserFeedbackService.read(await UserFeedbackService.create(finalUserFeedback), createCriteriaWthoutConditions());
+          return userFeedbackService.read(await userFeedbackService.create(finalUserFeedback), createCriteriaWthoutConditions());
         })
         .toArray(),
     ),
@@ -56,15 +57,15 @@ export default createUserFeedbacks;
 
 describe('create', () => {
   test('should return the created user feedback Id', async () => {
-    const userFeedbackId = await UserFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
+    const userFeedbackId = await userFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
 
     expect(userFeedbackId).toBeDefined();
   });
 
   test('should create the user feedback', async () => {
     const { userFeedback } = await createUserFeedbackInfo();
-    const userFeedbackId = await UserFeedbackService.create(userFeedback);
-    const fetchedUserFeedback = await UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
+    const userFeedbackId = await userFeedbackService.create(userFeedback);
+    const fetchedUserFeedback = await userFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
     expect(fetchedUserFeedback).toBeDefined();
   });
@@ -75,7 +76,7 @@ describe('read', () => {
     const userFeedbackId = uuid();
 
     try {
-      await UserFeedbackService.read(userFeedbackId);
+      await userFeedbackService.read(userFeedbackId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No user feedback found with Id: ${userFeedbackId}`);
     }
@@ -83,8 +84,8 @@ describe('read', () => {
 
   test('should read the existing user feedback', async () => {
     const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
-    const userFeedbackId = await UserFeedbackService.create(expectedUserFeedback);
-    const userFeedback = await UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
+    const userFeedbackId = await userFeedbackService.create(expectedUserFeedback);
+    const userFeedback = await userFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
     expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId, expectedUser });
   });
@@ -95,12 +96,12 @@ describe('update', () => {
     const userFeedbackId = uuid();
 
     try {
-      const userFeedback = await UserFeedbackService.read(
-        await UserFeedbackService.create((await createUserFeedbackInfo()).userFeedback),
+      const userFeedback = await userFeedbackService.read(
+        await userFeedbackService.create((await createUserFeedbackInfo()).userFeedback),
         createCriteriaWthoutConditions(),
       );
 
-      await UserFeedbackService.update(userFeedback.set('id', userFeedbackId));
+      await userFeedbackService.update(userFeedback.set('id', userFeedbackId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No user feedback found with Id: ${userFeedbackId}`);
     }
@@ -108,19 +109,19 @@ describe('update', () => {
 
   test('should return the Id of the updated user feedback', async () => {
     const { userFeedback: expectedUserFeedback } = await createUserFeedbackInfo();
-    const userFeedbackId = await UserFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
-    const id = await UserFeedbackService.update(expectedUserFeedback.set('id', userFeedbackId));
+    const userFeedbackId = await userFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
+    const id = await userFeedbackService.update(expectedUserFeedback.set('id', userFeedbackId));
 
     expect(id).toBe(userFeedbackId);
   });
 
   test('should update the existing user feedback', async () => {
     const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
-    const userFeedbackId = await UserFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
+    const userFeedbackId = await userFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
 
-    await UserFeedbackService.update(expectedUserFeedback.set('id', userFeedbackId));
+    await userFeedbackService.update(expectedUserFeedback.set('id', userFeedbackId));
 
-    const userFeedback = await UserFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
+    const userFeedback = await userFeedbackService.read(userFeedbackId, createCriteriaWthoutConditions());
 
     expectUserFeedback(userFeedback, expectedUserFeedback, { userFeedbackId, expectedUser });
   });
@@ -131,18 +132,18 @@ describe('delete', () => {
     const userFeedbackId = uuid();
 
     try {
-      await UserFeedbackService.delete(userFeedbackId);
+      await userFeedbackService.delete(userFeedbackId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No user feedback found with Id: ${userFeedbackId}`);
     }
   });
 
   test('should delete the existing user feedback', async () => {
-    const userFeedbackId = await UserFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
-    await UserFeedbackService.delete(userFeedbackId);
+    const userFeedbackId = await userFeedbackService.create((await createUserFeedbackInfo()).userFeedback);
+    await userFeedbackService.delete(userFeedbackId);
 
     try {
-      await UserFeedbackService.delete(userFeedbackId);
+      await userFeedbackService.delete(userFeedbackId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No user feedback found with Id: ${userFeedbackId}`);
     }
@@ -151,7 +152,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no user feedback if provided criteria matches no user feedback', async () => {
-    const userFeedbacks = await UserFeedbackService.search(createCriteria());
+    const userFeedbacks = await userFeedbackService.search(createCriteria());
 
     expect(userFeedbacks.count()).toBe(0);
   });
@@ -159,9 +160,9 @@ describe('search', () => {
   test('should return the user feedback matches the criteria', async () => {
     const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => UserFeedbackService.create(expectedUserFeedback)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => userFeedbackService.create(expectedUserFeedback)).toArray()),
     );
-    const userFeedbacks = await UserFeedbackService.search(createCriteria(expectedUserFeedback));
+    const userFeedbacks = await userFeedbackService.search(createCriteria(expectedUserFeedback));
 
     expect(userFeedbacks.count).toBe(results.count);
     userFeedbacks.forEach((userFeedback) => {
@@ -174,7 +175,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no user feedback if provided criteria matches no user feedback', async () => {
     let userFeedbacks = List();
-    const result = UserFeedbackService.searchAll(createCriteria());
+    const result = userFeedbackService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -192,11 +193,11 @@ describe('searchAll', () => {
   test('should return the user feedback matches the criteria', async () => {
     const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => UserFeedbackService.create(expectedUserFeedback)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => userFeedbackService.create(expectedUserFeedback)).toArray()),
     );
 
     let userFeedbacks = List();
-    const result = UserFeedbackService.searchAll(createCriteria(expectedUserFeedback));
+    const result = userFeedbackService.searchAll(createCriteria(expectedUserFeedback));
 
     try {
       result.event.subscribe((info) => {
@@ -218,24 +219,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no user feedback match provided criteria', async () => {
-    expect(await UserFeedbackService.exists(createCriteria())).toBeFalsy();
+    expect(await userFeedbackService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any user feedback match provided criteria', async () => {
     const userFeedbacks = await createUserFeedbacks(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await UserFeedbackService.exists(createCriteria(userFeedbacks.first()))).toBeTruthy();
+    expect(await userFeedbackService.exists(createCriteria(userFeedbacks.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no user feedback match provided criteria', async () => {
-    expect(await UserFeedbackService.count(createCriteria())).toBe(0);
+    expect(await userFeedbackService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of user feedback match provided criteria', async () => {
     const userFeedbacks = await createUserFeedbacks(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await UserFeedbackService.count(createCriteria(userFeedbacks.first()))).toBe(userFeedbacks.count());
+    expect(await userFeedbackService.count(createCriteria(userFeedbacks.first()))).toBe(userFeedbacks.count());
   });
 });

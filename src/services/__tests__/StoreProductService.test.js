@@ -8,6 +8,7 @@ import { StoreProductService } from '../';
 import { createStoreProductInfo, expectStoreProduct } from '../../schema/__tests__/StoreProduct.test';
 
 const chance = new Chance();
+const storeProductService = new StoreProductService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -54,7 +55,7 @@ const createStoreProducts = async (count, useSameInfo = false) => {
             finalStoreProduct = tempStoreProduct;
           }
 
-          return StoreProductService.read(await StoreProductService.create(finalStoreProduct), createCriteriaWthoutConditions());
+          return storeProductService.read(await storeProductService.create(finalStoreProduct), createCriteriaWthoutConditions());
         })
         .toArray(),
     ),
@@ -65,15 +66,15 @@ export default createStoreProducts;
 
 describe('create', () => {
   test('should return the created store product Id', async () => {
-    const storeProductId = await StoreProductService.create((await createStoreProductInfo()).storeProduct);
+    const storeProductId = await storeProductService.create((await createStoreProductInfo()).storeProduct);
 
     expect(storeProductId).toBeDefined();
   });
 
   test('should create the store product', async () => {
     const { storeProduct } = await createStoreProductInfo();
-    const storeProductId = await StoreProductService.create(storeProduct);
-    const fetchedStoreProduct = await StoreProductService.read(storeProductId, createCriteriaWthoutConditions());
+    const storeProductId = await storeProductService.create(storeProduct);
+    const fetchedStoreProduct = await storeProductService.read(storeProductId, createCriteriaWthoutConditions());
 
     expect(fetchedStoreProduct).toBeDefined();
   });
@@ -84,7 +85,7 @@ describe('read', () => {
     const storeProductId = uuid();
 
     try {
-      await StoreProductService.read(storeProductId);
+      await storeProductService.read(storeProductId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
     }
@@ -92,8 +93,8 @@ describe('read', () => {
 
   test('should read the existing store product', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
-    const storeProductId = await StoreProductService.create(expectedStoreProduct);
-    const storeProduct = await StoreProductService.read(storeProductId, createCriteriaWthoutConditions());
+    const storeProductId = await storeProductService.create(expectedStoreProduct);
+    const storeProduct = await storeProductService.read(storeProductId, createCriteriaWthoutConditions());
 
     expectStoreProduct(storeProduct, expectedStoreProduct, { storeProductId, expectedStore, expectedStoreTags });
   });
@@ -104,12 +105,12 @@ describe('update', () => {
     const storeProductId = uuid();
 
     try {
-      const storeProduct = await StoreProductService.read(
-        await StoreProductService.create((await createStoreProductInfo()).storeProduct),
+      const storeProduct = await storeProductService.read(
+        await storeProductService.create((await createStoreProductInfo()).storeProduct),
         createCriteriaWthoutConditions(),
       );
 
-      await StoreProductService.update(storeProduct.set('id', storeProductId));
+      await storeProductService.update(storeProduct.set('id', storeProductId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
     }
@@ -117,19 +118,19 @@ describe('update', () => {
 
   test('should return the Id of the updated store product', async () => {
     const { storeProduct: expectedStoreProduct } = await createStoreProductInfo();
-    const storeProductId = await StoreProductService.create((await createStoreProductInfo()).storeProduct);
-    const id = await StoreProductService.update(expectedStoreProduct.set('id', storeProductId));
+    const storeProductId = await storeProductService.create((await createStoreProductInfo()).storeProduct);
+    const id = await storeProductService.update(expectedStoreProduct.set('id', storeProductId));
 
     expect(id).toBe(storeProductId);
   });
 
   test('should update the existing store product', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
-    const storeProductId = await StoreProductService.create((await createStoreProductInfo()).storeProduct);
+    const storeProductId = await storeProductService.create((await createStoreProductInfo()).storeProduct);
 
-    await StoreProductService.update(expectedStoreProduct.set('id', storeProductId));
+    await storeProductService.update(expectedStoreProduct.set('id', storeProductId));
 
-    const storeProduct = await StoreProductService.read(storeProductId, createCriteriaWthoutConditions());
+    const storeProduct = await storeProductService.read(storeProductId, createCriteriaWthoutConditions());
 
     expectStoreProduct(storeProduct, expectedStoreProduct, { storeProductId, expectedStore, expectedStoreTags });
   });
@@ -140,18 +141,18 @@ describe('delete', () => {
     const storeProductId = uuid();
 
     try {
-      await StoreProductService.delete(storeProductId);
+      await storeProductService.delete(storeProductId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
     }
   });
 
   test('should delete the existing store product', async () => {
-    const storeProductId = await StoreProductService.create((await createStoreProductInfo()).storeProduct);
-    await StoreProductService.delete(storeProductId);
+    const storeProductId = await storeProductService.create((await createStoreProductInfo()).storeProduct);
+    await storeProductService.delete(storeProductId);
 
     try {
-      await StoreProductService.delete(storeProductId);
+      await storeProductService.delete(storeProductId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
     }
@@ -160,7 +161,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no store product if provided criteria matches no store product', async () => {
-    const storeProducts = await StoreProductService.search(createCriteria());
+    const storeProducts = await storeProductService.search(createCriteria());
 
     expect(storeProducts.count()).toBe(0);
   });
@@ -168,9 +169,9 @@ describe('search', () => {
   test('should return the store product matches the criteria', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 1, max: 10 })).map(async () => StoreProductService.create(expectedStoreProduct)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 1, max: 10 })).map(async () => storeProductService.create(expectedStoreProduct)).toArray()),
     );
-    const storeProducts = await StoreProductService.search(createCriteria(expectedStoreProduct));
+    const storeProducts = await storeProductService.search(createCriteria(expectedStoreProduct));
 
     expect(storeProducts.count).toBe(results.count);
     storeProducts.forEach((storeProduct) => {
@@ -183,7 +184,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no store product if provided criteria matches no store product', async () => {
     let storeProducts = List();
-    const result = StoreProductService.searchAll(createCriteria());
+    const result = storeProductService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -201,11 +202,11 @@ describe('searchAll', () => {
   test('should return the store product matches the criteria', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => StoreProductService.create(expectedStoreProduct)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeProductService.create(expectedStoreProduct)).toArray()),
     );
 
     let storeProducts = List();
-    const result = StoreProductService.searchAll(createCriteria(expectedStoreProduct));
+    const result = storeProductService.searchAll(createCriteria(expectedStoreProduct));
 
     try {
       result.event.subscribe((info) => {
@@ -227,24 +228,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no store product match provided criteria', async () => {
-    expect(await StoreProductService.exists(createCriteria())).toBeFalsy();
+    expect(await storeProductService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any store product match provided criteria', async () => {
     const storeProducts = await createStoreProducts(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await StoreProductService.exists(createCriteria(storeProducts.first()))).toBeTruthy();
+    expect(await storeProductService.exists(createCriteria(storeProducts.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no store product match provided criteria', async () => {
-    expect(await StoreProductService.count(createCriteria())).toBe(0);
+    expect(await storeProductService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of store product match provided criteria', async () => {
     const storeProducts = await createStoreProducts(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await StoreProductService.count(createCriteria(storeProducts.first()))).toBe(storeProducts.count());
+    expect(await storeProductService.count(createCriteria(storeProducts.first()))).toBe(storeProducts.count());
   });
 });

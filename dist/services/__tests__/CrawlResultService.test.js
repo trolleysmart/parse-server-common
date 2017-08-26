@@ -27,6 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var chance = new _chance2.default();
+var crawlResultService = new _2.CrawlResultService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
@@ -103,9 +104,9 @@ var createCrawlResults = function () {
                       finalCrawlResult = _tempCrawlResult;
 
                     case 10:
-                      _context.t0 = _2.CrawlResultService;
+                      _context.t0 = crawlResultService;
                       _context.next = 13;
-                      return _2.CrawlResultService.create(finalCrawlResult);
+                      return crawlResultService.create(finalCrawlResult);
 
                     case 13:
                       _context.t1 = _context.sent;
@@ -147,7 +148,7 @@ describe('create', function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.t0 = _2.CrawlResultService;
+            _context3.t0 = crawlResultService;
             _context3.next = 3;
             return (0, _CrawlResult.createCrawlResultInfo)();
 
@@ -184,12 +185,12 @@ describe('create', function () {
             _ref7 = _context4.sent;
             crawlResult = _ref7.crawlResult;
             _context4.next = 6;
-            return _2.CrawlResultService.create(crawlResult);
+            return crawlResultService.create(crawlResult);
 
           case 6:
             crawlResultId = _context4.sent;
             _context4.next = 9;
-            return _2.CrawlResultService.read(crawlResultId, createCriteriaWthoutConditions());
+            return crawlResultService.read(crawlResultId, createCriteriaWthoutConditions());
 
           case 9:
             fetchedCrawlResult = _context4.sent;
@@ -216,7 +217,7 @@ describe('read', function () {
             crawlResultId = (0, _v2.default)();
             _context5.prev = 1;
             _context5.next = 4;
-            return _2.CrawlResultService.read(crawlResultId);
+            return crawlResultService.read(crawlResultId);
 
           case 4:
             _context5.next = 9;
@@ -251,12 +252,12 @@ describe('read', function () {
             expectedCrawlResult = _ref10.crawlResult;
             expectedCrawlSession = _ref10.crawlSession;
             _context6.next = 7;
-            return _2.CrawlResultService.create(expectedCrawlResult);
+            return crawlResultService.create(expectedCrawlResult);
 
           case 7:
             crawlResultId = _context6.sent;
             _context6.next = 10;
-            return _2.CrawlResultService.read(crawlResultId, createCriteriaWthoutConditions());
+            return crawlResultService.read(crawlResultId, createCriteriaWthoutConditions());
 
           case 10:
             crawlResult = _context6.sent;
@@ -282,8 +283,8 @@ describe('update', function () {
           case 0:
             crawlResultId = (0, _v2.default)();
             _context7.prev = 1;
-            _context7.t0 = _2.CrawlResultService;
-            _context7.t1 = _2.CrawlResultService;
+            _context7.t0 = crawlResultService;
+            _context7.t1 = crawlResultService;
             _context7.next = 6;
             return (0, _CrawlResult.createCrawlResultInfo)();
 
@@ -301,7 +302,7 @@ describe('update', function () {
           case 13:
             crawlResult = _context7.sent;
             _context7.next = 16;
-            return _2.CrawlResultService.update(crawlResult.set('id', crawlResultId));
+            return crawlResultService.update(crawlResult.set('id', crawlResultId));
 
           case 16:
             _context7.next = 21;
@@ -334,7 +335,7 @@ describe('update', function () {
           case 2:
             _ref13 = _context8.sent;
             expectedCrawlResult = _ref13.crawlResult;
-            _context8.t0 = _2.CrawlResultService;
+            _context8.t0 = crawlResultService;
             _context8.next = 7;
             return (0, _CrawlResult.createCrawlResultInfo)();
 
@@ -346,7 +347,7 @@ describe('update', function () {
           case 10:
             crawlResultId = _context8.sent;
             _context8.next = 13;
-            return _2.CrawlResultService.update(expectedCrawlResult.set('id', crawlResultId));
+            return crawlResultService.update(expectedCrawlResult.set('id', crawlResultId));
 
           case 13:
             id = _context8.sent;
@@ -376,7 +377,7 @@ describe('update', function () {
             _ref15 = _context9.sent;
             expectedCrawlResult = _ref15.crawlResult;
             expectedCrawlSession = _ref15.crawlSession;
-            _context9.t0 = _2.CrawlResultService;
+            _context9.t0 = crawlResultService;
             _context9.next = 8;
             return (0, _CrawlResult.createCrawlResultInfo)();
 
@@ -388,11 +389,11 @@ describe('update', function () {
           case 11:
             crawlResultId = _context9.sent;
             _context9.next = 14;
-            return _2.CrawlResultService.update(expectedCrawlResult.set('id', crawlResultId));
+            return crawlResultService.update(expectedCrawlResult.set('id', crawlResultId));
 
           case 14:
             _context9.next = 16;
-            return _2.CrawlResultService.read(crawlResultId, createCriteriaWthoutConditions());
+            return crawlResultService.read(crawlResultId, createCriteriaWthoutConditions());
 
           case 16:
             crawlResult = _context9.sent;
@@ -419,7 +420,7 @@ describe('delete', function () {
             crawlResultId = (0, _v2.default)();
             _context10.prev = 1;
             _context10.next = 4;
-            return _2.CrawlResultService.delete(crawlResultId);
+            return crawlResultService.delete(crawlResultId);
 
           case 4:
             _context10.next = 9;
@@ -445,7 +446,7 @@ describe('delete', function () {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.t0 = _2.CrawlResultService;
+            _context11.t0 = crawlResultService;
             _context11.next = 3;
             return (0, _CrawlResult.createCrawlResultInfo)();
 
@@ -457,12 +458,12 @@ describe('delete', function () {
           case 6:
             crawlResultId = _context11.sent;
             _context11.next = 9;
-            return _2.CrawlResultService.delete(crawlResultId);
+            return crawlResultService.delete(crawlResultId);
 
           case 9:
             _context11.prev = 9;
             _context11.next = 12;
-            return _2.CrawlResultService.delete(crawlResultId);
+            return crawlResultService.delete(crawlResultId);
 
           case 12:
             _context11.next = 17;
@@ -491,7 +492,7 @@ describe('search', function () {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.next = 2;
-            return _2.CrawlResultService.search(createCriteria());
+            return crawlResultService.search(createCriteria());
 
           case 2:
             crawlResults = _context12.sent;
@@ -528,7 +529,7 @@ describe('search', function () {
                 while (1) {
                   switch (_context13.prev = _context13.next) {
                     case 0:
-                      return _context13.abrupt('return', _2.CrawlResultService.create(expectedCrawlResult));
+                      return _context13.abrupt('return', crawlResultService.create(expectedCrawlResult));
 
                     case 1:
                     case 'end':
@@ -542,7 +543,7 @@ describe('search', function () {
             _context14.t1 = _context14.sent;
             results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
             _context14.next = 12;
-            return _2.CrawlResultService.search(createCriteria(expectedCrawlResult));
+            return crawlResultService.search(createCriteria(expectedCrawlResult));
 
           case 12:
             crawlResults = _context14.sent;
@@ -573,7 +574,7 @@ describe('searchAll', function () {
         switch (_context15.prev = _context15.next) {
           case 0:
             crawlResults = (0, _immutable.List)();
-            result = _2.CrawlResultService.searchAll(createCriteria());
+            result = crawlResultService.searchAll(createCriteria());
             _context15.prev = 2;
 
             result.event.subscribe(function (info) {
@@ -622,7 +623,7 @@ describe('searchAll', function () {
                 while (1) {
                   switch (_context16.prev = _context16.next) {
                     case 0:
-                      return _context16.abrupt('return', _2.CrawlResultService.create(expectedCrawlResult));
+                      return _context16.abrupt('return', crawlResultService.create(expectedCrawlResult));
 
                     case 1:
                     case 'end':
@@ -636,7 +637,7 @@ describe('searchAll', function () {
             _context17.t1 = _context17.sent;
             results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
             crawlResults = (0, _immutable.List)();
-            result = _2.CrawlResultService.searchAll(createCriteria(expectedCrawlResult));
+            result = crawlResultService.searchAll(createCriteria(expectedCrawlResult));
             _context17.prev = 12;
 
             result.event.subscribe(function (info) {
@@ -679,7 +680,7 @@ describe('exists', function () {
           case 0:
             _context18.t0 = expect;
             _context18.next = 3;
-            return _2.CrawlResultService.exists(createCriteria());
+            return crawlResultService.exists(createCriteria());
 
           case 3:
             _context18.t1 = _context18.sent;
@@ -706,7 +707,7 @@ describe('exists', function () {
             crawlResults = _context19.sent;
             _context19.t0 = expect;
             _context19.next = 6;
-            return _2.CrawlResultService.exists(createCriteria(crawlResults.first()));
+            return crawlResultService.exists(createCriteria(crawlResults.first()));
 
           case 6:
             _context19.t1 = _context19.sent;
@@ -729,7 +730,7 @@ describe('count', function () {
           case 0:
             _context20.t0 = expect;
             _context20.next = 3;
-            return _2.CrawlResultService.count(createCriteria());
+            return crawlResultService.count(createCriteria());
 
           case 3:
             _context20.t1 = _context20.sent;
@@ -756,7 +757,7 @@ describe('count', function () {
             crawlResults = _context21.sent;
             _context21.t0 = expect;
             _context21.next = 6;
-            return _2.CrawlResultService.count(createCriteria(crawlResults.first()));
+            return crawlResultService.count(createCriteria(crawlResults.first()));
 
           case 6:
             _context21.t1 = _context21.sent;

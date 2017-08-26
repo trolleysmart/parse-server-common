@@ -4,26 +4,9 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { ProductPrice, Store, StoreProduct, Tag } from '../schema';
 
 export default class ProductPriceService extends ServiceBase {
-  static messagePrefix = 'No product price found with Id: ';
-
-  static create = async (info, acl, sessionToken) => ServiceBase.create(ProductPrice, info, acl, sessionToken);
-
-  static read = async (id, criteria, sessionToken) =>
-    ServiceBase.read(ProductPrice, id, sessionToken, ProductPriceService.messagePrefix, query =>
-      ProductPriceService.buildIncludeQuery(query, criteria),
-    );
-
-  static update = async (info, sessionToken) => ServiceBase.update(ProductPrice, info, sessionToken, ProductPriceService.messagePrefix);
-
-  static delete = async (id, sessionToken) => ServiceBase.delete(ProductPrice, id, sessionToken, ProductPriceService.messagePrefix);
-
-  static search = async (criteria, sessionToken) => ServiceBase.search(ProductPrice, ProductPriceService.buildSearchQuery, criteria, sessionToken);
-
-  static searchAll = (criteria, sessionToken) => ServiceBase.searchAll(ProductPrice, ProductPriceService.buildSearchQuery, criteria, sessionToken);
-
-  static count = async (criteria, sessionToken) => ServiceBase.count(ProductPriceService.buildSearchQuery, criteria, sessionToken);
-
-  static exists = async (criteria, sessionToken) => ServiceBase.exists(ProductPriceService.buildSearchQuery, criteria, sessionToken);
+  constructor() {
+    super(ProductPrice, ProductPriceService.buildSearchQuery, ProductPriceService.buildIncludeQuery, 'product price');
+  }
 
   static buildIncludeQuery = (query, criteria) => {
     if (!criteria) {

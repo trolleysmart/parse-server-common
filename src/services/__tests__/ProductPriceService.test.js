@@ -8,6 +8,7 @@ import { ProductPriceService } from '../';
 import { createProductPriceInfo, expectProductPrice } from '../../schema/__tests__/ProductPrice.test';
 
 const chance = new Chance();
+const productPriceService = new ProductPriceService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -71,7 +72,7 @@ const createProductPrices = async (count, useSameInfo = false) => {
             finalProductPrice = tempProductPrice;
           }
 
-          return ProductPriceService.read(await ProductPriceService.create(finalProductPrice), createCriteriaWthoutConditions());
+          return productPriceService.read(await productPriceService.create(finalProductPrice), createCriteriaWthoutConditions());
         })
         .toArray(),
     ),
@@ -82,15 +83,15 @@ export default createProductPrices;
 
 describe('create', () => {
   test('should return the created product price Id', async () => {
-    const productPriceId = await ProductPriceService.create((await createProductPriceInfo()).productPrice);
+    const productPriceId = await productPriceService.create((await createProductPriceInfo()).productPrice);
 
     expect(productPriceId).toBeDefined();
   });
 
   test('should create the product price', async () => {
     const { productPrice } = await createProductPriceInfo();
-    const productPriceId = await ProductPriceService.create(productPrice);
-    const fetchedProductPrice = await ProductPriceService.read(productPriceId, createCriteriaWthoutConditions());
+    const productPriceId = await productPriceService.create(productPrice);
+    const fetchedProductPrice = await productPriceService.read(productPriceId, createCriteriaWthoutConditions());
 
     expect(fetchedProductPrice).toBeDefined();
   });
@@ -101,7 +102,7 @@ describe('read', () => {
     const productPriceId = uuid();
 
     try {
-      await ProductPriceService.read(productPriceId);
+      await productPriceService.read(productPriceId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
     }
@@ -114,8 +115,8 @@ describe('read', () => {
       tags: expectedTags,
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
-    const productPriceId = await ProductPriceService.create(expectedProductPrice);
-    const productPrice = await ProductPriceService.read(productPriceId, createCriteriaWthoutConditions());
+    const productPriceId = await productPriceService.create(expectedProductPrice);
+    const productPrice = await productPriceService.read(productPriceId, createCriteriaWthoutConditions());
 
     expectProductPrice(productPrice, expectedProductPrice, { productPriceId, expectedStore, expectedTags, expectedStoreProduct });
   });
@@ -126,12 +127,12 @@ describe('update', () => {
     const productPriceId = uuid();
 
     try {
-      const productPrice = await ProductPriceService.read(
-        await ProductPriceService.create((await createProductPriceInfo()).productPrice),
+      const productPrice = await productPriceService.read(
+        await productPriceService.create((await createProductPriceInfo()).productPrice),
         createCriteriaWthoutConditions(),
       );
 
-      await ProductPriceService.update(productPrice.set('id', productPriceId));
+      await productPriceService.update(productPrice.set('id', productPriceId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
     }
@@ -139,8 +140,8 @@ describe('update', () => {
 
   test('should return the Id of the updated product price', async () => {
     const { productPrice: expectedProductPrice } = await createProductPriceInfo();
-    const productPriceId = await ProductPriceService.create((await createProductPriceInfo()).productPrice);
-    const id = await ProductPriceService.update(expectedProductPrice.set('id', productPriceId));
+    const productPriceId = await productPriceService.create((await createProductPriceInfo()).productPrice);
+    const id = await productPriceService.update(expectedProductPrice.set('id', productPriceId));
 
     expect(id).toBe(productPriceId);
   });
@@ -152,11 +153,11 @@ describe('update', () => {
       tags: expectedTags,
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
-    const productPriceId = await ProductPriceService.create((await createProductPriceInfo()).productPrice);
+    const productPriceId = await productPriceService.create((await createProductPriceInfo()).productPrice);
 
-    await ProductPriceService.update(expectedProductPrice.set('id', productPriceId));
+    await productPriceService.update(expectedProductPrice.set('id', productPriceId));
 
-    const productPrice = await ProductPriceService.read(productPriceId, createCriteriaWthoutConditions());
+    const productPrice = await productPriceService.read(productPriceId, createCriteriaWthoutConditions());
 
     expectProductPrice(productPrice, expectedProductPrice, { productPriceId, expectedStore, expectedTags, expectedStoreProduct });
   });
@@ -167,18 +168,18 @@ describe('delete', () => {
     const productPriceId = uuid();
 
     try {
-      await ProductPriceService.delete(productPriceId);
+      await productPriceService.delete(productPriceId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
     }
   });
 
   test('should delete the existing product price', async () => {
-    const productPriceId = await ProductPriceService.create((await createProductPriceInfo()).productPrice);
-    await ProductPriceService.delete(productPriceId);
+    const productPriceId = await productPriceService.create((await createProductPriceInfo()).productPrice);
+    await productPriceService.delete(productPriceId);
 
     try {
-      await ProductPriceService.delete(productPriceId);
+      await productPriceService.delete(productPriceId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
     }
@@ -187,7 +188,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no product price if provided criteria matches no product price', async () => {
-    const productPrices = await ProductPriceService.search(createCriteria());
+    const productPrices = await productPriceService.search(createCriteria());
 
     expect(productPrices.count()).toBe(0);
   });
@@ -200,9 +201,9 @@ describe('search', () => {
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => productPriceService.create(expectedProductPrice)).toArray()),
     );
-    const productPrices = await ProductPriceService.search(createCriteria(expectedProductPrice));
+    const productPrices = await productPriceService.search(createCriteria(expectedProductPrice));
 
     expect(productPrices.count).toBe(results.count);
     productPrices.forEach((productPrice) => {
@@ -220,7 +221,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no product price if provided criteria matches no product price', async () => {
     let productPrices = List();
-    const result = ProductPriceService.searchAll(createCriteria());
+    const result = productPriceService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -243,11 +244,11 @@ describe('searchAll', () => {
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => ProductPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => productPriceService.create(expectedProductPrice)).toArray()),
     );
 
     let productPrices = List();
-    const result = ProductPriceService.searchAll(createCriteria(expectedProductPrice));
+    const result = productPriceService.searchAll(createCriteria(expectedProductPrice));
 
     try {
       result.event.subscribe((info) => {
@@ -274,24 +275,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no product price match provided criteria', async () => {
-    expect(await ProductPriceService.exists(createCriteria())).toBeFalsy();
+    expect(await productPriceService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any product price match provided criteria', async () => {
     const productPrices = await createProductPrices(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await ProductPriceService.exists(createCriteria(productPrices.first()))).toBeTruthy();
+    expect(await productPriceService.exists(createCriteria(productPrices.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no product price match provided criteria', async () => {
-    expect(await ProductPriceService.count(createCriteria())).toBe(0);
+    expect(await productPriceService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of product price match provided criteria', async () => {
     const productPrices = await createProductPrices(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await ProductPriceService.count(createCriteria(productPrices.first()))).toBe(productPrices.count());
+    expect(await productPriceService.count(createCriteria(productPrices.first()))).toBe(productPrices.count());
   });
 });

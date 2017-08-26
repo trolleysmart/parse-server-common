@@ -4,28 +4,9 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { ShoppingList, ShoppingListItem, ProductPrice, StapleItem, Store, Tag } from '../schema';
 
 export default class ShoppingListItemService extends ServiceBase {
-  static messagePrefix = 'No shopping list item found with Id: ';
-
-  static create = async (info, acl, sessionToken) => ServiceBase.create(ShoppingListItem, info, acl, sessionToken);
-
-  static read = async (id, criteria, sessionToken) =>
-    ServiceBase.read(ShoppingListItem, id, sessionToken, ShoppingListItemService.messagePrefix, query =>
-      ShoppingListItemService.buildIncludeQuery(query, criteria),
-    );
-
-  static update = async (info, sessionToken) => ServiceBase.update(ShoppingListItem, info, sessionToken, ShoppingListItemService.messagePrefix);
-
-  static delete = async (id, sessionToken) => ServiceBase.delete(ShoppingListItem, id, sessionToken, ShoppingListItemService.messagePrefix);
-
-  static search = async (criteria, sessionToken) =>
-    ServiceBase.search(ShoppingListItem, ShoppingListItemService.buildSearchQuery, criteria, sessionToken);
-
-  static searchAll = (criteria, sessionToken) =>
-    ServiceBase.searchAll(ShoppingListItem, ShoppingListItemService.buildSearchQuery, criteria, sessionToken);
-
-  static count = async (criteria, sessionToken) => ServiceBase.count(ShoppingListItemService.buildSearchQuery, criteria, sessionToken);
-
-  static exists = async (criteria, sessionToken) => ServiceBase.exists(ShoppingListItemService.buildSearchQuery, criteria, sessionToken);
+  constructor() {
+    super(ShoppingListItem, ShoppingListItemService.buildSearchQuery, ShoppingListItemService.buildIncludeQuery, 'shopping list item');
+  }
 
   static buildIncludeQuery = (query, criteria) => {
     if (!criteria) {

@@ -8,6 +8,7 @@ import { StapleItemService } from '../';
 import { createStapleItemInfo, expectStapleItem } from '../../schema/__tests__/StapleItem.test';
 
 const chance = new Chance();
+const stapleItemService = new StapleItemService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
@@ -53,7 +54,7 @@ const createStapleItems = async (count, useSameInfo = false) => {
             finalStapleItem = tempStapleItem;
           }
 
-          return StapleItemService.read(await StapleItemService.create(finalStapleItem), createCriteriaWthoutConditions());
+          return stapleItemService.read(await stapleItemService.create(finalStapleItem), createCriteriaWthoutConditions());
         })
         .toArray(),
     ),
@@ -64,15 +65,15 @@ export default createStapleItems;
 
 describe('create', () => {
   test('should return the created staple item Id', async () => {
-    const stapleItemId = await StapleItemService.create((await createStapleItemInfo()).stapleItem);
+    const stapleItemId = await stapleItemService.create((await createStapleItemInfo()).stapleItem);
 
     expect(stapleItemId).toBeDefined();
   });
 
   test('should create the staple item', async () => {
     const { stapleItem } = await createStapleItemInfo();
-    const stapleItemId = await StapleItemService.create(stapleItem);
-    const fetchedStapleItem = await StapleItemService.read(stapleItemId, createCriteriaWthoutConditions());
+    const stapleItemId = await stapleItemService.create(stapleItem);
+    const fetchedStapleItem = await stapleItemService.read(stapleItemId, createCriteriaWthoutConditions());
 
     expect(fetchedStapleItem).toBeDefined();
   });
@@ -83,7 +84,7 @@ describe('read', () => {
     const stapleItemId = uuid();
 
     try {
-      await StapleItemService.read(stapleItemId);
+      await stapleItemService.read(stapleItemId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
@@ -91,8 +92,8 @@ describe('read', () => {
 
   test('should read the existing staple item', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
-    const stapleItemId = await StapleItemService.create(expectedStapleItem);
-    const stapleItem = await StapleItemService.read(stapleItemId, createCriteriaWthoutConditions());
+    const stapleItemId = await stapleItemService.create(expectedStapleItem);
+    const stapleItem = await stapleItemService.read(stapleItemId, createCriteriaWthoutConditions());
 
     expectStapleItem(stapleItem, expectedStapleItem, {
       stapleItemId,
@@ -107,12 +108,12 @@ describe('update', () => {
     const stapleItemId = uuid();
 
     try {
-      const stapleItem = await StapleItemService.read(
-        await StapleItemService.create((await createStapleItemInfo()).stapleItem),
+      const stapleItem = await stapleItemService.read(
+        await stapleItemService.create((await createStapleItemInfo()).stapleItem),
         createCriteriaWthoutConditions(),
       );
 
-      await StapleItemService.update(stapleItem.set('id', stapleItemId));
+      await stapleItemService.update(stapleItem.set('id', stapleItemId));
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
@@ -120,19 +121,19 @@ describe('update', () => {
 
   test('should return the Id of the updated staple item', async () => {
     const { stapleItem: expectedStapleItem } = await createStapleItemInfo();
-    const stapleItemId = await StapleItemService.create((await createStapleItemInfo()).stapleItem);
-    const id = await StapleItemService.update(expectedStapleItem.set('id', stapleItemId));
+    const stapleItemId = await stapleItemService.create((await createStapleItemInfo()).stapleItem);
+    const id = await stapleItemService.update(expectedStapleItem.set('id', stapleItemId));
 
     expect(id).toBe(stapleItemId);
   });
 
   test('should update the existing staple item', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
-    const stapleItemId = await StapleItemService.create((await createStapleItemInfo()).stapleItem);
+    const stapleItemId = await stapleItemService.create((await createStapleItemInfo()).stapleItem);
 
-    await StapleItemService.update(expectedStapleItem.set('id', stapleItemId));
+    await stapleItemService.update(expectedStapleItem.set('id', stapleItemId));
 
-    const stapleItem = await StapleItemService.read(stapleItemId, createCriteriaWthoutConditions());
+    const stapleItem = await stapleItemService.read(stapleItemId, createCriteriaWthoutConditions());
 
     expectStapleItem(stapleItem, expectedStapleItem, {
       stapleItemId,
@@ -147,18 +148,18 @@ describe('delete', () => {
     const stapleItemId = uuid();
 
     try {
-      await StapleItemService.delete(stapleItemId);
+      await stapleItemService.delete(stapleItemId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
   });
 
   test('should delete the existing staple item', async () => {
-    const stapleItemId = await StapleItemService.create((await createStapleItemInfo()).stapleItem);
-    await StapleItemService.delete(stapleItemId);
+    const stapleItemId = await stapleItemService.create((await createStapleItemInfo()).stapleItem);
+    await stapleItemService.delete(stapleItemId);
 
     try {
-      await StapleItemService.delete(stapleItemId);
+      await stapleItemService.delete(stapleItemId);
     } catch (ex) {
       expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
@@ -167,7 +168,7 @@ describe('delete', () => {
 
 describe('search', () => {
   test('should return no staple item if provided criteria matches no staple item', async () => {
-    const stapleItems = await StapleItemService.search(createCriteria());
+    const stapleItems = await stapleItemService.search(createCriteria());
 
     expect(stapleItems.count()).toBe(0);
   });
@@ -175,9 +176,9 @@ describe('search', () => {
   test('should return the staple item matches the criteria', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => StapleItemService.create(expectedStapleItem)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleItemService.create(expectedStapleItem)).toArray()),
     );
-    const stapleItems = await StapleItemService.search(createCriteria(expectedStapleItem));
+    const stapleItems = await stapleItemService.search(createCriteria(expectedStapleItem));
 
     expect(stapleItems.count).toBe(results.count);
     stapleItems.forEach((stapleItem) => {
@@ -194,7 +195,7 @@ describe('search', () => {
 describe('searchAll', () => {
   test('should return no staple item if provided criteria matches no staple item', async () => {
     let stapleItems = List();
-    const result = StapleItemService.searchAll(createCriteria());
+    const result = stapleItemService.searchAll(createCriteria());
 
     try {
       result.event.subscribe((info) => {
@@ -212,11 +213,11 @@ describe('searchAll', () => {
   test('should return the staple item matches the criteria', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => StapleItemService.create(expectedStapleItem)).toArray()),
+      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleItemService.create(expectedStapleItem)).toArray()),
     );
 
     let stapleItems = List();
-    const result = StapleItemService.searchAll(createCriteria(expectedStapleItem));
+    const result = stapleItemService.searchAll(createCriteria(expectedStapleItem));
 
     try {
       result.event.subscribe((info) => {
@@ -242,24 +243,24 @@ describe('searchAll', () => {
 
 describe('exists', () => {
   test('should return false if no staple item match provided criteria', async () => {
-    expect(await StapleItemService.exists(createCriteria())).toBeFalsy();
+    expect(await stapleItemService.exists(createCriteria())).toBeFalsy();
   });
 
   test('should return true if any staple item match provided criteria', async () => {
     const stapleItems = await createStapleItems(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await StapleItemService.exists(createCriteria(stapleItems.first()))).toBeTruthy();
+    expect(await stapleItemService.exists(createCriteria(stapleItems.first()))).toBeTruthy();
   });
 });
 
 describe('count', () => {
   test('should return 0 if no staple item match provided criteria', async () => {
-    expect(await StapleItemService.count(createCriteria())).toBe(0);
+    expect(await stapleItemService.count(createCriteria())).toBe(0);
   });
 
   test('should return the count of staple item match provided criteria', async () => {
     const stapleItems = await createStapleItems(chance.integer({ min: 1, max: 10 }), true);
 
-    expect(await StapleItemService.count(createCriteria(stapleItems.first()))).toBe(stapleItems.count());
+    expect(await stapleItemService.count(createCriteria(stapleItems.first()))).toBe(stapleItems.count());
   });
 });

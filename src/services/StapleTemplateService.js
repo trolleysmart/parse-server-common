@@ -4,28 +4,15 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { StapleTemplate } from '../schema';
 
 export default class StapleTemplateService extends ServiceBase {
-  static messagePrefix = 'No staple template found with Id: ';
+  constructor() {
+    super(StapleTemplate, StapleTemplateService.buildSearchQuery, StapleTemplateService.buildIncludeQuery, 'staple template');
+  }
 
-  static create = async (info, acl, sessionToken) => ServiceBase.create(StapleTemplate, info, acl, sessionToken);
-
-  static read = async (id, criteria, sessionToken) => ServiceBase.read(StapleTemplate, id, sessionToken, StapleTemplateService.messagePrefix);
-
-  static update = async (info, sessionToken) => ServiceBase.update(StapleTemplate, info, sessionToken, StapleTemplateService.messagePrefix);
-
-  static delete = async (id, sessionToken) => ServiceBase.delete(StapleTemplate, id, sessionToken, StapleTemplateService.messagePrefix);
-
-  static search = async (criteria, sessionToken) =>
-    ServiceBase.search(StapleTemplate, StapleTemplateService.buildSearchQuery, criteria, sessionToken);
-
-  static searchAll = (criteria, sessionToken) =>
-    ServiceBase.searchAll(StapleTemplate, StapleTemplateService.buildSearchQuery, criteria, sessionToken);
-
-  static count = async (criteria, sessionToken) => ServiceBase.count(StapleTemplateService.buildSearchQuery, criteria, sessionToken);
-
-  static exists = async (criteria, sessionToken) => ServiceBase.exists(StapleTemplateService.buildSearchQuery, criteria, sessionToken);
+  static buildIncludeQuery = query => query;
 
   static buildSearchQuery = (criteria) => {
-    const query = ParseWrapperService.createQuery(StapleTemplate, criteria);
+    const queryWithoutIncludes = ParseWrapperService.createQuery(StapleTemplate, criteria);
+    const query = StapleTemplateService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
     if (!criteria.has('conditions')) {
       return query;
