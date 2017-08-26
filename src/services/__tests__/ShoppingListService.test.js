@@ -12,8 +12,8 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('name', 'user', 'sharedWithUsers'),
-    includeUser: true,
-    includeSharedWithUsers: true,
+    include_user: true,
+    include_sharedWithUsers: true,
   });
 
 const createCriteria = shoppingList =>

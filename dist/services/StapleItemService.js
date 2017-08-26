@@ -188,29 +188,9 @@ StapleItemService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeUser')) {
-    var value = criteria.get('includeUser');
-
-    if (value) {
-      query.include('user');
-    }
-  }
-
-  if (criteria.has('includeStapleTemplateItem')) {
-    var _value = criteria.get('includeStapleTemplateItem');
-
-    if (_value) {
-      query.include('stapleTemplateItem');
-    }
-  }
-
-  if (criteria.has('includeTags')) {
-    var _value2 = criteria.get('includeTags');
-
-    if (_value2) {
-      query.include('tags');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleTemplateItem');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
   return query;
 };

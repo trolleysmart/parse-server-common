@@ -30,13 +30,7 @@ export default class UserFeedbackService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeUser')) {
-      const value = criteria.get('includeUser');
-
-      if (value) {
-        query.include('user');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'user');
 
     return query;
   };

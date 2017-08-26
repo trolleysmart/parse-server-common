@@ -32,13 +32,7 @@ export default class StoreService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeParentStore')) {
-      const value = criteria.get('includeParentStore');
-
-      if (value) {
-        query.include('parentStore');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'parentStore');
 
     return query;
   };

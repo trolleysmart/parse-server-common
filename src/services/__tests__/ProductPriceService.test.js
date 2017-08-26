@@ -25,9 +25,9 @@ const createCriteriaWthoutConditions = () =>
       'tags',
       'storeProduct',
     ),
-    includeStore: true,
-    includeTags: true,
-    includeStoreProduct: true,
+    include_store: true,
+    include_tags: true,
+    include_storeProduct: true,
   });
 
 const createCriteria = productPrice =>

@@ -188,13 +188,7 @@ CrawlResultService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeCrawlSession')) {
-    var value = criteria.get('includeCrawlSession');
-
-    if (value) {
-      query.include('crawlSession');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'crawlSession');
 
   return query;
 };

@@ -12,9 +12,9 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('name', 'description', 'imageUrl', 'popular', 'user', 'stapleTemplateItem', 'tags'),
-    includeUser: true,
-    includeStapleTemplateItem: true,
-    includeTags: true,
+    include_user: true,
+    include_stapleTemplateItem: true,
+    include_tags: true,
   });
 
 const createCriteria = stapleItem =>

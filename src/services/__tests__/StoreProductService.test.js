@@ -12,8 +12,8 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags'),
-    includeStore: true,
-    includeStoreTags: true,
+    include_store: true,
+    include_storeTags: true,
   });
 
 const createCriteria = storeProduct =>

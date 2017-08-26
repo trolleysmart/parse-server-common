@@ -12,9 +12,9 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('key', 'name', 'description', 'imageUrl', 'url', 'level', 'parentStoreTag', 'store', 'tag'),
-    includeParentTag: true,
-    includeStore: true,
-    includeTag: true,
+    include_parentTag: true,
+    include_store: true,
+    include_tag: true,
   });
 
 const createCriteria = storeTag =>

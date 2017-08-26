@@ -30,21 +30,8 @@ export default class StoreProductService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeStore')) {
-      const value = criteria.get('includeStore');
-
-      if (value) {
-        query.include('store');
-      }
-    }
-
-    if (criteria.has('includeStoreTags')) {
-      const value = criteria.get('includeStoreTags');
-
-      if (value) {
-        query.include('storeTags');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'store');
+    ServiceBase.addIncludeQuery(criteria, query, 'storeTags');
 
     return query;
   };

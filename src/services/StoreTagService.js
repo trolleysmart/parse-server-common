@@ -28,29 +28,9 @@ export default class StoreTagService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeParentStoreTag')) {
-      const value = criteria.get('includeParentStoreTag');
-
-      if (value) {
-        query.include('parentStoreTag');
-      }
-    }
-
-    if (criteria.has('includeStore')) {
-      const value = criteria.get('includeStore');
-
-      if (value) {
-        query.include('store');
-      }
-    }
-
-    if (criteria.has('includeTag')) {
-      const value = criteria.get('includeTag');
-
-      if (value) {
-        query.include('tag');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'parentStoreTag');
+    ServiceBase.addIncludeQuery(criteria, query, 'store');
+    ServiceBase.addIncludeQuery(criteria, query, 'tag');
 
     return query;
   };

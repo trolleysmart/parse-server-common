@@ -12,8 +12,8 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('name', 'description', 'imageUrl', 'popular', 'stapleTemplates', 'tags'),
-    includeStapleTemplates: true,
-    includeTags: true,
+    include_stapleTemplates: true,
+    include_tags: true,
   });
 
 const createCriteria = stapleTemplateItem =>

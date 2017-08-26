@@ -13,7 +13,7 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'parentStore'),
-    includeParentStore: true,
+    include_parentStore: true,
   });
 
 const createCriteria = store =>

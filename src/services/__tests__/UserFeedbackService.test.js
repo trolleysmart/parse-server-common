@@ -12,7 +12,7 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('feedback', 'user'),
-    includeUser: true,
+    include_user: true,
   });
 
 const createCriteria = userFeedback =>

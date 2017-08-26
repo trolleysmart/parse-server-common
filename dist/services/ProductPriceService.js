@@ -188,29 +188,9 @@ ProductPriceService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeStore')) {
-    var value = criteria.get('includeStore');
-
-    if (value) {
-      query.include('store');
-    }
-  }
-
-  if (criteria.has('includeTags')) {
-    var _value = criteria.get('includeTags');
-
-    if (_value) {
-      query.include('tags');
-    }
-  }
-
-  if (criteria.has('includeStoreProduct')) {
-    var _value2 = criteria.get('includeStoreProduct');
-
-    if (_value2) {
-      query.include('storeProduct');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'storeProduct');
 
   return query;
 };

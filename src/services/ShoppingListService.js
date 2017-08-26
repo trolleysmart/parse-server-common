@@ -30,21 +30,8 @@ export default class ShoppingListService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeUser')) {
-      const value = criteria.get('includeUser');
-
-      if (value) {
-        query.include('user');
-      }
-    }
-
-    if (criteria.has('includeSharedWithUsers')) {
-      const value = criteria.get('SharedWithUsersinclude');
-
-      if (value) {
-        query.include('sharedWithUsers');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'user');
+    ServiceBase.addIncludeQuery(criteria, query, 'sharedWithUsers');
 
     return query;
   };

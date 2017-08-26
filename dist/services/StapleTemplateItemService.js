@@ -188,21 +188,8 @@ StapleTemplateItemService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeStapleTemplates')) {
-    var value = criteria.get('includeStapleTemplates');
-
-    if (value) {
-      query.include('stapleTemplates');
-    }
-  }
-
-  if (criteria.has('includeTags')) {
-    var _value = criteria.get('includeTags');
-
-    if (_value) {
-      query.include('tags');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleTemplates');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
   return query;
 };

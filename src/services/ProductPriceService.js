@@ -30,29 +30,9 @@ export default class ProductPriceService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeStore')) {
-      const value = criteria.get('includeStore');
-
-      if (value) {
-        query.include('store');
-      }
-    }
-
-    if (criteria.has('includeTags')) {
-      const value = criteria.get('includeTags');
-
-      if (value) {
-        query.include('tags');
-      }
-    }
-
-    if (criteria.has('includeStoreProduct')) {
-      const value = criteria.get('includeStoreProduct');
-
-      if (value) {
-        query.include('storeProduct');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'store');
+    ServiceBase.addIncludeQuery(criteria, query, 'tags');
+    ServiceBase.addIncludeQuery(criteria, query, 'storeProduct');
 
     return query;
   };

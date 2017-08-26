@@ -188,21 +188,8 @@ StoreProductService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeStore')) {
-    var value = criteria.get('includeStore');
-
-    if (value) {
-      query.include('store');
-    }
-  }
-
-  if (criteria.has('includeStoreTags')) {
-    var _value = criteria.get('includeStoreTags');
-
-    if (_value) {
-      query.include('storeTags');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'storeTags');
 
   return query;
 };

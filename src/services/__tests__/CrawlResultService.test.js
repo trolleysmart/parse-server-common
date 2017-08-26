@@ -12,7 +12,7 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('crawlSession', 'resultSet'),
-    includeCrawlSession: true,
+    include_crawlSession: true,
   });
 
 const createCriteria = crawlResult =>

@@ -32,53 +32,12 @@ export default class ShoppingListItemService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeUser')) {
-      const value = criteria.get('includeUser');
-
-      if (value) {
-        query.include('user');
-      }
-    }
-
-    if (criteria.has('includeShoppingList')) {
-      const value = criteria.get('includeShoppingList');
-
-      if (value) {
-        query.include('shoppingList');
-      }
-    }
-
-    if (criteria.has('includeProductPrice')) {
-      const value = criteria.get('includeProductPrice');
-
-      if (value) {
-        query.include('productPrice');
-      }
-    }
-
-    if (criteria.has('includeStapleItem')) {
-      const value = criteria.get('includeStapleItem');
-
-      if (value) {
-        query.include('stapleItem');
-      }
-    }
-
-    if (criteria.has('includeStore')) {
-      const value = criteria.get('includeStore');
-
-      if (value) {
-        query.include('store');
-      }
-    }
-
-    if (criteria.has('includeTags')) {
-      const value = criteria.get('includeTags');
-
-      if (value) {
-        query.include('tags');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'user');
+    ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
+    ServiceBase.addIncludeQuery(criteria, query, 'productPrice');
+    ServiceBase.addIncludeQuery(criteria, query, 'stapleItem');
+    ServiceBase.addIncludeQuery(criteria, query, 'store');
+    ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
     return query;
   };

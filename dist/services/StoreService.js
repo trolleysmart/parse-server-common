@@ -230,13 +230,7 @@ StoreService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeParentStore')) {
-    var value = criteria.get('includeParentStore');
-
-    if (value) {
-      query.include('parentStore');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentStore');
 
   return query;
 };

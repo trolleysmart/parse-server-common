@@ -12,7 +12,7 @@ const chance = new Chance();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'parentTag'),
-    includeParentTag: true,
+    include_parentTag: true,
   });
 
 const createCriteria = tag =>

@@ -28,13 +28,7 @@ export default class TagService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeParentTag')) {
-      const value = criteria.get('includeParentTag');
-
-      if (value) {
-        query.include('parentTag');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'parentTag');
 
     return query;
   };

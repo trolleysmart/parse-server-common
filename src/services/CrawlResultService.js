@@ -28,13 +28,7 @@ export default class CrawlResultService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeCrawlSession')) {
-      const value = criteria.get('includeCrawlSession');
-
-      if (value) {
-        query.include('crawlSession');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'crawlSession');
 
     return query;
   };

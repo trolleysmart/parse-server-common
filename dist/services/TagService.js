@@ -188,13 +188,7 @@ TagService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeParentTag')) {
-    var value = criteria.get('includeParentTag');
-
-    if (value) {
-      query.include('parentTag');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentTag');
 
   return query;
 };

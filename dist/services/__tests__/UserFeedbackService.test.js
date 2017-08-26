@@ -31,7 +31,7 @@ var chance = new _chance2.default();
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('feedback', 'user'),
-    includeUser: true
+    include_user: true
   });
 };
 

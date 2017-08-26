@@ -188,53 +188,12 @@ ShoppingListItemService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeUser')) {
-    var value = criteria.get('includeUser');
-
-    if (value) {
-      query.include('user');
-    }
-  }
-
-  if (criteria.has('includeShoppingList')) {
-    var _value = criteria.get('includeShoppingList');
-
-    if (_value) {
-      query.include('shoppingList');
-    }
-  }
-
-  if (criteria.has('includeProductPrice')) {
-    var _value2 = criteria.get('includeProductPrice');
-
-    if (_value2) {
-      query.include('productPrice');
-    }
-  }
-
-  if (criteria.has('includeStapleItem')) {
-    var _value3 = criteria.get('includeStapleItem');
-
-    if (_value3) {
-      query.include('stapleItem');
-    }
-  }
-
-  if (criteria.has('includeStore')) {
-    var _value4 = criteria.get('includeStore');
-
-    if (_value4) {
-      query.include('store');
-    }
-  }
-
-  if (criteria.has('includeTags')) {
-    var _value5 = criteria.get('includeTags');
-
-    if (_value5) {
-      query.include('tags');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'productPrice');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleItem');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
   return query;
 };

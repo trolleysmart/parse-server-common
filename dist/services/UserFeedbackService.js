@@ -188,13 +188,7 @@ UserFeedbackService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeUser')) {
-    var value = criteria.get('includeUser');
-
-    if (value) {
-      query.include('user');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
 
   return query;
 };

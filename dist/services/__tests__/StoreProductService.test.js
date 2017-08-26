@@ -31,8 +31,8 @@ var chance = new _chance2.default();
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags'),
-    includeStore: true,
-    includeStoreTags: true
+    include_store: true,
+    include_storeTags: true
   });
 };
 

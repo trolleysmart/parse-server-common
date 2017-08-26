@@ -188,29 +188,9 @@ StoreTagService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeParentStoreTag')) {
-    var value = criteria.get('includeParentStoreTag');
-
-    if (value) {
-      query.include('parentStoreTag');
-    }
-  }
-
-  if (criteria.has('includeStore')) {
-    var _value = criteria.get('includeStore');
-
-    if (_value) {
-      query.include('store');
-    }
-  }
-
-  if (criteria.has('includeTag')) {
-    var _value2 = criteria.get('includeTag');
-
-    if (_value2) {
-      query.include('tag');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentStoreTag');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tag');
 
   return query;
 };

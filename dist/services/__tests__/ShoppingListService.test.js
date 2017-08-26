@@ -31,8 +31,8 @@ var chance = new _chance2.default();
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
     fields: _immutable.List.of('name', 'user', 'sharedWithUsers'),
-    includeUser: true,
-    includeSharedWithUsers: true
+    include_user: true,
+    include_sharedWithUsers: true
   });
 };
 

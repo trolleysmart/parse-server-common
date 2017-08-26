@@ -28,29 +28,9 @@ export default class StapleItemService extends ServiceBase {
       return query;
     }
 
-    if (criteria.has('includeUser')) {
-      const value = criteria.get('includeUser');
-
-      if (value) {
-        query.include('user');
-      }
-    }
-
-    if (criteria.has('includeStapleTemplateItem')) {
-      const value = criteria.get('includeStapleTemplateItem');
-
-      if (value) {
-        query.include('stapleTemplateItem');
-      }
-    }
-
-    if (criteria.has('includeTags')) {
-      const value = criteria.get('includeTags');
-
-      if (value) {
-        query.include('tags');
-      }
-    }
+    ServiceBase.addIncludeQuery(criteria, query, 'user');
+    ServiceBase.addIncludeQuery(criteria, query, 'stapleTemplateItem');
+    ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
     return query;
   };

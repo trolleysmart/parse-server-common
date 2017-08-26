@@ -188,21 +188,8 @@ ShoppingListService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  if (criteria.has('includeUser')) {
-    var value = criteria.get('includeUser');
-
-    if (value) {
-      query.include('user');
-    }
-  }
-
-  if (criteria.has('includeSharedWithUsers')) {
-    var _value = criteria.get('SharedWithUsersinclude');
-
-    if (_value) {
-      query.include('sharedWithUsers');
-    }
-  }
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'sharedWithUsers');
 
   return query;
 };
