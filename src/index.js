@@ -20,6 +20,7 @@ export {
   CrawlSessionService,
   ProductPriceService,
   ShoppingListService,
+  ShoppingListItemService,
   StapleItemService,
   StapleTemplateItemService,
   StapleTemplateService,

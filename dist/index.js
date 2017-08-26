@@ -111,6 +111,12 @@ Object.defineProperty(exports, 'ShoppingListService', {
     return _services.ShoppingListService;
   }
 });
+Object.defineProperty(exports, 'ShoppingListItemService', {
+  enumerable: true,
+  get: function get() {
+    return _services.ShoppingListItemService;
+  }
+});
 Object.defineProperty(exports, 'StapleItemService', {
   enumerable: true,
   get: function get() {
