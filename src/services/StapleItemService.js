@@ -1,7 +1,7 @@
 // @flow
 
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
-import { StapleItem, StapleTemplate, Tag } from '../schema';
+import { StapleItem, StapleTemplate, StapleTemplateItem, Tag } from '../schema';
 
 export default class StapleItemService extends ServiceBase {
   static messagePrefix = 'No staple item found with Id: ';
@@ -36,6 +36,14 @@ export default class StapleItemService extends ServiceBase {
       }
     }
 
+    if (criteria.has('includeStapleTemplateItem')) {
+      const value = criteria.get('includeStapleTemplateItem');
+
+      if (value) {
+        query.include('stapleTemplateItem');
+      }
+    }
+
     if (criteria.has('includeTags')) {
       const value = criteria.get('includeTags');
 
@@ -64,6 +72,7 @@ export default class StapleItemService extends ServiceBase {
     ServiceBase.addEqualityQuery(conditions, query, 'addedByUser', 'addedByUser');
     ServiceBase.addLinkQuery(conditions, query, 'stapleTemplate', 'stapleTemplates', StapleTemplate);
     ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
+    ServiceBase.addLinkQuery(conditions, query, 'stapleTemplateItem', 'stapleTemplateItem', StapleTemplateItem);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
 
     return query;

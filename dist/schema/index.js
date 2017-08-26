@@ -1,9 +1,9 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+  value: true,
 });
-exports.UserFeedback = exports.Tag = exports.StoreTag = exports.StoreProduct = exports.Store = exports.StapleTemplateItem = exports.StapleTemplate = exports.StapleItem = exports.ShoppingList = exports.ProductPrice = exports.CrawlSession = exports.CrawlResult = undefined;
+exports.UserFeedback = exports.Tag = exports.StoreTag = exports.StoreProduct = exports.Store = exports.StapleTemplateItem = exports.StapleTemplate = exports.StapleItem = exports.ShoppingListItem = exports.ShoppingList = exports.ProductPrice = exports.CrawlSession = exports.CrawlResult = undefined;
 
 var _CrawlResult2 = require('./CrawlResult');
 
@@ -20,6 +20,10 @@ var _ProductPrice3 = _interopRequireDefault(_ProductPrice2);
 var _ShoppingList2 = require('./ShoppingList');
 
 var _ShoppingList3 = _interopRequireDefault(_ShoppingList2);
+
+var _ShoppingListItem2 = require('./ShoppingListItem');
+
+var _ShoppingListItem3 = _interopRequireDefault(_ShoppingListItem2);
 
 var _StapleItem2 = require('./StapleItem');
 
@@ -53,12 +57,15 @@ var _UserFeedback2 = require('./UserFeedback');
 
 var _UserFeedback3 = _interopRequireDefault(_UserFeedback2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 exports.CrawlResult = _CrawlResult3.default;
 exports.CrawlSession = _CrawlSession3.default;
 exports.ProductPrice = _ProductPrice3.default;
 exports.ShoppingList = _ShoppingList3.default;
+exports.ShoppingListItem = _ShoppingListItem3.default;
 exports.StapleItem = _StapleItem3.default;
 exports.StapleTemplate = _StapleTemplate3.default;
 exports.StapleTemplateItem = _StapleTemplateItem3.default;

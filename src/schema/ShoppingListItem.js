@@ -2,14 +2,13 @@
 
 import Immutable, { List, Map } from 'immutable';
 import { BaseObject, ParseWrapperService } from 'micro-business-parse-server-common';
-import StapleTemplateItem from './StapleTemplateItem';
 import Tag from './Tag';
 
-export default class StapleItem extends BaseObject {
+export default class ShoppingListItem extends BaseObject {
   static spawn = (info) => {
-    const object = new StapleItem();
+    const object = new ShoppingListItem();
 
-    StapleItem.updateInfoInternal(object, info);
+    ShoppingListItem.updateInfoInternal(object, info);
 
     return object;
   };
@@ -18,8 +17,6 @@ export default class StapleItem extends BaseObject {
     object.set('name', info.get('name'));
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
-    object.set('popular', info.get('popular'));
-    object.set('addedByUser', info.has('addedByUser') ? info.get('addedByUser') : false);
 
     if (info.has('userId')) {
       const userId = info.get('userId');
@@ -32,20 +29,6 @@ export default class StapleItem extends BaseObject {
 
       if (user) {
         object.set('user', user);
-      }
-    }
-
-    if (info.has('stapleTemplateItemId')) {
-      const stapleTemplateItemId = info.get('stapleTemplateItemId');
-
-      if (stapleTemplateItemId) {
-        object.set('stapleTemplateItem', StapleTemplateItem.createWithoutData(stapleTemplateItemId));
-      }
-    } else if (info.has('stapleTemplateItem')) {
-      const stapleTemplateItem = info.get('stapleTemplateItem');
-
-      if (stapleTemplateItem) {
-        object.set('stapleTemplateItem', stapleTemplateItem);
       }
     }
 
@@ -69,19 +52,18 @@ export default class StapleItem extends BaseObject {
   };
 
   constructor(object) {
-    super(object, 'StapleItem');
+    super(object, 'ShoppingListItem');
   }
 
   updateInfo = (info) => {
     const object = this.getObject();
 
-    StapleItem.updateInfoInternal(object, info);
+    ShoppingListItem.updateInfoInternal(object, info);
 
     return this;
   };
 
   getInfo = () => {
-    const stapleTemplateItem = new StapleTemplateItem(this.getObject().get('stapleTemplateItem'));
     const user = this.getObject().get('user');
     const tagObjects = this.getObject().get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
@@ -91,12 +73,8 @@ export default class StapleItem extends BaseObject {
       name: this.getObject().get('name'),
       description: this.getObject().get('description'),
       imageUrl: this.getObject().get('imageUrl'),
-      popular: this.getObject().get('popular'),
-      addedByUser: this.getObject().get('addedByUser'),
       user,
       userId: user ? user.id : undefined,
-      stapleTemplateItem: stapleTemplateItem.getInfo(),
-      stapleTemplateItemId: stapleTemplateItem.getId(),
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
     });

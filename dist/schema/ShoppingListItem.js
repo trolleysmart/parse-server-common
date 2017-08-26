@@ -10,10 +10,6 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
-var _StapleTemplateItem = require('./StapleTemplateItem');
-
-var _StapleTemplateItem2 = _interopRequireDefault(_StapleTemplateItem);
-
 var _Tag = require('./Tag');
 
 var _Tag2 = _interopRequireDefault(_Tag);
@@ -45,36 +41,37 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StapleItem = (function(_BaseObject) {
-  _inherits(StapleItem, _BaseObject);
+var ShoppingListItem = (function(_BaseObject) {
+  _inherits(ShoppingListItem, _BaseObject);
 
-  function StapleItem(object) {
-    _classCallCheck(this, StapleItem);
+  function ShoppingListItem(object) {
+    _classCallCheck(this, ShoppingListItem);
 
-    var _this = _possibleConstructorReturn(this, (StapleItem.__proto__ || Object.getPrototypeOf(StapleItem)).call(this, object, 'StapleItem'));
+    var _this = _possibleConstructorReturn(
+      this,
+      (ShoppingListItem.__proto__ || Object.getPrototypeOf(ShoppingListItem)).call(this, object, 'ShoppingListItem'),
+    );
 
     _initialiseProps.call(_this);
 
     return _this;
   }
 
-  return StapleItem;
+  return ShoppingListItem;
 })(_microBusinessParseServerCommon.BaseObject);
 
-StapleItem.spawn = function(info) {
-  var object = new StapleItem();
+ShoppingListItem.spawn = function(info) {
+  var object = new ShoppingListItem();
 
-  StapleItem.updateInfoInternal(object, info);
+  ShoppingListItem.updateInfoInternal(object, info);
 
   return object;
 };
 
-StapleItem.updateInfoInternal = function(object, info) {
+ShoppingListItem.updateInfoInternal = function(object, info) {
   object.set('name', info.get('name'));
   object.set('description', info.get('description'));
   object.set('imageUrl', info.get('imageUrl'));
-  object.set('popular', info.get('popular'));
-  object.set('addedByUser', info.has('addedByUser') ? info.get('addedByUser') : false);
 
   if (info.has('userId')) {
     var userId = info.get('userId');
@@ -87,20 +84,6 @@ StapleItem.updateInfoInternal = function(object, info) {
 
     if (user) {
       object.set('user', user);
-    }
-  }
-
-  if (info.has('stapleTemplateItemId')) {
-    var stapleTemplateItemId = info.get('stapleTemplateItemId');
-
-    if (stapleTemplateItemId) {
-      object.set('stapleTemplateItem', _StapleTemplateItem2.default.createWithoutData(stapleTemplateItemId));
-    }
-  } else if (info.has('stapleTemplateItem')) {
-    var stapleTemplateItem = info.get('stapleTemplateItem');
-
-    if (stapleTemplateItem) {
-      object.set('stapleTemplateItem', stapleTemplateItem);
     }
   }
 
@@ -136,13 +119,12 @@ var _initialiseProps = function _initialiseProps() {
   this.updateInfo = function(info) {
     var object = _this2.getObject();
 
-    StapleItem.updateInfoInternal(object, info);
+    ShoppingListItem.updateInfoInternal(object, info);
 
     return _this2;
   };
 
   this.getInfo = function() {
-    var stapleTemplateItem = new _StapleTemplateItem2.default(_this2.getObject().get('stapleTemplateItem'));
     var user = _this2.getObject().get('user');
     var tagObjects = _this2.getObject().get('tags');
     var tags = tagObjects
@@ -156,12 +138,8 @@ var _initialiseProps = function _initialiseProps() {
       name: _this2.getObject().get('name'),
       description: _this2.getObject().get('description'),
       imageUrl: _this2.getObject().get('imageUrl'),
-      popular: _this2.getObject().get('popular'),
-      addedByUser: _this2.getObject().get('addedByUser'),
       user: user,
       userId: user ? user.id : undefined,
-      stapleTemplateItem: stapleTemplateItem.getInfo(),
-      stapleTemplateItemId: stapleTemplateItem.getId(),
       tags: tags,
       tagIds: tags
         ? tags.map(function(tag) {
@@ -172,4 +150,4 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
-exports.default = StapleItem;
+exports.default = ShoppingListItem;
