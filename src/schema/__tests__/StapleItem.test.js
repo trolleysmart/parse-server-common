@@ -21,14 +21,12 @@ export const createStapleItemInfo = async () => {
   user.setPassword('123456');
 
   const userSignUpResult = await user.signUp();
-  const userId = userSignUpResult.id;
   const stapleItem = Map({
     name: uuid(),
     description: uuid(),
     imageUrl: uuid(),
     popular: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
-    addedByUser: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
-    userId,
+    userId: userSignUpResult.id,
     stapleTemplateItemId: stapleTemplateItem.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
   });
@@ -43,7 +41,6 @@ export const expectStapleItem = (object, expectedObject, { stapleItemId, expecte
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('popular')).toBe(expectedObject.get('popular'));
-  expect(object.get('addedByUser')).toBe(expectedObject.get('addedByUser'));
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
   expect(object.get('stapleTemplateItemId')).toBe(expectedObject.get('stapleTemplateItemId'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));

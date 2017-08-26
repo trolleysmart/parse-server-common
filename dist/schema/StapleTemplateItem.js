@@ -55,46 +55,8 @@ StapleTemplateItem.updateInfoInternal = function (object, info) {
   object.set('description', info.get('description'));
   object.set('imageUrl', info.get('imageUrl'));
   object.set('popular', info.get('popular'));
-
-  if (info.has('stapleTemplateIds')) {
-    var stapleTemplateIds = info.get('stapleTemplateIds');
-
-    if (stapleTemplateIds.isEmpty()) {
-      object.set('stapleTemplates', []);
-    } else {
-      object.set('stapleTemplates', stapleTemplateIds.map(function (stapleTemplateId) {
-        return _StapleTemplate2.default.createWithoutData(stapleTemplateId);
-      }).toArray());
-    }
-  } else if (info.has('stapleTemplates')) {
-    var stapleTemplates = info.get('stapleTemplates');
-
-    if (stapleTemplates.isEmpty()) {
-      object.set('stapleTemplates', []);
-    } else {
-      object.set('stapleTemplates', stapleTemplates.toArray());
-    }
-  }
-
-  if (info.has('tagIds')) {
-    var tagIds = info.get('tagIds');
-
-    if (tagIds.isEmpty()) {
-      object.set('tags', []);
-    } else {
-      object.set('tags', tagIds.map(function (tagId) {
-        return _Tag2.default.createWithoutData(tagId);
-      }).toArray());
-    }
-  } else if (info.has('tags')) {
-    var tags = info.get('tags');
-
-    if (tags.isEmpty()) {
-      object.set('tags', []);
-    } else {
-      object.set('tags', tags.toArray());
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'stapleTemplate', _StapleTemplate2.default);
+  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

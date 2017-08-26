@@ -19,20 +19,7 @@ export default class Tag extends BaseObject {
     object.set('imageUrl', info.get('imageUrl'));
     object.set('level', info.get('level'));
     object.set('forDisplay', info.get('forDisplay'));
-
-    if (info.has('parentTagId')) {
-      const parentTagId = info.get('parentTagId');
-
-      if (parentTagId) {
-        object.set('parentTag', Tag.createWithoutData(parentTagId));
-      }
-    } else if (info.has('parentTag')) {
-      const parentTag = info.get('parentTag');
-
-      if (parentTag) {
-        object.set('parentTag', parentTag);
-      }
-    }
+    BaseObject.createPointer(object, info, 'parentTag', Tag);
   };
 
   constructor(object) {

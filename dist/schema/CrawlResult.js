@@ -48,20 +48,7 @@ CrawlResult.spawn = function (info) {
 
 CrawlResult.updateInfoInternal = function (object, info) {
   object.set('resultSet', info.get('resultSet').toJS());
-
-  if (info.has('crawlSessionId')) {
-    var crawlSessionId = info.get('crawlSessionId');
-
-    if (crawlSessionId) {
-      object.set('crawlSession', _CrawlSession2.default.createWithoutData(crawlSessionId));
-    }
-  } else if (info.has('crawlSession')) {
-    var crawlSession = info.get('crawlSession');
-
-    if (crawlSession) {
-      object.set('crawlSession', crawlSession);
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'crawlSession', _CrawlSession2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

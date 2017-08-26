@@ -19,42 +19,8 @@ export default class StapleTemplateItem extends BaseObject {
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
     object.set('popular', info.get('popular'));
-
-    if (info.has('stapleTemplateIds')) {
-      const stapleTemplateIds = info.get('stapleTemplateIds');
-
-      if (stapleTemplateIds.isEmpty()) {
-        object.set('stapleTemplates', []);
-      } else {
-        object.set('stapleTemplates', stapleTemplateIds.map(stapleTemplateId => StapleTemplate.createWithoutData(stapleTemplateId)).toArray());
-      }
-    } else if (info.has('stapleTemplates')) {
-      const stapleTemplates = info.get('stapleTemplates');
-
-      if (stapleTemplates.isEmpty()) {
-        object.set('stapleTemplates', []);
-      } else {
-        object.set('stapleTemplates', stapleTemplates.toArray());
-      }
-    }
-
-    if (info.has('tagIds')) {
-      const tagIds = info.get('tagIds');
-
-      if (tagIds.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId)).toArray());
-      }
-    } else if (info.has('tags')) {
-      const tags = info.get('tags');
-
-      if (tags.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tags.toArray());
-      }
-    }
+    BaseObject.createArrayPointer(object, info, 'stapleTemplate', StapleTemplate);
+    BaseObject.createArrayPointer(object, info, 'tag', Tag);
   };
 
   constructor(object) {

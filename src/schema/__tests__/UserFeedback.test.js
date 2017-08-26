@@ -14,9 +14,8 @@ export const createUserFeedbackInfo = async () => {
   user.setPassword('123456');
 
   const userSignUpResult = await user.signUp();
-  const userId = userSignUpResult.id;
   const userFeedback = Map({
-    userId,
+    userId: userSignUpResult.id,
     feedback: Map({ info1: uuid(), info2: uuid() }),
   });
 

@@ -57,20 +57,7 @@ Store.updateInfoInternal = function (object, info) {
   }
 
   object.set('geoLocation', info.get('geoLocation'));
-
-  if (info.has('parentStoreId')) {
-    var parentStoreId = info.get('parentStoreId');
-
-    if (parentStoreId) {
-      object.set('parentStore', Store.createWithoutData(parentStoreId));
-    }
-  } else if (info.has('parentStore')) {
-    var parentStore = info.get('parentStore');
-
-    if (parentStore) {
-      object.set('parentStore', parentStore);
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'parentStore', Store);
 };
 
 var _initialiseProps = function _initialiseProps() {

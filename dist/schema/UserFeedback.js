@@ -44,20 +44,7 @@ UserFeedback.spawn = function (info) {
 
 UserFeedback.updateInfoInternal = function (object, info) {
   object.set('feedback', info.get('feedback').toJS());
-
-  if (info.has('userId')) {
-    var userId = info.get('userId');
-
-    if (userId) {
-      object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(userId));
-    }
-  } else if (info.has('user')) {
-    var user = info.get('user');
-
-    if (user) {
-      object.set('user', user);
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
 };
 
 var _initialiseProps = function _initialiseProps() {

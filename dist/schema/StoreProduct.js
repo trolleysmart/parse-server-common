@@ -58,40 +58,8 @@ StoreProduct.updateInfoInternal = function (object, info) {
   object.set('imageUrl', info.get('imageUrl'));
   object.set('size', info.get('size'));
   object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
-
-  if (info.has('storeTagIds')) {
-    var storeTagIds = info.get('storeTagIds');
-
-    if (storeTagIds.isEmpty()) {
-      object.set('storeTags', []);
-    } else {
-      object.set('storeTags', storeTagIds.map(function (storeTagId) {
-        return _StoreTag2.default.createWithoutData(storeTagId);
-      }).toArray());
-    }
-  } else if (info.has('storeTags')) {
-    var storeTags = info.get('storeTags');
-
-    if (storeTags.isEmpty()) {
-      object.set('storeTags', []);
-    } else {
-      object.set('storeTags', storeTags.toArray());
-    }
-  }
-
-  if (info.has('storeId')) {
-    var storeId = info.get('storeId');
-
-    if (storeId) {
-      object.set('store', _Store2.default.createWithoutData(storeId));
-    }
-  } else if (info.has('store')) {
-    var store = info.get('store');
-
-    if (store) {
-      object.set('store', store);
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'storeTag', _StoreTag2.default);
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

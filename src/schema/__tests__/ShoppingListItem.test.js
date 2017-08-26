@@ -6,11 +6,19 @@ import { ParseWrapperService } from 'micro-business-parse-server-common';
 import uuid from 'uuid/v4';
 import '../../../bootstrap';
 import { ShoppingListItem } from '../';
+import createProductPrices from '../../services/__tests__/ProductPriceService.test';
+import createStapleItems from '../../services/__tests__/StapleItemService.test';
+import createStores from '../../services/__tests__/StoreService.test';
+import createShoppingLists from '../../services/__tests__/ShoppingListService.test';
 import createTags from '../../services/__tests__/TagService.test';
 
 const chance = new Chance();
 
 export const createShoppingListItemInfo = async () => {
+  const shoppingList = (await createShoppingLists(1)).first();
+  const productPrice = (await createProductPrices(1)).first();
+  const stapleItem = (await createStapleItems(1)).first();
+  const store = (await createStores(1)).first();
   const tags = await createTags(chance.integer({ min: 1, max: 10 }));
   const username = `${uuid()}@email.com`;
   const user = ParseWrapperService.createNewUser();
@@ -19,25 +27,36 @@ export const createShoppingListItemInfo = async () => {
   user.setPassword('123456');
 
   const userSignUpResult = await user.signUp();
-  const userId = userSignUpResult.id;
   const shoppingListItem = Map({
     name: uuid(),
     description: uuid(),
     imageUrl: uuid(),
-    userId,
+    userId: userSignUpResult.id,
+    shoppingListId: shoppingList.get('id'),
+    productPricesId: productPrice.get('id'),
+    stapleItemId: stapleItem.get('id'),
+    storeId: store.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
   });
 
-  return { shoppingListItem, user: userSignUpResult, tags };
+  return { shoppingListItem, user: userSignUpResult, shoppingList, productPrice, stapleItem, store, tags };
 };
 
 export const createShoppingListItem = async object => ShoppingListItem.spawn(object || (await createShoppingListItemInfo()).shoppingListItem);
 
-export const expectShoppingListItem = (object, expectedObject, { shoppingListItemId, expectedTags, expectedUser } = {}) => {
+export const expectShoppingListItem = (
+  object,
+  expectedObject,
+  { shoppingListItemId, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, expectedUser } = {},
+) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
+  expect(object.get('shoppingListId')).toBe(expectedObject.get('shoppingListId'));
+  expect(object.get('productPriceId')).toBe(expectedObject.get('productPriceId'));
+  expect(object.get('stapleItemId')).toBe(expectedObject.get('stapleItemId'));
+  expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
 
   if (shoppingListItemId) {
@@ -47,6 +66,22 @@ export const expectShoppingListItem = (object, expectedObject, { shoppingListIte
   if (expectedUser) {
     expect(object.get('user').id).toEqual(expectedUser.id);
     expect(object.get('user').username).toEqual(expectedUser.username);
+  }
+
+  if (expectedShoppingList) {
+    expect(object.get('shoppingList')).toEqual(expectedShoppingList);
+  }
+
+  if (expectedProductPrice) {
+    expect(object.get('productPrice')).toEqual(expectedProductPrice);
+  }
+
+  if (expectedStapleItem) {
+    expect(object.get('stapleItem')).toEqual(expectedStapleItem);
+  }
+
+  if (expectedStore) {
+    expect(object.get('store')).toEqual(expectedStore);
   }
 
   if (expectedTags) {

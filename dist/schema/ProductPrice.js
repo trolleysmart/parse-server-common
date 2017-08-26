@@ -64,54 +64,9 @@ ProductPrice.updateInfoInternal = function (object, info) {
   object.set('offerEndDate', info.get('offerEndDate'));
   object.set('status', info.get('status'));
   object.set('special', info.get('special'));
-
-  if (info.has('storeId')) {
-    var storeId = info.get('storeId');
-
-    if (storeId) {
-      object.set('store', _Store2.default.createWithoutData(storeId));
-    }
-  } else if (info.has('store')) {
-    var store = info.get('store');
-
-    if (store) {
-      object.set('store', store);
-    }
-  }
-
-  if (info.has('tagIds')) {
-    var tagIds = info.get('tagIds');
-
-    if (tagIds.isEmpty()) {
-      object.set('tags', []);
-    } else {
-      object.set('tags', tagIds.map(function (tagId) {
-        return _Tag2.default.createWithoutData(tagId);
-      }).toArray());
-    }
-  } else if (info.has('tags')) {
-    var tags = info.get('tags');
-
-    if (tags.isEmpty()) {
-      object.set('tags', []);
-    } else {
-      object.set('tags', tags.toArray());
-    }
-  }
-
-  if (info.has('storeProductId')) {
-    var storeProductId = info.get('storeProductId');
-
-    if (storeProductId) {
-      object.set('storeProduct', _StoreProduct2.default.createWithoutData(storeProductId));
-    }
-  } else if (info.has('storeProduct')) {
-    var storeProduct = info.get('storeProduct');
-
-    if (storeProduct) {
-      object.set('storeProduct', storeProduct);
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
+  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'storeProduct', _StoreProduct2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

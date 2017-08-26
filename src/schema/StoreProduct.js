@@ -22,38 +22,8 @@ export default class StoreProduct extends BaseObject {
     object.set('imageUrl', info.get('imageUrl'));
     object.set('size', info.get('size'));
     object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
-
-    if (info.has('storeTagIds')) {
-      const storeTagIds = info.get('storeTagIds');
-
-      if (storeTagIds.isEmpty()) {
-        object.set('storeTags', []);
-      } else {
-        object.set('storeTags', storeTagIds.map(storeTagId => StoreTag.createWithoutData(storeTagId)).toArray());
-      }
-    } else if (info.has('storeTags')) {
-      const storeTags = info.get('storeTags');
-
-      if (storeTags.isEmpty()) {
-        object.set('storeTags', []);
-      } else {
-        object.set('storeTags', storeTags.toArray());
-      }
-    }
-
-    if (info.has('storeId')) {
-      const storeId = info.get('storeId');
-
-      if (storeId) {
-        object.set('store', Store.createWithoutData(storeId));
-      }
-    } else if (info.has('store')) {
-      const store = info.get('store');
-
-      if (store) {
-        object.set('store', store);
-      }
-    }
+    BaseObject.createArrayPointer(object, info, 'storeTag', StoreTag);
+    BaseObject.createPointer(object, info, 'store', Store);
   };
 
   constructor(object) {

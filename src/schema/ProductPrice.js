@@ -25,52 +25,9 @@ export default class ProductPrice extends BaseObject {
     object.set('offerEndDate', info.get('offerEndDate'));
     object.set('status', info.get('status'));
     object.set('special', info.get('special'));
-
-    if (info.has('storeId')) {
-      const storeId = info.get('storeId');
-
-      if (storeId) {
-        object.set('store', Store.createWithoutData(storeId));
-      }
-    } else if (info.has('store')) {
-      const store = info.get('store');
-
-      if (store) {
-        object.set('store', store);
-      }
-    }
-
-    if (info.has('tagIds')) {
-      const tagIds = info.get('tagIds');
-
-      if (tagIds.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId)).toArray());
-      }
-    } else if (info.has('tags')) {
-      const tags = info.get('tags');
-
-      if (tags.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tags.toArray());
-      }
-    }
-
-    if (info.has('storeProductId')) {
-      const storeProductId = info.get('storeProductId');
-
-      if (storeProductId) {
-        object.set('storeProduct', StoreProduct.createWithoutData(storeProductId));
-      }
-    } else if (info.has('storeProduct')) {
-      const storeProduct = info.get('storeProduct');
-
-      if (storeProduct) {
-        object.set('storeProduct', storeProduct);
-      }
-    }
+    BaseObject.createPointer(object, info, 'store', Store);
+    BaseObject.createArrayPointer(object, info, 'tag', Tag);
+    BaseObject.createPointer(object, info, 'storeProduct', StoreProduct);
   };
 
   constructor(object) {

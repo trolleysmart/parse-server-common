@@ -1,7 +1,7 @@
 // @flow
 
 import Immutable, { List, Map } from 'immutable';
-import { BaseObject, ParseWrapperService } from 'micro-business-parse-server-common';
+import { BaseObject } from 'micro-business-parse-server-common';
 import StapleTemplateItem from './StapleTemplateItem';
 import Tag from './Tag';
 
@@ -19,53 +19,9 @@ export default class StapleItem extends BaseObject {
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
     object.set('popular', info.get('popular'));
-    object.set('addedByUser', info.has('addedByUser') ? info.get('addedByUser') : false);
-
-    if (info.has('userId')) {
-      const userId = info.get('userId');
-
-      if (userId) {
-        object.set('user', ParseWrapperService.createUserWithoutData(userId));
-      }
-    } else if (info.has('user')) {
-      const user = info.get('user');
-
-      if (user) {
-        object.set('user', user);
-      }
-    }
-
-    if (info.has('stapleTemplateItemId')) {
-      const stapleTemplateItemId = info.get('stapleTemplateItemId');
-
-      if (stapleTemplateItemId) {
-        object.set('stapleTemplateItem', StapleTemplateItem.createWithoutData(stapleTemplateItemId));
-      }
-    } else if (info.has('stapleTemplateItem')) {
-      const stapleTemplateItem = info.get('stapleTemplateItem');
-
-      if (stapleTemplateItem) {
-        object.set('stapleTemplateItem', stapleTemplateItem);
-      }
-    }
-
-    if (info.has('tagIds')) {
-      const tagIds = info.get('tagIds');
-
-      if (tagIds.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId)).toArray());
-      }
-    } else if (info.has('tags')) {
-      const tags = info.get('tags');
-
-      if (tags.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tags.toArray());
-      }
-    }
+    BaseObject.createUserPointer(object, info, 'user');
+    BaseObject.createPointer(object, info, 'stapleTemplateItem', StapleTemplateItem);
+    BaseObject.createArrayPointer(object, info, 'tag', Tag);
   };
 
   constructor(object) {
@@ -92,7 +48,6 @@ export default class StapleItem extends BaseObject {
       description: this.getObject().get('description'),
       imageUrl: this.getObject().get('imageUrl'),
       popular: this.getObject().get('popular'),
-      addedByUser: this.getObject().get('addedByUser'),
       user,
       userId: user ? user.id : undefined,
       stapleTemplateItem: stapleTemplateItem.getInfo(),

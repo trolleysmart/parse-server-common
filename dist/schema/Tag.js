@@ -45,20 +45,7 @@ Tag.updateInfoInternal = function (object, info) {
   object.set('imageUrl', info.get('imageUrl'));
   object.set('level', info.get('level'));
   object.set('forDisplay', info.get('forDisplay'));
-
-  if (info.has('parentTagId')) {
-    var parentTagId = info.get('parentTagId');
-
-    if (parentTagId) {
-      object.set('parentTag', Tag.createWithoutData(parentTagId));
-    }
-  } else if (info.has('parentTag')) {
-    var parentTag = info.get('parentTag');
-
-    if (parentTag) {
-      object.set('parentTag', parentTag);
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'parentTag', Tag);
 };
 
 var _initialiseProps = function _initialiseProps() {

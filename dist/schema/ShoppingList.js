@@ -44,40 +44,8 @@ ShoppingList.spawn = function (info) {
 
 ShoppingList.updateInfoInternal = function (object, info) {
   object.set('name', info.get('name'));
-
-  if (info.has('userId')) {
-    var userId = info.get('userId');
-
-    if (userId) {
-      object.set('user', _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(userId));
-    }
-  } else if (info.has('user')) {
-    var user = info.get('user');
-
-    if (user) {
-      object.set('user', user);
-    }
-  }
-
-  if (info.has('sharedWithUserIds')) {
-    var sharedWithUserIds = info.get('sharedWithUserIds');
-
-    if (sharedWithUserIds.isEmpty()) {
-      object.set('sharedWithUsers', []);
-    } else {
-      object.set('sharedWithUsers', sharedWithUserIds.map(function (sharedWithUserId) {
-        return _microBusinessParseServerCommon.ParseWrapperService.createUserWithoutData(sharedWithUserId);
-      }).toArray());
-    }
-  } else if (info.has('sharedWithUsers')) {
-    var sharedWithUsers = info.get('sharedWithUsers');
-
-    if (sharedWithUsers.isEmpty()) {
-      object.set('sharedWithUsers', []);
-    } else {
-      object.set('sharedWithUsers', sharedWithUsers.toArray());
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
+  _microBusinessParseServerCommon.BaseObject.createUserArrayPointer(object, info, 'sharedWithUser');
 };
 
 var _initialiseProps = function _initialiseProps() {

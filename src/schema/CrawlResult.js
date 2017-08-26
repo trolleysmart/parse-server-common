@@ -15,20 +15,7 @@ export default class CrawlResult extends BaseObject {
 
   static updateInfoInternal = (object, info) => {
     object.set('resultSet', info.get('resultSet').toJS());
-
-    if (info.has('crawlSessionId')) {
-      const crawlSessionId = info.get('crawlSessionId');
-
-      if (crawlSessionId) {
-        object.set('crawlSession', CrawlSession.createWithoutData(crawlSessionId));
-      }
-    } else if (info.has('crawlSession')) {
-      const crawlSession = info.get('crawlSession');
-
-      if (crawlSession) {
-        object.set('crawlSession', crawlSession);
-      }
-    }
+    BaseObject.createPointer(object, info, 'crawlSession', CrawlSession);
   };
 
   constructor(object) {

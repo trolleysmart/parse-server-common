@@ -21,48 +21,9 @@ export default class StoreTag extends BaseObject {
     object.set('imageUrl', info.get('imageUrl'));
     object.set('url', info.get('url'));
     object.set('level', info.get('level'));
-
-    if (info.has('parentStoreTagId')) {
-      const parentStoreTagId = info.get('parentStoreTagId');
-
-      if (parentStoreTagId) {
-        object.set('parentStoreTag', StoreTag.createWithoutData(parentStoreTagId));
-      }
-    } else if (info.has('parentStoreTag')) {
-      const parentStoreTag = info.get('parentStoreTag');
-
-      if (parentStoreTag) {
-        object.set('parentStoreTag', parentStoreTag);
-      }
-    }
-
-    if (info.has('storeId')) {
-      const storeId = info.get('storeId');
-
-      if (storeId) {
-        object.set('store', Store.createWithoutData(storeId));
-      }
-    } else if (info.has('store')) {
-      const store = info.get('store');
-
-      if (store) {
-        object.set('store', store);
-      }
-    }
-
-    if (info.has('tagId')) {
-      const tagId = info.get('tagId');
-
-      if (tagId) {
-        object.set('tag', Tag.createWithoutData(tagId));
-      }
-    } else if (info.has('tag')) {
-      const tag = info.get('tag');
-
-      if (tag) {
-        object.set('tag', tag);
-      }
-    }
+    BaseObject.createPointer(object, info, 'parentStoreTag', StoreTag);
+    BaseObject.createPointer(object, info, 'store', Store);
+    BaseObject.createPointer(object, info, 'tag', Tag);
   };
 
   constructor(object) {

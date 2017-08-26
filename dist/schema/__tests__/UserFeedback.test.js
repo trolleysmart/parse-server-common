@@ -23,7 +23,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var createUserFeedbackInfo = exports.createUserFeedbackInfo = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var username, user, userSignUpResult, userId, userFeedback;
+    var username, user, userSignUpResult, userFeedback;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -40,14 +40,13 @@ var createUserFeedbackInfo = exports.createUserFeedbackInfo = function () {
 
           case 6:
             userSignUpResult = _context.sent;
-            userId = userSignUpResult.id;
             userFeedback = (0, _immutable.Map)({
-              userId: userId,
+              userId: userSignUpResult.id,
               feedback: (0, _immutable.Map)({ info1: (0, _v2.default)(), info2: (0, _v2.default)() })
             });
             return _context.abrupt('return', { userFeedback: userFeedback, user: userSignUpResult });
 
-          case 10:
+          case 9:
           case 'end':
             return _context.stop();
         }

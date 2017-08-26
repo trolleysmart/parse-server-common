@@ -27,20 +27,7 @@ export default class Store extends BaseObject {
     }
 
     object.set('geoLocation', info.get('geoLocation'));
-
-    if (info.has('parentStoreId')) {
-      const parentStoreId = info.get('parentStoreId');
-
-      if (parentStoreId) {
-        object.set('parentStore', Store.createWithoutData(parentStoreId));
-      }
-    } else if (info.has('parentStore')) {
-      const parentStore = info.get('parentStore');
-
-      if (parentStore) {
-        object.set('parentStore', parentStore);
-      }
-    }
+    BaseObject.createPointer(object, info, 'parentStore', Store);
   };
 
   constructor(object) {

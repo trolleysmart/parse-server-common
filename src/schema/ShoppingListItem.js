@@ -1,7 +1,11 @@
 // @flow
 
 import Immutable, { List, Map } from 'immutable';
-import { BaseObject, ParseWrapperService } from 'micro-business-parse-server-common';
+import { BaseObject } from 'micro-business-parse-server-common';
+import ProductPrice from './ProductPrice';
+import ShoppingList from './ShoppingList';
+import StapleItem from './StapleItem';
+import Store from './Store';
 import Tag from './Tag';
 
 export default class ShoppingListItem extends BaseObject {
@@ -17,38 +21,12 @@ export default class ShoppingListItem extends BaseObject {
     object.set('name', info.get('name'));
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
-
-    if (info.has('userId')) {
-      const userId = info.get('userId');
-
-      if (userId) {
-        object.set('user', ParseWrapperService.createUserWithoutData(userId));
-      }
-    } else if (info.has('user')) {
-      const user = info.get('user');
-
-      if (user) {
-        object.set('user', user);
-      }
-    }
-
-    if (info.has('tagIds')) {
-      const tagIds = info.get('tagIds');
-
-      if (tagIds.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tagIds.map(tagId => Tag.createWithoutData(tagId)).toArray());
-      }
-    } else if (info.has('tags')) {
-      const tags = info.get('tags');
-
-      if (tags.isEmpty()) {
-        object.set('tags', []);
-      } else {
-        object.set('tags', tags.toArray());
-      }
-    }
+    BaseObject.createUserPointer(object, info, 'user');
+    BaseObject.createPointer(object, info, 'shoppingList', ShoppingList);
+    BaseObject.createPointer(object, info, 'productPrice', ProductPrice);
+    BaseObject.createPointer(object, info, 'stapleItem', StapleItem);
+    BaseObject.createPointer(object, info, 'store', Store);
+    BaseObject.createArrayPointer(object, info, 'tag', Tag);
   };
 
   constructor(object) {
@@ -65,8 +43,15 @@ export default class ShoppingListItem extends BaseObject {
 
   getInfo = () => {
     const user = this.getObject().get('user');
+    const shoppingList = new ShoppingList(this.getObject().get('shoppingList'));
+    const productPriceObject = this.getObject().get('productPrice');
+    const productPrice = productPriceObject ? new ProductPrice(productPriceObject) : undefined;
+    const stapleItemObject = this.getObject().get('stapleItem');
+    const stapleItem = stapleItemObject ? new StapleItem(stapleItemObject) : undefined;
     const tagObjects = this.getObject().get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
+    const storeObject = this.getObject().get('store');
+    const store = storeObject ? new Store(storeObject) : undefined;
 
     return Map({
       id: this.getId(),
@@ -75,8 +60,16 @@ export default class ShoppingListItem extends BaseObject {
       imageUrl: this.getObject().get('imageUrl'),
       user,
       userId: user ? user.id : undefined,
+      shoppingList: shoppingList.getInfo(),
+      shoppingListId: shoppingList.getId(),
+      productPrice: productPrice ? productPrice.getInfo() : undefined,
+      productPriceId: productPrice ? productPrice.getId() : undefined,
+      stapleItem: stapleItem ? stapleItem.getInfo() : undefined,
+      stapleItemId: stapleItem ? stapleItem.getId() : undefined,
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
+      store: store ? store.getInfo() : undefined,
+      storeId: store ? store.getId() : undefined,
     });
   };
 }

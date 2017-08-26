@@ -69,7 +69,6 @@ export default class StapleItemService extends ServiceBase {
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'popular', 'popular');
-    ServiceBase.addEqualityQuery(conditions, query, 'addedByUser', 'addedByUser');
     ServiceBase.addLinkQuery(conditions, query, 'stapleTemplate', 'stapleTemplates', StapleTemplate);
     ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
     ServiceBase.addLinkQuery(conditions, query, 'stapleTemplateItem', 'stapleTemplateItem', StapleTemplateItem);

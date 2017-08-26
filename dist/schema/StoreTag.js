@@ -55,48 +55,9 @@ StoreTag.updateInfoInternal = function (object, info) {
   object.set('imageUrl', info.get('imageUrl'));
   object.set('url', info.get('url'));
   object.set('level', info.get('level'));
-
-  if (info.has('parentStoreTagId')) {
-    var parentStoreTagId = info.get('parentStoreTagId');
-
-    if (parentStoreTagId) {
-      object.set('parentStoreTag', StoreTag.createWithoutData(parentStoreTagId));
-    }
-  } else if (info.has('parentStoreTag')) {
-    var parentStoreTag = info.get('parentStoreTag');
-
-    if (parentStoreTag) {
-      object.set('parentStoreTag', parentStoreTag);
-    }
-  }
-
-  if (info.has('storeId')) {
-    var storeId = info.get('storeId');
-
-    if (storeId) {
-      object.set('store', _Store2.default.createWithoutData(storeId));
-    }
-  } else if (info.has('store')) {
-    var store = info.get('store');
-
-    if (store) {
-      object.set('store', store);
-    }
-  }
-
-  if (info.has('tagId')) {
-    var tagId = info.get('tagId');
-
-    if (tagId) {
-      object.set('tag', _Tag2.default.createWithoutData(tagId));
-    }
-  } else if (info.has('tag')) {
-    var tag = info.get('tag');
-
-    if (tag) {
-      object.set('tag', tag);
-    }
-  }
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'parentStoreTag', StoreTag);
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
+  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'tag', _Tag2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {
