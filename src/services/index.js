@@ -1,7 +1,5 @@
 // @flow
 
-export CrawlResultService from './CrawlResultService';
-export CrawlSessionService from './CrawlSessionService';
 export ProductPriceService from './ProductPriceService';
 export ShoppingListService from './ShoppingListService';
 export ShoppingListItemService from './ShoppingListItemService';
