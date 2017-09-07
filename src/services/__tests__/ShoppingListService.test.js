@@ -81,7 +81,7 @@ describe('read', () => {
     try {
       await shoppingListService.read(shoppingListId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.message).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 
@@ -106,7 +106,7 @@ describe('update', () => {
 
       await shoppingListService.update(shoppingList.set('id', shoppingListId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.message).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 
@@ -137,7 +137,7 @@ describe('delete', () => {
     try {
       await shoppingListService.delete(shoppingListId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.message).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 
@@ -148,7 +148,7 @@ describe('delete', () => {
     try {
       await shoppingListService.delete(shoppingListId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list found with Id: ${shoppingListId}`);
+      expect(ex.message).toBe(`No shopping list found with Id: ${shoppingListId}`);
     }
   });
 });
@@ -163,7 +163,11 @@ describe('search', () => {
   test('should return the shopping list matches the criteria', async () => {
     const { shoppingList: expectedShoppingList, user: expectedUser, sharedWithUsers: expectedSharedWithUsers } = await createShoppingListInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => shoppingListService.create(expectedShoppingList)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => shoppingListService.create(expectedShoppingList))
+          .toArray(),
+      ),
     );
     const shoppingLists = await shoppingListService.search(createCriteria(expectedShoppingList));
 
@@ -196,7 +200,11 @@ describe('searchAll', () => {
   test('should return the shopping list matches the criteria', async () => {
     const { shoppingList: expectedShoppingList, user: expectedUser, sharedWithUsers: expectedSharedWithUsers } = await createShoppingListInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => shoppingListService.create(expectedShoppingList)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => shoppingListService.create(expectedShoppingList))
+          .toArray(),
+      ),
     );
 
     let shoppingLists = List();

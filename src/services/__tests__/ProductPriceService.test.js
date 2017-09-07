@@ -104,7 +104,7 @@ describe('read', () => {
     try {
       await productPriceService.read(productPriceId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
+      expect(ex.message).toBe(`No product price found with Id: ${productPriceId}`);
     }
   });
 
@@ -134,7 +134,7 @@ describe('update', () => {
 
       await productPriceService.update(productPrice.set('id', productPriceId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
+      expect(ex.message).toBe(`No product price found with Id: ${productPriceId}`);
     }
   });
 
@@ -170,7 +170,7 @@ describe('delete', () => {
     try {
       await productPriceService.delete(productPriceId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
+      expect(ex.message).toBe(`No product price found with Id: ${productPriceId}`);
     }
   });
 
@@ -181,7 +181,7 @@ describe('delete', () => {
     try {
       await productPriceService.delete(productPriceId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No product price found with Id: ${productPriceId}`);
+      expect(ex.message).toBe(`No product price found with Id: ${productPriceId}`);
     }
   });
 });
@@ -201,7 +201,11 @@ describe('search', () => {
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => productPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => productPriceService.create(expectedProductPrice))
+          .toArray(),
+      ),
     );
     const productPrices = await productPriceService.search(createCriteria(expectedProductPrice));
 
@@ -244,7 +248,11 @@ describe('searchAll', () => {
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => productPriceService.create(expectedProductPrice)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => productPriceService.create(expectedProductPrice))
+          .toArray(),
+      ),
     );
 
     let productPrices = List();

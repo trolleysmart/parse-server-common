@@ -79,7 +79,7 @@ describe('read', () => {
     try {
       await stapleTemplateService.read(stapleTemplateId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+      expect(ex.message).toBe(`No staple template found with Id: ${stapleTemplateId}`);
     }
   });
 
@@ -104,7 +104,7 @@ describe('update', () => {
 
       await stapleTemplateService.update(stapleTemplate.set('id', stapleTemplateId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+      expect(ex.message).toBe(`No staple template found with Id: ${stapleTemplateId}`);
     }
   });
 
@@ -135,7 +135,7 @@ describe('delete', () => {
     try {
       await stapleTemplateService.delete(stapleTemplateId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+      expect(ex.message).toBe(`No staple template found with Id: ${stapleTemplateId}`);
     }
   });
 
@@ -146,7 +146,7 @@ describe('delete', () => {
     try {
       await stapleTemplateService.delete(stapleTemplateId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template found with Id: ${stapleTemplateId}`);
+      expect(ex.message).toBe(`No staple template found with Id: ${stapleTemplateId}`);
     }
   });
 });
@@ -161,7 +161,11 @@ describe('search', () => {
   test('should return the staple template matches the criteria', async () => {
     const { stapleTemplate: expectedStapleTemplate } = await createStapleTemplateInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleTemplateService.create(expectedStapleTemplate)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => stapleTemplateService.create(expectedStapleTemplate))
+          .toArray(),
+      ),
     );
     const stapleTemplates = await stapleTemplateService.search(createCriteria(expectedStapleTemplate));
 
@@ -194,7 +198,11 @@ describe('searchAll', () => {
   test('should return the staple template matches the criteria', async () => {
     const { stapleTemplate: expectedStapleTemplate } = await createStapleTemplateInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleTemplateService.create(expectedStapleTemplate)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => stapleTemplateService.create(expectedStapleTemplate))
+          .toArray(),
+      ),
     );
 
     let stapleTemplates = List();

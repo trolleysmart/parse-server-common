@@ -94,7 +94,7 @@ describe('read', () => {
     try {
       await storeTagService.read(storeTagId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
+      expect(ex.message).toBe(`No store tag found with Id: ${storeTagId}`);
     }
   });
 
@@ -121,7 +121,7 @@ describe('update', () => {
 
       await storeTagService.update(storeTag.set('id', storeTagId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
+      expect(ex.message).toBe(`No store tag found with Id: ${storeTagId}`);
     }
   });
 
@@ -154,7 +154,7 @@ describe('delete', () => {
     try {
       await storeTagService.delete(storeTagId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
+      expect(ex.message).toBe(`No store tag found with Id: ${storeTagId}`);
     }
   });
 
@@ -165,7 +165,7 @@ describe('delete', () => {
     try {
       await storeTagService.delete(storeTagId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store tag found with Id: ${storeTagId}`);
+      expect(ex.message).toBe(`No store tag found with Id: ${storeTagId}`);
     }
   });
 });
@@ -182,7 +182,11 @@ describe('search', () => {
     const parentStoreTagId = await storeTagService.create(parentStoreTag);
     const { storeTag: expectedStoreTag, store: expectedStore, tags: expectedTags } = await createStoreTagInfo({ parentStoreTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeTagService.create(expectedStoreTag)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => storeTagService.create(expectedStoreTag))
+          .toArray(),
+      ),
     );
     const storeTags = await storeTagService.search(createCriteria(expectedStoreTag));
 
@@ -217,7 +221,11 @@ describe('searchAll', () => {
     const parentStoreTagId = await storeTagService.create(parentStoreTag);
     const { storeTag: expectedStoreTag, store: expectedStore, tags: expectedTags } = await createStoreTagInfo({ parentStoreTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeTagService.create(expectedStoreTag)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => storeTagService.create(expectedStoreTag))
+          .toArray(),
+      ),
     );
 
     let storeTags = List();

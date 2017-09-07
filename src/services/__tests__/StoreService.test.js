@@ -94,7 +94,7 @@ describe('read', () => {
     try {
       await storeService.read(storeId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+      expect(ex.message).toBe(`No store found with Id: ${storeId}`);
     }
   });
 
@@ -118,7 +118,7 @@ describe('update', () => {
 
       await storeService.update(store.set('id', storeId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+      expect(ex.message).toBe(`No store found with Id: ${storeId}`);
     }
   });
 
@@ -151,7 +151,7 @@ describe('delete', () => {
     try {
       await storeService.delete(storeId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+      expect(ex.message).toBe(`No store found with Id: ${storeId}`);
     }
   });
 
@@ -162,7 +162,7 @@ describe('delete', () => {
     try {
       await storeService.delete(storeId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store found with Id: ${storeId}`);
+      expect(ex.message).toBe(`No store found with Id: ${storeId}`);
     }
   });
 });
@@ -179,7 +179,11 @@ describe('search', () => {
     const parentStoreId = await storeService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeService.create(expectedStore)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => storeService.create(expectedStore))
+          .toArray(),
+      ),
     );
     const stores = await storeService.search(createCriteria(expectedStore));
 
@@ -214,7 +218,11 @@ describe('searchAll', () => {
     const parentStoreId = await storeService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeService.create(expectedStore)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => storeService.create(expectedStore))
+          .toArray(),
+      ),
     );
 
     let stores = List();

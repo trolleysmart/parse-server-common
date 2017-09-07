@@ -86,7 +86,7 @@ describe('read', () => {
     try {
       await stapleItemService.read(stapleItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
+      expect(ex.message).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
   });
 
@@ -115,7 +115,7 @@ describe('update', () => {
 
       await stapleItemService.update(stapleItem.set('id', stapleItemId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
+      expect(ex.message).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
   });
 
@@ -150,7 +150,7 @@ describe('delete', () => {
     try {
       await stapleItemService.delete(stapleItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
+      expect(ex.message).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
   });
 
@@ -161,7 +161,7 @@ describe('delete', () => {
     try {
       await stapleItemService.delete(stapleItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple item found with Id: ${stapleItemId}`);
+      expect(ex.message).toBe(`No staple item found with Id: ${stapleItemId}`);
     }
   });
 });
@@ -176,7 +176,11 @@ describe('search', () => {
   test('should return the staple item matches the criteria', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleItemService.create(expectedStapleItem)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => stapleItemService.create(expectedStapleItem))
+          .toArray(),
+      ),
     );
     const stapleItems = await stapleItemService.search(createCriteria(expectedStapleItem));
 
@@ -213,7 +217,11 @@ describe('searchAll', () => {
   test('should return the staple item matches the criteria', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleItemService.create(expectedStapleItem)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => stapleItemService.create(expectedStapleItem))
+          .toArray(),
+      ),
     );
 
     let stapleItems = List();

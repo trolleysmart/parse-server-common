@@ -257,7 +257,7 @@ describe('read', function () {
             _context5.prev = 6;
             _context5.t0 = _context5['catch'](1);
 
-            expect(_context5.t0.getErrorMessage()).toBe('No store found with Id: ' + storeId);
+            expect(_context5.t0.message).toBe('No store found with Id: ' + storeId);
 
           case 9:
           case 'end':
@@ -352,7 +352,7 @@ describe('update', function () {
             _context7.prev = 18;
             _context7.t5 = _context7['catch'](1);
 
-            expect(_context7.t5.getErrorMessage()).toBe('No store found with Id: ' + storeId);
+            expect(_context7.t5.message).toBe('No store found with Id: ' + storeId);
 
           case 21:
           case 'end':
@@ -480,7 +480,7 @@ describe('delete', function () {
             _context10.prev = 6;
             _context10.t0 = _context10['catch'](1);
 
-            expect(_context10.t0.getErrorMessage()).toBe('No store found with Id: ' + storeId);
+            expect(_context10.t0.message).toBe('No store found with Id: ' + storeId);
 
           case 9:
           case 'end':
@@ -523,7 +523,7 @@ describe('delete', function () {
             _context11.prev = 14;
             _context11.t2 = _context11['catch'](9);
 
-            expect(_context11.t2.getErrorMessage()).toBe('No store found with Id: ' + storeId);
+            expect(_context11.t2.message).toBe('No store found with Id: ' + storeId);
 
           case 17:
           case 'end':

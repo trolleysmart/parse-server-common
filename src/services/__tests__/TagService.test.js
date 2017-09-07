@@ -88,7 +88,7 @@ describe('read', () => {
     try {
       await tagService.read(tagId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+      expect(ex.message).toBe(`No tag found with Id: ${tagId}`);
     }
   });
 
@@ -112,7 +112,7 @@ describe('update', () => {
 
       await tagService.update(tag.set('id', tagId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+      expect(ex.message).toBe(`No tag found with Id: ${tagId}`);
     }
   });
 
@@ -145,7 +145,7 @@ describe('delete', () => {
     try {
       await tagService.delete(tagId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+      expect(ex.message).toBe(`No tag found with Id: ${tagId}`);
     }
   });
 
@@ -156,7 +156,7 @@ describe('delete', () => {
     try {
       await tagService.delete(tagId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No tag found with Id: ${tagId}`);
+      expect(ex.message).toBe(`No tag found with Id: ${tagId}`);
     }
   });
 });
@@ -173,7 +173,11 @@ describe('search', () => {
     const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => tagService.create(expectedTag)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => tagService.create(expectedTag))
+          .toArray(),
+      ),
     );
     const tags = await tagService.search(createCriteria(expectedTag));
 
@@ -208,7 +212,11 @@ describe('searchAll', () => {
     const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => tagService.create(expectedTag)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => tagService.create(expectedTag))
+          .toArray(),
+      ),
     );
 
     let tags = List();

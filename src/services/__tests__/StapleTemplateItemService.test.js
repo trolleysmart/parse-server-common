@@ -84,7 +84,7 @@ describe('read', () => {
     try {
       await stapleTemplateItemService.read(stapleTemplateItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.message).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 
@@ -117,7 +117,7 @@ describe('update', () => {
 
       await stapleTemplateItemService.update(stapleTemplateItem.set('id', stapleTemplateItemId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.message).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 
@@ -156,7 +156,7 @@ describe('delete', () => {
     try {
       await stapleTemplateItemService.delete(stapleTemplateItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.message).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 
@@ -167,7 +167,7 @@ describe('delete', () => {
     try {
       await stapleTemplateItemService.delete(stapleTemplateItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
+      expect(ex.message).toBe(`No staple template item found with Id: ${stapleTemplateItemId}`);
     }
   });
 });
@@ -187,7 +187,9 @@ describe('search', () => {
     } = await createStapleTemplateItemInfo();
     const results = Immutable.fromJS(
       await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleTemplateItemService.create(expectedStapleTemplateItem)).toArray(),
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => stapleTemplateItemService.create(expectedStapleTemplateItem))
+          .toArray(),
       ),
     );
     const stapleTemplateItems = await stapleTemplateItemService.search(createCriteria(expectedStapleTemplateItem));
@@ -230,7 +232,9 @@ describe('searchAll', () => {
     } = await createStapleTemplateItemInfo();
     const results = Immutable.fromJS(
       await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => stapleTemplateItemService.create(expectedStapleTemplateItem)).toArray(),
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => stapleTemplateItemService.create(expectedStapleTemplateItem))
+          .toArray(),
       ),
     );
 

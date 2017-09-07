@@ -91,7 +91,7 @@ describe('read', () => {
     try {
       await shoppingListItemService.read(shoppingListItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
+      expect(ex.message).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
   });
 
@@ -132,7 +132,7 @@ describe('update', () => {
 
       await shoppingListItemService.update(shoppingListItem.set('id', shoppingListItemId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
+      expect(ex.message).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
   });
 
@@ -179,7 +179,7 @@ describe('delete', () => {
     try {
       await shoppingListItemService.delete(shoppingListItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
+      expect(ex.message).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
   });
 
@@ -190,7 +190,7 @@ describe('delete', () => {
     try {
       await shoppingListItemService.delete(shoppingListItemId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
+      expect(ex.message).toBe(`No shopping list item found with Id: ${shoppingListItemId}`);
     }
   });
 });
@@ -214,7 +214,9 @@ describe('search', () => {
     } = await createShoppingListItemInfo();
     const results = Immutable.fromJS(
       await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => shoppingListItemService.create(expectedShoppingListItem)).toArray(),
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => shoppingListItemService.create(expectedShoppingListItem))
+          .toArray(),
       ),
     );
     const shoppingListItems = await shoppingListItemService.search(createCriteria(expectedShoppingListItem));
@@ -265,7 +267,9 @@ describe('searchAll', () => {
     } = await createShoppingListItemInfo();
     const results = Immutable.fromJS(
       await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 })).map(async () => shoppingListItemService.create(expectedShoppingListItem)).toArray(),
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => shoppingListItemService.create(expectedShoppingListItem))
+          .toArray(),
       ),
     );
 

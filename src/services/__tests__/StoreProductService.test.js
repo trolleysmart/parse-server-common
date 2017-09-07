@@ -87,7 +87,7 @@ describe('read', () => {
     try {
       await storeProductService.read(storeProductId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
+      expect(ex.message).toBe(`No store product found with Id: ${storeProductId}`);
     }
   });
 
@@ -112,7 +112,7 @@ describe('update', () => {
 
       await storeProductService.update(storeProduct.set('id', storeProductId));
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
+      expect(ex.message).toBe(`No store product found with Id: ${storeProductId}`);
     }
   });
 
@@ -143,7 +143,7 @@ describe('delete', () => {
     try {
       await storeProductService.delete(storeProductId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
+      expect(ex.message).toBe(`No store product found with Id: ${storeProductId}`);
     }
   });
 
@@ -154,7 +154,7 @@ describe('delete', () => {
     try {
       await storeProductService.delete(storeProductId);
     } catch (ex) {
-      expect(ex.getErrorMessage()).toBe(`No store product found with Id: ${storeProductId}`);
+      expect(ex.message).toBe(`No store product found with Id: ${storeProductId}`);
     }
   });
 });
@@ -169,7 +169,11 @@ describe('search', () => {
   test('should return the store product matches the criteria', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 1, max: 10 })).map(async () => storeProductService.create(expectedStoreProduct)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 1, max: 10 }))
+          .map(async () => storeProductService.create(expectedStoreProduct))
+          .toArray(),
+      ),
     );
     const storeProducts = await storeProductService.search(createCriteria(expectedStoreProduct));
 
@@ -202,7 +206,11 @@ describe('searchAll', () => {
   test('should return the store product matches the criteria', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
     const results = Immutable.fromJS(
-      await Promise.all(Range(0, chance.integer({ min: 2, max: 5 })).map(async () => storeProductService.create(expectedStoreProduct)).toArray()),
+      await Promise.all(
+        Range(0, chance.integer({ min: 2, max: 5 }))
+          .map(async () => storeProductService.create(expectedStoreProduct))
+          .toArray(),
+      ),
     );
 
     let storeProducts = List();
