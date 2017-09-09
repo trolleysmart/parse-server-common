@@ -55,6 +55,8 @@ export default class ProductPriceService extends ServiceBase {
     ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
     ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
     ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
+    ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
+    ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
     ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
     ServiceBase.addLinkQuery(conditions, query, 'storeProduct', 'storeProduct', StoreProduct);

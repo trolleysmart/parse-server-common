@@ -26,6 +26,8 @@ export const createProductPriceInfo = async () => {
     offerEndDate: new Date(),
     status: uuid(),
     special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
+    barcode: uuid(),
+    size: uuid(),
     storeId: store.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
     storeProductId: storeProduct.get('id'),
@@ -46,6 +48,8 @@ export const expectProductPrice = (object, expectedObject, { productPriceId, exp
   expect(object.get('offerEndDate')).toEqual(expectedObject.get('offerEndDate'));
   expect(object.get('status')).toBe(expectedObject.get('status'));
   expect(object.get('special')).toBe(expectedObject.get('special'));
+  expect(object.get('barcode')).toBe(expectedObject.get('barcode'));
+  expect(object.get('size')).toBe(expectedObject.get('size'));
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
   expect(object.get('storeProductId')).toBe(expectedObject.get('storeProductId'));

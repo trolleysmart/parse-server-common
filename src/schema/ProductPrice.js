@@ -25,6 +25,8 @@ export default class ProductPrice extends BaseObject {
     object.set('offerEndDate', info.get('offerEndDate'));
     object.set('status', info.get('status'));
     object.set('special', info.get('special'));
+    object.set('barcode', info.get('barcode'));
+    object.set('size', info.get('size'));
     BaseObject.createPointer(object, info, 'store', Store);
     BaseObject.createArrayPointer(object, info, 'tag', Tag);
     BaseObject.createPointer(object, info, 'storeProduct', StoreProduct);
@@ -59,6 +61,8 @@ export default class ProductPrice extends BaseObject {
       offerEndDate: this.getObject().get('offerEndDate'),
       status: this.getObject().get('status'),
       special: this.getObject().get('special'),
+      barcode: this.getObject().get('barcode'),
+      size: this.getObject().get('size'),
       store: store.getInfo(),
       storeId: store.getId(),
       tags,
