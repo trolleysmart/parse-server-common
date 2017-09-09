@@ -66,7 +66,9 @@ ShoppingListItem.updateInfoInternal = function (object, info) {
   object.set('name', info.get('name'));
   object.set('description', info.get('description'));
   object.set('imageUrl', info.get('imageUrl'));
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
+  object.set('isPurchased', info.get('isPurchased'));
+  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'addedByUser');
+  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'removedByUser');
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'shoppingList', _ShoppingList2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'productPrice', _ProductPrice2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'stapleItem', _StapleItem2.default);
@@ -86,7 +88,8 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.getInfo = function () {
-    var user = _this2.getObject().get('user');
+    var addedByUser = _this2.getObject().get('addedByUser');
+    var removedByUser = _this2.getObject().get('removedByUser');
     var shoppingList = new _ShoppingList2.default(_this2.getObject().get('shoppingList'));
     var productPriceObject = _this2.getObject().get('productPrice');
     var productPrice = productPriceObject ? new _ProductPrice2.default(productPriceObject) : undefined;
@@ -104,8 +107,11 @@ var _initialiseProps = function _initialiseProps() {
       name: _this2.getObject().get('name'),
       description: _this2.getObject().get('description'),
       imageUrl: _this2.getObject().get('imageUrl'),
-      user: user,
-      userId: user ? user.id : undefined,
+      isPurchased: _this2.getObject().get('isPurchased'),
+      addedByUser: addedByUser,
+      addedByUserId: addedByUser ? addedByUser.id : undefined,
+      removedByUser: removedByUser,
+      removedByUserId: removedByUser ? removedByUser.id : undefined,
       shoppingList: shoppingList.getInfo(),
       shoppingListId: shoppingList.getId(),
       productPrice: productPrice ? productPrice.getInfo() : undefined,

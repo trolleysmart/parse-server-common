@@ -13,34 +13,18 @@ export const createShoppingListInfo = async () => {
   const sharedWithUsers = Immutable.fromJS(
     await Promise.all(
       Range(0, chance.integer({ min: 0, max: 3 }))
-        .map(() => {
-          const username = `${uuid()}@email.com`;
-          const user = ParseWrapperService.createNewUser();
-
-          user.setUsername(username);
-          user.setPassword('123456');
-
-          return user.signUp();
-        })
+        .map(() => ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp())
         .toArray(),
     ),
   );
-
-  const username = `${uuid()}@email.com`;
-  const user = ParseWrapperService.createNewUser();
-
-  user.setUsername(username);
-  user.setPassword('123456');
-
-  const userSignUpResult = await user.signUp();
-
+  const user = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
   const shoppingList = Map({
     name: uuid(),
-    userId: userSignUpResult.id,
+    userId: user.id,
     sharedWithUserIds: sharedWithUsers.map(sharedWithUser => sharedWithUser.id),
   });
 
-  return { shoppingList, user: userSignUpResult, sharedWithUsers };
+  return { shoppingList, user, sharedWithUsers };
 };
 
 export const createShoppingList = async object => ShoppingList.spawn(object || (await createShoppingListInfo()).shoppingList);

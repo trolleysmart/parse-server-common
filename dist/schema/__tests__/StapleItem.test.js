@@ -37,7 +37,7 @@ var chance = new _chance2.default();
 
 var createStapleItemInfo = exports.createStapleItemInfo = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var stapleTemplateItem, tags, username, user, userSignUpResult, stapleItem;
+    var stapleTemplateItem, tags, user, stapleItem;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -52,32 +52,25 @@ var createStapleItemInfo = exports.createStapleItemInfo = function () {
 
           case 5:
             tags = _context.sent;
-            username = (0, _v2.default)() + '@email.com';
-            user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
+            _context.next = 8;
+            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
 
-
-            user.setUsername(username);
-            user.setPassword('123456');
-
-            _context.next = 12;
-            return user.signUp();
-
-          case 12:
-            userSignUpResult = _context.sent;
+          case 8:
+            user = _context.sent;
             stapleItem = (0, _immutable.Map)({
               name: (0, _v2.default)(),
               description: (0, _v2.default)(),
               imageUrl: (0, _v2.default)(),
               popular: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
-              userId: userSignUpResult.id,
+              userId: user.id,
               stapleTemplateItemId: stapleTemplateItem.get('id'),
               tagIds: tags.map(function (tag) {
                 return tag.get('id');
               })
             });
-            return _context.abrupt('return', { stapleItem: stapleItem, user: userSignUpResult, tags: tags, stapleTemplateItem: stapleTemplateItem });
+            return _context.abrupt('return', { stapleItem: stapleItem, user: user, tags: tags, stapleTemplateItem: stapleTemplateItem });
 
-          case 15:
+          case 11:
           case 'end':
             return _context.stop();
         }

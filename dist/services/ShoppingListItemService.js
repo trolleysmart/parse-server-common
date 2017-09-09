@@ -31,7 +31,8 @@ ShoppingListItemService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'addedByUser');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'removedByUser');
   _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
   _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'productPrice');
   _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleItem');
@@ -54,7 +55,9 @@ ShoppingListItemService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
+  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'isPurchased', 'isPurchased');
+  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'addedByUser', 'addedByUser');
+  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'removedByUser', 'removedByUser');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'shoppingList', 'shoppingList', _schema.ShoppingList);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'productPrice', 'productPrice', _schema.ProductPrice);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'stapleItem', 'stapleItem', _schema.StapleItem);

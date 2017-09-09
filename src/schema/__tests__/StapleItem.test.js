@@ -14,24 +14,18 @@ const chance = new Chance();
 export const createStapleItemInfo = async () => {
   const stapleTemplateItem = (await createStapleTemplateItems(1)).first();
   const tags = await createTags(chance.integer({ min: 1, max: 10 }));
-  const username = `${uuid()}@email.com`;
-  const user = ParseWrapperService.createNewUser();
-
-  user.setUsername(username);
-  user.setPassword('123456');
-
-  const userSignUpResult = await user.signUp();
+  const user = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
   const stapleItem = Map({
     name: uuid(),
     description: uuid(),
     imageUrl: uuid(),
     popular: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
-    userId: userSignUpResult.id,
+    userId: user.id,
     stapleTemplateItemId: stapleTemplateItem.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
   });
 
-  return { stapleItem, user: userSignUpResult, tags, stapleTemplateItem };
+  return { stapleItem, user, tags, stapleTemplateItem };
 };
 
 export const createStapleItem = async object => StapleItem.spawn(object || (await createStapleItemInfo()).stapleItem);

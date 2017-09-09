@@ -31,7 +31,7 @@ var chance = new _chance2.default();
 
 var createShoppingListInfo = exports.createShoppingListInfo = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var sharedWithUsers, username, user, userSignUpResult, shoppingList;
+    var sharedWithUsers, user, shoppingList;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -39,40 +39,27 @@ var createShoppingListInfo = exports.createShoppingListInfo = function () {
             _context.t0 = _immutable2.default;
             _context.next = 3;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 0, max: 3 })).map(function () {
-              var username = (0, _v2.default)() + '@email.com';
-              var user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
-
-              user.setUsername(username);
-              user.setPassword('123456');
-
-              return user.signUp();
+              return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
             }).toArray());
 
           case 3:
             _context.t1 = _context.sent;
             sharedWithUsers = _context.t0.fromJS.call(_context.t0, _context.t1);
-            username = (0, _v2.default)() + '@email.com';
-            user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
+            _context.next = 7;
+            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
 
-
-            user.setUsername(username);
-            user.setPassword('123456');
-
-            _context.next = 11;
-            return user.signUp();
-
-          case 11:
-            userSignUpResult = _context.sent;
+          case 7:
+            user = _context.sent;
             shoppingList = (0, _immutable.Map)({
               name: (0, _v2.default)(),
-              userId: userSignUpResult.id,
+              userId: user.id,
               sharedWithUserIds: sharedWithUsers.map(function (sharedWithUser) {
                 return sharedWithUser.id;
               })
             });
-            return _context.abrupt('return', { shoppingList: shoppingList, user: userSignUpResult, sharedWithUsers: sharedWithUsers });
+            return _context.abrupt('return', { shoppingList: shoppingList, user: user, sharedWithUsers: sharedWithUsers });
 
-          case 14:
+          case 10:
           case 'end':
             return _context.stop();
         }

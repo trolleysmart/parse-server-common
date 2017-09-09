@@ -49,7 +49,7 @@ var chance = new _chance2.default();
 
 var createShoppingListItemInfo = exports.createShoppingListItemInfo = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var shoppingList, productPrice, stapleItem, store, tags, username, user, userSignUpResult, shoppingListItem;
+    var shoppingList, productPrice, stapleItem, store, tags, addedByUser, removedByUser, shoppingListItem;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -79,23 +79,23 @@ var createShoppingListItemInfo = exports.createShoppingListItemInfo = function (
 
           case 14:
             tags = _context.sent;
-            username = (0, _v2.default)() + '@email.com';
-            user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
+            _context.next = 17;
+            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
 
+          case 17:
+            addedByUser = _context.sent;
+            _context.next = 20;
+            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
 
-            user.setUsername(username);
-            user.setPassword('123456');
-
-            _context.next = 21;
-            return user.signUp();
-
-          case 21:
-            userSignUpResult = _context.sent;
+          case 20:
+            removedByUser = _context.sent;
             shoppingListItem = (0, _immutable.Map)({
               name: (0, _v2.default)(),
               description: (0, _v2.default)(),
               imageUrl: (0, _v2.default)(),
-              userId: userSignUpResult.id,
+              isPurchased: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
+              addedByUserId: addedByUser.id,
+              removedByUserId: removedByUser.id,
               shoppingListId: shoppingList.get('id'),
               productPriceId: productPrice.get('id'),
               stapleItemId: stapleItem.get('id'),
@@ -104,9 +104,18 @@ var createShoppingListItemInfo = exports.createShoppingListItemInfo = function (
                 return tag.get('id');
               })
             });
-            return _context.abrupt('return', { shoppingListItem: shoppingListItem, user: userSignUpResult, shoppingList: shoppingList, productPrice: productPrice, stapleItem: stapleItem, store: store, tags: tags });
+            return _context.abrupt('return', {
+              shoppingListItem: shoppingListItem,
+              addedByUser: addedByUser,
+              removedByUser: removedByUser,
+              shoppingList: shoppingList,
+              productPrice: productPrice,
+              stapleItem: stapleItem,
+              store: store,
+              tags: tags
+            });
 
-          case 24:
+          case 23:
           case 'end':
             return _context.stop();
         }
@@ -164,12 +173,15 @@ var expectShoppingListItem = exports.expectShoppingListItem = function expectSho
       expectedStapleItem = _ref3.expectedStapleItem,
       expectedStore = _ref3.expectedStore,
       expectedTags = _ref3.expectedTags,
-      expectedUser = _ref3.expectedUser;
+      expectedAddedByUser = _ref3.expectedAddedByUser,
+      expectedRemovedByUser = _ref3.expectedRemovedByUser;
 
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
-  expect(object.get('userId')).toBe(expectedObject.get('userId'));
+  expect(object.get('isPurchased')).toBe(expectedObject.get('isPurchased'));
+  expect(object.get('addedByUserId')).toBe(expectedObject.get('addedByUserId'));
+  expect(object.get('removedByUserId')).toBe(expectedObject.get('removedByUserId'));
   expect(object.get('shoppingListId')).toBe(expectedObject.get('shoppingListId'));
   expect(object.get('productPriceId')).toBe(expectedObject.get('productPriceId'));
   expect(object.get('stapleItemId')).toBe(expectedObject.get('stapleItemId'));
@@ -180,9 +192,14 @@ var expectShoppingListItem = exports.expectShoppingListItem = function expectSho
     expect(object.get('id')).toBe(shoppingListItemId);
   }
 
-  if (expectedUser) {
-    expect(object.get('user').id).toEqual(expectedUser.id);
-    expect(object.get('user').username).toEqual(expectedUser.username);
+  if (expectedAddedByUser) {
+    expect(object.get('addedByUser').id).toEqual(expectedAddedByUser.id);
+    expect(object.get('addedByUser').username).toEqual(expectedAddedByUser.username);
+  }
+
+  if (expectedRemovedByUser) {
+    expect(object.get('removedByUser').id).toEqual(expectedRemovedByUser.id);
+    expect(object.get('removedByUser').username).toEqual(expectedRemovedByUser.username);
   }
 
   if (expectedShoppingList) {

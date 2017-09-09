@@ -20,18 +20,15 @@ export const createShoppingListItemInfo = async () => {
   const stapleItem = (await createStapleItems(1)).first();
   const store = (await createStores(1)).first();
   const tags = await createTags(chance.integer({ min: 1, max: 10 }));
-  const username = `${uuid()}@email.com`;
-  const user = ParseWrapperService.createNewUser();
-
-  user.setUsername(username);
-  user.setPassword('123456');
-
-  const userSignUpResult = await user.signUp();
+  const addedByUser = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
+  const removedByUser = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
   const shoppingListItem = Map({
     name: uuid(),
     description: uuid(),
     imageUrl: uuid(),
-    userId: userSignUpResult.id,
+    isPurchased: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
+    addedByUserId: addedByUser.id,
+    removedByUserId: removedByUser.id,
     shoppingListId: shoppingList.get('id'),
     productPriceId: productPrice.get('id'),
     stapleItemId: stapleItem.get('id'),
@@ -39,7 +36,16 @@ export const createShoppingListItemInfo = async () => {
     tagIds: tags.map(tag => tag.get('id')),
   });
 
-  return { shoppingListItem, user: userSignUpResult, shoppingList, productPrice, stapleItem, store, tags };
+  return {
+    shoppingListItem,
+    addedByUser,
+    removedByUser,
+    shoppingList,
+    productPrice,
+    stapleItem,
+    store,
+    tags,
+  };
 };
 
 export const createShoppingListItem = async object => ShoppingListItem.spawn(object || (await createShoppingListItemInfo()).shoppingListItem);
@@ -47,12 +53,23 @@ export const createShoppingListItem = async object => ShoppingListItem.spawn(obj
 export const expectShoppingListItem = (
   object,
   expectedObject,
-  { shoppingListItemId, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, expectedUser } = {},
+  {
+    shoppingListItemId,
+    expectedShoppingList,
+    expectedProductPrice,
+    expectedStapleItem,
+    expectedStore,
+    expectedTags,
+    expectedAddedByUser,
+    expectedRemovedByUser,
+  } = {},
 ) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
-  expect(object.get('userId')).toBe(expectedObject.get('userId'));
+  expect(object.get('isPurchased')).toBe(expectedObject.get('isPurchased'));
+  expect(object.get('addedByUserId')).toBe(expectedObject.get('addedByUserId'));
+  expect(object.get('removedByUserId')).toBe(expectedObject.get('removedByUserId'));
   expect(object.get('shoppingListId')).toBe(expectedObject.get('shoppingListId'));
   expect(object.get('productPriceId')).toBe(expectedObject.get('productPriceId'));
   expect(object.get('stapleItemId')).toBe(expectedObject.get('stapleItemId'));
@@ -63,9 +80,14 @@ export const expectShoppingListItem = (
     expect(object.get('id')).toBe(shoppingListItemId);
   }
 
-  if (expectedUser) {
-    expect(object.get('user').id).toEqual(expectedUser.id);
-    expect(object.get('user').username).toEqual(expectedUser.username);
+  if (expectedAddedByUser) {
+    expect(object.get('addedByUser').id).toEqual(expectedAddedByUser.id);
+    expect(object.get('addedByUser').username).toEqual(expectedAddedByUser.username);
+  }
+
+  if (expectedRemovedByUser) {
+    expect(object.get('removedByUser').id).toEqual(expectedRemovedByUser.id);
+    expect(object.get('removedByUser').username).toEqual(expectedRemovedByUser.username);
   }
 
   if (expectedShoppingList) {

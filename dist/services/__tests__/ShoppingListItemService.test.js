@@ -31,8 +31,9 @@ var shoppingListItemService = new _2.ShoppingListItemService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'imageUrl', 'popular', 'user', 'shoppingList', 'productPrice', 'stapleItem', 'store', 'tags'),
-    include_user: true,
+    fields: _immutable.List.of('name', 'description', 'imageUrl', 'isPurchased', 'addedByUser', 'removedByUser', 'shoppingList', 'productPrice', 'stapleItem', 'store', 'tags'),
+    include_addedByUser: true,
+    include_removedByUser: true,
     include_shoppingList: true,
     include_productPrice: true,
     include_stapleItem: true,
@@ -47,7 +48,9 @@ var createCriteria = function createCriteria(shoppingListItem) {
       name: shoppingListItem ? shoppingListItem.get('name') : (0, _v2.default)(),
       description: shoppingListItem ? shoppingListItem.get('description') : (0, _v2.default)(),
       imageUrl: shoppingListItem ? shoppingListItem.get('imageUrl') : (0, _v2.default)(),
-      userId: shoppingListItem ? shoppingListItem.get('userId') : (0, _v2.default)(),
+      isPurchased: shoppingListItem ? shoppingListItem.get('isPurchased') : chance.integer({ min: 0, max: 1000 }) % 2 === 0,
+      addedByUserId: shoppingListItem ? shoppingListItem.get('addedByUserId') : (0, _v2.default)(),
+      removedByUserId: shoppingListItem ? shoppingListItem.get('removedByUserId') : (0, _v2.default)(),
       shoppingListId: shoppingListItem ? shoppingListItem.get('shoppingListId') : (0, _v2.default)(),
       productPriceId: shoppingListItem ? shoppingListItem.get('productPriceId') : (0, _v2.default)(),
       stapleItemId: shoppingListItem ? shoppingListItem.get('stapleItemId') : (0, _v2.default)(),
@@ -251,7 +254,7 @@ describe('read', function () {
   })));
 
   test('should read the existing shopping list item', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
-    var _ref10, expectedShoppingListItem, expectedUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, shoppingListItemId, shoppingListItem;
+    var _ref10, expectedShoppingListItem, expectedAddedByUser, expectedRemovedByUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, shoppingListItemId, shoppingListItem;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
@@ -263,27 +266,29 @@ describe('read', function () {
           case 2:
             _ref10 = _context6.sent;
             expectedShoppingListItem = _ref10.shoppingListItem;
-            expectedUser = _ref10.stapleUser;
+            expectedAddedByUser = _ref10.addedByUser;
+            expectedRemovedByUser = _ref10.removedByUser;
             expectedShoppingList = _ref10.shoppingList;
             expectedProductPrice = _ref10.productPrice;
             expectedStapleItem = _ref10.stapleItem;
             expectedStore = _ref10.store;
             expectedTags = _ref10.tags;
-            _context6.next = 12;
+            _context6.next = 13;
             return shoppingListItemService.create(expectedShoppingListItem);
 
-          case 12:
+          case 13:
             shoppingListItemId = _context6.sent;
-            _context6.next = 15;
+            _context6.next = 16;
             return shoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
 
-          case 15:
+          case 16:
             shoppingListItem = _context6.sent;
 
 
             (0, _ShoppingListItem.expectShoppingListItem)(shoppingListItem, expectedShoppingListItem, {
               shoppingListItemId: shoppingListItemId,
-              expectedUser: expectedUser,
+              expectedAddedByUser: expectedAddedByUser,
+              expectedRemovedByUser: expectedRemovedByUser,
               expectedShoppingList: expectedShoppingList,
               expectedProductPrice: expectedProductPrice,
               expectedStapleItem: expectedStapleItem,
@@ -291,7 +296,7 @@ describe('read', function () {
               expectedTags: expectedTags
             });
 
-          case 17:
+          case 18:
           case 'end':
             return _context6.stop();
         }
@@ -390,7 +395,7 @@ describe('update', function () {
   })));
 
   test('should update the existing shopping list item', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
-    var _ref15, expectedShoppingListItem, expectedUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, shoppingListItemId, shoppingListItem;
+    var _ref15, expectedShoppingListItem, expectedAddedByUser, expectedRemovedByUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, shoppingListItemId, shoppingListItem;
 
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
@@ -402,37 +407,39 @@ describe('update', function () {
           case 2:
             _ref15 = _context9.sent;
             expectedShoppingListItem = _ref15.shoppingListItem;
-            expectedUser = _ref15.stapleUser;
+            expectedAddedByUser = _ref15.addedByUser;
+            expectedRemovedByUser = _ref15.removedByUser;
             expectedShoppingList = _ref15.shoppingList;
             expectedProductPrice = _ref15.productPrice;
             expectedStapleItem = _ref15.stapleItem;
             expectedStore = _ref15.store;
             expectedTags = _ref15.tags;
             _context9.t0 = shoppingListItemService;
-            _context9.next = 13;
+            _context9.next = 14;
             return (0, _ShoppingListItem.createShoppingListItemInfo)();
 
-          case 13:
+          case 14:
             _context9.t1 = _context9.sent.shoppingListItem;
-            _context9.next = 16;
+            _context9.next = 17;
             return _context9.t0.create.call(_context9.t0, _context9.t1);
 
-          case 16:
+          case 17:
             shoppingListItemId = _context9.sent;
-            _context9.next = 19;
+            _context9.next = 20;
             return shoppingListItemService.update(expectedShoppingListItem.set('id', shoppingListItemId));
 
-          case 19:
-            _context9.next = 21;
+          case 20:
+            _context9.next = 22;
             return shoppingListItemService.read(shoppingListItemId, createCriteriaWthoutConditions());
 
-          case 21:
+          case 22:
             shoppingListItem = _context9.sent;
 
 
             (0, _ShoppingListItem.expectShoppingListItem)(shoppingListItem, expectedShoppingListItem, {
               shoppingListItemId: shoppingListItemId,
-              expectedUser: expectedUser,
+              expectedAddedByUser: expectedAddedByUser,
+              expectedRemovedByUser: expectedRemovedByUser,
               expectedShoppingList: expectedShoppingList,
               expectedProductPrice: expectedProductPrice,
               expectedStapleItem: expectedStapleItem,
@@ -440,7 +447,7 @@ describe('update', function () {
               expectedTags: expectedTags
             });
 
-          case 23:
+          case 24:
           case 'end':
             return _context9.stop();
         }
@@ -548,7 +555,7 @@ describe('search', function () {
   })));
 
   test('should return the shopping list item matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee14() {
-    var _ref20, expectedShoppingListItem, expectedUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, results, shoppingListItems;
+    var _ref20, expectedShoppingListItem, expectedAddedByUser, expectedRemovedByUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, results, shoppingListItems;
 
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
@@ -560,14 +567,15 @@ describe('search', function () {
           case 2:
             _ref20 = _context14.sent;
             expectedShoppingListItem = _ref20.shoppingListItem;
-            expectedUser = _ref20.stapleUser;
+            expectedAddedByUser = _ref20.addedByUser;
+            expectedRemovedByUser = _ref20.removedByUser;
             expectedShoppingList = _ref20.shoppingList;
             expectedProductPrice = _ref20.productPrice;
             expectedStapleItem = _ref20.stapleItem;
             expectedStore = _ref20.store;
             expectedTags = _ref20.tags;
             _context14.t0 = _immutable2.default;
-            _context14.next = 13;
+            _context14.next = 14;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
               return regeneratorRuntime.wrap(function _callee13$(_context13) {
                 while (1) {
@@ -583,13 +591,13 @@ describe('search', function () {
               }, _callee13, undefined);
             }))).toArray());
 
-          case 13:
+          case 14:
             _context14.t1 = _context14.sent;
             results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
-            _context14.next = 17;
+            _context14.next = 18;
             return shoppingListItemService.search(createCriteria(expectedShoppingListItem));
 
-          case 17:
+          case 18:
             shoppingListItems = _context14.sent;
 
 
@@ -600,7 +608,8 @@ describe('search', function () {
               })).toBeDefined();
               (0, _ShoppingListItem.expectShoppingListItem)(shoppingListItem, expectedShoppingListItem, {
                 shoppingListItemId: shoppingListItem.get('id'),
-                expectedUser: expectedUser,
+                expectedAddedByUser: expectedAddedByUser,
+                expectedRemovedByUser: expectedRemovedByUser,
                 expectedShoppingList: expectedShoppingList,
                 expectedProductPrice: expectedProductPrice,
                 expectedStapleItem: expectedStapleItem,
@@ -609,7 +618,7 @@ describe('search', function () {
               });
             });
 
-          case 20:
+          case 21:
           case 'end':
             return _context14.stop();
         }
@@ -655,7 +664,7 @@ describe('searchAll', function () {
   })));
 
   test('should return the shopping list item matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
-    var _ref24, expectedShoppingListItem, expectedUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, results, shoppingListItems, result;
+    var _ref24, expectedShoppingListItem, expectedAddedByUser, expectedRemovedByUser, expectedShoppingList, expectedProductPrice, expectedStapleItem, expectedStore, expectedTags, results, shoppingListItems, result;
 
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
@@ -667,14 +676,15 @@ describe('searchAll', function () {
           case 2:
             _ref24 = _context17.sent;
             expectedShoppingListItem = _ref24.shoppingListItem;
-            expectedUser = _ref24.stapleUser;
+            expectedAddedByUser = _ref24.addedByUser;
+            expectedRemovedByUser = _ref24.removedByUser;
             expectedShoppingList = _ref24.shoppingList;
             expectedProductPrice = _ref24.productPrice;
             expectedStapleItem = _ref24.stapleItem;
             expectedStore = _ref24.store;
             expectedTags = _ref24.tags;
             _context17.t0 = _immutable2.default;
-            _context17.next = 13;
+            _context17.next = 14;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee16() {
               return regeneratorRuntime.wrap(function _callee16$(_context16) {
                 while (1) {
@@ -690,27 +700,27 @@ describe('searchAll', function () {
               }, _callee16, undefined);
             }))).toArray());
 
-          case 13:
+          case 14:
             _context17.t1 = _context17.sent;
             results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
             shoppingListItems = (0, _immutable.List)();
             result = shoppingListItemService.searchAll(createCriteria(expectedShoppingListItem));
-            _context17.prev = 17;
+            _context17.prev = 18;
 
             result.event.subscribe(function (info) {
               shoppingListItems = shoppingListItems.push(info);
             });
 
-            _context17.next = 21;
+            _context17.next = 22;
             return result.promise;
 
-          case 21:
-            _context17.prev = 21;
+          case 22:
+            _context17.prev = 22;
 
             result.event.unsubscribeAll();
-            return _context17.finish(21);
+            return _context17.finish(22);
 
-          case 24:
+          case 25:
 
             expect(shoppingListItems.count).toBe(results.count);
             shoppingListItems.forEach(function (shoppingListItem) {
@@ -719,7 +729,8 @@ describe('searchAll', function () {
               })).toBeDefined();
               (0, _ShoppingListItem.expectShoppingListItem)(shoppingListItem, expectedShoppingListItem, {
                 shoppingListItemId: shoppingListItem.get('id'),
-                expectedUser: expectedUser,
+                expectedAddedByUser: expectedAddedByUser,
+                expectedRemovedByUser: expectedRemovedByUser,
                 expectedShoppingList: expectedShoppingList,
                 expectedProductPrice: expectedProductPrice,
                 expectedStapleItem: expectedStapleItem,
@@ -728,12 +739,12 @@ describe('searchAll', function () {
               });
             });
 
-          case 26:
+          case 27:
           case 'end':
             return _context17.stop();
         }
       }
-    }, _callee17, undefined, [[17,, 21, 24]]);
+    }, _callee17, undefined, [[18,, 22, 25]]);
   })));
 });
 

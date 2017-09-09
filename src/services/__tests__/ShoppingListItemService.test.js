@@ -12,8 +12,21 @@ const shoppingListItemService = new ShoppingListItemService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'description', 'imageUrl', 'popular', 'user', 'shoppingList', 'productPrice', 'stapleItem', 'store', 'tags'),
-    include_user: true,
+    fields: List.of(
+      'name',
+      'description',
+      'imageUrl',
+      'isPurchased',
+      'addedByUser',
+      'removedByUser',
+      'shoppingList',
+      'productPrice',
+      'stapleItem',
+      'store',
+      'tags',
+    ),
+    include_addedByUser: true,
+    include_removedByUser: true,
     include_shoppingList: true,
     include_productPrice: true,
     include_stapleItem: true,
@@ -27,7 +40,9 @@ const createCriteria = shoppingListItem =>
       name: shoppingListItem ? shoppingListItem.get('name') : uuid(),
       description: shoppingListItem ? shoppingListItem.get('description') : uuid(),
       imageUrl: shoppingListItem ? shoppingListItem.get('imageUrl') : uuid(),
-      userId: shoppingListItem ? shoppingListItem.get('userId') : uuid(),
+      isPurchased: shoppingListItem ? shoppingListItem.get('isPurchased') : chance.integer({ min: 0, max: 1000 }) % 2 === 0,
+      addedByUserId: shoppingListItem ? shoppingListItem.get('addedByUserId') : uuid(),
+      removedByUserId: shoppingListItem ? shoppingListItem.get('removedByUserId') : uuid(),
       shoppingListId: shoppingListItem ? shoppingListItem.get('shoppingListId') : uuid(),
       productPriceId: shoppingListItem ? shoppingListItem.get('productPriceId') : uuid(),
       stapleItemId: shoppingListItem ? shoppingListItem.get('stapleItemId') : uuid(),
@@ -98,7 +113,8 @@ describe('read', () => {
   test('should read the existing shopping list item', async () => {
     const {
       shoppingListItem: expectedShoppingListItem,
-      stapleUser: expectedUser,
+      addedByUser: expectedAddedByUser,
+      removedByUser: expectedRemovedByUser,
       shoppingList: expectedShoppingList,
       productPrice: expectedProductPrice,
       stapleItem: expectedStapleItem,
@@ -110,7 +126,8 @@ describe('read', () => {
 
     expectShoppingListItem(shoppingListItem, expectedShoppingListItem, {
       shoppingListItemId,
-      expectedUser,
+      expectedAddedByUser,
+      expectedRemovedByUser,
       expectedShoppingList,
       expectedProductPrice,
       expectedStapleItem,
@@ -147,7 +164,8 @@ describe('update', () => {
   test('should update the existing shopping list item', async () => {
     const {
       shoppingListItem: expectedShoppingListItem,
-      stapleUser: expectedUser,
+      addedByUser: expectedAddedByUser,
+      removedByUser: expectedRemovedByUser,
       shoppingList: expectedShoppingList,
       productPrice: expectedProductPrice,
       stapleItem: expectedStapleItem,
@@ -162,7 +180,8 @@ describe('update', () => {
 
     expectShoppingListItem(shoppingListItem, expectedShoppingListItem, {
       shoppingListItemId,
-      expectedUser,
+      expectedAddedByUser,
+      expectedRemovedByUser,
       expectedShoppingList,
       expectedProductPrice,
       expectedStapleItem,
@@ -205,7 +224,8 @@ describe('search', () => {
   test('should return the shopping list item matches the criteria', async () => {
     const {
       shoppingListItem: expectedShoppingListItem,
-      stapleUser: expectedUser,
+      addedByUser: expectedAddedByUser,
+      removedByUser: expectedRemovedByUser,
       shoppingList: expectedShoppingList,
       productPrice: expectedProductPrice,
       stapleItem: expectedStapleItem,
@@ -226,7 +246,8 @@ describe('search', () => {
       expect(results.find(_ => _.localeCompare(shoppingListItem.get('id')) === 0)).toBeDefined();
       expectShoppingListItem(shoppingListItem, expectedShoppingListItem, {
         shoppingListItemId: shoppingListItem.get('id'),
-        expectedUser,
+        expectedAddedByUser,
+        expectedRemovedByUser,
         expectedShoppingList,
         expectedProductPrice,
         expectedStapleItem,
@@ -258,7 +279,8 @@ describe('searchAll', () => {
   test('should return the shopping list item matches the criteria', async () => {
     const {
       shoppingListItem: expectedShoppingListItem,
-      stapleUser: expectedUser,
+      addedByUser: expectedAddedByUser,
+      removedByUser: expectedRemovedByUser,
       shoppingList: expectedShoppingList,
       productPrice: expectedProductPrice,
       stapleItem: expectedStapleItem,
@@ -291,7 +313,8 @@ describe('searchAll', () => {
       expect(results.find(_ => _.localeCompare(shoppingListItem.get('id')) === 0)).toBeDefined();
       expectShoppingListItem(shoppingListItem, expectedShoppingListItem, {
         shoppingListItemId: shoppingListItem.get('id'),
-        expectedUser,
+        expectedAddedByUser,
+        expectedRemovedByUser,
         expectedShoppingList,
         expectedProductPrice,
         expectedStapleItem,

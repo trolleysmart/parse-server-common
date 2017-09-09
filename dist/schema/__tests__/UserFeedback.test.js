@@ -23,30 +23,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var createUserFeedbackInfo = exports.createUserFeedbackInfo = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var username, user, userSignUpResult, userFeedback;
+    var user, userFeedback;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            username = (0, _v2.default)() + '@email.com';
-            user = _microBusinessParseServerCommon.ParseWrapperService.createNewUser();
+            _context.next = 2;
+            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
 
-
-            user.setUsername(username);
-            user.setPassword('123456');
-
-            _context.next = 6;
-            return user.signUp();
-
-          case 6:
-            userSignUpResult = _context.sent;
+          case 2:
+            user = _context.sent;
             userFeedback = (0, _immutable.Map)({
-              userId: userSignUpResult.id,
+              userId: user.id,
               feedback: (0, _immutable.Map)({ info1: (0, _v2.default)(), info2: (0, _v2.default)() })
             });
-            return _context.abrupt('return', { userFeedback: userFeedback, user: userSignUpResult });
+            return _context.abrupt('return', { userFeedback: userFeedback, user: user });
 
-          case 9:
+          case 5:
           case 'end':
             return _context.stop();
         }

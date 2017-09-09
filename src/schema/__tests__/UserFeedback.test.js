@@ -7,19 +7,13 @@ import '../../../bootstrap';
 import { UserFeedback } from '../';
 
 export const createUserFeedbackInfo = async () => {
-  const username = `${uuid()}@email.com`;
-  const user = ParseWrapperService.createNewUser();
-
-  user.setUsername(username);
-  user.setPassword('123456');
-
-  const userSignUpResult = await user.signUp();
+  const user = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
   const userFeedback = Map({
-    userId: userSignUpResult.id,
+    userId: user.id,
     feedback: Map({ info1: uuid(), info2: uuid() }),
   });
 
-  return { userFeedback, user: userSignUpResult };
+  return { userFeedback, user };
 };
 
 export const createUserFeedback = async object => UserFeedback.spawn(object || (await createUserFeedbackInfo()).userFeedback);

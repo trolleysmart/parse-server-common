@@ -21,7 +21,9 @@ export default class ShoppingListItem extends BaseObject {
     object.set('name', info.get('name'));
     object.set('description', info.get('description'));
     object.set('imageUrl', info.get('imageUrl'));
-    BaseObject.createUserPointer(object, info, 'user');
+    object.set('isPurchased', info.get('isPurchased'));
+    BaseObject.createUserPointer(object, info, 'addedByUser');
+    BaseObject.createUserPointer(object, info, 'removedByUser');
     BaseObject.createPointer(object, info, 'shoppingList', ShoppingList);
     BaseObject.createPointer(object, info, 'productPrice', ProductPrice);
     BaseObject.createPointer(object, info, 'stapleItem', StapleItem);
@@ -42,7 +44,8 @@ export default class ShoppingListItem extends BaseObject {
   };
 
   getInfo = () => {
-    const user = this.getObject().get('user');
+    const addedByUser = this.getObject().get('addedByUser');
+    const removedByUser = this.getObject().get('removedByUser');
     const shoppingList = new ShoppingList(this.getObject().get('shoppingList'));
     const productPriceObject = this.getObject().get('productPrice');
     const productPrice = productPriceObject ? new ProductPrice(productPriceObject) : undefined;
@@ -58,8 +61,11 @@ export default class ShoppingListItem extends BaseObject {
       name: this.getObject().get('name'),
       description: this.getObject().get('description'),
       imageUrl: this.getObject().get('imageUrl'),
-      user,
-      userId: user ? user.id : undefined,
+      isPurchased: this.getObject().get('isPurchased'),
+      addedByUser,
+      addedByUserId: addedByUser ? addedByUser.id : undefined,
+      removedByUser,
+      removedByUserId: removedByUser ? removedByUser.id : undefined,
       shoppingList: shoppingList.getInfo(),
       shoppingListId: shoppingList.getId(),
       productPrice: productPrice ? productPrice.getInfo() : undefined,

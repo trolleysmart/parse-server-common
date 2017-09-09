@@ -13,7 +13,8 @@ export default class ShoppingListItemService extends ServiceBase {
       return query;
     }
 
-    ServiceBase.addIncludeQuery(criteria, query, 'user');
+    ServiceBase.addIncludeQuery(criteria, query, 'addedByUser');
+    ServiceBase.addIncludeQuery(criteria, query, 'removedByUser');
     ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
     ServiceBase.addIncludeQuery(criteria, query, 'productPrice');
     ServiceBase.addIncludeQuery(criteria, query, 'stapleItem');
@@ -36,7 +37,9 @@ export default class ShoppingListItemService extends ServiceBase {
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-    ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
+    ServiceBase.addEqualityQuery(conditions, query, 'isPurchased', 'isPurchased');
+    ServiceBase.addUserLinkQuery(conditions, query, 'addedByUser', 'addedByUser');
+    ServiceBase.addUserLinkQuery(conditions, query, 'removedByUser', 'removedByUser');
     ServiceBase.addLinkQuery(conditions, query, 'shoppingList', 'shoppingList', ShoppingList);
     ServiceBase.addLinkQuery(conditions, query, 'productPrice', 'productPrice', ProductPrice);
     ServiceBase.addLinkQuery(conditions, query, 'stapleItem', 'stapleItem', StapleItem);
