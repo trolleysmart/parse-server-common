@@ -1,9 +1,12 @@
 // @flow
 
+import { List } from 'immutable';
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { UserFeedback } from '../schema';
 
 export default class UserFeedbackService extends ServiceBase {
+  static fields = List.of('feedback', 'user');
+
   constructor() {
     super(UserFeedback, UserFeedbackService.buildSearchQuery, UserFeedbackService.buildIncludeQuery, 'user feedback');
   }
@@ -28,6 +31,7 @@ export default class UserFeedbackService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
+    UserFeedbackService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
     ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
 
     return query;

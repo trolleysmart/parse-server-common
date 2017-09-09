@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('../schema');
@@ -25,6 +27,8 @@ var ShoppingListItemService = function (_ServiceBase) {
 
   return ShoppingListItemService;
 }(_microBusinessParseServerCommon.ServiceBase);
+
+ShoppingListItemService.fields = _immutable.List.of('name', 'description', 'imageUrl', 'isPurchased', 'addedByUser', 'removedByUser', 'shoppingList', 'productPrice', 'stapleItem', 'store', 'tags');
 
 ShoppingListItemService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -52,6 +56,9 @@ ShoppingListItemService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  ShoppingListItemService.fields.forEach(function (field) {
+    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+  });
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');

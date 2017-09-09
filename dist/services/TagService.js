@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('../schema');
@@ -26,6 +28,8 @@ var TagService = function (_ServiceBase) {
   return TagService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
+TagService.fields = _immutable.List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'parentTag');
+
 TagService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
     return query;
@@ -46,6 +50,9 @@ TagService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  TagService.fields.forEach(function (field) {
+    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+  });
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');

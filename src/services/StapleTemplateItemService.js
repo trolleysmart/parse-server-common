@@ -1,9 +1,12 @@
 // @flow
 
+import { List } from 'immutable';
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { StapleTemplateItem, StapleTemplate, Tag } from '../schema';
 
 export default class StapleTemplateItemService extends ServiceBase {
+  static fields = List.of('name', 'description', 'imageUrl', 'popular', 'stapleTemplates', 'tags');
+
   constructor() {
     super(StapleTemplateItem, StapleTemplateItemService.buildSearchQuery, StapleTemplateItemService.buildIncludeQuery, 'staple template item');
   }
@@ -29,6 +32,7 @@ export default class StapleTemplateItemService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
+    StapleTemplateItemService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');

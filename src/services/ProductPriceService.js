@@ -1,9 +1,25 @@
 // @flow
 
+import { List } from 'immutable';
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { ProductPrice, Store, StoreProduct, Tag } from '../schema';
 
 export default class ProductPriceService extends ServiceBase {
+  static fields = List.of(
+    'name',
+    'description',
+    'priceDetails',
+    'priceToDisplay',
+    'saving',
+    'savingPercentage',
+    'offerEndDate',
+    'status',
+    'special',
+    'store',
+    'tags',
+    'storeProduct',
+  );
+
   constructor() {
     super(ProductPrice, ProductPriceService.buildSearchQuery, ProductPriceService.buildIncludeQuery, 'product price');
   }
@@ -30,6 +46,7 @@ export default class ProductPriceService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
+    ProductPriceService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
     ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');

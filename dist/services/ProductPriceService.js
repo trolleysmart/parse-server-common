@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('../schema');
@@ -25,6 +27,8 @@ var ProductPriceService = function (_ServiceBase) {
 
   return ProductPriceService;
 }(_microBusinessParseServerCommon.ServiceBase);
+
+ProductPriceService.fields = _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'store', 'tags', 'storeProduct');
 
 ProductPriceService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -48,6 +52,9 @@ ProductPriceService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  ProductPriceService.fields.forEach(function (field) {
+    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+  });
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
   _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');

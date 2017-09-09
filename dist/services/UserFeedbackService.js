@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('../schema');
@@ -26,6 +28,8 @@ var UserFeedbackService = function (_ServiceBase) {
   return UserFeedbackService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
+UserFeedbackService.fields = _immutable.List.of('feedback', 'user');
+
 UserFeedbackService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
     return query;
@@ -46,6 +50,9 @@ UserFeedbackService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  UserFeedbackService.fields.forEach(function (field) {
+    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+  });
   _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
 
   return query;

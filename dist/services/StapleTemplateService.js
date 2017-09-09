@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('../schema');
@@ -26,6 +28,8 @@ var StapleTemplateService = function (_ServiceBase) {
   return StapleTemplateService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
+StapleTemplateService.fields = _immutable.List.of('name', 'description', 'imageUrl');
+
 StapleTemplateService.buildIncludeQuery = function (query) {
   return query;
 };
@@ -40,6 +44,9 @@ StapleTemplateService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  StapleTemplateService.fields.forEach(function (field) {
+    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+  });
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');

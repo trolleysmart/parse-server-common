@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _immutable = require('immutable');
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _schema = require('../schema');
@@ -26,6 +28,8 @@ var ShoppingListService = function (_ServiceBase) {
   return ShoppingListService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
+ShoppingListService.fields = _immutable.List.of('name', 'user', 'sharedWithUsers');
+
 ShoppingListService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
     return query;
@@ -47,6 +51,9 @@ ShoppingListService.buildSearchQuery = function (criteria) {
 
   var conditions = criteria.get('conditions');
 
+  ShoppingListService.fields.forEach(function (field) {
+    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+  });
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
   _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'sharedWithUser', 'sharedWithUsers');

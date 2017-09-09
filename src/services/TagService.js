@@ -1,9 +1,12 @@
 // @flow
 
+import { List } from 'immutable';
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { Tag } from '../schema';
 
 export default class TagService extends ServiceBase {
+  static fields = List.of('key', 'name', 'description', 'imageUrl', 'level', 'forDisplay', 'parentTag');
+
   constructor() {
     super(Tag, TagService.buildSearchQuery, TagService.buildIncludeQuery, 'tag');
   }
@@ -28,6 +31,7 @@ export default class TagService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
+    TagService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
     ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
