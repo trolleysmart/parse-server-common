@@ -31,7 +31,9 @@ export default class TagService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    TagService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
+    TagService.fields.forEach((field) => {
+      ServiceBase.addExistenceQuery(conditions, query, field);
+    });
     ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');

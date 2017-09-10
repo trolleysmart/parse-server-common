@@ -31,7 +31,9 @@ export default class StoreService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    StoreService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
+    StoreService.fields.forEach((field) => {
+      ServiceBase.addExistenceQuery(conditions, query, field);
+    });
     ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');

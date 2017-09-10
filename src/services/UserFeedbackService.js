@@ -31,7 +31,9 @@ export default class UserFeedbackService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    UserFeedbackService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
+    UserFeedbackService.fields.forEach((field) => {
+      ServiceBase.addExistenceQuery(conditions, query, field);
+    });
     ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
 
     return query;

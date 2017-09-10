@@ -51,7 +51,7 @@ UserFeedbackService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   UserFeedbackService.fields.forEach(function (field) {
-    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
   _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
 

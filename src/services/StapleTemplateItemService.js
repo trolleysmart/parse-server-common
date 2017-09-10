@@ -32,7 +32,9 @@ export default class StapleTemplateItemService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    StapleTemplateItemService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
+    StapleTemplateItemService.fields.forEach((field) => {
+      ServiceBase.addExistenceQuery(conditions, query, field);
+    });
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addStringQuery(conditions, query, 'description', 'description');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');

@@ -32,7 +32,9 @@ export default class ShoppingListService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    ShoppingListService.fields.forEach(field => ServiceBase.addExistenceQuery(conditions, query, field));
+    ShoppingListService.fields.forEach((field) => {
+      ServiceBase.addExistenceQuery(conditions, query, field);
+    });
     ServiceBase.addStringQuery(conditions, query, 'name', 'name');
     ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
     ServiceBase.addUserLinkQuery(conditions, query, 'sharedWithUser', 'sharedWithUsers');

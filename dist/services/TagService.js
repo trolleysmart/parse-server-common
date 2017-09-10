@@ -51,7 +51,7 @@ TagService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   TagService.fields.forEach(function (field) {
-    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');

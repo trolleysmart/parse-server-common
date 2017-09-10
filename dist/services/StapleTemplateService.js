@@ -45,7 +45,7 @@ StapleTemplateService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   StapleTemplateService.fields.forEach(function (field) {
-    return _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
