@@ -71,6 +71,7 @@ var createProductPriceInfo = exports.createProductPriceInfo = function () {
               special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
               barcode: (0, _v2.default)(),
               size: (0, _v2.default)(),
+              productPageUrl: (0, _v2.default)(),
               storeId: store.get('id'),
               tagIds: tags.map(function (tag) {
                 return tag.get('id');
@@ -147,6 +148,7 @@ var expectProductPrice = exports.expectProductPrice = function expectProductPric
   expect(object.get('special')).toBe(expectedObject.get('special'));
   expect(object.get('barcode')).toBe(expectedObject.get('barcode'));
   expect(object.get('size')).toBe(expectedObject.get('size'));
+  expect(object.get('productPageUrl')).toBe(expectedObject.get('productPageUrl'));
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
   expect(object.get('storeProductId')).toBe(expectedObject.get('storeProductId'));

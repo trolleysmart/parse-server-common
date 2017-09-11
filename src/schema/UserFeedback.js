@@ -22,21 +22,20 @@ export default class UserFeedback extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    UserFeedback.updateInfoInternal(object, info);
+    UserFeedback.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const user = this.getObject().get('user');
+    const object = this.getObject();
+    const user = object.get('user');
 
     return Map({
       id: this.getId(),
       user,
       userId: user ? user.id : undefined,
-      feedback: Immutable.fromJS(this.getObject().get('feedback')),
+      feedback: Immutable.fromJS(object.get('feedback')),
     });
   };
 }

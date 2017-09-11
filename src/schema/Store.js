@@ -35,25 +35,24 @@ export default class Store extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    Store.updateInfoInternal(object, info);
+    Store.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const parentStoreObject = this.getObject().get('parentStore');
+    const object = this.getObject();
+    const parentStoreObject = object.get('parentStore');
     const parentStore = parentStoreObject ? new Store(parentStoreObject) : undefined;
 
     return Map({
       id: this.getId(),
-      key: this.getObject().get('key'),
-      name: this.getObject().get('name'),
-      imageUrl: this.getObject().get('imageUrl'),
-      address: this.getObject().get('address'),
-      phones: Immutable.fromJS(this.getObject().get('phones')),
-      geoLocation: this.getObject().get('geoLocation'),
+      key: object.get('key'),
+      name: object.get('name'),
+      imageUrl: object.get('imageUrl'),
+      address: object.get('address'),
+      phones: Immutable.fromJS(object.get('phones')),
+      geoLocation: object.get('geoLocation'),
       parentStore: parentStore ? parentStore.getInfo() : undefined,
       parentStoreId: parentStore ? parentStore.getId() : undefined,
     });

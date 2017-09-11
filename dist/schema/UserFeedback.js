@@ -51,21 +51,20 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    UserFeedback.updateInfoInternal(object, info);
+    UserFeedback.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
-    var user = _this2.getObject().get('user');
+    var object = _this2.getObject();
+    var user = object.get('user');
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
       user: user,
       userId: user ? user.id : undefined,
-      feedback: _immutable2.default.fromJS(_this2.getObject().get('feedback'))
+      feedback: _immutable2.default.fromJS(object.get('feedback'))
     });
   };
 };

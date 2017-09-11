@@ -66,29 +66,28 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    StoreProduct.updateInfoInternal(object, info);
+    StoreProduct.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
-    var storeTagObjects = _this2.getObject().get('storeTags');
+    var object = _this2.getObject();
+    var storeTagObjects = object.get('storeTags');
     var storeTags = storeTagObjects ? _immutable2.default.fromJS(storeTagObjects).map(function (storeTag) {
       return new _StoreTag2.default(storeTag).getInfo();
     }) : undefined;
-    var store = new _Store2.default(_this2.getObject().get('store'));
+    var store = new _Store2.default(object.get('store'));
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      name: _this2.getObject().get('name'),
-      description: _this2.getObject().get('description'),
-      barcode: _this2.getObject().get('barcode'),
-      productPageUrl: _this2.getObject().get('productPageUrl'),
-      imageUrl: _this2.getObject().get('imageUrl'),
-      size: _this2.getObject().get('size'),
-      lastCrawlDateTime: _this2.getObject().get('lastCrawlDateTime'),
+      name: object.get('name'),
+      description: object.get('description'),
+      barcode: object.get('barcode'),
+      productPageUrl: object.get('productPageUrl'),
+      imageUrl: object.get('imageUrl'),
+      size: object.get('size'),
+      lastCrawlDateTime: object.get('lastCrawlDateTime'),
       storeTags: storeTags,
       storeTagIds: storeTags ? storeTags.map(function (storeTag) {
         return storeTag.get('id');

@@ -64,27 +64,26 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    StapleItem.updateInfoInternal(object, info);
+    StapleItem.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
-    var stapleTemplateItem = new _StapleTemplateItem2.default(_this2.getObject().get('stapleTemplateItem'));
-    var user = _this2.getObject().get('user');
-    var tagObjects = _this2.getObject().get('tags');
+    var object = _this2.getObject();
+    var stapleTemplateItem = new _StapleTemplateItem2.default(object.get('stapleTemplateItem'));
+    var user = object.get('user');
+    var tagObjects = object.get('tags');
     var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
       return new _Tag2.default(tag).getInfo();
     }) : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      name: _this2.getObject().get('name'),
-      description: _this2.getObject().get('description'),
-      imageUrl: _this2.getObject().get('imageUrl'),
-      popular: _this2.getObject().get('popular'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
+      popular: object.get('popular'),
       user: user,
       userId: user ? user.id : undefined,
       stapleTemplateItem: stapleTemplateItem.getInfo(),

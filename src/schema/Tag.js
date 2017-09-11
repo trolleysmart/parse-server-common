@@ -27,25 +27,24 @@ export default class Tag extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    Tag.updateInfoInternal(object, info);
+    Tag.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const parentTagObject = this.getObject().get('parentTag');
+    const object = this.getObject();
+    const parentTagObject = object.get('parentTag');
     const parentTag = parentTagObject ? new Tag(parentTagObject) : undefined;
 
     return Map({
       id: this.getId(),
-      key: this.getObject().get('key'),
-      name: this.getObject().get('name'),
-      description: this.getObject().get('description'),
-      imageUrl: this.getObject().get('imageUrl'),
-      level: this.getObject().get('level'),
-      forDisplay: this.getObject().get('forDisplay'),
+      key: object.get('key'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
+      level: object.get('level'),
+      forDisplay: object.get('forDisplay'),
       parentTag: parentTag ? parentTag.getInfo() : undefined,
       parentTagId: parentTag ? parentTag.getId() : undefined,
     });

@@ -80,34 +80,33 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    ShoppingListItem.updateInfoInternal(object, info);
+    ShoppingListItem.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
-    var addedByUser = _this2.getObject().get('addedByUser');
-    var removedByUser = _this2.getObject().get('removedByUser');
-    var shoppingList = new _ShoppingList2.default(_this2.getObject().get('shoppingList'));
-    var productPriceObject = _this2.getObject().get('productPrice');
+    var object = _this2.getObject();
+    var addedByUser = object.get('addedByUser');
+    var removedByUser = object.get('removedByUser');
+    var shoppingList = new _ShoppingList2.default(object.get('shoppingList'));
+    var productPriceObject = object.get('productPrice');
     var productPrice = productPriceObject ? new _ProductPrice2.default(productPriceObject) : undefined;
-    var stapleItemObject = _this2.getObject().get('stapleItem');
+    var stapleItemObject = object.get('stapleItem');
     var stapleItem = stapleItemObject ? new _StapleItem2.default(stapleItemObject) : undefined;
-    var tagObjects = _this2.getObject().get('tags');
+    var tagObjects = object.get('tags');
     var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
       return new _Tag2.default(tag).getInfo();
     }) : undefined;
-    var storeObject = _this2.getObject().get('store');
+    var storeObject = object.get('store');
     var store = storeObject ? new _Store2.default(storeObject) : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      name: _this2.getObject().get('name'),
-      description: _this2.getObject().get('description'),
-      imageUrl: _this2.getObject().get('imageUrl'),
-      isPurchased: _this2.getObject().get('isPurchased'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
+      isPurchased: object.get('isPurchased'),
       addedByUser: addedByUser,
       addedByUserId: addedByUser ? addedByUser.id : undefined,
       removedByUser: removedByUser,

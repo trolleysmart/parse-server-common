@@ -27,6 +27,7 @@ export default class ProductPrice extends BaseObject {
     object.set('special', info.get('special'));
     object.set('barcode', info.get('barcode'));
     object.set('size', info.get('size'));
+    object.set('productPageUrl', info.get('productPageUrl'));
     BaseObject.createPointer(object, info, 'store', Store);
     BaseObject.createArrayPointer(object, info, 'tag', Tag);
     BaseObject.createPointer(object, info, 'storeProduct', StoreProduct);
@@ -37,32 +38,32 @@ export default class ProductPrice extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    ProductPrice.updateInfoInternal(object, info);
+    ProductPrice.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const store = new Store(this.getObject().get('store'));
-    const tagObjects = this.getObject().get('tags');
+    const object = this.getObject();
+    const store = new Store(object.get('store'));
+    const tagObjects = object.get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
-    const storeProduct = new StoreProduct(this.getObject().get('storeProduct'));
+    const storeProduct = new StoreProduct(object.get('storeProduct'));
 
     return Map({
       id: this.getId(),
-      name: this.getObject().get('name'),
-      description: this.getObject().get('description'),
-      priceDetails: Immutable.fromJS(this.getObject().get('priceDetails')),
-      priceToDisplay: this.getObject().get('priceToDisplay'),
-      saving: this.getObject().get('saving'),
-      savingPercentage: this.getObject().get('savingPercentage'),
-      offerEndDate: this.getObject().get('offerEndDate'),
-      status: this.getObject().get('status'),
-      special: this.getObject().get('special'),
-      barcode: this.getObject().get('barcode'),
-      size: this.getObject().get('size'),
+      name: object.get('name'),
+      description: object.get('description'),
+      priceDetails: Immutable.fromJS(object.get('priceDetails')),
+      priceToDisplay: object.get('priceToDisplay'),
+      saving: object.get('saving'),
+      savingPercentage: object.get('savingPercentage'),
+      offerEndDate: object.get('offerEndDate'),
+      status: object.get('status'),
+      special: object.get('special'),
+      barcode: object.get('barcode'),
+      size: object.get('size'),
+      productPageUrl: object.get('productPageUrl'),
       store: store.getInfo(),
       storeId: store.getId(),
       tags,

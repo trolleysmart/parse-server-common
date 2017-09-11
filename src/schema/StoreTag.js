@@ -31,27 +31,26 @@ export default class StoreTag extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    StoreTag.updateInfoInternal(object, info);
+    StoreTag.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const parentStoreTagObject = this.getObject().get('parentStoreTag');
+    const object = this.getObject();
+    const parentStoreTagObject = object.get('parentStoreTag');
     const parentStoreTag = parentStoreTagObject ? new StoreTag(parentStoreTagObject) : undefined;
-    const store = new Store(this.getObject().get('store'));
-    const tag = new Tag(this.getObject().get('tag'));
+    const store = new Store(object.get('store'));
+    const tag = new Tag(object.get('tag'));
 
     return Map({
       id: this.getId(),
-      key: this.getObject().get('key'),
-      name: this.getObject().get('name'),
-      description: this.getObject().get('description'),
-      imageUrl: this.getObject().get('imageUrl'),
-      url: this.getObject().get('url'),
-      level: this.getObject().get('level'),
+      key: object.get('key'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
+      url: object.get('url'),
+      level: object.get('level'),
       parentStoreTag: parentStoreTag ? parentStoreTag.getInfo() : undefined,
       parentStoreTagId: parentStoreTag ? parentStoreTag.getId() : undefined,
       store: store.getInfo(),

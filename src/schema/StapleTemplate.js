@@ -23,18 +23,19 @@ export default class StapleTemplate extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    StapleTemplate.updateInfoInternal(object, info);
+    StapleTemplate.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
-  getInfo = () =>
-    Map({
+  getInfo = () => {
+    const object = this.getObject();
+
+    return Map({
       id: this.getId(),
-      name: this.getObject().get('name'),
-      description: this.getObject().get('description'),
-      imageUrl: this.getObject().get('imageUrl'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
     });
+  };
 }

@@ -31,27 +31,26 @@ export default class StoreProduct extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    StoreProduct.updateInfoInternal(object, info);
+    StoreProduct.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const storeTagObjects = this.getObject().get('storeTags');
+    const object = this.getObject();
+    const storeTagObjects = object.get('storeTags');
     const storeTags = storeTagObjects ? Immutable.fromJS(storeTagObjects).map(storeTag => new StoreTag(storeTag).getInfo()) : undefined;
-    const store = new Store(this.getObject().get('store'));
+    const store = new Store(object.get('store'));
 
     return Map({
       id: this.getId(),
-      name: this.getObject().get('name'),
-      description: this.getObject().get('description'),
-      barcode: this.getObject().get('barcode'),
-      productPageUrl: this.getObject().get('productPageUrl'),
-      imageUrl: this.getObject().get('imageUrl'),
-      size: this.getObject().get('size'),
-      lastCrawlDateTime: this.getObject().get('lastCrawlDateTime'),
+      name: object.get('name'),
+      description: object.get('description'),
+      barcode: object.get('barcode'),
+      productPageUrl: object.get('productPageUrl'),
+      imageUrl: object.get('imageUrl'),
+      size: object.get('size'),
+      lastCrawlDateTime: object.get('lastCrawlDateTime'),
       storeTags,
       storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store: store.getInfo(),

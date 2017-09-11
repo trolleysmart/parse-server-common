@@ -36,32 +36,31 @@ export default class ShoppingListItem extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    ShoppingListItem.updateInfoInternal(object, info);
+    ShoppingListItem.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const addedByUser = this.getObject().get('addedByUser');
-    const removedByUser = this.getObject().get('removedByUser');
-    const shoppingList = new ShoppingList(this.getObject().get('shoppingList'));
-    const productPriceObject = this.getObject().get('productPrice');
+    const object = this.getObject();
+    const addedByUser = object.get('addedByUser');
+    const removedByUser = object.get('removedByUser');
+    const shoppingList = new ShoppingList(object.get('shoppingList'));
+    const productPriceObject = object.get('productPrice');
     const productPrice = productPriceObject ? new ProductPrice(productPriceObject) : undefined;
-    const stapleItemObject = this.getObject().get('stapleItem');
+    const stapleItemObject = object.get('stapleItem');
     const stapleItem = stapleItemObject ? new StapleItem(stapleItemObject) : undefined;
-    const tagObjects = this.getObject().get('tags');
+    const tagObjects = object.get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
-    const storeObject = this.getObject().get('store');
+    const storeObject = object.get('store');
     const store = storeObject ? new Store(storeObject) : undefined;
 
     return Map({
       id: this.getId(),
-      name: this.getObject().get('name'),
-      description: this.getObject().get('description'),
-      imageUrl: this.getObject().get('imageUrl'),
-      isPurchased: this.getObject().get('isPurchased'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
+      isPurchased: object.get('isPurchased'),
       addedByUser,
       addedByUserId: addedByUser ? addedByUser.id : undefined,
       removedByUser,

@@ -23,20 +23,19 @@ export default class ShoppingList extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    ShoppingList.updateInfoInternal(object, info);
+    ShoppingList.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const user = this.getObject().get('user');
-    const sharedWithUsers = Immutable.fromJS(this.getObject().get('sharedWithUsers'));
+    const object = this.getObject();
+    const user = object.get('user');
+    const sharedWithUsers = Immutable.fromJS(object.get('sharedWithUsers'));
 
     return Map({
       id: this.getId(),
-      name: this.getObject().get('name'),
+      name: object.get('name'),
       user,
       userId: user ? user.id : undefined,
       sharedWithUsers,

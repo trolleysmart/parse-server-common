@@ -64,25 +64,24 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    Store.updateInfoInternal(object, info);
+    Store.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
-    var parentStoreObject = _this2.getObject().get('parentStore');
+    var object = _this2.getObject();
+    var parentStoreObject = object.get('parentStore');
     var parentStore = parentStoreObject ? new Store(parentStoreObject) : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      key: _this2.getObject().get('key'),
-      name: _this2.getObject().get('name'),
-      imageUrl: _this2.getObject().get('imageUrl'),
-      address: _this2.getObject().get('address'),
-      phones: _immutable2.default.fromJS(_this2.getObject().get('phones')),
-      geoLocation: _this2.getObject().get('geoLocation'),
+      key: object.get('key'),
+      name: object.get('name'),
+      imageUrl: object.get('imageUrl'),
+      address: object.get('address'),
+      phones: _immutable2.default.fromJS(object.get('phones')),
+      geoLocation: object.get('geoLocation'),
       parentStore: parentStore ? parentStore.getInfo() : undefined,
       parentStoreId: parentStore ? parentStore.getId() : undefined
     });

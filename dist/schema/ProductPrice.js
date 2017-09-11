@@ -66,6 +66,7 @@ ProductPrice.updateInfoInternal = function (object, info) {
   object.set('special', info.get('special'));
   object.set('barcode', info.get('barcode'));
   object.set('size', info.get('size'));
+  object.set('productPageUrl', info.get('productPageUrl'));
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'storeProduct', _StoreProduct2.default);
@@ -75,34 +76,34 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    ProductPrice.updateInfoInternal(object, info);
+    ProductPrice.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
-    var store = new _Store2.default(_this2.getObject().get('store'));
-    var tagObjects = _this2.getObject().get('tags');
+    var object = _this2.getObject();
+    var store = new _Store2.default(object.get('store'));
+    var tagObjects = object.get('tags');
     var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
       return new _Tag2.default(tag).getInfo();
     }) : undefined;
-    var storeProduct = new _StoreProduct2.default(_this2.getObject().get('storeProduct'));
+    var storeProduct = new _StoreProduct2.default(object.get('storeProduct'));
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      name: _this2.getObject().get('name'),
-      description: _this2.getObject().get('description'),
-      priceDetails: _immutable2.default.fromJS(_this2.getObject().get('priceDetails')),
-      priceToDisplay: _this2.getObject().get('priceToDisplay'),
-      saving: _this2.getObject().get('saving'),
-      savingPercentage: _this2.getObject().get('savingPercentage'),
-      offerEndDate: _this2.getObject().get('offerEndDate'),
-      status: _this2.getObject().get('status'),
-      special: _this2.getObject().get('special'),
-      barcode: _this2.getObject().get('barcode'),
-      size: _this2.getObject().get('size'),
+      name: object.get('name'),
+      description: object.get('description'),
+      priceDetails: _immutable2.default.fromJS(object.get('priceDetails')),
+      priceToDisplay: object.get('priceToDisplay'),
+      saving: object.get('saving'),
+      savingPercentage: object.get('savingPercentage'),
+      offerEndDate: object.get('offerEndDate'),
+      status: object.get('status'),
+      special: object.get('special'),
+      barcode: object.get('barcode'),
+      size: object.get('size'),
+      productPageUrl: object.get('productPageUrl'),
       store: store.getInfo(),
       storeId: store.getId(),
       tags: tags,

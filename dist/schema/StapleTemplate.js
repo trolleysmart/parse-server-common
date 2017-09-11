@@ -48,19 +48,19 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    StapleTemplate.updateInfoInternal(object, info);
+    StapleTemplate.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
+    var object = _this2.getObject();
+
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      name: _this2.getObject().get('name'),
-      description: _this2.getObject().get('description'),
-      imageUrl: _this2.getObject().get('imageUrl')
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl')
     });
   };
 };

@@ -28,27 +28,26 @@ export default class StapleTemplateItem extends BaseObject {
   }
 
   updateInfo = (info) => {
-    const object = this.getObject();
-
-    StapleTemplateItem.updateInfoInternal(object, info);
+    StapleTemplateItem.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
 
   getInfo = () => {
-    const stapleTemplateObjects = this.getObject().get('stapleTemplates');
+    const object = this.getObject();
+    const stapleTemplateObjects = object.get('stapleTemplates');
     const stapleTemplates = stapleTemplateObjects
       ? Immutable.fromJS(stapleTemplateObjects).map(stapleTemplate => new StapleTemplate(stapleTemplate).getInfo())
       : undefined;
-    const tagObjects = this.getObject().get('tags');
+    const tagObjects = object.get('tags');
     const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
 
     return Map({
       id: this.getId(),
-      name: this.getObject().get('name'),
-      description: this.getObject().get('description'),
-      imageUrl: this.getObject().get('imageUrl'),
-      popular: this.getObject().get('popular'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
+      popular: object.get('popular'),
       stapleTemplates,
       stapleTemplateIds: stapleTemplates ? stapleTemplates.map(stapleTemplate => stapleTemplate.get('id')) : List(),
       tags,

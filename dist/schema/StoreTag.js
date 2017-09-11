@@ -64,27 +64,26 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function (info) {
-    var object = _this2.getObject();
-
-    StoreTag.updateInfoInternal(object, info);
+    StoreTag.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
   this.getInfo = function () {
-    var parentStoreTagObject = _this2.getObject().get('parentStoreTag');
+    var object = _this2.getObject();
+    var parentStoreTagObject = object.get('parentStoreTag');
     var parentStoreTag = parentStoreTagObject ? new StoreTag(parentStoreTagObject) : undefined;
-    var store = new _Store2.default(_this2.getObject().get('store'));
-    var tag = new _Tag2.default(_this2.getObject().get('tag'));
+    var store = new _Store2.default(object.get('store'));
+    var tag = new _Tag2.default(object.get('tag'));
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
-      key: _this2.getObject().get('key'),
-      name: _this2.getObject().get('name'),
-      description: _this2.getObject().get('description'),
-      imageUrl: _this2.getObject().get('imageUrl'),
-      url: _this2.getObject().get('url'),
-      level: _this2.getObject().get('level'),
+      key: object.get('key'),
+      name: object.get('name'),
+      description: object.get('description'),
+      imageUrl: object.get('imageUrl'),
+      url: object.get('url'),
+      level: object.get('level'),
       parentStoreTag: parentStoreTag ? parentStoreTag.getInfo() : undefined,
       parentStoreTagId: parentStoreTag ? parentStoreTag.getId() : undefined,
       store: store.getInfo(),
