@@ -66,6 +66,7 @@ ProductPrice.updateInfoInternal = function (object, info) {
   object.set('special', info.get('special'));
   object.set('barcode', info.get('barcode'));
   object.set('size', info.get('size'));
+  object.set('imageUrl', info.get('imageUrl'));
   object.set('productPageUrl', info.get('productPageUrl'));
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
@@ -103,6 +104,7 @@ var _initialiseProps = function _initialiseProps() {
       special: object.get('special'),
       barcode: object.get('barcode'),
       size: object.get('size'),
+      imageUrl: object.get('imageUrl'),
       productPageUrl: object.get('productPageUrl'),
       store: store.getInfo(),
       storeId: store.getId(),

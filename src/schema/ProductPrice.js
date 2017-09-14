@@ -27,6 +27,7 @@ export default class ProductPrice extends BaseObject {
     object.set('special', info.get('special'));
     object.set('barcode', info.get('barcode'));
     object.set('size', info.get('size'));
+    object.set('imageUrl', info.get('imageUrl'));
     object.set('productPageUrl', info.get('productPageUrl'));
     BaseObject.createPointer(object, info, 'store', Store);
     BaseObject.createArrayPointer(object, info, 'tag', Tag);
@@ -63,6 +64,7 @@ export default class ProductPrice extends BaseObject {
       special: object.get('special'),
       barcode: object.get('barcode'),
       size: object.get('size'),
+      imageUrl: object.get('imageUrl'),
       productPageUrl: object.get('productPageUrl'),
       store: store.getInfo(),
       storeId: store.getId(),

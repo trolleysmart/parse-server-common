@@ -15,6 +15,10 @@ export default class ProductPriceService extends ServiceBase {
     'offerEndDate',
     'status',
     'special',
+    'barcode',
+    'size',
+    'imageUrl',
+    'productPageUrl',
     'store',
     'tags',
     'storeProduct',
@@ -59,6 +63,7 @@ export default class ProductPriceService extends ServiceBase {
     ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
     ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
     ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
+    ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'productPageUrl', 'productPageUrl');
     ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);

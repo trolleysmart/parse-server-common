@@ -28,7 +28,7 @@ var ProductPriceService = function (_ServiceBase) {
   return ProductPriceService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
-ProductPriceService.fields = _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'store', 'tags', 'storeProduct');
+ProductPriceService.fields = _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'barcode', 'size', 'imageUrl', 'productPageUrl', 'store', 'tags', 'storeProduct');
 
 ProductPriceService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -65,6 +65,7 @@ ProductPriceService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
+  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'productPageUrl', 'productPageUrl');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
