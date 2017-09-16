@@ -51,8 +51,8 @@ StapleTemplateItem.spawn = function (info) {
 };
 
 StapleTemplateItem.updateInfoInternal = function (object, info) {
-  object.set('name', info.get('name'));
-  object.set('description', info.get('description'));
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('imageUrl', info.get('imageUrl'));
   object.set('popular', info.get('popular'));
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'stapleTemplate', _StapleTemplate2.default);

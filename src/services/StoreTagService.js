@@ -37,8 +37,8 @@ export default class StoreTagService extends ServiceBase {
       ServiceBase.addExistenceQuery(conditions, query, field);
     });
     ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
-    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
-    ServiceBase.addStringQuery(conditions, query, 'description', 'description');
+    ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+    ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'url', 'url');
     ServiceBase.addNumberQuery(conditions, query, 'level', 'level');

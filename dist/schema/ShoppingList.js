@@ -43,7 +43,7 @@ ShoppingList.spawn = function (info) {
 };
 
 ShoppingList.updateInfoInternal = function (object, info) {
-  object.set('name', info.get('name'));
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
   _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
   _microBusinessParseServerCommon.BaseObject.createUserArrayPointer(object, info, 'sharedWithUser');
 };

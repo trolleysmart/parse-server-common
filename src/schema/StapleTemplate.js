@@ -13,8 +13,8 @@ export default class StapleTemplate extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('name', info.get('name'));
-    object.set('description', info.get('description'));
+    BaseObject.createStringColumn(object, info, 'name');
+    BaseObject.createStringColumn(object, info, 'description');
     object.set('imageUrl', info.get('imageUrl'));
   };
 

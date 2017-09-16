@@ -55,8 +55,8 @@ ProductPriceService.buildSearchQuery = function (criteria) {
   ProductPriceService.fields.forEach(function (field) {
     _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'name');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'description');
+  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
   _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
   _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'saving', 'saving');
   _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');

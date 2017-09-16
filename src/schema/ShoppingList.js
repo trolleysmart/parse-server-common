@@ -13,7 +13,7 @@ export default class ShoppingList extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('name', info.get('name'));
+    BaseObject.createStringColumn(object, info, 'name');
     BaseObject.createUserPointer(object, info, 'user');
     BaseObject.createUserArrayPointer(object, info, 'sharedWithUser');
   };

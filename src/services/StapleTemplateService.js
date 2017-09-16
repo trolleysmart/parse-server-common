@@ -26,8 +26,8 @@ export default class StapleTemplateService extends ServiceBase {
     StapleTemplateService.fields.forEach((field) => {
       ServiceBase.addExistenceQuery(conditions, query, field);
     });
-    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
-    ServiceBase.addStringQuery(conditions, query, 'description', 'description');
+    ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+    ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
 
     return query;

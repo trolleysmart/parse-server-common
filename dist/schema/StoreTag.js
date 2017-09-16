@@ -50,8 +50,8 @@ StoreTag.spawn = function (info) {
 
 StoreTag.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
-  object.set('name', info.get('name'));
-  object.set('description', info.get('description'));
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('imageUrl', info.get('imageUrl'));
   object.set('url', info.get('url'));
   object.set('level', info.get('level'));

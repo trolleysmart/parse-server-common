@@ -35,7 +35,7 @@ export default class ShoppingListService extends ServiceBase {
     ShoppingListService.fields.forEach((field) => {
       ServiceBase.addExistenceQuery(conditions, query, field);
     });
-    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
     ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
     ServiceBase.addUserLinkQuery(conditions, query, 'sharedWithUser', 'sharedWithUsers');
 

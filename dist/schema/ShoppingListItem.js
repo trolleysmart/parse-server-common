@@ -63,8 +63,8 @@ ShoppingListItem.spawn = function (info) {
 };
 
 ShoppingListItem.updateInfoInternal = function (object, info) {
-  object.set('name', info.get('name'));
-  object.set('description', info.get('description'));
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('imageUrl', info.get('imageUrl'));
   object.set('isPurchased', info.get('isPurchased'));
   _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'addedByUser');

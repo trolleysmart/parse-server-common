@@ -51,8 +51,8 @@ StoreProduct.spawn = function (info) {
 };
 
 StoreProduct.updateInfoInternal = function (object, info) {
-  object.set('name', info.get('name'));
-  object.set('description', info.get('description'));
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('barcode', info.get('barcode'));
   object.set('productPageUrl', info.get('productPageUrl'));
   object.set('imageUrl', info.get('imageUrl'));

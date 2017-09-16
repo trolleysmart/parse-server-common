@@ -53,8 +53,8 @@ export default class ProductPriceService extends ServiceBase {
     ProductPriceService.fields.forEach((field) => {
       ServiceBase.addExistenceQuery(conditions, query, field);
     });
-    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
-    ServiceBase.addStringQuery(conditions, query, 'description', 'description');
+    ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+    ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
     ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
     ServiceBase.addNumberQuery(conditions, query, 'saving', 'saving');
     ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');

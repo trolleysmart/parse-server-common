@@ -35,7 +35,7 @@ export default class StoreService extends ServiceBase {
       ServiceBase.addExistenceQuery(conditions, query, field);
     });
     ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
-    ServiceBase.addStringQuery(conditions, query, 'name', 'name');
+    ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'address', 'address');
     ServiceBase.addGeoLocationQuery(conditions, query, 'geoLocation', 'geoLocation');

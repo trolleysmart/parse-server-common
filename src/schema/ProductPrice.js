@@ -16,8 +16,8 @@ export default class ProductPrice extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('name', info.get('name'));
-    object.set('description', info.get('description'));
+    BaseObject.createStringColumn(object, info, 'name');
+    BaseObject.createStringColumn(object, info, 'description');
     object.set('priceDetails', info.get('priceDetails').toJS());
     object.set('priceToDisplay', info.get('priceToDisplay'));
     object.set('saving', info.get('saving'));

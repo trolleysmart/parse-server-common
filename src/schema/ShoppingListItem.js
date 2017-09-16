@@ -18,8 +18,8 @@ export default class ShoppingListItem extends BaseObject {
   };
 
   static updateInfoInternal = (object, info) => {
-    object.set('name', info.get('name'));
-    object.set('description', info.get('description'));
+    BaseObject.createStringColumn(object, info, 'name');
+    BaseObject.createStringColumn(object, info, 'description');
     object.set('imageUrl', info.get('imageUrl'));
     object.set('isPurchased', info.get('isPurchased'));
     BaseObject.createUserPointer(object, info, 'addedByUser');
