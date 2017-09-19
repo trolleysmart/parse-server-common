@@ -12,7 +12,7 @@ const shoppingListService = new ShoppingListService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'user', 'sharedWithUsers'),
+    fields: List.of('name', 'user', 'sharedWithUsers', 'status'),
     include_user: true,
     include_sharedWithUsers: true,
   });
@@ -23,6 +23,7 @@ const createCriteria = shoppingList =>
       name: shoppingList ? shoppingList.get('name') : uuid(),
       userId: shoppingList ? shoppingList.get('userId') : uuid(),
       sharedWithUserIds: shoppingList ? shoppingList.get('sharedWithUserIds') : List.of(uuid(), uuid()),
+      status: shoppingList ? shoppingList.get('status') : uuid(),
     }),
   }).merge(createCriteriaWthoutConditions());
 

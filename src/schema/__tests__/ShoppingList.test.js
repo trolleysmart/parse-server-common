@@ -22,6 +22,7 @@ export const createShoppingListInfo = async () => {
     name: uuid(),
     userId: user.id,
     sharedWithUserIds: sharedWithUsers.map(sharedWithUser => sharedWithUser.id),
+    status: uuid(),
   });
 
   return { shoppingList, user, sharedWithUsers };
@@ -33,6 +34,7 @@ export const expectShoppingList = (object, expectedObject, { shoppingListId, exp
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('userId')).toBe(expectedObject.get('userId'));
   expect(object.get('sharedWithUserIds')).toEqual(expectedObject.get('sharedWithUserIds'));
+  expect(object.get('status')).toBe(expectedObject.get('status'));
 
   if (shoppingListId) {
     expect(object.get('id')).toBe(shoppingListId);

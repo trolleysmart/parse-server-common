@@ -16,6 +16,7 @@ export default class ShoppingList extends BaseObject {
     BaseObject.createStringColumn(object, info, 'name');
     BaseObject.createUserPointer(object, info, 'user');
     BaseObject.createUserArrayPointer(object, info, 'sharedWithUser');
+    object.set('status', info.get('status'));
   };
 
   constructor(object) {
@@ -40,6 +41,7 @@ export default class ShoppingList extends BaseObject {
       userId: user ? user.id : undefined,
       sharedWithUsers,
       sharedWithUserIds: sharedWithUsers ? sharedWithUsers.map(sharedWithUser => sharedWithUser.id) : List(),
+      status: object.get('status'),
     });
   };
 }

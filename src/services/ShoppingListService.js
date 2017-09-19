@@ -5,7 +5,7 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { ShoppingList } from '../schema';
 
 export default class ShoppingListService extends ServiceBase {
-  static fields = List.of('name', 'user', 'sharedWithUsers');
+  static fields = List.of('name', 'user', 'sharedWithUsers', 'status');
 
   constructor() {
     super(ShoppingList, ShoppingListService.buildSearchQuery, ShoppingListService.buildIncludeQuery, 'shopping list');
@@ -38,6 +38,7 @@ export default class ShoppingListService extends ServiceBase {
     ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
     ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
     ServiceBase.addUserLinkQuery(conditions, query, 'sharedWithUser', 'sharedWithUsers');
+    ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
 
     return query;
   };
