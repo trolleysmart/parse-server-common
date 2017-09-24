@@ -39,6 +39,7 @@ export default class StoreProductService extends ServiceBase {
     ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
     ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
     ServiceBase.addEqualityQuery(conditions, query, 'productPageUrl', 'productPageUrl');
+    ServiceBase.addStringQuery(conditions, query, 'productPageUrl', 'productPageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
     ServiceBase.addDateTimeQuery(conditions, query, 'lastCrawlDateTime', 'lastCrawlDateTime');
