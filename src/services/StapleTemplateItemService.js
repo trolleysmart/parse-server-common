@@ -14,7 +14,7 @@ export default class StapleTemplateItemService extends ServiceBase {
 
   static cloneStapleTemplateItems = async (user) => {
     const acl = ParseWrapperService.createACL(user);
-    const stapleTemplateItems = await new StapleTemplateItemService().search(Map({ limit: 1000 }));
+    const stapleTemplateItems = await this.search(Map({ limit: 1000 }));
     const stapleItemService = new StapleItemService();
 
     await Promise.all(
