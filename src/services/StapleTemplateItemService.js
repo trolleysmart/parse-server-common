@@ -3,6 +3,7 @@
 import { List } from 'immutable';
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { StapleTemplateItem, StapleTemplate, Tag } from '../schema';
+import StapleItemService from './StapleItemService';
 
 export default class StapleTemplateItemService extends ServiceBase {
   static fields = List.of('name', 'description', 'imageUrl', 'popular', 'stapleTemplates', 'tags');
@@ -10,6 +11,20 @@ export default class StapleTemplateItemService extends ServiceBase {
   constructor() {
     super(StapleTemplateItem, StapleTemplateItemService.buildSearchQuery, StapleTemplateItemService.buildIncludeQuery, 'staple template item');
   }
+
+  static cloneStapleTemplateItems = async (user) => {
+    const acl = ParseWrapperService.createACL(user);
+    const stapleTemplateItems = await new StapleTemplateItemService().search(Map({ limit: 1000 }));
+    const stapleItemService = new StapleItemService();
+
+    await Promise.all(
+      stapleTemplateItems
+        .map(stapleTemplateItem =>
+          stapleItemService.create(stapleTemplateItem.merge({ userId: user.id, stapleTemplateItemId: stapleTemplateItem.get('id') }), acl),
+        )
+        .toArray(),
+    );
+  };
 
   static buildIncludeQuery = (query, criteria) => {
     if (!criteria) {
