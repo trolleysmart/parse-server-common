@@ -28,47 +28,51 @@ var StapleTemplateItemService = function (_ServiceBase) {
   _inherits(StapleTemplateItemService, _ServiceBase);
 
   function StapleTemplateItemService() {
+    var _this2 = this;
+
     _classCallCheck(this, StapleTemplateItemService);
 
-    return _possibleConstructorReturn(this, (StapleTemplateItemService.__proto__ || Object.getPrototypeOf(StapleTemplateItemService)).call(this, _schema.StapleTemplateItem, StapleTemplateItemService.buildSearchQuery, StapleTemplateItemService.buildIncludeQuery, 'staple template item'));
+    var _this = _possibleConstructorReturn(this, (StapleTemplateItemService.__proto__ || Object.getPrototypeOf(StapleTemplateItemService)).call(this, _schema.StapleTemplateItem, StapleTemplateItemService.buildSearchQuery, StapleTemplateItemService.buildIncludeQuery, 'staple template item'));
+
+    _this.cloneStapleTemplateItems = function () {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(user) {
+        var acl, stapleTemplateItems, stapleItemService;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                acl = _microBusinessParseServerCommon.ParseWrapperService.createACL(user);
+                _context.next = 3;
+                return _this.search(Map({ limit: 1000 }));
+
+              case 3:
+                stapleTemplateItems = _context.sent;
+                stapleItemService = new _StapleItemService2.default();
+                _context.next = 7;
+                return Promise.all(stapleTemplateItems.map(function (stapleTemplateItem) {
+                  return stapleItemService.create(stapleTemplateItem.merge({ userId: user.id, stapleTemplateItemId: stapleTemplateItem.get('id') }), acl);
+                }).toArray());
+
+              case 7:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, _this2);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    return _this;
   }
 
   return StapleTemplateItemService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
 StapleTemplateItemService.fields = _immutable.List.of('name', 'description', 'imageUrl', 'popular', 'stapleTemplates', 'tags');
-
-StapleTemplateItemService.cloneStapleTemplateItems = function () {
-  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(user) {
-    var acl, stapleTemplateItems, stapleItemService;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            acl = _microBusinessParseServerCommon.ParseWrapperService.createACL(user);
-            _context.next = 3;
-            return undefined.search(Map({ limit: 1000 }));
-
-          case 3:
-            stapleTemplateItems = _context.sent;
-            stapleItemService = new _StapleItemService2.default();
-            _context.next = 7;
-            return Promise.all(stapleTemplateItems.map(function (stapleTemplateItem) {
-              return stapleItemService.create(stapleTemplateItem.merge({ userId: user.id, stapleTemplateItemId: stapleTemplateItem.get('id') }), acl);
-            }).toArray());
-
-          case 7:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, undefined);
-  }));
-
-  return function (_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
 
 StapleTemplateItemService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {

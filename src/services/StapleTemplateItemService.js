@@ -12,7 +12,7 @@ export default class StapleTemplateItemService extends ServiceBase {
     super(StapleTemplateItem, StapleTemplateItemService.buildSearchQuery, StapleTemplateItemService.buildIncludeQuery, 'staple template item');
   }
 
-  static cloneStapleTemplateItems = async (user) => {
+  cloneStapleTemplateItems = async (user) => {
     const acl = ParseWrapperService.createACL(user);
     const stapleTemplateItems = await this.search(Map({ limit: 1000 }));
     const stapleItemService = new StapleItemService();
