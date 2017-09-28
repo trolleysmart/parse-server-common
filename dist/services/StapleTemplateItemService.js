@@ -47,7 +47,7 @@ StapleTemplateItemService.cloneStapleTemplateItems = function () {
           case 0:
             acl = _microBusinessParseServerCommon.ParseWrapperService.createACL(user);
             _context.next = 3;
-            return new StapleTemplateItemService().search(Map({ limit: 1000 }));
+            return undefined.search(Map({ limit: 1000 }));
 
           case 3:
             stapleTemplateItems = _context.sent;
