@@ -43,7 +43,7 @@ var StapleTemplateItemService = function (_ServiceBase) {
               case 0:
                 acl = _microBusinessParseServerCommon.ParseWrapperService.createACL(user);
                 _context.next = 3;
-                return _this.search(Map({ limit: 1000 }));
+                return _this.search((0, _immutable.Map)({ limit: 1000 }));
 
               case 3:
                 stapleTemplateItems = _context.sent;

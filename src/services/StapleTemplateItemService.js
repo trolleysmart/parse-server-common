@@ -1,6 +1,6 @@
 // @flow
 
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
 import { StapleTemplateItem, StapleTemplate, Tag } from '../schema';
 import StapleItemService from './StapleItemService';
