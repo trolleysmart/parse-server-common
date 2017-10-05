@@ -1,6 +1,6 @@
 {
   "name": "trolley-smart-parse-server-common",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.22",
   "description": "Trolley Smart Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -19,10 +19,10 @@
   "author": "Micro Business ltd<micro.business.ltd@gmail.com>",
   "homepage": "https://bitbucket.org/microbusiness/trolley-smart-parse-server-common#readme",
   "dependencies": {
-    "bluebird": "^3.5.0",
-    "immutable": "^3.8.1",
-    "micro-business-common-javascript": "^1.0.0-alpha.8",
-    "micro-business-parse-server-common": "1.0.2-alpha.29"
+    "bluebird": "^3.5.1",
+    "immutable": "^4.0.0-rc.4",
+    "micro-business-common-javascript": "^1.0.0-alpha.10",
+    "micro-business-parse-server-common": "1.0.2-alpha.30"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -41,7 +41,7 @@
     "jest": "^21.2.1",
     "lint-staged": "^4.2.3",
     "parse": "^1.10.0",
-    "prettier": "^1.7.3",
+    "prettier": "^1.7.4",
     "uuid": "^3.1.0"
   },
   "jest": {
