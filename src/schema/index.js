@@ -1,5 +1,7 @@
 // @flow
 
+export CrawledProductPrice from './CrawledProductPrice';
+export CrawledStoreProduct from './CrawledStoreProduct';
 export ProductPrice from './ProductPrice';
 export ShoppingList from './ShoppingList';
 export ShoppingListItem from './ShoppingListItem';

@@ -60,25 +60,21 @@ const createShoppingListItems = async (count, useSameInfo = false) => {
     shoppingListItem = tempShoppingListItem;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalShoppingListItem;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalShoppingListItem;
 
-          if (useSameInfo) {
-            finalShoppingListItem = shoppingListItem;
-          } else {
-            const { shoppingListItem: tempShoppingListItem } = await createShoppingListItemInfo();
+      if (useSameInfo) {
+        finalShoppingListItem = shoppingListItem;
+      } else {
+        const { shoppingListItem: tempShoppingListItem } = await createShoppingListItemInfo();
 
-            finalShoppingListItem = tempShoppingListItem;
-          }
+        finalShoppingListItem = tempShoppingListItem;
+      }
 
-          return shoppingListItemService.read(await shoppingListItemService.create(finalShoppingListItem), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return shoppingListItemService.read(await shoppingListItemService.create(finalShoppingListItem), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createShoppingListItems;
@@ -232,13 +228,9 @@ describe('search', () => {
       store: expectedStore,
       tags: expectedTags,
     } = await createShoppingListItemInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => shoppingListItemService.create(expectedShoppingListItem))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => shoppingListItemService.create(expectedShoppingListItem))
+      .toArray()));
     const shoppingListItems = await shoppingListItemService.search(createCriteria(expectedShoppingListItem));
 
     expect(shoppingListItems.count).toBe(results.count);
@@ -287,13 +279,9 @@ describe('searchAll', () => {
       store: expectedStore,
       tags: expectedTags,
     } = await createShoppingListItemInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => shoppingListItemService.create(expectedShoppingListItem))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => shoppingListItemService.create(expectedShoppingListItem))
+      .toArray()));
 
     let shoppingListItems = List();
     const result = shoppingListItemService.searchAll(createCriteria(expectedShoppingListItem));

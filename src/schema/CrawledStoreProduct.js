@@ -5,11 +5,11 @@ import { BaseObject } from 'micro-business-parse-server-common';
 import Store from './Store';
 import StoreTag from './StoreTag';
 
-export default class StoreProduct extends BaseObject {
+export default class CrawledStoreProduct extends BaseObject {
   static spawn = (info) => {
-    const object = new StoreProduct();
+    const object = new CrawledStoreProduct();
 
-    StoreProduct.updateInfoInternal(object, info);
+    CrawledStoreProduct.updateInfoInternal(object, info);
 
     return object;
   };
@@ -21,16 +21,17 @@ export default class StoreProduct extends BaseObject {
     object.set('productPageUrl', info.get('productPageUrl'));
     object.set('imageUrl', info.get('imageUrl'));
     object.set('size', info.get('size'));
+    object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
     BaseObject.createArrayPointer(object, info, 'storeTag', StoreTag);
     BaseObject.createPointer(object, info, 'store', Store);
   };
 
   constructor(object) {
-    super(object, 'StoreProduct');
+    super(object, 'CrawledStoreProduct');
   }
 
   updateInfo = (info) => {
-    StoreProduct.updateInfoInternal(this.getObject(), info);
+    CrawledStoreProduct.updateInfoInternal(this.getObject(), info);
 
     return this;
   };
@@ -49,6 +50,7 @@ export default class StoreProduct extends BaseObject {
       productPageUrl: object.get('productPageUrl'),
       imageUrl: object.get('imageUrl'),
       size: object.get('size'),
+      lastCrawlDateTime: object.get('lastCrawlDateTime'),
       storeTags,
       storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store: store.getInfo(),

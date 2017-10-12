@@ -66,25 +66,21 @@ const createProductPrices = async (count, useSameInfo = false) => {
     productPrice = tempProductPrice;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalProductPrice;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalProductPrice;
 
-          if (useSameInfo) {
-            finalProductPrice = productPrice;
-          } else {
-            const { productPrice: tempProductPrice } = await createProductPriceInfo();
+      if (useSameInfo) {
+        finalProductPrice = productPrice;
+      } else {
+        const { productPrice: tempProductPrice } = await createProductPriceInfo();
 
-            finalProductPrice = tempProductPrice;
-          }
+        finalProductPrice = tempProductPrice;
+      }
 
-          return productPriceService.read(await productPriceService.create(finalProductPrice), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return productPriceService.read(await productPriceService.create(finalProductPrice), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createProductPrices;
@@ -126,7 +122,12 @@ describe('read', () => {
     const productPriceId = await productPriceService.create(expectedProductPrice);
     const productPrice = await productPriceService.read(productPriceId, createCriteriaWthoutConditions());
 
-    expectProductPrice(productPrice, expectedProductPrice, { productPriceId, expectedStore, expectedTags, expectedStoreProduct });
+    expectProductPrice(productPrice, expectedProductPrice, {
+      productPriceId,
+      expectedStore,
+      expectedTags,
+      expectedStoreProduct,
+    });
   });
 });
 
@@ -167,7 +168,12 @@ describe('update', () => {
 
     const productPrice = await productPriceService.read(productPriceId, createCriteriaWthoutConditions());
 
-    expectProductPrice(productPrice, expectedProductPrice, { productPriceId, expectedStore, expectedTags, expectedStoreProduct });
+    expectProductPrice(productPrice, expectedProductPrice, {
+      productPriceId,
+      expectedStore,
+      expectedTags,
+      expectedStoreProduct,
+    });
   });
 });
 
@@ -208,13 +214,9 @@ describe('search', () => {
       tags: expectedTags,
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => productPriceService.create(expectedProductPrice))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => productPriceService.create(expectedProductPrice))
+      .toArray()));
     const productPrices = await productPriceService.search(createCriteria(expectedProductPrice));
 
     expect(productPrices.count).toBe(results.count);
@@ -255,13 +257,9 @@ describe('searchAll', () => {
       tags: expectedTags,
       storeProduct: expectedStoreProduct,
     } = await createProductPriceInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => productPriceService.create(expectedProductPrice))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => productPriceService.create(expectedProductPrice))
+      .toArray()));
 
     let productPrices = List();
     const result = productPriceService.searchAll(createCriteria(expectedProductPrice));

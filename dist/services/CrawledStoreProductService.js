@@ -33,30 +33,40 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StoreProductService = (function(_ServiceBase) {
-  _inherits(StoreProductService, _ServiceBase);
+var CrawledStoreProductService = (function(_ServiceBase) {
+  _inherits(CrawledStoreProductService, _ServiceBase);
 
-  function StoreProductService() {
-    _classCallCheck(this, StoreProductService);
+  function CrawledStoreProductService() {
+    _classCallCheck(this, CrawledStoreProductService);
 
     return _possibleConstructorReturn(
       this,
-      (StoreProductService.__proto__ || Object.getPrototypeOf(StoreProductService)).call(
+      (CrawledStoreProductService.__proto__ || Object.getPrototypeOf(CrawledStoreProductService)).call(
         this,
-        _schema.StoreProduct,
-        StoreProductService.buildSearchQuery,
-        StoreProductService.buildIncludeQuery,
+        _schema.CrawledStoreProduct,
+        CrawledStoreProductService.buildSearchQuery,
+        CrawledStoreProductService.buildIncludeQuery,
         'store product',
       ),
     );
   }
 
-  return StoreProductService;
+  return CrawledStoreProductService;
 })(_microBusinessParseServerCommon.ServiceBase);
 
-StoreProductService.fields = _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'store', 'storeTags');
+CrawledStoreProductService.fields = _immutable.List.of(
+  'name',
+  'description',
+  'barcode',
+  'productPageUrl',
+  'imageUrl',
+  'size',
+  'lastCrawlDateTime',
+  'store',
+  'storeTags',
+);
 
-StoreProductService.buildIncludeQuery = function(query, criteria) {
+CrawledStoreProductService.buildIncludeQuery = function(query, criteria) {
   if (!criteria) {
     return query;
   }
@@ -67,9 +77,9 @@ StoreProductService.buildIncludeQuery = function(query, criteria) {
   return query;
 };
 
-StoreProductService.buildSearchQuery = function(criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreProduct, criteria);
-  var query = StoreProductService.buildIncludeQuery(queryWithoutIncludes, criteria);
+CrawledStoreProductService.buildSearchQuery = function(criteria) {
+  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawledStoreProduct, criteria);
+  var query = CrawledStoreProductService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
     return query;
@@ -77,7 +87,7 @@ StoreProductService.buildSearchQuery = function(criteria) {
 
   var conditions = criteria.get('conditions');
 
-  StoreProductService.fields.forEach(function(field) {
+  CrawledStoreProductService.fields.forEach(function(field) {
     _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
@@ -87,10 +97,11 @@ StoreProductService.buildSearchQuery = function(criteria) {
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'productPageUrl', 'productPageUrl');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
+  _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'lastCrawlDateTime', 'lastCrawlDateTime');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'storeTag', 'storeTags', _schema.StoreTag);
 
   return query;
 };
 
-exports.default = StoreProductService;
+exports.default = CrawledStoreProductService;

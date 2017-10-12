@@ -39,28 +39,24 @@ const createTags = async (count, useSameInfo = false, createParentTag = true) =>
     tag = tempTag;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalTag;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalTag;
 
-          if (useSameInfo) {
-            finalTag = tag;
-          } else {
-            const { tag: tempTag } = await createTagInfo();
+      if (useSameInfo) {
+        finalTag = tag;
+      } else {
+        const { tag: tempTag } = await createTagInfo();
 
-            finalTag = tempTag;
-          }
+        finalTag = tempTag;
+      }
 
-          return tagService.read(
-            await tagService.create(createParentTag ? finalTag.merge(Map({ parentTagId: parentTag.get('id') })) : finalTag),
-            createCriteriaWthoutConditions(),
-          );
-        })
-        .toArray(),
-    ),
-  );
+      return tagService.read(
+        await tagService.create(createParentTag ? finalTag.merge(Map({ parentTagId: parentTag.get('id') })) : finalTag),
+        createCriteriaWthoutConditions(),
+      );
+    })
+    .toArray()));
 };
 
 export default createTags;
@@ -172,13 +168,9 @@ describe('search', () => {
     const { tag: parentTag } = await createTagInfo();
     const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => tagService.create(expectedTag))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => tagService.create(expectedTag))
+      .toArray()));
     const tags = await tagService.search(createCriteria(expectedTag));
 
     expect(tags.count).toBe(results.count);
@@ -211,13 +203,9 @@ describe('searchAll', () => {
     const { tag: parentTag } = await createTagInfo();
     const parentTagId = await tagService.create(parentTag);
     const { tag: expectedTag } = await createTagInfo({ parentTagId });
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => tagService.create(expectedTag))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => tagService.create(expectedTag))
+      .toArray()));
 
     let tags = List();
     const result = tagService.searchAll(createCriteria(expectedTag));

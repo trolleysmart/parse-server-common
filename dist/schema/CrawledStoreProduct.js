@@ -45,37 +45,41 @@ function _inherits(subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
 }
 
-var StoreProduct = (function(_BaseObject) {
-  _inherits(StoreProduct, _BaseObject);
+var CrawledStoreProduct = (function(_BaseObject) {
+  _inherits(CrawledStoreProduct, _BaseObject);
 
-  function StoreProduct(object) {
-    _classCallCheck(this, StoreProduct);
+  function CrawledStoreProduct(object) {
+    _classCallCheck(this, CrawledStoreProduct);
 
-    var _this = _possibleConstructorReturn(this, (StoreProduct.__proto__ || Object.getPrototypeOf(StoreProduct)).call(this, object, 'StoreProduct'));
+    var _this = _possibleConstructorReturn(
+      this,
+      (CrawledStoreProduct.__proto__ || Object.getPrototypeOf(CrawledStoreProduct)).call(this, object, 'CrawledStoreProduct'),
+    );
 
     _initialiseProps.call(_this);
 
     return _this;
   }
 
-  return StoreProduct;
+  return CrawledStoreProduct;
 })(_microBusinessParseServerCommon.BaseObject);
 
-StoreProduct.spawn = function(info) {
-  var object = new StoreProduct();
+CrawledStoreProduct.spawn = function(info) {
+  var object = new CrawledStoreProduct();
 
-  StoreProduct.updateInfoInternal(object, info);
+  CrawledStoreProduct.updateInfoInternal(object, info);
 
   return object;
 };
 
-StoreProduct.updateInfoInternal = function(object, info) {
+CrawledStoreProduct.updateInfoInternal = function(object, info) {
   _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
   _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('barcode', info.get('barcode'));
   object.set('productPageUrl', info.get('productPageUrl'));
   object.set('imageUrl', info.get('imageUrl'));
   object.set('size', info.get('size'));
+  object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'storeTag', _StoreTag2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
 };
@@ -84,7 +88,7 @@ var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
   this.updateInfo = function(info) {
-    StoreProduct.updateInfoInternal(_this2.getObject(), info);
+    CrawledStoreProduct.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
@@ -107,6 +111,7 @@ var _initialiseProps = function _initialiseProps() {
       productPageUrl: object.get('productPageUrl'),
       imageUrl: object.get('imageUrl'),
       size: object.get('size'),
+      lastCrawlDateTime: object.get('lastCrawlDateTime'),
       storeTags: storeTags,
       storeTagIds: storeTags
         ? storeTags.map(function(storeTag) {
@@ -119,4 +124,4 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
-exports.default = StoreProduct;
+exports.default = CrawledStoreProduct;

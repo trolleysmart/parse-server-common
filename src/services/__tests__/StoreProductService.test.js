@@ -12,7 +12,7 @@ const storeProductService = new StoreProductService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags'),
+    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'store', 'storeTags'),
     include_store: true,
     include_storeTags: true,
   });
@@ -26,7 +26,6 @@ const createCriteria = storeProduct =>
       productPageUrl: storeProduct ? storeProduct.get('productPageUrl') : uuid(),
       imageUrl: storeProduct ? storeProduct.get('imageUrl') : uuid(),
       size: storeProduct ? storeProduct.get('size') : uuid(),
-      lastCrawlDateTime: storeProduct ? storeProduct.get('lastCrawlDateTime') : new Date(),
       storeId: storeProduct ? storeProduct.get('storeId') : uuid(),
       storeTagIds: storeProduct ? storeProduct.get('storeTagIds') : List.of(uuid(), uuid()),
     }),
@@ -41,25 +40,21 @@ const createStoreProducts = async (count, useSameInfo = false) => {
     storeProduct = tempStoreProduct;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalStoreProduct;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalStoreProduct;
 
-          if (useSameInfo) {
-            finalStoreProduct = storeProduct;
-          } else {
-            const { storeProduct: tempStoreProduct } = await createStoreProductInfo();
+      if (useSameInfo) {
+        finalStoreProduct = storeProduct;
+      } else {
+        const { storeProduct: tempStoreProduct } = await createStoreProductInfo();
 
-            finalStoreProduct = tempStoreProduct;
-          }
+        finalStoreProduct = tempStoreProduct;
+      }
 
-          return storeProductService.read(await storeProductService.create(finalStoreProduct), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return storeProductService.read(await storeProductService.create(finalStoreProduct), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createStoreProducts;
@@ -168,13 +163,9 @@ describe('search', () => {
 
   test('should return the store product matches the criteria', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 1, max: 10 }))
-          .map(async () => storeProductService.create(expectedStoreProduct))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 1, max: 10 }))
+      .map(async () => storeProductService.create(expectedStoreProduct))
+      .toArray()));
     const storeProducts = await storeProductService.search(createCriteria(expectedStoreProduct));
 
     expect(storeProducts.count).toBe(results.count);
@@ -205,13 +196,9 @@ describe('searchAll', () => {
 
   test('should return the store product matches the criteria', async () => {
     const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => storeProductService.create(expectedStoreProduct))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => storeProductService.create(expectedStoreProduct))
+      .toArray()));
 
     let storeProducts = List();
     const result = storeProductService.searchAll(createCriteria(expectedStoreProduct));

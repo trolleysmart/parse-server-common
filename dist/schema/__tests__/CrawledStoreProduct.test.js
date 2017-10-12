@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.expectStoreProduct = exports.createStoreProduct = exports.createStoreProductInfo = undefined;
+exports.expectCrawledStoreProduct = exports.createCrawledStoreProduct = exports.createCrawledStoreProductInfo = undefined;
 
 var _chance = require('chance');
 
@@ -61,10 +61,10 @@ function _asyncToGenerator(fn) {
 
 var chance = new _chance2.default();
 
-var createStoreProductInfo = (exports.createStoreProductInfo = (function() {
+var createCrawledStoreProductInfo = (exports.createCrawledStoreProductInfo = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee() {
-      var store, storeTags, storeProduct;
+      var store, storeTags, crawledStoreProduct;
       return regeneratorRuntime.wrap(
         function _callee$(_context) {
           while (1) {
@@ -80,20 +80,21 @@ var createStoreProductInfo = (exports.createStoreProductInfo = (function() {
 
               case 5:
                 storeTags = _context.sent;
-                storeProduct = (0, _immutable.Map)({
+                crawledStoreProduct = (0, _immutable.Map)({
                   name: (0, _v2.default)(),
                   description: (0, _v2.default)(),
                   barcode: (0, _v2.default)(),
                   productPageUrl: (0, _v2.default)(),
                   imageUrl: (0, _v2.default)(),
                   size: (0, _v2.default)(),
+                  lastCrawlDateTime: new Date(),
                   special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
                   storeId: store.get('id'),
                   storeTagIds: storeTags.map(function(storeTag) {
                     return storeTag.get('id');
                   }),
                 });
-                return _context.abrupt('return', { storeProduct: storeProduct, store: store, storeTags: storeTags });
+                return _context.abrupt('return', { crawledStoreProduct: crawledStoreProduct, store: store, storeTags: storeTags });
 
               case 8:
               case 'end':
@@ -107,12 +108,12 @@ var createStoreProductInfo = (exports.createStoreProductInfo = (function() {
     }),
   );
 
-  return function createStoreProductInfo() {
+  return function createCrawledStoreProductInfo() {
     return _ref.apply(this, arguments);
   };
 })());
 
-var createStoreProduct = (exports.createStoreProduct = (function() {
+var createCrawledStoreProduct = (exports.createCrawledStoreProduct = (function() {
   var _ref2 = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(object) {
       return regeneratorRuntime.wrap(
@@ -120,7 +121,7 @@ var createStoreProduct = (exports.createStoreProduct = (function() {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                _context2.t0 = _2.StoreProduct;
+                _context2.t0 = _2.CrawledStoreProduct;
                 _context2.t1 = object;
 
                 if (_context2.t1) {
@@ -129,10 +130,10 @@ var createStoreProduct = (exports.createStoreProduct = (function() {
                 }
 
                 _context2.next = 5;
-                return createStoreProductInfo();
+                return createCrawledStoreProductInfo();
 
               case 5:
-                _context2.t1 = _context2.sent.storeProduct;
+                _context2.t1 = _context2.sent.crawledStoreProduct;
 
               case 6:
                 _context2.t2 = _context2.t1;
@@ -150,14 +151,14 @@ var createStoreProduct = (exports.createStoreProduct = (function() {
     }),
   );
 
-  return function createStoreProduct(_x) {
+  return function createCrawledStoreProduct(_x) {
     return _ref2.apply(this, arguments);
   };
 })());
 
-var expectStoreProduct = (exports.expectStoreProduct = function expectStoreProduct(object, expectedObject) {
+var expectCrawledStoreProduct = (exports.expectCrawledStoreProduct = function expectCrawledStoreProduct(object, expectedObject) {
   var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-    storeProductId = _ref3.storeProductId,
+    crawledStoreProductId = _ref3.crawledStoreProductId,
     expectedStore = _ref3.expectedStore,
     expectedStoreTags = _ref3.expectedStoreTags;
 
@@ -167,11 +168,12 @@ var expectStoreProduct = (exports.expectStoreProduct = function expectStoreProdu
   expect(object.get('productPageUrl')).toBe(expectedObject.get('productPageUrl'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('size')).toBe(expectedObject.get('size'));
+  expect(object.get('lastCrawlDateTime')).toEqual(expectedObject.get('lastCrawlDateTime'));
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('storeTagIds')).toEqual(expectedObject.get('storeTagIds'));
 
-  if (storeProductId) {
-    expect(object.get('id')).toBe(storeProductId);
+  if (crawledStoreProductId) {
+    expect(object.get('id')).toBe(crawledStoreProductId);
   }
 
   if (expectedStore) {
@@ -199,11 +201,11 @@ describe('constructor', function() {
                 case 0:
                   _context3.t0 = expect;
                   _context3.next = 3;
-                  return createStoreProduct();
+                  return createCrawledStoreProduct();
 
                 case 3:
                   _context3.t1 = _context3.sent.className;
-                  (0, _context3.t0)(_context3.t1).toBe('StoreProduct');
+                  (0, _context3.t0)(_context3.t1).toBe('CrawledStoreProduct');
 
                 case 5:
                 case 'end':
@@ -224,7 +226,7 @@ describe('static public methods', function() {
     'spawn should set provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee4() {
-        var _ref6, storeProduct, object, info;
+        var _ref6, crawledStoreProduct, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee4$(_context4) {
@@ -232,19 +234,19 @@ describe('static public methods', function() {
               switch ((_context4.prev = _context4.next)) {
                 case 0:
                   _context4.next = 2;
-                  return createStoreProductInfo();
+                  return createCrawledStoreProductInfo();
 
                 case 2:
                   _ref6 = _context4.sent;
-                  storeProduct = _ref6.storeProduct;
+                  crawledStoreProduct = _ref6.crawledStoreProduct;
                   _context4.next = 6;
-                  return createStoreProduct(storeProduct);
+                  return createCrawledStoreProduct(crawledStoreProduct);
 
                 case 6:
                   object = _context4.sent;
                   info = object.getInfo();
 
-                  expectStoreProduct(info, storeProduct);
+                  expectCrawledStoreProduct(info, crawledStoreProduct);
 
                 case 9:
                 case 'end':
@@ -272,12 +274,12 @@ describe('public methods', function() {
               switch ((_context5.prev = _context5.next)) {
                 case 0:
                   _context5.next = 2;
-                  return createStoreProduct();
+                  return createCrawledStoreProduct();
 
                 case 2:
                   object = _context5.sent;
 
-                  expect(new _2.StoreProduct(object).getObject()).toBe(object);
+                  expect(new _2.CrawledStoreProduct(object).getObject()).toBe(object);
 
                 case 4:
                 case 'end':
@@ -303,12 +305,12 @@ describe('public methods', function() {
               switch ((_context6.prev = _context6.next)) {
                 case 0:
                   _context6.next = 2;
-                  return createStoreProduct();
+                  return createCrawledStoreProduct();
 
                 case 2:
                   object = _context6.sent;
 
-                  expect(new _2.StoreProduct(object).getId()).toBe(object.id);
+                  expect(new _2.CrawledStoreProduct(object).getId()).toBe(object.id);
 
                 case 4:
                 case 'end':
@@ -327,7 +329,7 @@ describe('public methods', function() {
     'updateInfo should update object info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee7() {
-        var object, _ref10, updatedStoreProduct, info;
+        var object, _ref10, updatedCrawledStoreProduct, info;
 
         return regeneratorRuntime.wrap(
           function _callee7$(_context7) {
@@ -335,22 +337,22 @@ describe('public methods', function() {
               switch ((_context7.prev = _context7.next)) {
                 case 0:
                   _context7.next = 2;
-                  return createStoreProduct();
+                  return createCrawledStoreProduct();
 
                 case 2:
                   object = _context7.sent;
                   _context7.next = 5;
-                  return createStoreProductInfo();
+                  return createCrawledStoreProductInfo();
 
                 case 5:
                   _ref10 = _context7.sent;
-                  updatedStoreProduct = _ref10.storeProduct;
+                  updatedCrawledStoreProduct = _ref10.crawledStoreProduct;
 
-                  object.updateInfo(updatedStoreProduct);
+                  object.updateInfo(updatedCrawledStoreProduct);
 
                   info = object.getInfo();
 
-                  expectStoreProduct(info, updatedStoreProduct);
+                  expectCrawledStoreProduct(info, updatedCrawledStoreProduct);
 
                 case 10:
                 case 'end':
@@ -369,7 +371,7 @@ describe('public methods', function() {
     'getInfo should return provided info',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee8() {
-        var _ref12, storeProduct, object, info;
+        var _ref12, crawledStoreProduct, object, info;
 
         return regeneratorRuntime.wrap(
           function _callee8$(_context8) {
@@ -377,20 +379,20 @@ describe('public methods', function() {
               switch ((_context8.prev = _context8.next)) {
                 case 0:
                   _context8.next = 2;
-                  return createStoreProductInfo();
+                  return createCrawledStoreProductInfo();
 
                 case 2:
                   _ref12 = _context8.sent;
-                  storeProduct = _ref12.storeProduct;
+                  crawledStoreProduct = _ref12.crawledStoreProduct;
                   _context8.next = 6;
-                  return createStoreProduct(storeProduct);
+                  return createCrawledStoreProduct(crawledStoreProduct);
 
                 case 6:
                   object = _context8.sent;
                   info = object.getInfo();
 
                   expect(info.get('id')).toBe(object.getId());
-                  expectStoreProduct(info, storeProduct);
+                  expectCrawledStoreProduct(info, crawledStoreProduct);
 
                 case 10:
                 case 'end':

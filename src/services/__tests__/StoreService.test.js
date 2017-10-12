@@ -45,28 +45,24 @@ const createStores = async (count, useSameInfo = false, createParentStore = true
     store = tempStore;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalStore;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalStore;
 
-          if (useSameInfo) {
-            finalStore = store;
-          } else {
-            const { store: tempStore } = await createStoreInfo();
+      if (useSameInfo) {
+        finalStore = store;
+      } else {
+        const { store: tempStore } = await createStoreInfo();
 
-            finalStore = tempStore;
-          }
+        finalStore = tempStore;
+      }
 
-          return storeService.read(
-            await storeService.create(createParentStore ? finalStore.merge(Map({ parentStoreId: parentStore.get('id') })) : finalStore),
-            createCriteriaWthoutConditions(),
-          );
-        })
-        .toArray(),
-    ),
-  );
+      return storeService.read(
+        await storeService.create(createParentStore ? finalStore.merge(Map({ parentStoreId: parentStore.get('id') })) : finalStore),
+        createCriteriaWthoutConditions(),
+      );
+    })
+    .toArray()));
 };
 
 export default createStores;
@@ -178,13 +174,9 @@ describe('search', () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => storeService.create(expectedStore))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => storeService.create(expectedStore))
+      .toArray()));
     const stores = await storeService.search(createCriteria(expectedStore));
 
     expect(stores.count).toBe(results.count);
@@ -217,13 +209,9 @@ describe('searchAll', () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
     const { store: expectedStore } = await createStoreInfo({ parentStoreId });
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => storeService.create(expectedStore))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => storeService.create(expectedStore))
+      .toArray()));
 
     let stores = List();
     const result = storeService.searchAll(createCriteria(expectedStore));

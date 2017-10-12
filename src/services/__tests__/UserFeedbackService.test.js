@@ -32,25 +32,21 @@ const createUserFeedbacks = async (count, useSameInfo = false) => {
     userFeedback = tempUserFeedback;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalUserFeedback;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalUserFeedback;
 
-          if (useSameInfo) {
-            finalUserFeedback = userFeedback;
-          } else {
-            const { userFeedback: tempUserFeedback } = await createUserFeedbackInfo();
+      if (useSameInfo) {
+        finalUserFeedback = userFeedback;
+      } else {
+        const { userFeedback: tempUserFeedback } = await createUserFeedbackInfo();
 
-            finalUserFeedback = tempUserFeedback;
-          }
+        finalUserFeedback = tempUserFeedback;
+      }
 
-          return userFeedbackService.read(await userFeedbackService.create(finalUserFeedback), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return userFeedbackService.read(await userFeedbackService.create(finalUserFeedback), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createUserFeedbacks;
@@ -159,13 +155,9 @@ describe('search', () => {
 
   test('should return the user feedback matches the criteria', async () => {
     const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => userFeedbackService.create(expectedUserFeedback))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => userFeedbackService.create(expectedUserFeedback))
+      .toArray()));
     const userFeedbacks = await userFeedbackService.search(createCriteria(expectedUserFeedback));
 
     expect(userFeedbacks.count).toBe(results.count);
@@ -196,13 +188,9 @@ describe('searchAll', () => {
 
   test('should return the user feedback matches the criteria', async () => {
     const { userFeedback: expectedUserFeedback, user: expectedUser } = await createUserFeedbackInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => userFeedbackService.create(expectedUserFeedback))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => userFeedbackService.create(expectedUserFeedback))
+      .toArray()));
 
     let userFeedbacks = List();
     const result = userFeedbackService.searchAll(createCriteria(expectedUserFeedback));

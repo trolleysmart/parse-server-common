@@ -33,25 +33,21 @@ const createStapleTemplates = async (count, useSameInfo = false) => {
     stapleTemplate = tempStapleTemplate;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalStapleTemplate;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalStapleTemplate;
 
-          if (useSameInfo) {
-            finalStapleTemplate = stapleTemplate;
-          } else {
-            const { stapleTemplate: tempStapleTemplate } = await createStapleTemplateInfo();
+      if (useSameInfo) {
+        finalStapleTemplate = stapleTemplate;
+      } else {
+        const { stapleTemplate: tempStapleTemplate } = await createStapleTemplateInfo();
 
-            finalStapleTemplate = tempStapleTemplate;
-          }
+        finalStapleTemplate = tempStapleTemplate;
+      }
 
-          return stapleTemplateService.read(await stapleTemplateService.create(finalStapleTemplate), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return stapleTemplateService.read(await stapleTemplateService.create(finalStapleTemplate), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createStapleTemplates;
@@ -160,13 +156,9 @@ describe('search', () => {
 
   test('should return the staple template matches the criteria', async () => {
     const { stapleTemplate: expectedStapleTemplate } = await createStapleTemplateInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => stapleTemplateService.create(expectedStapleTemplate))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => stapleTemplateService.create(expectedStapleTemplate))
+      .toArray()));
     const stapleTemplates = await stapleTemplateService.search(createCriteria(expectedStapleTemplate));
 
     expect(stapleTemplates.count).toBe(results.count);
@@ -197,13 +189,9 @@ describe('searchAll', () => {
 
   test('should return the staple template matches the criteria', async () => {
     const { stapleTemplate: expectedStapleTemplate } = await createStapleTemplateInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => stapleTemplateService.create(expectedStapleTemplate))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => stapleTemplateService.create(expectedStapleTemplate))
+      .toArray()));
 
     let stapleTemplates = List();
     const result = stapleTemplateService.searchAll(createCriteria(expectedStapleTemplate));

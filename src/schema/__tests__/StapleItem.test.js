@@ -25,12 +25,19 @@ export const createStapleItemInfo = async () => {
     tagIds: tags.map(tag => tag.get('id')),
   });
 
-  return { stapleItem, user, tags, stapleTemplateItem };
+  return {
+    stapleItem,
+    user,
+    tags,
+    stapleTemplateItem,
+  };
 };
 
 export const createStapleItem = async object => StapleItem.spawn(object || (await createStapleItemInfo()).stapleItem);
 
-export const expectStapleItem = (object, expectedObject, { stapleItemId, expectedStapleTemplateItem, expectedTags, expectedUser } = {}) => {
+export const expectStapleItem = (object, expectedObject, {
+  stapleItemId, expectedStapleTemplateItem, expectedTags, expectedUser,
+} = {}) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));

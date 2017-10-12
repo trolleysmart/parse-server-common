@@ -20,7 +20,7 @@ require('../../../bootstrap');
 
 var _2 = require('../');
 
-var _ProductPrice = require('../../schema/__tests__/ProductPrice.test');
+var _CrawledProductPrice = require('../../schema/__tests__/CrawledProductPrice.test');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -57,7 +57,7 @@ function _asyncToGenerator(fn) {
 }
 
 var chance = new _chance2.default();
-var productPriceService = new _2.ProductPriceService();
+var crawledProductPriceService = new _2.CrawledProductPriceService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
@@ -77,50 +77,52 @@ var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
       'productPageUrl',
       'store',
       'tags',
-      'storeProduct',
+      'crawledStoreProduct',
     ),
     include_store: true,
     include_tags: true,
-    include_storeProduct: true,
+    include_crawledStoreProduct: true,
   });
 };
 
-var createCriteria = function createCriteria(productPrice) {
+var createCriteria = function createCriteria(crawledProductPrice) {
   return (0, _immutable.Map)({
     conditions: (0, _immutable.Map)({
-      name: productPrice ? productPrice.get('name') : (0, _v2.default)(),
-      description: productPrice ? productPrice.get('description') : (0, _v2.default)(),
-      priceDetails: productPrice ? productPrice.get('priceDetails') : (0, _immutable.Map)({ price: chance.floating({ min: 0, max: 1000 }) }),
-      priceToDisplay: productPrice ? productPrice.get('priceToDisplay') : chance.floating({ min: 0, max: 1000 }),
-      saving: productPrice ? productPrice.get('saving') : chance.floating({ min: 0, max: 1000 }),
-      savingPercentage: productPrice ? productPrice.get('savingPercentage') : chance.floating({ min: 0, max: 100 }),
-      offerEndDate: productPrice ? productPrice.get('offerEndDate') : new Date(),
-      status: productPrice ? productPrice.get('status') : (0, _v2.default)(),
-      special: productPrice ? productPrice.get('special') : chance.integer({ min: 0, max: 1000 }) % 2 === 0,
-      barcode: productPrice ? productPrice.get('barcode') : (0, _v2.default)(),
-      size: productPrice ? productPrice.get('size') : (0, _v2.default)(),
-      imageUrl: productPrice ? productPrice.get('imageUrl') : (0, _v2.default)(),
-      productPageUrl: productPrice ? productPrice.get('productPageUrl') : (0, _v2.default)(),
-      storeId: productPrice ? productPrice.get('storeId') : (0, _v2.default)(),
-      tagIds: productPrice ? productPrice.get('tagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)()),
-      storeProductId: productPrice ? productPrice.get('storeProductId') : (0, _v2.default)(),
+      name: crawledProductPrice ? crawledProductPrice.get('name') : (0, _v2.default)(),
+      description: crawledProductPrice ? crawledProductPrice.get('description') : (0, _v2.default)(),
+      priceDetails: crawledProductPrice
+        ? crawledProductPrice.get('priceDetails')
+        : (0, _immutable.Map)({ price: chance.floating({ min: 0, max: 1000 }) }),
+      priceToDisplay: crawledProductPrice ? crawledProductPrice.get('priceToDisplay') : chance.floating({ min: 0, max: 1000 }),
+      saving: crawledProductPrice ? crawledProductPrice.get('saving') : chance.floating({ min: 0, max: 1000 }),
+      savingPercentage: crawledProductPrice ? crawledProductPrice.get('savingPercentage') : chance.floating({ min: 0, max: 100 }),
+      offerEndDate: crawledProductPrice ? crawledProductPrice.get('offerEndDate') : new Date(),
+      status: crawledProductPrice ? crawledProductPrice.get('status') : (0, _v2.default)(),
+      special: crawledProductPrice ? crawledProductPrice.get('special') : chance.integer({ min: 0, max: 1000 }) % 2 === 0,
+      barcode: crawledProductPrice ? crawledProductPrice.get('barcode') : (0, _v2.default)(),
+      size: crawledProductPrice ? crawledProductPrice.get('size') : (0, _v2.default)(),
+      imageUrl: crawledProductPrice ? crawledProductPrice.get('imageUrl') : (0, _v2.default)(),
+      productPageUrl: crawledProductPrice ? crawledProductPrice.get('productPageUrl') : (0, _v2.default)(),
+      storeId: crawledProductPrice ? crawledProductPrice.get('storeId') : (0, _v2.default)(),
+      tagIds: crawledProductPrice ? crawledProductPrice.get('tagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)()),
+      crawledStoreProductId: crawledProductPrice ? crawledProductPrice.get('crawledStoreProductId') : (0, _v2.default)(),
     }),
   }).merge(createCriteriaWthoutConditions());
 };
 
-var createProductPrices = (function() {
+var createCrawledProductPrices = (function() {
   var _ref = _asyncToGenerator(
     regeneratorRuntime.mark(function _callee2(count) {
       var useSameInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      var productPrice, _ref2, tempProductPrice;
+      var crawledProductPrice, _ref2, tempCrawledProductPrice;
 
       return regeneratorRuntime.wrap(
         function _callee2$(_context2) {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                productPrice = void 0;
+                crawledProductPrice = void 0;
 
                 if (!useSameInfo) {
                   _context2.next = 7;
@@ -128,13 +130,13 @@ var createProductPrices = (function() {
                 }
 
                 _context2.next = 4;
-                return (0, _ProductPrice.createProductPriceInfo)();
+                return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
               case 4:
                 _ref2 = _context2.sent;
-                tempProductPrice = _ref2.productPrice;
+                tempCrawledProductPrice = _ref2.crawledProductPrice;
 
-                productPrice = tempProductPrice;
+                crawledProductPrice = tempCrawledProductPrice;
 
               case 7:
                 _context2.t0 = _immutable2.default;
@@ -144,38 +146,38 @@ var createProductPrices = (function() {
                     .map(
                       _asyncToGenerator(
                         regeneratorRuntime.mark(function _callee() {
-                          var finalProductPrice, _ref4, _tempProductPrice;
+                          var finalCrawledProductPrice, _ref4, _tempCrawledProductPrice;
 
                           return regeneratorRuntime.wrap(
                             function _callee$(_context) {
                               while (1) {
                                 switch ((_context.prev = _context.next)) {
                                   case 0:
-                                    finalProductPrice = void 0;
+                                    finalCrawledProductPrice = void 0;
 
                                     if (!useSameInfo) {
                                       _context.next = 5;
                                       break;
                                     }
 
-                                    finalProductPrice = productPrice;
+                                    finalCrawledProductPrice = crawledProductPrice;
                                     _context.next = 10;
                                     break;
 
                                   case 5:
                                     _context.next = 7;
-                                    return (0, _ProductPrice.createProductPriceInfo)();
+                                    return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                                   case 7:
                                     _ref4 = _context.sent;
-                                    _tempProductPrice = _ref4.productPrice;
+                                    _tempCrawledProductPrice = _ref4.crawledProductPrice;
 
-                                    finalProductPrice = _tempProductPrice;
+                                    finalCrawledProductPrice = _tempCrawledProductPrice;
 
                                   case 10:
-                                    _context.t0 = productPriceService;
+                                    _context.t0 = crawledProductPriceService;
                                     _context.next = 13;
-                                    return productPriceService.create(finalProductPrice);
+                                    return crawledProductPriceService.create(finalCrawledProductPrice);
 
                                   case 13:
                                     _context.t1 = _context.sent;
@@ -213,37 +215,37 @@ var createProductPrices = (function() {
     }),
   );
 
-  return function createProductPrices(_x) {
+  return function createCrawledProductPrices(_x) {
     return _ref.apply(this, arguments);
   };
 })();
 
-exports.default = createProductPrices;
+exports.default = createCrawledProductPrices;
 
 describe('create', function() {
   test(
     'should return the created product price Id',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee3() {
-        var productPriceId;
+        var crawledProductPriceId;
         return regeneratorRuntime.wrap(
           function _callee3$(_context3) {
             while (1) {
               switch ((_context3.prev = _context3.next)) {
                 case 0:
-                  _context3.t0 = productPriceService;
+                  _context3.t0 = crawledProductPriceService;
                   _context3.next = 3;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 3:
-                  _context3.t1 = _context3.sent.productPrice;
+                  _context3.t1 = _context3.sent.crawledProductPrice;
                   _context3.next = 6;
                   return _context3.t0.create.call(_context3.t0, _context3.t1);
 
                 case 6:
-                  productPriceId = _context3.sent;
+                  crawledProductPriceId = _context3.sent;
 
-                  expect(productPriceId).toBeDefined();
+                  expect(crawledProductPriceId).toBeDefined();
 
                 case 8:
                 case 'end':
@@ -262,7 +264,7 @@ describe('create', function() {
     'should create the product price',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee4() {
-        var _ref7, productPrice, productPriceId, fetchedProductPrice;
+        var _ref7, crawledProductPrice, crawledProductPriceId, fetchedCrawledProductPrice;
 
         return regeneratorRuntime.wrap(
           function _callee4$(_context4) {
@@ -270,23 +272,23 @@ describe('create', function() {
               switch ((_context4.prev = _context4.next)) {
                 case 0:
                   _context4.next = 2;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 2:
                   _ref7 = _context4.sent;
-                  productPrice = _ref7.productPrice;
+                  crawledProductPrice = _ref7.crawledProductPrice;
                   _context4.next = 6;
-                  return productPriceService.create(productPrice);
+                  return crawledProductPriceService.create(crawledProductPrice);
 
                 case 6:
-                  productPriceId = _context4.sent;
+                  crawledProductPriceId = _context4.sent;
                   _context4.next = 9;
-                  return productPriceService.read(productPriceId, createCriteriaWthoutConditions());
+                  return crawledProductPriceService.read(crawledProductPriceId, createCriteriaWthoutConditions());
 
                 case 9:
-                  fetchedProductPrice = _context4.sent;
+                  fetchedCrawledProductPrice = _context4.sent;
 
-                  expect(fetchedProductPrice).toBeDefined();
+                  expect(fetchedCrawledProductPrice).toBeDefined();
 
                 case 11:
                 case 'end':
@@ -307,16 +309,16 @@ describe('read', function() {
     'should reject if the provided product price Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee5() {
-        var productPriceId;
+        var crawledProductPriceId;
         return regeneratorRuntime.wrap(
           function _callee5$(_context5) {
             while (1) {
               switch ((_context5.prev = _context5.next)) {
                 case 0:
-                  productPriceId = (0, _v2.default)();
+                  crawledProductPriceId = (0, _v2.default)();
                   _context5.prev = 1;
                   _context5.next = 4;
-                  return productPriceService.read(productPriceId);
+                  return crawledProductPriceService.read(crawledProductPriceId);
 
                 case 4:
                   _context5.next = 9;
@@ -326,7 +328,7 @@ describe('read', function() {
                   _context5.prev = 6;
                   _context5.t0 = _context5['catch'](1);
 
-                  expect(_context5.t0.message).toBe('No product price found with Id: ' + productPriceId);
+                  expect(_context5.t0.message).toBe('No product price found with Id: ' + crawledProductPriceId);
 
                 case 9:
                 case 'end':
@@ -346,7 +348,7 @@ describe('read', function() {
     'should read the existing product price',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee6() {
-        var _ref10, expectedProductPrice, expectedStore, expectedTags, expectedStoreProduct, productPriceId, productPrice;
+        var _ref10, expectedCrawledProductPrice, expectedStore, expectedTags, expectedCrawledStoreProduct, crawledProductPriceId, crawledProductPrice;
 
         return regeneratorRuntime.wrap(
           function _callee6$(_context6) {
@@ -354,30 +356,30 @@ describe('read', function() {
               switch ((_context6.prev = _context6.next)) {
                 case 0:
                   _context6.next = 2;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 2:
                   _ref10 = _context6.sent;
-                  expectedProductPrice = _ref10.productPrice;
+                  expectedCrawledProductPrice = _ref10.crawledProductPrice;
                   expectedStore = _ref10.store;
                   expectedTags = _ref10.tags;
-                  expectedStoreProduct = _ref10.storeProduct;
+                  expectedCrawledStoreProduct = _ref10.crawledStoreProduct;
                   _context6.next = 9;
-                  return productPriceService.create(expectedProductPrice);
+                  return crawledProductPriceService.create(expectedCrawledProductPrice);
 
                 case 9:
-                  productPriceId = _context6.sent;
+                  crawledProductPriceId = _context6.sent;
                   _context6.next = 12;
-                  return productPriceService.read(productPriceId, createCriteriaWthoutConditions());
+                  return crawledProductPriceService.read(crawledProductPriceId, createCriteriaWthoutConditions());
 
                 case 12:
-                  productPrice = _context6.sent;
+                  crawledProductPrice = _context6.sent;
 
-                  (0, _ProductPrice.expectProductPrice)(productPrice, expectedProductPrice, {
-                    productPriceId: productPriceId,
+                  (0, _CrawledProductPrice.expectCrawledProductPrice)(crawledProductPrice, expectedCrawledProductPrice, {
+                    crawledProductPriceId: crawledProductPriceId,
                     expectedStore: expectedStore,
                     expectedTags: expectedTags,
-                    expectedStoreProduct: expectedStoreProduct,
+                    expectedCrawledStoreProduct: expectedCrawledStoreProduct,
                   });
 
                 case 14:
@@ -399,21 +401,21 @@ describe('update', function() {
     'should reject if the provided product price Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee7() {
-        var productPriceId, productPrice;
+        var crawledProductPriceId, crawledProductPrice;
         return regeneratorRuntime.wrap(
           function _callee7$(_context7) {
             while (1) {
               switch ((_context7.prev = _context7.next)) {
                 case 0:
-                  productPriceId = (0, _v2.default)();
+                  crawledProductPriceId = (0, _v2.default)();
                   _context7.prev = 1;
-                  _context7.t0 = productPriceService;
-                  _context7.t1 = productPriceService;
+                  _context7.t0 = crawledProductPriceService;
+                  _context7.t1 = crawledProductPriceService;
                   _context7.next = 6;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 6:
-                  _context7.t2 = _context7.sent.productPrice;
+                  _context7.t2 = _context7.sent.crawledProductPrice;
                   _context7.next = 9;
                   return _context7.t1.create.call(_context7.t1, _context7.t2);
 
@@ -424,9 +426,9 @@ describe('update', function() {
                   return _context7.t0.read.call(_context7.t0, _context7.t3, _context7.t4);
 
                 case 13:
-                  productPrice = _context7.sent;
+                  crawledProductPrice = _context7.sent;
                   _context7.next = 16;
-                  return productPriceService.update(productPrice.set('id', productPriceId));
+                  return crawledProductPriceService.update(crawledProductPrice.set('id', crawledProductPriceId));
 
                 case 16:
                   _context7.next = 21;
@@ -436,7 +438,7 @@ describe('update', function() {
                   _context7.prev = 18;
                   _context7.t5 = _context7['catch'](1);
 
-                  expect(_context7.t5.message).toBe('No product price found with Id: ' + productPriceId);
+                  expect(_context7.t5.message).toBe('No product price found with Id: ' + crawledProductPriceId);
 
                 case 21:
                 case 'end':
@@ -456,7 +458,7 @@ describe('update', function() {
     'should return the Id of the updated product price',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee8() {
-        var _ref13, expectedProductPrice, productPriceId, id;
+        var _ref13, expectedCrawledProductPrice, crawledProductPriceId, id;
 
         return regeneratorRuntime.wrap(
           function _callee8$(_context8) {
@@ -464,29 +466,29 @@ describe('update', function() {
               switch ((_context8.prev = _context8.next)) {
                 case 0:
                   _context8.next = 2;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 2:
                   _ref13 = _context8.sent;
-                  expectedProductPrice = _ref13.productPrice;
-                  _context8.t0 = productPriceService;
+                  expectedCrawledProductPrice = _ref13.crawledProductPrice;
+                  _context8.t0 = crawledProductPriceService;
                   _context8.next = 7;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 7:
-                  _context8.t1 = _context8.sent.productPrice;
+                  _context8.t1 = _context8.sent.crawledProductPrice;
                   _context8.next = 10;
                   return _context8.t0.create.call(_context8.t0, _context8.t1);
 
                 case 10:
-                  productPriceId = _context8.sent;
+                  crawledProductPriceId = _context8.sent;
                   _context8.next = 13;
-                  return productPriceService.update(expectedProductPrice.set('id', productPriceId));
+                  return crawledProductPriceService.update(expectedCrawledProductPrice.set('id', crawledProductPriceId));
 
                 case 13:
                   id = _context8.sent;
 
-                  expect(id).toBe(productPriceId);
+                  expect(id).toBe(crawledProductPriceId);
 
                 case 15:
                 case 'end':
@@ -505,7 +507,7 @@ describe('update', function() {
     'should update the existing product price',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee9() {
-        var _ref15, expectedProductPrice, expectedStore, expectedTags, expectedStoreProduct, productPriceId, productPrice;
+        var _ref15, expectedCrawledProductPrice, expectedStore, expectedTags, expectedCrawledStoreProduct, crawledProductPriceId, crawledProductPrice;
 
         return regeneratorRuntime.wrap(
           function _callee9$(_context9) {
@@ -513,40 +515,40 @@ describe('update', function() {
               switch ((_context9.prev = _context9.next)) {
                 case 0:
                   _context9.next = 2;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 2:
                   _ref15 = _context9.sent;
-                  expectedProductPrice = _ref15.productPrice;
+                  expectedCrawledProductPrice = _ref15.crawledProductPrice;
                   expectedStore = _ref15.store;
                   expectedTags = _ref15.tags;
-                  expectedStoreProduct = _ref15.storeProduct;
-                  _context9.t0 = productPriceService;
+                  expectedCrawledStoreProduct = _ref15.crawledStoreProduct;
+                  _context9.t0 = crawledProductPriceService;
                   _context9.next = 10;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 10:
-                  _context9.t1 = _context9.sent.productPrice;
+                  _context9.t1 = _context9.sent.crawledProductPrice;
                   _context9.next = 13;
                   return _context9.t0.create.call(_context9.t0, _context9.t1);
 
                 case 13:
-                  productPriceId = _context9.sent;
+                  crawledProductPriceId = _context9.sent;
                   _context9.next = 16;
-                  return productPriceService.update(expectedProductPrice.set('id', productPriceId));
+                  return crawledProductPriceService.update(expectedCrawledProductPrice.set('id', crawledProductPriceId));
 
                 case 16:
                   _context9.next = 18;
-                  return productPriceService.read(productPriceId, createCriteriaWthoutConditions());
+                  return crawledProductPriceService.read(crawledProductPriceId, createCriteriaWthoutConditions());
 
                 case 18:
-                  productPrice = _context9.sent;
+                  crawledProductPrice = _context9.sent;
 
-                  (0, _ProductPrice.expectProductPrice)(productPrice, expectedProductPrice, {
-                    productPriceId: productPriceId,
+                  (0, _CrawledProductPrice.expectCrawledProductPrice)(crawledProductPrice, expectedCrawledProductPrice, {
+                    crawledProductPriceId: crawledProductPriceId,
                     expectedStore: expectedStore,
                     expectedTags: expectedTags,
-                    expectedStoreProduct: expectedStoreProduct,
+                    expectedCrawledStoreProduct: expectedCrawledStoreProduct,
                   });
 
                 case 20:
@@ -568,16 +570,16 @@ describe('delete', function() {
     'should reject if the provided product price Id does not exist',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee10() {
-        var productPriceId;
+        var crawledProductPriceId;
         return regeneratorRuntime.wrap(
           function _callee10$(_context10) {
             while (1) {
               switch ((_context10.prev = _context10.next)) {
                 case 0:
-                  productPriceId = (0, _v2.default)();
+                  crawledProductPriceId = (0, _v2.default)();
                   _context10.prev = 1;
                   _context10.next = 4;
-                  return productPriceService.delete(productPriceId);
+                  return crawledProductPriceService.delete(crawledProductPriceId);
 
                 case 4:
                   _context10.next = 9;
@@ -587,7 +589,7 @@ describe('delete', function() {
                   _context10.prev = 6;
                   _context10.t0 = _context10['catch'](1);
 
-                  expect(_context10.t0.message).toBe('No product price found with Id: ' + productPriceId);
+                  expect(_context10.t0.message).toBe('No product price found with Id: ' + crawledProductPriceId);
 
                 case 9:
                 case 'end':
@@ -607,30 +609,30 @@ describe('delete', function() {
     'should delete the existing product price',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee11() {
-        var productPriceId;
+        var crawledProductPriceId;
         return regeneratorRuntime.wrap(
           function _callee11$(_context11) {
             while (1) {
               switch ((_context11.prev = _context11.next)) {
                 case 0:
-                  _context11.t0 = productPriceService;
+                  _context11.t0 = crawledProductPriceService;
                   _context11.next = 3;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 3:
-                  _context11.t1 = _context11.sent.productPrice;
+                  _context11.t1 = _context11.sent.crawledProductPrice;
                   _context11.next = 6;
                   return _context11.t0.create.call(_context11.t0, _context11.t1);
 
                 case 6:
-                  productPriceId = _context11.sent;
+                  crawledProductPriceId = _context11.sent;
                   _context11.next = 9;
-                  return productPriceService.delete(productPriceId);
+                  return crawledProductPriceService.delete(crawledProductPriceId);
 
                 case 9:
                   _context11.prev = 9;
                   _context11.next = 12;
-                  return productPriceService.delete(productPriceId);
+                  return crawledProductPriceService.delete(crawledProductPriceId);
 
                 case 12:
                   _context11.next = 17;
@@ -640,7 +642,7 @@ describe('delete', function() {
                   _context11.prev = 14;
                   _context11.t2 = _context11['catch'](9);
 
-                  expect(_context11.t2.message).toBe('No product price found with Id: ' + productPriceId);
+                  expect(_context11.t2.message).toBe('No product price found with Id: ' + crawledProductPriceId);
 
                 case 17:
                 case 'end':
@@ -662,19 +664,19 @@ describe('search', function() {
     'should return no product price if provided criteria matches no product price',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee12() {
-        var productPrices;
+        var crawledProductPrices;
         return regeneratorRuntime.wrap(
           function _callee12$(_context12) {
             while (1) {
               switch ((_context12.prev = _context12.next)) {
                 case 0:
                   _context12.next = 2;
-                  return productPriceService.search(createCriteria());
+                  return crawledProductPriceService.search(createCriteria());
 
                 case 2:
-                  productPrices = _context12.sent;
+                  crawledProductPrices = _context12.sent;
 
-                  expect(productPrices.count()).toBe(0);
+                  expect(crawledProductPrices.count()).toBe(0);
 
                 case 4:
                 case 'end':
@@ -693,7 +695,7 @@ describe('search', function() {
     'should return the product price matches the criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee14() {
-        var _ref20, expectedProductPrice, expectedStore, expectedTags, expectedStoreProduct, results, productPrices;
+        var _ref20, expectedCrawledProductPrice, expectedStore, expectedTags, expectedCrawledStoreProduct, results, crawledProductPrices;
 
         return regeneratorRuntime.wrap(
           function _callee14$(_context14) {
@@ -701,14 +703,14 @@ describe('search', function() {
               switch ((_context14.prev = _context14.next)) {
                 case 0:
                   _context14.next = 2;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 2:
                   _ref20 = _context14.sent;
-                  expectedProductPrice = _ref20.productPrice;
+                  expectedCrawledProductPrice = _ref20.crawledProductPrice;
                   expectedStore = _ref20.store;
                   expectedTags = _ref20.tags;
-                  expectedStoreProduct = _ref20.storeProduct;
+                  expectedCrawledStoreProduct = _ref20.crawledStoreProduct;
                   _context14.t0 = _immutable2.default;
                   _context14.next = 10;
                   return Promise.all(
@@ -721,7 +723,7 @@ describe('search', function() {
                                 while (1) {
                                   switch ((_context13.prev = _context13.next)) {
                                     case 0:
-                                      return _context13.abrupt('return', productPriceService.create(expectedProductPrice));
+                                      return _context13.abrupt('return', crawledProductPriceService.create(expectedCrawledProductPrice));
 
                                     case 1:
                                     case 'end':
@@ -742,23 +744,23 @@ describe('search', function() {
                   _context14.t1 = _context14.sent;
                   results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
                   _context14.next = 14;
-                  return productPriceService.search(createCriteria(expectedProductPrice));
+                  return crawledProductPriceService.search(createCriteria(expectedCrawledProductPrice));
 
                 case 14:
-                  productPrices = _context14.sent;
+                  crawledProductPrices = _context14.sent;
 
-                  expect(productPrices.count).toBe(results.count);
-                  productPrices.forEach(function(productPrice) {
+                  expect(crawledProductPrices.count).toBe(results.count);
+                  crawledProductPrices.forEach(function(crawledProductPrice) {
                     expect(
                       results.find(function(_) {
-                        return _.localeCompare(productPrice.get('id')) === 0;
+                        return _.localeCompare(crawledProductPrice.get('id')) === 0;
                       }),
                     ).toBeDefined();
-                    (0, _ProductPrice.expectProductPrice)(productPrice, expectedProductPrice, {
-                      productPriceId: productPrice.get('id'),
+                    (0, _CrawledProductPrice.expectCrawledProductPrice)(crawledProductPrice, expectedCrawledProductPrice, {
+                      crawledProductPriceId: crawledProductPrice.get('id'),
                       expectedStore: expectedStore,
                       expectedTags: expectedTags,
-                      expectedStoreProduct: expectedStoreProduct,
+                      expectedCrawledStoreProduct: expectedCrawledStoreProduct,
                     });
                   });
 
@@ -781,18 +783,18 @@ describe('searchAll', function() {
     'should return no product price if provided criteria matches no product price',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee15() {
-        var productPrices, result;
+        var crawledProductPrices, result;
         return regeneratorRuntime.wrap(
           function _callee15$(_context15) {
             while (1) {
               switch ((_context15.prev = _context15.next)) {
                 case 0:
-                  productPrices = (0, _immutable.List)();
-                  result = productPriceService.searchAll(createCriteria());
+                  crawledProductPrices = (0, _immutable.List)();
+                  result = crawledProductPriceService.searchAll(createCriteria());
                   _context15.prev = 2;
 
                   result.event.subscribe(function(info) {
-                    productPrices = productPrices.push(info);
+                    crawledProductPrices = crawledProductPrices.push(info);
                   });
 
                   _context15.next = 6;
@@ -805,7 +807,7 @@ describe('searchAll', function() {
                   return _context15.finish(6);
 
                 case 9:
-                  expect(productPrices.count()).toBe(0);
+                  expect(crawledProductPrices.count()).toBe(0);
 
                 case 10:
                 case 'end':
@@ -825,7 +827,7 @@ describe('searchAll', function() {
     'should return the product price matches the criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee17() {
-        var _ref24, expectedProductPrice, expectedStore, expectedTags, expectedStoreProduct, results, productPrices, result;
+        var _ref24, expectedCrawledProductPrice, expectedStore, expectedTags, expectedCrawledStoreProduct, results, crawledProductPrices, result;
 
         return regeneratorRuntime.wrap(
           function _callee17$(_context17) {
@@ -833,14 +835,14 @@ describe('searchAll', function() {
               switch ((_context17.prev = _context17.next)) {
                 case 0:
                   _context17.next = 2;
-                  return (0, _ProductPrice.createProductPriceInfo)();
+                  return (0, _CrawledProductPrice.createCrawledProductPriceInfo)();
 
                 case 2:
                   _ref24 = _context17.sent;
-                  expectedProductPrice = _ref24.productPrice;
+                  expectedCrawledProductPrice = _ref24.crawledProductPrice;
                   expectedStore = _ref24.store;
                   expectedTags = _ref24.tags;
-                  expectedStoreProduct = _ref24.storeProduct;
+                  expectedCrawledStoreProduct = _ref24.crawledStoreProduct;
                   _context17.t0 = _immutable2.default;
                   _context17.next = 10;
                   return Promise.all(
@@ -853,7 +855,7 @@ describe('searchAll', function() {
                                 while (1) {
                                   switch ((_context16.prev = _context16.next)) {
                                     case 0:
-                                      return _context16.abrupt('return', productPriceService.create(expectedProductPrice));
+                                      return _context16.abrupt('return', crawledProductPriceService.create(expectedCrawledProductPrice));
 
                                     case 1:
                                     case 'end':
@@ -873,12 +875,12 @@ describe('searchAll', function() {
                 case 10:
                   _context17.t1 = _context17.sent;
                   results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
-                  productPrices = (0, _immutable.List)();
-                  result = productPriceService.searchAll(createCriteria(expectedProductPrice));
+                  crawledProductPrices = (0, _immutable.List)();
+                  result = crawledProductPriceService.searchAll(createCriteria(expectedCrawledProductPrice));
                   _context17.prev = 14;
 
                   result.event.subscribe(function(info) {
-                    productPrices = productPrices.push(info);
+                    crawledProductPrices = crawledProductPrices.push(info);
                   });
 
                   _context17.next = 18;
@@ -891,18 +893,18 @@ describe('searchAll', function() {
                   return _context17.finish(18);
 
                 case 21:
-                  expect(productPrices.count).toBe(results.count);
-                  productPrices.forEach(function(productPrice) {
+                  expect(crawledProductPrices.count).toBe(results.count);
+                  crawledProductPrices.forEach(function(crawledProductPrice) {
                     expect(
                       results.find(function(_) {
-                        return _.localeCompare(productPrice.get('id')) === 0;
+                        return _.localeCompare(crawledProductPrice.get('id')) === 0;
                       }),
                     ).toBeDefined();
-                    (0, _ProductPrice.expectProductPrice)(productPrice, expectedProductPrice, {
-                      productPriceId: productPrice.get('id'),
+                    (0, _CrawledProductPrice.expectCrawledProductPrice)(crawledProductPrice, expectedCrawledProductPrice, {
+                      crawledProductPriceId: crawledProductPrice.get('id'),
                       expectedStore: expectedStore,
                       expectedTags: expectedTags,
-                      expectedStoreProduct: expectedStoreProduct,
+                      expectedCrawledStoreProduct: expectedCrawledStoreProduct,
                     });
                   });
 
@@ -933,7 +935,7 @@ describe('exists', function() {
                 case 0:
                   _context18.t0 = expect;
                   _context18.next = 3;
-                  return productPriceService.exists(createCriteria());
+                  return crawledProductPriceService.exists(createCriteria());
 
                 case 3:
                   _context18.t1 = _context18.sent;
@@ -956,20 +958,20 @@ describe('exists', function() {
     'should return true if any product price match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee19() {
-        var productPrices;
+        var crawledProductPrices;
         return regeneratorRuntime.wrap(
           function _callee19$(_context19) {
             while (1) {
               switch ((_context19.prev = _context19.next)) {
                 case 0:
                   _context19.next = 2;
-                  return createProductPrices(chance.integer({ min: 1, max: 10 }), true);
+                  return createCrawledProductPrices(chance.integer({ min: 1, max: 10 }), true);
 
                 case 2:
-                  productPrices = _context19.sent;
+                  crawledProductPrices = _context19.sent;
                   _context19.t0 = expect;
                   _context19.next = 6;
-                  return productPriceService.exists(createCriteria(productPrices.first()));
+                  return crawledProductPriceService.exists(createCriteria(crawledProductPrices.first()));
 
                 case 6:
                   _context19.t1 = _context19.sent;
@@ -1001,7 +1003,7 @@ describe('count', function() {
                 case 0:
                   _context20.t0 = expect;
                   _context20.next = 3;
-                  return productPriceService.count(createCriteria());
+                  return crawledProductPriceService.count(createCriteria());
 
                 case 3:
                   _context20.t1 = _context20.sent;
@@ -1024,24 +1026,24 @@ describe('count', function() {
     'should return the count of product price match provided criteria',
     _asyncToGenerator(
       regeneratorRuntime.mark(function _callee21() {
-        var productPrices;
+        var crawledProductPrices;
         return regeneratorRuntime.wrap(
           function _callee21$(_context21) {
             while (1) {
               switch ((_context21.prev = _context21.next)) {
                 case 0:
                   _context21.next = 2;
-                  return createProductPrices(chance.integer({ min: 1, max: 10 }), true);
+                  return createCrawledProductPrices(chance.integer({ min: 1, max: 10 }), true);
 
                 case 2:
-                  productPrices = _context21.sent;
+                  crawledProductPrices = _context21.sent;
                   _context21.t0 = expect;
                   _context21.next = 6;
-                  return productPriceService.count(createCriteria(productPrices.first()));
+                  return crawledProductPriceService.count(createCriteria(crawledProductPrices.first()));
 
                 case 6:
                   _context21.t1 = _context21.sent;
-                  _context21.t2 = productPrices.count();
+                  _context21.t2 = crawledProductPrices.count();
                   (0, _context21.t0)(_context21.t1).toBe(_context21.t2);
 
                 case 9:

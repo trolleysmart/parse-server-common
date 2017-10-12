@@ -17,13 +17,10 @@ export default class StapleTemplateItemService extends ServiceBase {
     const stapleTemplateItems = await this.search(Map({ limit: 1000 }));
     const stapleItemService = new StapleItemService();
 
-    await Promise.all(
-      stapleTemplateItems
-        .map(stapleTemplateItem =>
-          stapleItemService.create(stapleTemplateItem.merge({ userId: user.id, stapleTemplateItemId: stapleTemplateItem.get('id') }), acl),
-        )
-        .toArray(),
-    );
+    await Promise.all(stapleTemplateItems
+      .map(stapleTemplateItem =>
+        stapleItemService.create(stapleTemplateItem.merge({ userId: user.id, stapleTemplateItemId: stapleTemplateItem.get('id') }), acl))
+      .toArray());
   };
 
   static buildIncludeQuery = (query, criteria) => {

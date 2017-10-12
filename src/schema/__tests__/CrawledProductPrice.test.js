@@ -3,18 +3,18 @@
 import Chance from 'chance';
 import { Map } from 'immutable';
 import uuid from 'uuid/v4';
-import { ProductPrice } from '../';
+import { CrawledProductPrice } from '../';
 import createStores from '../../services/__tests__/StoreService.test';
 import createTags from '../../services/__tests__/TagService.test';
-import createStoreProducts from '../../services/__tests__/StoreProductService.test';
+import createCrawledStoreProducts from '../../services/__tests__/CrawledStoreProductService.test';
 
 const chance = new Chance();
 
-export const createProductPriceInfo = async () => {
+export const createCrawledProductPriceInfo = async () => {
   const store = (await createStores(1)).first();
   const tags = await createTags(chance.integer({ min: 1, max: 10 }));
-  const storeProduct = (await createStoreProducts(1)).first();
-  const productPrice = Map({
+  const crawledStoreProduct = (await createCrawledStoreProducts(1)).first();
+  const crawledProductPrice = Map({
     name: uuid(),
     description: uuid(),
     priceDetails: Map({
@@ -32,22 +32,27 @@ export const createProductPriceInfo = async () => {
     productPageUrl: uuid(),
     storeId: store.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
-    storeProductId: storeProduct.get('id'),
+    crawledStoreProductId: crawledStoreProduct.get('id'),
   });
 
   return {
-    productPrice,
+    crawledProductPrice,
     store,
     tags,
-    storeProduct,
+    crawledStoreProduct,
   };
 };
 
-export const createProductPrice = async object => ProductPrice.spawn(object || (await createProductPriceInfo()).productPrice);
+export const createCrawledProductPrice = async object =>
+  CrawledProductPrice.spawn(object || (await createCrawledProductPriceInfo()).crawledProductPrice);
 
-export const expectProductPrice = (object, expectedObject, {
-  productPriceId, expectedStore, expectedTags, expectedStoreProduct,
-} = {}) => {
+export const expectCrawledProductPrice = (
+  object,
+  expectedObject,
+  {
+    crawledProductPriceId, expectedStore, expectedTags, expectedCrawledStoreProduct,
+  } = {},
+) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('priceDetails')).toEqual(expectedObject.get('priceDetails'));
@@ -63,10 +68,10 @@ export const expectProductPrice = (object, expectedObject, {
   expect(object.get('productPageUrl')).toBe(expectedObject.get('productPageUrl'));
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
-  expect(object.get('storeProductId')).toBe(expectedObject.get('storeProductId'));
+  expect(object.get('crawledStoreProductId')).toBe(expectedObject.get('crawledStoreProductId'));
 
-  if (productPriceId) {
-    expect(object.get('id')).toBe(productPriceId);
+  if (crawledProductPriceId) {
+    expect(object.get('id')).toBe(crawledProductPriceId);
   }
 
   if (expectedStore) {
@@ -77,57 +82,57 @@ export const expectProductPrice = (object, expectedObject, {
     expect(object.get('tags')).toEqual(expectedTags);
   }
 
-  if (expectedStoreProduct) {
-    expect(object.get('storeProductId')).toBe(expectedStoreProduct.get('id'));
+  if (expectedCrawledStoreProduct) {
+    expect(object.get('crawledStoreProductId')).toBe(expectedCrawledStoreProduct.get('id'));
   }
 };
 
 describe('constructor', () => {
   test('should set class name', async () => {
-    expect((await createProductPrice()).className).toBe('ProductPrice');
+    expect((await createCrawledProductPrice()).className).toBe('CrawledProductPrice');
   });
 });
 
 describe('static public methods', () => {
   test('spawn should set provided info', async () => {
-    const { productPrice } = await createProductPriceInfo();
-    const object = await createProductPrice(productPrice);
+    const { crawledProductPrice } = await createCrawledProductPriceInfo();
+    const object = await createCrawledProductPrice(crawledProductPrice);
     const info = object.getInfo();
 
-    expectProductPrice(info, productPrice);
+    expectCrawledProductPrice(info, crawledProductPrice);
   });
 });
 
 describe('public methods', () => {
   test('getObject should return provided object', async () => {
-    const object = await createProductPrice();
+    const object = await createCrawledProductPrice();
 
-    expect(new ProductPrice(object).getObject()).toBe(object);
+    expect(new CrawledProductPrice(object).getObject()).toBe(object);
   });
 
   test('getId should return provided object Id', async () => {
-    const object = await createProductPrice();
+    const object = await createCrawledProductPrice();
 
-    expect(new ProductPrice(object).getId()).toBe(object.id);
+    expect(new CrawledProductPrice(object).getId()).toBe(object.id);
   });
 
   test('updateInfo should update object info', async () => {
-    const object = await createProductPrice();
-    const { productPrice: updatedProductPrice } = await createProductPriceInfo();
+    const object = await createCrawledProductPrice();
+    const { crawledProductPrice: updatedCrawledProductPrice } = await createCrawledProductPriceInfo();
 
-    object.updateInfo(updatedProductPrice);
+    object.updateInfo(updatedCrawledProductPrice);
 
     const info = object.getInfo();
 
-    expectProductPrice(info, updatedProductPrice);
+    expectCrawledProductPrice(info, updatedCrawledProductPrice);
   });
 
   test('getInfo should return provided info', async () => {
-    const { productPrice } = await createProductPriceInfo();
-    const object = await createProductPrice(productPrice);
+    const { crawledProductPrice } = await createCrawledProductPriceInfo();
+    const object = await createCrawledProductPrice(crawledProductPrice);
     const info = object.getInfo();
 
     expect(info.get('id')).toBe(object.getId());
-    expectProductPrice(info, productPrice);
+    expectCrawledProductPrice(info, crawledProductPrice);
   });
 });

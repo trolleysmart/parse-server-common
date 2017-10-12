@@ -40,25 +40,21 @@ const createStapleItems = async (count, useSameInfo = false) => {
     stapleItem = tempStapleItem;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalStapleItem;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalStapleItem;
 
-          if (useSameInfo) {
-            finalStapleItem = stapleItem;
-          } else {
-            const { stapleItem: tempStapleItem } = await createStapleItemInfo();
+      if (useSameInfo) {
+        finalStapleItem = stapleItem;
+      } else {
+        const { stapleItem: tempStapleItem } = await createStapleItemInfo();
 
-            finalStapleItem = tempStapleItem;
-          }
+        finalStapleItem = tempStapleItem;
+      }
 
-          return stapleItemService.read(await stapleItemService.create(finalStapleItem), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return stapleItemService.read(await stapleItemService.create(finalStapleItem), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createStapleItems;
@@ -175,13 +171,9 @@ describe('search', () => {
 
   test('should return the staple item matches the criteria', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => stapleItemService.create(expectedStapleItem))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => stapleItemService.create(expectedStapleItem))
+      .toArray()));
     const stapleItems = await stapleItemService.search(createCriteria(expectedStapleItem));
 
     expect(stapleItems.count).toBe(results.count);
@@ -216,13 +208,9 @@ describe('searchAll', () => {
 
   test('should return the staple item matches the criteria', async () => {
     const { stapleItem: expectedStapleItem, stapleUser: expectedUser, tags: expectedTags } = await createStapleItemInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => stapleItemService.create(expectedStapleItem))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => stapleItemService.create(expectedStapleItem))
+      .toArray()));
 
     let stapleItems = List();
     const result = stapleItemService.searchAll(createCriteria(expectedStapleItem));
