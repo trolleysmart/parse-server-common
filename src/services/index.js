@@ -2,6 +2,7 @@
 
 export CrawledProductPriceService from './CrawledProductPriceService';
 export CrawledStoreProductService from './CrawledStoreProductService';
+export DefaultShoppingListService from './DefaultShoppingListService';
 export ProductPriceService from './ProductPriceService';
 export ShoppingListService from './ShoppingListService';
 export ShoppingListItemService from './ShoppingListItemService';
