@@ -3,6 +3,7 @@
 export {
   CrawledProductPrice,
   CrawledStoreProduct,
+  DefaultShoppingList,
   ProductPrice,
   ShoppingList,
   ShoppingListItem,
@@ -18,6 +19,7 @@ export {
 export {
   CrawledProductPriceService,
   CrawledStoreProductService,
+  DefaultShoppingListService,
   ProductPriceService,
   ShoppingListService,
   ShoppingListItemService,

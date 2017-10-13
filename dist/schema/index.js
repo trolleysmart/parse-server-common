@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 exports.UserFeedback = exports.Tag = exports.StoreTag = exports.StoreProduct = exports.Store = exports.StapleTemplateItem = exports.StapleTemplate = exports.StapleItem = exports.ShoppingListItem = exports.ShoppingList = exports.ProductPrice = exports.DefaultShoppingList = exports.CrawledStoreProduct = exports.CrawledProductPrice = undefined;
 
@@ -61,9 +61,7 @@ var _UserFeedback2 = require('./UserFeedback');
 
 var _UserFeedback3 = _interopRequireDefault(_UserFeedback2);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.CrawledProductPrice = _CrawledProductPrice3.default;
 exports.CrawledStoreProduct = _CrawledStoreProduct3.default;

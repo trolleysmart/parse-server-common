@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
 var _immutable = require('immutable');
@@ -10,63 +10,27 @@ var _microBusinessParseServerCommon = require('micro-business-parse-server-commo
 
 var _schema = require('../schema');
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function');
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
-}
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== 'function' && superClass !== null) {
-    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: { value: subClass, enumerable: false, writable: true, configurable: true },
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
-}
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CrawledStoreProductService = (function(_ServiceBase) {
+var CrawledStoreProductService = function (_ServiceBase) {
   _inherits(CrawledStoreProductService, _ServiceBase);
 
   function CrawledStoreProductService() {
     _classCallCheck(this, CrawledStoreProductService);
 
-    return _possibleConstructorReturn(
-      this,
-      (CrawledStoreProductService.__proto__ || Object.getPrototypeOf(CrawledStoreProductService)).call(
-        this,
-        _schema.CrawledStoreProduct,
-        CrawledStoreProductService.buildSearchQuery,
-        CrawledStoreProductService.buildIncludeQuery,
-        'store product',
-      ),
-    );
+    return _possibleConstructorReturn(this, (CrawledStoreProductService.__proto__ || Object.getPrototypeOf(CrawledStoreProductService)).call(this, _schema.CrawledStoreProduct, CrawledStoreProductService.buildSearchQuery, CrawledStoreProductService.buildIncludeQuery, 'store product'));
   }
 
   return CrawledStoreProductService;
-})(_microBusinessParseServerCommon.ServiceBase);
+}(_microBusinessParseServerCommon.ServiceBase);
 
-CrawledStoreProductService.fields = _immutable.List.of(
-  'name',
-  'description',
-  'barcode',
-  'productPageUrl',
-  'imageUrl',
-  'size',
-  'lastCrawlDateTime',
-  'store',
-  'storeTags',
-);
+CrawledStoreProductService.fields = _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags');
 
-CrawledStoreProductService.buildIncludeQuery = function(query, criteria) {
+CrawledStoreProductService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
     return query;
   }
@@ -77,7 +41,7 @@ CrawledStoreProductService.buildIncludeQuery = function(query, criteria) {
   return query;
 };
 
-CrawledStoreProductService.buildSearchQuery = function(criteria) {
+CrawledStoreProductService.buildSearchQuery = function (criteria) {
   var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.CrawledStoreProduct, criteria);
   var query = CrawledStoreProductService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
@@ -87,7 +51,7 @@ CrawledStoreProductService.buildSearchQuery = function(criteria) {
 
   var conditions = criteria.get('conditions');
 
-  CrawledStoreProductService.fields.forEach(function(field) {
+  CrawledStoreProductService.fields.forEach(function (field) {
     _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
   _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');

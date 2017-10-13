@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
 var _immutable = require('immutable');
@@ -22,43 +22,21 @@ var _CrawledStoreProduct = require('./CrawledStoreProduct');
 
 var _CrawledStoreProduct2 = _interopRequireDefault(_CrawledStoreProduct);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function');
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
-}
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== 'function' && superClass !== null) {
-    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: { value: subClass, enumerable: false, writable: true, configurable: true },
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
-}
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CrawledProductPrice = (function(_BaseObject) {
+var CrawledProductPrice = function (_BaseObject) {
   _inherits(CrawledProductPrice, _BaseObject);
 
   function CrawledProductPrice(object) {
     _classCallCheck(this, CrawledProductPrice);
 
-    var _this = _possibleConstructorReturn(
-      this,
-      (CrawledProductPrice.__proto__ || Object.getPrototypeOf(CrawledProductPrice)).call(this, object, 'CrawledProductPrice'),
-    );
+    var _this = _possibleConstructorReturn(this, (CrawledProductPrice.__proto__ || Object.getPrototypeOf(CrawledProductPrice)).call(this, object, 'CrawledProductPrice'));
 
     _initialiseProps.call(_this);
 
@@ -66,9 +44,9 @@ var CrawledProductPrice = (function(_BaseObject) {
   }
 
   return CrawledProductPrice;
-})(_microBusinessParseServerCommon.BaseObject);
+}(_microBusinessParseServerCommon.BaseObject);
 
-CrawledProductPrice.spawn = function(info) {
+CrawledProductPrice.spawn = function (info) {
   var object = new CrawledProductPrice();
 
   CrawledProductPrice.updateInfoInternal(object, info);
@@ -76,7 +54,7 @@ CrawledProductPrice.spawn = function(info) {
   return object;
 };
 
-CrawledProductPrice.updateInfoInternal = function(object, info) {
+CrawledProductPrice.updateInfoInternal = function (object, info) {
   _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
   _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('priceDetails', info.get('priceDetails').toJS());
@@ -98,21 +76,19 @@ CrawledProductPrice.updateInfoInternal = function(object, info) {
 var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
-  this.updateInfo = function(info) {
+  this.updateInfo = function (info) {
     CrawledProductPrice.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
-  this.getInfo = function() {
+  this.getInfo = function () {
     var object = _this2.getObject();
     var store = new _Store2.default(object.get('store'));
     var tagObjects = object.get('tags');
-    var tags = tagObjects
-      ? _immutable2.default.fromJS(tagObjects).map(function(tag) {
-          return new _Tag2.default(tag).getInfo();
-        })
-      : undefined;
+    var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
+      return new _Tag2.default(tag).getInfo();
+    }) : undefined;
     var crawledStoreProduct = new _CrawledStoreProduct2.default(object.get('crawledStoreProduct'));
 
     return (0, _immutable.Map)({
@@ -133,13 +109,11 @@ var _initialiseProps = function _initialiseProps() {
       store: store.getInfo(),
       storeId: store.getId(),
       tags: tags,
-      tagIds: tags
-        ? tags.map(function(tag) {
-            return tag.get('id');
-          })
-        : (0, _immutable.List)(),
+      tagIds: tags ? tags.map(function (tag) {
+        return tag.get('id');
+      }) : (0, _immutable.List)(),
       crawledStoreProduct: crawledStoreProduct.getInfo(),
-      crawledStoreProductId: crawledStoreProduct.getId(),
+      crawledStoreProductId: crawledStoreProduct.getId()
     });
   };
 };
