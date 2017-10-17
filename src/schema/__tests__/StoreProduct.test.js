@@ -19,6 +19,7 @@ export const createStoreProductInfo = async () => {
     productPageUrl: uuid(),
     imageUrl: uuid(),
     size: uuid(),
+    lastCrawlDateTime: new Date(),
     special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
     storeId: store.get('id'),
     storeTagIds: storeTags.map(storeTag => storeTag.get('id')),
@@ -36,6 +37,7 @@ export const expectStoreProduct = (object, expectedObject, { storeProductId, exp
   expect(object.get('productPageUrl')).toBe(expectedObject.get('productPageUrl'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('size')).toBe(expectedObject.get('size'));
+  expect(object.get('lastCrawlDateTime')).toEqual(expectedObject.get('lastCrawlDateTime'));
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('storeTagIds')).toEqual(expectedObject.get('storeTagIds'));
 

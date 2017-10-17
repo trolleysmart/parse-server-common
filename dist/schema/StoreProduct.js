@@ -57,6 +57,7 @@ StoreProduct.updateInfoInternal = function (object, info) {
   object.set('productPageUrl', info.get('productPageUrl'));
   object.set('imageUrl', info.get('imageUrl'));
   object.set('size', info.get('size'));
+  object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'storeTag', _StoreTag2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
 };
@@ -86,6 +87,7 @@ var _initialiseProps = function _initialiseProps() {
       productPageUrl: object.get('productPageUrl'),
       imageUrl: object.get('imageUrl'),
       size: object.get('size'),
+      lastCrawlDateTime: object.get('lastCrawlDateTime'),
       storeTags: storeTags,
       storeTagIds: storeTags ? storeTags.map(function (storeTag) {
         return storeTag.get('id');

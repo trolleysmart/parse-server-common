@@ -5,7 +5,7 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { StoreProduct, Store, StoreTag } from '../schema';
 
 export default class StoreProductService extends ServiceBase {
-  static fields = List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'store', 'storeTags');
+  static fields = List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags');
 
   constructor() {
     super(StoreProduct, StoreProductService.buildSearchQuery, StoreProductService.buildIncludeQuery, 'store product');
@@ -42,6 +42,7 @@ export default class StoreProductService extends ServiceBase {
     ServiceBase.addStringQuery(conditions, query, 'productPageUrl', 'productPageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
+    ServiceBase.addDateTimeQuery(conditions, query, 'lastCrawlDateTime', 'lastCrawlDateTime');
     ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'storeTag', 'storeTags', StoreTag);
 

@@ -12,7 +12,7 @@ const storeProductService = new StoreProductService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'store', 'storeTags'),
+    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags'),
     include_store: true,
     include_storeTags: true,
   });
@@ -26,6 +26,7 @@ const createCriteria = storeProduct =>
       productPageUrl: storeProduct ? storeProduct.get('productPageUrl') : uuid(),
       imageUrl: storeProduct ? storeProduct.get('imageUrl') : uuid(),
       size: storeProduct ? storeProduct.get('size') : uuid(),
+      lastCrawlDateTime: storeProduct ? storeProduct.get('lastCrawlDateTime') : new Date(),
       storeId: storeProduct ? storeProduct.get('storeId') : uuid(),
       storeTagIds: storeProduct ? storeProduct.get('storeTagIds') : List.of(uuid(), uuid()),
     }),

@@ -31,7 +31,7 @@ var storeProductService = new _2.StoreProductService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'store', 'storeTags'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags'),
     include_store: true,
     include_storeTags: true
   });
@@ -46,6 +46,7 @@ var createCriteria = function createCriteria(storeProduct) {
       productPageUrl: storeProduct ? storeProduct.get('productPageUrl') : (0, _v2.default)(),
       imageUrl: storeProduct ? storeProduct.get('imageUrl') : (0, _v2.default)(),
       size: storeProduct ? storeProduct.get('size') : (0, _v2.default)(),
+      lastCrawlDateTime: storeProduct ? storeProduct.get('lastCrawlDateTime') : new Date(),
       storeId: storeProduct ? storeProduct.get('storeId') : (0, _v2.default)(),
       storeTagIds: storeProduct ? storeProduct.get('storeTagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
     })

@@ -21,6 +21,7 @@ export default class StoreProduct extends BaseObject {
     object.set('productPageUrl', info.get('productPageUrl'));
     object.set('imageUrl', info.get('imageUrl'));
     object.set('size', info.get('size'));
+    object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
     BaseObject.createArrayPointer(object, info, 'storeTag', StoreTag);
     BaseObject.createPointer(object, info, 'store', Store);
   };
@@ -49,6 +50,7 @@ export default class StoreProduct extends BaseObject {
       productPageUrl: object.get('productPageUrl'),
       imageUrl: object.get('imageUrl'),
       size: object.get('size'),
+      lastCrawlDateTime: object.get('lastCrawlDateTime'),
       storeTags,
       storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store: store.getInfo(),

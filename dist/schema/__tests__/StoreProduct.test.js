@@ -55,6 +55,7 @@ var createStoreProductInfo = exports.createStoreProductInfo = function () {
               productPageUrl: (0, _v2.default)(),
               imageUrl: (0, _v2.default)(),
               size: (0, _v2.default)(),
+              lastCrawlDateTime: new Date(),
               special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
               storeId: store.get('id'),
               storeTagIds: storeTags.map(function (storeTag) {
@@ -125,6 +126,7 @@ var expectStoreProduct = exports.expectStoreProduct = function expectStoreProduc
   expect(object.get('productPageUrl')).toBe(expectedObject.get('productPageUrl'));
   expect(object.get('imageUrl')).toBe(expectedObject.get('imageUrl'));
   expect(object.get('size')).toBe(expectedObject.get('size'));
+  expect(object.get('lastCrawlDateTime')).toEqual(expectedObject.get('lastCrawlDateTime'));
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('storeTagIds')).toEqual(expectedObject.get('storeTagIds'));
 
