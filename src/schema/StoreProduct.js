@@ -24,6 +24,7 @@ export default class StoreProduct extends BaseObject {
     object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
     BaseObject.createArrayPointer(object, info, 'storeTag', StoreTag);
     BaseObject.createPointer(object, info, 'store', Store);
+    object.set('createdByCrawler', info.get('createdByCrawler'));
   };
 
   constructor(object) {
@@ -55,6 +56,7 @@ export default class StoreProduct extends BaseObject {
       storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store: store.getInfo(),
       storeId: store.getId(),
+      createdByCrawler: object.get('createdByCrawler'),
     });
   };
 }

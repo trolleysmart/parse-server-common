@@ -5,7 +5,18 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { StoreProduct, Store, StoreTag } from '../schema';
 
 export default class StoreProductService extends ServiceBase {
-  static fields = List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags');
+  static fields = List.of(
+    'name',
+    'description',
+    'barcode',
+    'productPageUrl',
+    'imageUrl',
+    'size',
+    'lastCrawlDateTime',
+    'store',
+    'storeTags',
+    'createdByCrawler',
+  );
 
   constructor() {
     super(StoreProduct, StoreProductService.buildSearchQuery, StoreProductService.buildIncludeQuery, 'store product');
@@ -45,6 +56,7 @@ export default class StoreProductService extends ServiceBase {
     ServiceBase.addDateTimeQuery(conditions, query, 'lastCrawlDateTime', 'lastCrawlDateTime');
     ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'storeTag', 'storeTags', StoreTag);
+    ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
 
     return query;
   };

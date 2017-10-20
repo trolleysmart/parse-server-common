@@ -33,6 +33,7 @@ export const createProductPriceInfo = async () => {
     storeId: store.get('id'),
     tagIds: tags.map(tag => tag.get('id')),
     storeProductId: storeProduct.get('id'),
+    createdByCrawler: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
   });
 
   return {
@@ -64,6 +65,7 @@ export const expectProductPrice = (object, expectedObject, {
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
   expect(object.get('storeProductId')).toBe(expectedObject.get('storeProductId'));
+  expect(object.get('createdByCrawler')).toBe(expectedObject.get('createdByCrawler'));
 
   if (productPriceId) {
     expect(object.get('id')).toBe(productPriceId);

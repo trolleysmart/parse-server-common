@@ -1,8 +1,6 @@
 // @flow
 
 export {
-  CrawledProductPrice,
-  CrawledStoreProduct,
   DefaultShoppingList,
   ProductPrice,
   ShoppingList,
@@ -17,8 +15,6 @@ export {
   UserFeedback,
 } from './schema';
 export {
-  CrawledProductPriceService,
-  CrawledStoreProductService,
   DefaultShoppingListService,
   ProductPriceService,
   ShoppingListService,

@@ -29,6 +29,7 @@ const createCriteriaWthoutConditions = () =>
       'store',
       'tags',
       'storeProduct',
+      'createdByCrawler',
     ),
     include_store: true,
     include_tags: true,
@@ -54,6 +55,7 @@ const createCriteria = productPrice =>
       storeId: productPrice ? productPrice.get('storeId') : uuid(),
       tagIds: productPrice ? productPrice.get('tagIds') : List.of(uuid(), uuid()),
       storeProductId: productPrice ? productPrice.get('storeProductId') : uuid(),
+      createdByCrawler: productPrice ? productPrice.get('createdByCrawler') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
     }),
   }).merge(createCriteriaWthoutConditions());
 

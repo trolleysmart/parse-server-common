@@ -12,7 +12,18 @@ const storeProductService = new StoreProductService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags'),
+    fields: List.of(
+      'name',
+      'description',
+      'barcode',
+      'productPageUrl',
+      'imageUrl',
+      'size',
+      'lastCrawlDateTime',
+      'store',
+      'storeTags',
+      'createdByCrawler',
+    ),
     include_store: true,
     include_storeTags: true,
   });
@@ -29,6 +40,7 @@ const createCriteria = storeProduct =>
       lastCrawlDateTime: storeProduct ? storeProduct.get('lastCrawlDateTime') : new Date(),
       storeId: storeProduct ? storeProduct.get('storeId') : uuid(),
       storeTagIds: storeProduct ? storeProduct.get('storeTagIds') : List.of(uuid(), uuid()),
+      createdByCrawler: storeProduct ? storeProduct.get('createdByCrawler') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
     }),
   }).merge(createCriteriaWthoutConditions());
 
