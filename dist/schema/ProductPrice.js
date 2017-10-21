@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
 var _immutable = require('immutable');
@@ -22,34 +22,15 @@ var _StoreProduct = require('./StoreProduct');
 
 var _StoreProduct2 = _interopRequireDefault(_StoreProduct);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function');
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
-}
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== 'function' && superClass !== null) {
-    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: { value: subClass, enumerable: false, writable: true, configurable: true },
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
-}
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ProductPrice = (function(_BaseObject) {
+var ProductPrice = function (_BaseObject) {
   _inherits(ProductPrice, _BaseObject);
 
   function ProductPrice(object) {
@@ -63,9 +44,9 @@ var ProductPrice = (function(_BaseObject) {
   }
 
   return ProductPrice;
-})(_microBusinessParseServerCommon.BaseObject);
+}(_microBusinessParseServerCommon.BaseObject);
 
-ProductPrice.spawn = function(info) {
+ProductPrice.spawn = function (info) {
   var object = new ProductPrice();
 
   ProductPrice.updateInfoInternal(object, info);
@@ -73,7 +54,7 @@ ProductPrice.spawn = function(info) {
   return object;
 };
 
-ProductPrice.updateInfoInternal = function(object, info) {
+ProductPrice.updateInfoInternal = function (object, info) {
   _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
   _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('priceDetails', info.get('priceDetails').toJS());
@@ -96,21 +77,19 @@ ProductPrice.updateInfoInternal = function(object, info) {
 var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
-  this.updateInfo = function(info) {
+  this.updateInfo = function (info) {
     ProductPrice.updateInfoInternal(_this2.getObject(), info);
 
     return _this2;
   };
 
-  this.getInfo = function() {
+  this.getInfo = function () {
     var object = _this2.getObject();
     var store = new _Store2.default(object.get('store'));
     var tagObjects = object.get('tags');
-    var tags = tagObjects
-      ? _immutable2.default.fromJS(tagObjects).map(function(tag) {
-          return new _Tag2.default(tag).getInfo();
-        })
-      : undefined;
+    var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
+      return new _Tag2.default(tag).getInfo();
+    }) : undefined;
     var storeProduct = new _StoreProduct2.default(object.get('storeProduct'));
 
     return (0, _immutable.Map)({
@@ -131,14 +110,12 @@ var _initialiseProps = function _initialiseProps() {
       store: store.getInfo(),
       storeId: store.getId(),
       tags: tags,
-      tagIds: tags
-        ? tags.map(function(tag) {
-            return tag.get('id');
-          })
-        : (0, _immutable.List)(),
+      tagIds: tags ? tags.map(function (tag) {
+        return tag.get('id');
+      }) : (0, _immutable.List)(),
       storeProduct: storeProduct.getInfo(),
       storeProductId: storeProduct.getId(),
-      createdByCrawler: object.get('createdByCrawler'),
+      createdByCrawler: object.get('createdByCrawler')
     });
   };
 };
