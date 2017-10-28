@@ -22,10 +22,12 @@ const createCriteriaWthoutConditions = () =>
       'lastCrawlDateTime',
       'store',
       'storeTags',
+      'tags',
       'createdByCrawler',
     ),
     include_store: true,
     include_storeTags: true,
+    include_tags: true,
   });
 
 const createCriteria = storeProduct =>
@@ -40,6 +42,7 @@ const createCriteria = storeProduct =>
       lastCrawlDateTime: storeProduct ? storeProduct.get('lastCrawlDateTime') : new Date(),
       storeId: storeProduct ? storeProduct.get('storeId') : uuid(),
       storeTagIds: storeProduct ? storeProduct.get('storeTagIds') : List.of(uuid(), uuid()),
+      tagIds: storeProduct ? storeProduct.get('tagIds') : List.of(uuid(), uuid()),
       createdByCrawler: storeProduct ? storeProduct.get('createdByCrawler') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
     }),
   }).merge(createCriteriaWthoutConditions());
@@ -100,11 +103,21 @@ describe('read', () => {
   });
 
   test('should read the existing store product', async () => {
-    const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
+    const {
+      storeProduct: expectedStoreProduct,
+      store: expectedStore,
+      storeTags: expectedStoreTags,
+      tags: expectedTags,
+    } = await createStoreProductInfo();
     const storeProductId = await storeProductService.create(expectedStoreProduct);
     const storeProduct = await storeProductService.read(storeProductId, createCriteriaWthoutConditions());
 
-    expectStoreProduct(storeProduct, expectedStoreProduct, { storeProductId, expectedStore, expectedStoreTags });
+    expectStoreProduct(storeProduct, expectedStoreProduct, {
+      storeProductId,
+      expectedStore,
+      expectedStoreTags,
+      expectedTags,
+    });
   });
 });
 
@@ -133,14 +146,24 @@ describe('update', () => {
   });
 
   test('should update the existing store product', async () => {
-    const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
+    const {
+      storeProduct: expectedStoreProduct,
+      store: expectedStore,
+      storeTags: expectedStoreTags,
+      tags: expectedTags,
+    } = await createStoreProductInfo();
     const storeProductId = await storeProductService.create((await createStoreProductInfo()).storeProduct);
 
     await storeProductService.update(expectedStoreProduct.set('id', storeProductId));
 
     const storeProduct = await storeProductService.read(storeProductId, createCriteriaWthoutConditions());
 
-    expectStoreProduct(storeProduct, expectedStoreProduct, { storeProductId, expectedStore, expectedStoreTags });
+    expectStoreProduct(storeProduct, expectedStoreProduct, {
+      storeProductId,
+      expectedStore,
+      expectedStoreTags,
+      expectedTags,
+    });
   });
 });
 
@@ -175,7 +198,12 @@ describe('search', () => {
   });
 
   test('should return the store product matches the criteria', async () => {
-    const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
+    const {
+      storeProduct: expectedStoreProduct,
+      store: expectedStore,
+      storeTags: expectedStoreTags,
+      tags: expectedTags,
+    } = await createStoreProductInfo();
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 1, max: 10 }))
       .map(async () => storeProductService.create(expectedStoreProduct))
       .toArray()));
@@ -184,7 +212,12 @@ describe('search', () => {
     expect(storeProducts.count).toBe(results.count);
     storeProducts.forEach((storeProduct) => {
       expect(results.find(_ => _.localeCompare(storeProduct.get('id')) === 0)).toBeDefined();
-      expectStoreProduct(storeProduct, expectedStoreProduct, { storeProductId: storeProduct.get('id'), expectedStore, expectedStoreTags });
+      expectStoreProduct(storeProduct, expectedStoreProduct, {
+        storeProductId: storeProduct.get('id'),
+        expectedStore,
+        expectedStoreTags,
+        expectedTags,
+      });
     });
   });
 });
@@ -208,7 +241,12 @@ describe('searchAll', () => {
   });
 
   test('should return the store product matches the criteria', async () => {
-    const { storeProduct: expectedStoreProduct, store: expectedStore, storeTags: expectedStoreTags } = await createStoreProductInfo();
+    const {
+      storeProduct: expectedStoreProduct,
+      store: expectedStore,
+      storeTags: expectedStoreTags,
+      tags: expectedTags,
+    } = await createStoreProductInfo();
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
       .map(async () => storeProductService.create(expectedStoreProduct))
       .toArray()));
@@ -229,7 +267,12 @@ describe('searchAll', () => {
     expect(storeProducts.count).toBe(results.count);
     storeProducts.forEach((storeProduct) => {
       expect(results.find(_ => _.localeCompare(storeProduct.get('id')) === 0)).toBeDefined();
-      expectStoreProduct(storeProduct, expectedStoreProduct, { storeProductId: storeProduct.get('id'), expectedStore, expectedStoreTags });
+      expectStoreProduct(storeProduct, expectedStoreProduct, {
+        storeProductId: storeProduct.get('id'),
+        expectedStore,
+        expectedStoreTags,
+        expectedTags,
+      });
     });
   });
 });

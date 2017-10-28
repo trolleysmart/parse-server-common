@@ -2,7 +2,7 @@
 
 import { List } from 'immutable';
 import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
-import { StoreProduct, Store, StoreTag } from '../schema';
+import { StoreProduct, Store, StoreTag, Tag } from '../schema';
 
 export default class StoreProductService extends ServiceBase {
   static fields = List.of(
@@ -15,6 +15,7 @@ export default class StoreProductService extends ServiceBase {
     'lastCrawlDateTime',
     'store',
     'storeTags',
+    'tags',
     'createdByCrawler',
   );
 
@@ -29,6 +30,7 @@ export default class StoreProductService extends ServiceBase {
 
     ServiceBase.addIncludeQuery(criteria, query, 'store');
     ServiceBase.addIncludeQuery(criteria, query, 'storeTags');
+    ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
     return query;
   };
@@ -56,6 +58,7 @@ export default class StoreProductService extends ServiceBase {
     ServiceBase.addDateTimeQuery(conditions, query, 'lastCrawlDateTime', 'lastCrawlDateTime');
     ServiceBase.addLinkQuery(conditions, query, 'store', 'store', Store);
     ServiceBase.addLinkQuery(conditions, query, 'storeTag', 'storeTags', StoreTag);
+    ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
     ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
 
     return query;

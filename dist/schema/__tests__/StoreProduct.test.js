@@ -25,6 +25,10 @@ var _StoreTagService = require('../../services/__tests__/StoreTagService.test');
 
 var _StoreTagService2 = _interopRequireDefault(_StoreTagService);
 
+var _TagService = require('../../services/__tests__/TagService.test');
+
+var _TagService2 = _interopRequireDefault(_TagService);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -33,7 +37,7 @@ var chance = new _chance2.default();
 
 var createStoreProductInfo = exports.createStoreProductInfo = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var store, storeTags, storeProduct;
+    var store, storeTags, tags, storeProduct;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -48,6 +52,11 @@ var createStoreProductInfo = exports.createStoreProductInfo = function () {
 
           case 5:
             storeTags = _context.sent;
+            _context.next = 8;
+            return (0, _TagService2.default)(chance.integer({ min: 1, max: 1 }));
+
+          case 8:
+            tags = _context.sent;
             storeProduct = (0, _immutable.Map)({
               name: (0, _v2.default)(),
               description: (0, _v2.default)(),
@@ -61,11 +70,19 @@ var createStoreProductInfo = exports.createStoreProductInfo = function () {
               storeTagIds: storeTags.map(function (storeTag) {
                 return storeTag.get('id');
               }),
+              tagIds: tags.map(function (tag) {
+                return tag.get('id');
+              }),
               createdByCrawler: chance.integer({ min: 1, max: 1000 }) % 2 === 0
             });
-            return _context.abrupt('return', { storeProduct: storeProduct, store: store, storeTags: storeTags });
+            return _context.abrupt('return', {
+              storeProduct: storeProduct,
+              store: store,
+              storeTags: storeTags,
+              tags: tags
+            });
 
-          case 8:
+          case 11:
           case 'end':
             return _context.stop();
         }
@@ -119,7 +136,8 @@ var expectStoreProduct = exports.expectStoreProduct = function expectStoreProduc
   var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
       storeProductId = _ref3.storeProductId,
       expectedStore = _ref3.expectedStore,
-      expectedStoreTags = _ref3.expectedStoreTags;
+      expectedStoreTags = _ref3.expectedStoreTags,
+      expectedTags = _ref3.expectedTags;
 
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
@@ -130,6 +148,7 @@ var expectStoreProduct = exports.expectStoreProduct = function expectStoreProduc
   expect(object.get('lastCrawlDateTime')).toEqual(expectedObject.get('lastCrawlDateTime'));
   expect(object.get('storeId')).toBe(expectedObject.get('storeId'));
   expect(object.get('storeTagIds')).toEqual(expectedObject.get('storeTagIds'));
+  expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
   expect(object.get('createdByCrawler')).toBe(expectedObject.get('createdByCrawler'));
 
   if (storeProductId) {
@@ -142,6 +161,12 @@ var expectStoreProduct = exports.expectStoreProduct = function expectStoreProduc
 
   if (expectedStoreTags) {
     expect(object.get('storeTagIds')).toEqual(expectedStoreTags.map(function (_) {
+      return _.get('id');
+    }));
+  }
+
+  if (expectedTags) {
+    expect(object.get('tagIds')).toEqual(expectedTags.map(function (_) {
       return _.get('id');
     }));
   }

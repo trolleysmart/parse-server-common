@@ -4,6 +4,7 @@ import Immutable, { List, Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 import Store from './Store';
 import StoreTag from './StoreTag';
+import Tag from './Tag';
 
 export default class StoreProduct extends BaseObject {
   static spawn = (info) => {
@@ -23,6 +24,7 @@ export default class StoreProduct extends BaseObject {
     object.set('size', info.get('size'));
     object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
     BaseObject.createArrayPointer(object, info, 'storeTag', StoreTag);
+    BaseObject.createArrayPointer(object, info, 'tag', Tag);
     BaseObject.createPointer(object, info, 'store', Store);
     object.set('createdByCrawler', info.get('createdByCrawler'));
   };
@@ -39,9 +41,11 @@ export default class StoreProduct extends BaseObject {
 
   getInfo = () => {
     const object = this.getObject();
+    const store = new Store(object.get('store'));
     const storeTagObjects = object.get('storeTags');
     const storeTags = storeTagObjects ? Immutable.fromJS(storeTagObjects).map(storeTag => new StoreTag(storeTag).getInfo()) : undefined;
-    const store = new Store(object.get('store'));
+    const tagObjects = object.get('tags');
+    const tags = tagObjects ? Immutable.fromJS(tagObjects).map(tag => new Tag(tag).getInfo()) : undefined;
 
     return Map({
       id: this.getId(),
@@ -52,10 +56,12 @@ export default class StoreProduct extends BaseObject {
       imageUrl: object.get('imageUrl'),
       size: object.get('size'),
       lastCrawlDateTime: object.get('lastCrawlDateTime'),
-      storeTags,
-      storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
       store: store.getInfo(),
       storeId: store.getId(),
+      storeTags,
+      storeTagIds: storeTags ? storeTags.map(storeTag => storeTag.get('id')) : List(),
+      tags,
+      tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
       createdByCrawler: object.get('createdByCrawler'),
     });
   };

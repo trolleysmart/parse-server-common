@@ -18,6 +18,10 @@ var _StoreTag = require('./StoreTag');
 
 var _StoreTag2 = _interopRequireDefault(_StoreTag);
 
+var _Tag = require('./Tag');
+
+var _Tag2 = _interopRequireDefault(_Tag);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59,6 +63,7 @@ StoreProduct.updateInfoInternal = function (object, info) {
   object.set('size', info.get('size'));
   object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'storeTag', _StoreTag2.default);
+  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
   object.set('createdByCrawler', info.get('createdByCrawler'));
 };
@@ -74,11 +79,15 @@ var _initialiseProps = function _initialiseProps() {
 
   this.getInfo = function () {
     var object = _this2.getObject();
+    var store = new _Store2.default(object.get('store'));
     var storeTagObjects = object.get('storeTags');
     var storeTags = storeTagObjects ? _immutable2.default.fromJS(storeTagObjects).map(function (storeTag) {
       return new _StoreTag2.default(storeTag).getInfo();
     }) : undefined;
-    var store = new _Store2.default(object.get('store'));
+    var tagObjects = object.get('tags');
+    var tags = tagObjects ? _immutable2.default.fromJS(tagObjects).map(function (tag) {
+      return new _Tag2.default(tag).getInfo();
+    }) : undefined;
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
@@ -89,12 +98,16 @@ var _initialiseProps = function _initialiseProps() {
       imageUrl: object.get('imageUrl'),
       size: object.get('size'),
       lastCrawlDateTime: object.get('lastCrawlDateTime'),
+      store: store.getInfo(),
+      storeId: store.getId(),
       storeTags: storeTags,
       storeTagIds: storeTags ? storeTags.map(function (storeTag) {
         return storeTag.get('id');
       }) : (0, _immutable.List)(),
-      store: store.getInfo(),
-      storeId: store.getId(),
+      tags: tags,
+      tagIds: tags ? tags.map(function (tag) {
+        return tag.get('id');
+      }) : (0, _immutable.List)(),
       createdByCrawler: object.get('createdByCrawler')
     });
   };

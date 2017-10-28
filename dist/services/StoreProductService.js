@@ -28,7 +28,7 @@ var StoreProductService = function (_ServiceBase) {
   return StoreProductService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
-StoreProductService.fields = _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags', 'createdByCrawler');
+StoreProductService.fields = _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags', 'tags', 'createdByCrawler');
 
 StoreProductService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -37,6 +37,7 @@ StoreProductService.buildIncludeQuery = function (query, criteria) {
 
   _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
   _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'storeTags');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
   return query;
 };
@@ -64,6 +65,7 @@ StoreProductService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'lastCrawlDateTime', 'lastCrawlDateTime');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'storeTag', 'storeTags', _schema.StoreTag);
+  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
 
   return query;
