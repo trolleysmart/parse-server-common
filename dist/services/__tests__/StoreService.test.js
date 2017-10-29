@@ -33,7 +33,7 @@ var storeService = new _2.StoreService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'parentStore'),
+    fields: _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'parentStore'),
     include_parentStore: true
   });
 };
@@ -50,6 +50,8 @@ var createCriteria = function createCriteria(store) {
         latitude: chance.floating({ min: 1, max: 20 }),
         longitude: chance.floating({ min: -30, max: -1 })
       }),
+      openFrom: store ? store.get('openFrom') : new Date(),
+      openUntil: store ? store.get('openUntil') : new Date(),
       parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined
     })
   }).merge(createCriteriaWthoutConditions());

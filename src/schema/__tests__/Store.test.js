@@ -18,6 +18,8 @@ export const createStoreInfo = async ({ parentStoreId } = {}) => {
       latitude: chance.floating({ min: 1, max: 20 }),
       longitude: chance.floating({ min: -30, max: -1 }),
     }),
+    openFrom: new Date(),
+    openUntil: new Date(),
     parentStoreId,
   });
 
@@ -33,6 +35,8 @@ export const expectStore = (object, expectedObject) => {
   expect(object.get('address')).toBe(expectedObject.get('address'));
   expect(object.get('phones')).toEqual(expectedObject.get('phones'));
   expect(object.get('geoLocation')).toEqual(expectedObject.get('geoLocation'));
+  expect(object.get('openFrom')).toEqual(expectedObject.get('openFrom'));
+  expect(object.get('openUntil')).toEqual(expectedObject.get('openUntil'));
   expect(object.get('parentStoreId')).toBe(expectedObject.get('parentStoreId'));
 };
 

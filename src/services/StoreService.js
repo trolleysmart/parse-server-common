@@ -5,7 +5,7 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { Store } from '../schema';
 
 export default class StoreService extends ServiceBase {
-  static fields = List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'parentStore');
+  static fields = List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'parentStore');
 
   constructor() {
     super(Store, StoreService.buildSearchQuery, StoreService.buildIncludeQuery, 'store');
@@ -39,6 +39,8 @@ export default class StoreService extends ServiceBase {
     ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
     ServiceBase.addEqualityQuery(conditions, query, 'address', 'address');
     ServiceBase.addGeoLocationQuery(conditions, query, 'geoLocation', 'geoLocation');
+    ServiceBase.addDateTimeQuery(conditions, query, 'openFrom', 'openFrom');
+    ServiceBase.addDateTimeQuery(conditions, query, 'openUntil', 'openUntil');
     ServiceBase.addLinkQuery(conditions, query, 'parentStore', 'parentStore', Store);
 
     return query;

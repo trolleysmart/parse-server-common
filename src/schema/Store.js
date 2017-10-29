@@ -27,6 +27,8 @@ export default class Store extends BaseObject {
     }
 
     object.set('geoLocation', info.get('geoLocation'));
+    object.set('openFrom', info.get('openFrom'));
+    object.set('openUntil', info.get('openUntil'));
     BaseObject.createPointer(object, info, 'parentStore', Store);
   };
 
@@ -53,6 +55,8 @@ export default class Store extends BaseObject {
       address: object.get('address'),
       phones: Immutable.fromJS(object.get('phones')),
       geoLocation: object.get('geoLocation'),
+      openFrom: object.get('openFrom'),
+      openUntil: object.get('openUntil'),
       parentStore: parentStore ? parentStore.getInfo() : undefined,
       parentStoreId: parentStore ? parentStore.getId() : undefined,
     });
