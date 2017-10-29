@@ -1,7 +1,7 @@
 // @flow
 
 import Chance from 'chance';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 import { ParseWrapperService } from 'micro-business-parse-server-common';
 import uuid from 'uuid/v4';
 import { Store } from '../';
@@ -13,7 +13,10 @@ export const createStoreInfo = async ({ parentStoreId } = {}) => {
     name: uuid(),
     imageUrl: uuid(),
     address: uuid(),
-    phones: Map({ business: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
+    phones: List.of(
+      Map({ label: 'business', number: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
+      Map({ label: 'business', number: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
+    ),
     geoLocation: ParseWrapperService.createGeoPoint({
       latitude: chance.floating({ min: 1, max: 20 }),
       longitude: chance.floating({ min: -30, max: -1 }),

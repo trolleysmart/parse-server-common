@@ -39,7 +39,7 @@ var createStoreInfo = exports.createStoreInfo = function () {
               name: (0, _v2.default)(),
               imageUrl: (0, _v2.default)(),
               address: (0, _v2.default)(),
-              phones: (0, _immutable.Map)({ business: chance.integer({ min: 1000000, max: 999999999 }).toString() }),
+              phones: _immutable.List.of((0, _immutable.Map)({ label: 'business', number: chance.integer({ min: 1000000, max: 999999999 }).toString() }), (0, _immutable.Map)({ label: 'business', number: chance.integer({ min: 1000000, max: 999999999 }).toString() })),
               geoLocation: _microBusinessParseServerCommon.ParseWrapperService.createGeoPoint({
                 latitude: chance.floating({ min: 1, max: 20 }),
                 longitude: chance.floating({ min: -30, max: -1 })
