@@ -59,6 +59,7 @@ Store.updateInfoInternal = function (object, info) {
   object.set('geoLocation', info.get('geoLocation'));
   object.set('openFrom', info.get('openFrom'));
   object.set('openUntil', info.get('openUntil'));
+  object.set('forDisplay', info.get('forDisplay'));
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'parentStore', Store);
 };
 
@@ -86,6 +87,7 @@ var _initialiseProps = function _initialiseProps() {
       geoLocation: object.get('geoLocation'),
       openFrom: object.get('openFrom'),
       openUntil: object.get('openUntil'),
+      forDisplay: object.get('forDisplay'),
       parentStore: parentStore ? parentStore.getInfo() : undefined,
       parentStoreId: parentStore ? parentStore.getId() : undefined
     });

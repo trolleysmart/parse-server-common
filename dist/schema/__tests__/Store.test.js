@@ -46,6 +46,7 @@ var createStoreInfo = exports.createStoreInfo = function () {
               }),
               openFrom: new Date(),
               openUntil: new Date(),
+              forDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
               parentStoreId: parentStoreId
             });
             return _context.abrupt('return', { store: store });
@@ -109,6 +110,7 @@ var expectStore = exports.expectStore = function expectStore(object, expectedObj
   expect(object.get('geoLocation')).toEqual(expectedObject.get('geoLocation'));
   expect(object.get('openFrom')).toEqual(expectedObject.get('openFrom'));
   expect(object.get('openUntil')).toEqual(expectedObject.get('openUntil'));
+  expect(object.get('forDisplay')).toBe(expectedObject.get('forDisplay'));
   expect(object.get('parentStoreId')).toBe(expectedObject.get('parentStoreId'));
 };
 

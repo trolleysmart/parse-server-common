@@ -28,7 +28,7 @@ var StoreService = function (_ServiceBase) {
   return StoreService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
-StoreService.fields = _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'parentStore');
+StoreService.fields = _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore');
 
 StoreService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -60,6 +60,7 @@ StoreService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addGeoLocationQuery(conditions, query, 'geoLocation', 'geoLocation');
   _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'openFrom', 'openFrom');
   _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'openUntil', 'openUntil');
+  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'forDisplay', 'forDisplay');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'parentStore', 'parentStore', _schema.Store);
 
   return query;

@@ -13,7 +13,7 @@ const storeService = new StoreService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'parentStore'),
+    fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore'),
     include_parentStore: true,
   });
 
@@ -33,6 +33,7 @@ const createCriteria = store =>
         }),
       openFrom: store ? store.get('openFrom') : new Date(),
       openUntil: store ? store.get('openUntil') : new Date(),
+      forDisplay: store ? store.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
       parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined,
     }),
   }).merge(createCriteriaWthoutConditions());

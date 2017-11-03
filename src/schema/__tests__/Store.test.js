@@ -23,6 +23,7 @@ export const createStoreInfo = async ({ parentStoreId } = {}) => {
     }),
     openFrom: new Date(),
     openUntil: new Date(),
+    forDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
     parentStoreId,
   });
 
@@ -40,6 +41,7 @@ export const expectStore = (object, expectedObject) => {
   expect(object.get('geoLocation')).toEqual(expectedObject.get('geoLocation'));
   expect(object.get('openFrom')).toEqual(expectedObject.get('openFrom'));
   expect(object.get('openUntil')).toEqual(expectedObject.get('openUntil'));
+  expect(object.get('forDisplay')).toBe(expectedObject.get('forDisplay'));
   expect(object.get('parentStoreId')).toBe(expectedObject.get('parentStoreId'));
 };
 

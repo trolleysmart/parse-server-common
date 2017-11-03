@@ -29,6 +29,7 @@ export default class Store extends BaseObject {
     object.set('geoLocation', info.get('geoLocation'));
     object.set('openFrom', info.get('openFrom'));
     object.set('openUntil', info.get('openUntil'));
+    object.set('forDisplay', info.get('forDisplay'));
     BaseObject.createPointer(object, info, 'parentStore', Store);
   };
 
@@ -57,6 +58,7 @@ export default class Store extends BaseObject {
       geoLocation: object.get('geoLocation'),
       openFrom: object.get('openFrom'),
       openUntil: object.get('openUntil'),
+      forDisplay: object.get('forDisplay'),
       parentStore: parentStore ? parentStore.getInfo() : undefined,
       parentStoreId: parentStore ? parentStore.getId() : undefined,
     });

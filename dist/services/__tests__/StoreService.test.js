@@ -33,7 +33,7 @@ var storeService = new _2.StoreService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'parentStore'),
+    fields: _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore'),
     include_parentStore: true
   });
 };
@@ -52,6 +52,7 @@ var createCriteria = function createCriteria(store) {
       }),
       openFrom: store ? store.get('openFrom') : new Date(),
       openUntil: store ? store.get('openUntil') : new Date(),
+      forDisplay: store ? store.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
       parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined
     })
   }).merge(createCriteriaWthoutConditions());
