@@ -14,7 +14,7 @@
     "test-verbose:watch": "npm run test-verbose -- --watch",
     "publish-package": "npm run build && npm publish",
     "flow": "flow",
-    "lint:staged": "lint-staged"
+    "precommit": "lint-staged && npm run fixlint"
   },
   "author": "Micro Business ltd<micro.business.ltd@gmail.com>",
   "homepage": "https://bitbucket.org/microbusiness/trolley-smart-parse-server-common#readme",
@@ -39,7 +39,7 @@
     "eslint-plugin-react": "^7.4.0",
     "flow-bin": "^0.59.0",
     "jest": "^21.2.1",
-    "lint-staged": "^4.3.0",
+    "lint-staged": "^5.0.0",
     "parse": "^1.10.2",
     "prettier": "^1.8.2",
     "uuid": "^3.1.0"
@@ -53,7 +53,7 @@
     "url": "git+ssh://git@bitbucket.org:microbusiness/trolley-smart-parse-server-common.git"
   },
   "lint-staged": {
-    "*.js": [
+    "src/**/*.{js,jsx,json,css}": [
       "prettier --write --single-quote true --trailing-comma all --print-width 150",
       "git add"
     ]
