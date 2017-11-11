@@ -61,6 +61,9 @@ Store.updateInfoInternal = function (object, info) {
   object.set('openUntil', info.get('openUntil'));
   object.set('forDisplay', info.get('forDisplay'));
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'parentStore', Store);
+  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'ownedByUser');
+  _microBusinessParseServerCommon.BaseObject.createUserArrayPointer(object, info, 'maintainedByUser');
+  object.set('status', info.get('status'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -76,6 +79,8 @@ var _initialiseProps = function _initialiseProps() {
     var object = _this2.getObject();
     var parentStoreObject = object.get('parentStore');
     var parentStore = parentStoreObject ? new Store(parentStoreObject) : undefined;
+    var ownedByUser = object.get('ownedByUser');
+    var maintainedByUsers = _immutable2.default.fromJS(object.get('maintainedByUsers'));
 
     return (0, _immutable.Map)({
       id: _this2.getId(),
@@ -89,7 +94,14 @@ var _initialiseProps = function _initialiseProps() {
       openUntil: object.get('openUntil'),
       forDisplay: object.get('forDisplay'),
       parentStore: parentStore ? parentStore.getInfo() : undefined,
-      parentStoreId: parentStore ? parentStore.getId() : undefined
+      parentStoreId: parentStore ? parentStore.getId() : undefined,
+      ownedByUser: ownedByUser,
+      ownedByUserId: ownedByUser ? ownedByUser.id : undefined,
+      maintainedByUsers: maintainedByUsers,
+      maintainedByUserIds: maintainedByUsers ? maintainedByUsers.map(function (maintainedByUser) {
+        return maintainedByUser.id;
+      }) : (0, _immutable.List)(),
+      status: object.get('status')
     });
   };
 };

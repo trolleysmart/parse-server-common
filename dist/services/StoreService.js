@@ -28,7 +28,7 @@ var StoreService = function (_ServiceBase) {
   return StoreService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
-StoreService.fields = _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore');
+StoreService.fields = _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore', 'ownedByUser', 'maintainedByUsers', 'status');
 
 StoreService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -36,6 +36,8 @@ StoreService.buildIncludeQuery = function (query, criteria) {
   }
 
   _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentStore');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'ownedByUser');
+  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'maintainedByUsers');
 
   return query;
 };
@@ -62,6 +64,9 @@ StoreService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'openUntil', 'openUntil');
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'forDisplay', 'forDisplay');
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'parentStore', 'parentStore', _schema.Store);
+  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'ownedByUser', 'ownedByUser');
+  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'maintainedByUser', 'maintainedByUsers');
+  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
 
   return query;
 };

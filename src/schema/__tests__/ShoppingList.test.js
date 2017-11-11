@@ -10,10 +10,10 @@ import { ShoppingList } from '../';
 const chance = new Chance();
 
 export const createShoppingListInfo = async () => {
+  const user = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
   const sharedWithUsers = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 0, max: 3 }))
     .map(() => ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp())
     .toArray()));
-  const user = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
   const shoppingList = Map({
     name: uuid(),
     userId: user.id,

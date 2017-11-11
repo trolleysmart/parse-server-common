@@ -11,11 +11,15 @@ var _chance2 = _interopRequireDefault(_chance);
 
 var _immutable = require('immutable');
 
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
 
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
+
+require('../../../bootstrap');
 
 var _ = require('../');
 
@@ -28,12 +32,26 @@ var createStoreInfo = exports.createStoreInfo = function () {
     var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
         parentStoreId = _ref2.parentStoreId;
 
-    var chance, store;
+    var chance, ownedByUser, maintainedByUsers, store;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             chance = new _chance2.default();
+            _context.next = 3;
+            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
+
+          case 3:
+            ownedByUser = _context.sent;
+            _context.t0 = _immutable2.default;
+            _context.next = 7;
+            return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 0, max: 3 })).map(function () {
+              return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
+            }).toArray());
+
+          case 7:
+            _context.t1 = _context.sent;
+            maintainedByUsers = _context.t0.fromJS.call(_context.t0, _context.t1);
             store = (0, _immutable.Map)({
               key: (0, _v2.default)(),
               name: (0, _v2.default)(),
@@ -47,11 +65,16 @@ var createStoreInfo = exports.createStoreInfo = function () {
               openFrom: new Date(),
               openUntil: new Date(),
               forDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
-              parentStoreId: parentStoreId
+              parentStoreId: parentStoreId,
+              ownedByUserId: ownedByUser.id,
+              maintainedByUserIds: maintainedByUsers.map(function (maintainedByUser) {
+                return maintainedByUser.id;
+              }),
+              status: (0, _v2.default)()
             });
-            return _context.abrupt('return', { store: store });
+            return _context.abrupt('return', { store: store, ownedByUser: ownedByUser, maintainedByUsers: maintainedByUsers });
 
-          case 3:
+          case 11:
           case 'end':
             return _context.stop();
         }
@@ -112,6 +135,9 @@ var expectStore = exports.expectStore = function expectStore(object, expectedObj
   expect(object.get('openUntil')).toEqual(expectedObject.get('openUntil'));
   expect(object.get('forDisplay')).toBe(expectedObject.get('forDisplay'));
   expect(object.get('parentStoreId')).toBe(expectedObject.get('parentStoreId'));
+  expect(object.get('ownedByUserId')).toBe(expectedObject.get('ownedByUserId'));
+  expect(object.get('maintainedByUserIds')).toEqual(expectedObject.get('maintainedByUserIds'));
+  expect(object.get('status')).toBe(expectedObject.get('status'));
 };
 
 describe('constructor', function () {

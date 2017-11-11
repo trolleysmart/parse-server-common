@@ -1,13 +1,18 @@
 // @flow
 
 import Chance from 'chance';
-import { List, Map } from 'immutable';
+import Immutable, { List, Map, Range } from 'immutable';
 import { ParseWrapperService } from 'micro-business-parse-server-common';
 import uuid from 'uuid/v4';
+import '../../../bootstrap';
 import { Store } from '../';
 
 export const createStoreInfo = async ({ parentStoreId } = {}) => {
   const chance = new Chance();
+  const ownedByUser = await ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp();
+  const maintainedByUsers = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 0, max: 3 }))
+    .map(() => ParseWrapperService.createNewUser({ username: `${uuid()}@email.com`, password: '123456' }).signUp())
+    .toArray()));
   const store = Map({
     key: uuid(),
     name: uuid(),
@@ -25,9 +30,12 @@ export const createStoreInfo = async ({ parentStoreId } = {}) => {
     openUntil: new Date(),
     forDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
     parentStoreId,
+    ownedByUserId: ownedByUser.id,
+    maintainedByUserIds: maintainedByUsers.map(maintainedByUser => maintainedByUser.id),
+    status: uuid(),
   });
 
-  return { store };
+  return { store, ownedByUser, maintainedByUsers };
 };
 
 export const createStore = async object => Store.spawn(object || (await createStoreInfo()).store);
@@ -43,6 +51,9 @@ export const expectStore = (object, expectedObject) => {
   expect(object.get('openUntil')).toEqual(expectedObject.get('openUntil'));
   expect(object.get('forDisplay')).toBe(expectedObject.get('forDisplay'));
   expect(object.get('parentStoreId')).toBe(expectedObject.get('parentStoreId'));
+  expect(object.get('ownedByUserId')).toBe(expectedObject.get('ownedByUserId'));
+  expect(object.get('maintainedByUserIds')).toEqual(expectedObject.get('maintainedByUserIds'));
+  expect(object.get('status')).toBe(expectedObject.get('status'));
 };
 
 describe('constructor', () => {

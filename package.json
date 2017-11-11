@@ -1,6 +1,6 @@
 {
   "name": "trolley-smart-parse-server-common",
-  "version": "1.0.0-alpha.40",
+  "version": "1.0.0-alpha.41",
   "description": "Trolley Smart Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -8,10 +8,8 @@
     "build": "babel src --out-dir dist",
     "lint": "eslint --ext .jsx --ext .js src",
     "fixlint": "eslint --fix --ext .jsx --ext .js src",
-    "test": "jest",
-    "test:watch": "npm test -- --watch",
-    "test-verbose": "jest --verbose",
-    "test-verbose:watch": "npm run test-verbose -- --watch",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch --runInBand",
     "publish-package": "npm run build && npm publish",
     "flow": "flow",
     "precommit": "lint-staged && npm run fixlint"

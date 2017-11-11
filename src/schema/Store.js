@@ -1,6 +1,6 @@
 // @flow
 
-import Immutable, { Map } from 'immutable';
+import Immutable, { List, Map } from 'immutable';
 import { BaseObject } from 'micro-business-parse-server-common';
 
 export default class Store extends BaseObject {
@@ -31,6 +31,9 @@ export default class Store extends BaseObject {
     object.set('openUntil', info.get('openUntil'));
     object.set('forDisplay', info.get('forDisplay'));
     BaseObject.createPointer(object, info, 'parentStore', Store);
+    BaseObject.createUserPointer(object, info, 'ownedByUser');
+    BaseObject.createUserArrayPointer(object, info, 'maintainedByUser');
+    object.set('status', info.get('status'));
   };
 
   constructor(object) {
@@ -47,6 +50,8 @@ export default class Store extends BaseObject {
     const object = this.getObject();
     const parentStoreObject = object.get('parentStore');
     const parentStore = parentStoreObject ? new Store(parentStoreObject) : undefined;
+    const ownedByUser = object.get('ownedByUser');
+    const maintainedByUsers = Immutable.fromJS(object.get('maintainedByUsers'));
 
     return Map({
       id: this.getId(),
@@ -61,6 +66,11 @@ export default class Store extends BaseObject {
       forDisplay: object.get('forDisplay'),
       parentStore: parentStore ? parentStore.getInfo() : undefined,
       parentStoreId: parentStore ? parentStore.getId() : undefined,
+      ownedByUser,
+      ownedByUserId: ownedByUser ? ownedByUser.id : undefined,
+      maintainedByUsers,
+      maintainedByUserIds: maintainedByUsers ? maintainedByUsers.map(maintainedByUser => maintainedByUser.id) : List(),
+      status: object.get('status'),
     });
   };
 }

@@ -13,8 +13,25 @@ const storeService = new StoreService();
 
 const createCriteriaWthoutConditions = () =>
   Map({
-    fields: List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore'),
+    fields: List.of(
+
+      'key',
+      'name',
+      'imageUrl',
+      'address',
+      'phones',
+      'geoLocation',
+      'openFrom',
+      'openUntil',
+      'forDisplay',
+      'parentStore',
+      'ownedByUser',
+      'maintainedByUsers',
+      'status',
+    ),
     include_parentStore: true,
+    include_ownedByUser: true,
+    include_maintainedByUsers: true,
   });
 
 const createCriteria = store =>
@@ -35,6 +52,9 @@ const createCriteria = store =>
       openUntil: store ? store.get('openUntil') : new Date(),
       forDisplay: store ? store.get('forDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
       parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined,
+      ownedByUserId: store ? store.get('ownedByUserId') : uuid(),
+      maintainedByUserIds: store ? store.get('maintainedByUserIds') : List.of(uuid(), uuid()),
+      status: store ? store.get('status') : uuid(),
     }),
   }).merge(createCriteriaWthoutConditions());
 
@@ -100,11 +120,15 @@ describe('read', () => {
   test('should read the existing store', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
+    const {
+      store: expectedStore,
+      ownedByUser: expectedOwnedByUser,
+      maintainedByUsers: expectedMaintainedByUsers,
+    } = await createStoreInfo({ parentStoreId });
     const storeId = await storeService.create(expectedStore);
     const store = await storeService.read(storeId, createCriteriaWthoutConditions());
 
-    expectStore(store, expectedStore);
+    expectStore(store, expectedStore, { expectedOwnedByUser, expectedMaintainedByUsers });
   });
 });
 
@@ -132,14 +156,18 @@ describe('update', () => {
   test('should update the existing store', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
+    const {
+      store: expectedStore,
+      ownedByUser: expectedOwnedByUser,
+      maintainedByUsers: expectedMaintainedByUsers,
+    } = await createStoreInfo({ parentStoreId });
     const storeId = await storeService.create((await createStoreInfo()).store);
 
     await storeService.update(expectedStore.set('id', storeId));
 
     const store = await storeService.read(storeId, createCriteriaWthoutConditions());
 
-    expectStore(store, expectedStore);
+    expectStore(store, expectedStore, { expectedOwnedByUser, expectedMaintainedByUsers });
   });
 });
 
@@ -176,7 +204,11 @@ describe('search', () => {
   test('should return the store matches the criteria', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
+    const {
+      store: expectedStore,
+      ownedByUser: expectedOwnedByUser,
+      maintainedByUsers: expectedMaintainedByUsers,
+    } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
       .map(async () => storeService.create(expectedStore))
       .toArray()));
@@ -185,7 +217,7 @@ describe('search', () => {
     expect(stores.count).toBe(results.count);
     stores.forEach((store) => {
       expect(results.find(_ => _.localeCompare(store.get('id')) === 0)).toBeDefined();
-      expectStore(store, expectedStore);
+      expectStore(store, expectedStore, { expectedOwnedByUser, expectedMaintainedByUsers });
     });
   });
 });
@@ -211,7 +243,11 @@ describe('searchAll', () => {
   test('should return the store matches the criteria', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const { store: expectedStore } = await createStoreInfo({ parentStoreId });
+    const {
+      store: expectedStore,
+      ownedByUser: expectedOwnedByUser,
+      maintainedByUsers: expectedMaintainedByUsers,
+    } = await createStoreInfo({ parentStoreId });
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
       .map(async () => storeService.create(expectedStore))
       .toArray()));
@@ -232,7 +268,7 @@ describe('searchAll', () => {
     expect(stores.count).toBe(results.count);
     stores.forEach((store) => {
       expect(results.find(_ => _.localeCompare(store.get('id')) === 0)).toBeDefined();
-      expectStore(store, expectedStore);
+      expectStore(store, expectedStore, { expectedOwnedByUser, expectedMaintainedByUsers });
     });
   });
 });

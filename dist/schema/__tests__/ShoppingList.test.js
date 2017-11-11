@@ -31,25 +31,25 @@ var chance = new _chance2.default();
 
 var createShoppingListInfo = exports.createShoppingListInfo = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    var sharedWithUsers, user, shoppingList;
+    var user, sharedWithUsers, shoppingList;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            _context.next = 2;
+            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
+
+          case 2:
+            user = _context.sent;
             _context.t0 = _immutable2.default;
-            _context.next = 3;
+            _context.next = 6;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 0, max: 3 })).map(function () {
               return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
             }).toArray());
 
-          case 3:
+          case 6:
             _context.t1 = _context.sent;
             sharedWithUsers = _context.t0.fromJS.call(_context.t0, _context.t1);
-            _context.next = 7;
-            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
-
-          case 7:
-            user = _context.sent;
             shoppingList = (0, _immutable.Map)({
               name: (0, _v2.default)(),
               userId: user.id,
