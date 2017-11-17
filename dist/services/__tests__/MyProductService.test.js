@@ -31,10 +31,9 @@ var myProductService = new _2.MyProductService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'tags', 'ownedByUser', 'maintainedByUsers'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'tags', 'ownedByUser'),
     include_tags: true,
-    include_ownedByUser: true,
-    include_maintainedByUsers: true
+    include_ownedByUser: true
   });
 };
 
@@ -48,8 +47,7 @@ var createCriteria = function createCriteria(myProduct) {
       imageUrl: myProduct ? myProduct.get('imageUrl') : (0, _v2.default)(),
       size: myProduct ? myProduct.get('size') : (0, _v2.default)(),
       tagIds: myProduct ? myProduct.get('tagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)()),
-      ownedByUserId: myProduct ? myProduct.get('ownedByUserId') : (0, _v2.default)(),
-      maintainedByUserIds: myProduct ? myProduct.get('maintainedByUserIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)())
+      ownedByUserId: myProduct ? myProduct.get('ownedByUserId') : (0, _v2.default)()
     })
   }).merge(createCriteriaWthoutConditions());
 };
