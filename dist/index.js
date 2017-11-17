@@ -18,6 +18,12 @@ Object.defineProperty(exports, 'MasterProduct', {
     return _schema.MasterProduct;
   }
 });
+Object.defineProperty(exports, 'MyProduct', {
+  enumerable: true,
+  get: function get() {
+    return _schema.MyProduct;
+  }
+});
 Object.defineProperty(exports, 'ProductPrice', {
   enumerable: true,
   get: function get() {
@@ -97,6 +103,12 @@ Object.defineProperty(exports, 'MasterProductService', {
   enumerable: true,
   get: function get() {
     return _services.MasterProductService;
+  }
+});
+Object.defineProperty(exports, 'MyProductService', {
+  enumerable: true,
+  get: function get() {
+    return _services.MyProductService;
   }
 });
 Object.defineProperty(exports, 'ProductPriceService', {

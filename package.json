@@ -1,6 +1,6 @@
 {
   "name": "trolley-smart-parse-server-common",
-  "version": "1.0.0-alpha.44",
+  "version": "1.0.0-alpha.45",
   "description": "Trolley Smart Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
