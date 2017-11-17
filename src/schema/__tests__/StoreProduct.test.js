@@ -38,7 +38,9 @@ export const createStoreProductInfo = async () => {
 
 export const createStoreProduct = async object => StoreProduct.spawn(object || (await createStoreProductInfo()).storeProduct);
 
-export const expectStoreProduct = (object, expectedObject, { storeProductId, expectedStore, expectedStoreTags, expectedTags } = {}) => {
+export const expectStoreProduct = (object, expectedObject, {
+  storeProductId, expectedStore, expectedStoreTags, expectedTags,
+} = {}) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('barcode')).toBe(expectedObject.get('barcode'));
