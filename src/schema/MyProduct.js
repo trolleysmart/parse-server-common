@@ -5,7 +5,7 @@ import { BaseObject } from 'micro-business-parse-server-common';
 import Tag from './Tag';
 
 export default class MyProduct extends BaseObject {
-  static spawn = info => {
+  static spawn = (info) => {
     const object = new MyProduct();
 
     MyProduct.updateInfoInternal(object, info);
@@ -28,7 +28,7 @@ export default class MyProduct extends BaseObject {
     super(object, 'MyProduct');
   }
 
-  updateInfo = info => {
+  updateInfo = (info) => {
     MyProduct.updateInfoInternal(this.getObject(), info);
 
     return this;

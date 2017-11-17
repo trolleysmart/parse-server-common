@@ -37,25 +37,21 @@ const createMasterProducts = async (count, useSameInfo = false) => {
     masterProduct = tempMasterProduct;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalMasterProduct;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalMasterProduct;
 
-          if (useSameInfo) {
-            finalMasterProduct = masterProduct;
-          } else {
-            const { masterProduct: tempMasterProduct } = await createMasterProductInfo();
+      if (useSameInfo) {
+        finalMasterProduct = masterProduct;
+      } else {
+        const { masterProduct: tempMasterProduct } = await createMasterProductInfo();
 
-            finalMasterProduct = tempMasterProduct;
-          }
+        finalMasterProduct = tempMasterProduct;
+      }
 
-          return masterProductService.read(await masterProductService.create(finalMasterProduct), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return masterProductService.read(await masterProductService.create(finalMasterProduct), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createMasterProducts;
@@ -170,17 +166,13 @@ describe('search', () => {
 
   test('should return the master product matches the criteria', async () => {
     const { masterProduct: expectedMasterProduct, tags: expectedTags } = await createMasterProductInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 1, max: 10 }))
-          .map(async () => masterProductService.create(expectedMasterProduct))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 1, max: 10 }))
+      .map(async () => masterProductService.create(expectedMasterProduct))
+      .toArray()));
     const masterProducts = await masterProductService.search(createCriteria(expectedMasterProduct));
 
     expect(masterProducts.count).toBe(results.count);
-    masterProducts.forEach(masterProduct => {
+    masterProducts.forEach((masterProduct) => {
       expect(results.find(_ => _.localeCompare(masterProduct.get('id')) === 0)).toBeDefined();
       expectMasterProduct(masterProduct, expectedMasterProduct, {
         masterProductId: masterProduct.get('id'),
@@ -196,7 +188,7 @@ describe('searchAll', () => {
     const result = masterProductService.searchAll(createCriteria());
 
     try {
-      result.event.subscribe(info => {
+      result.event.subscribe((info) => {
         masterProducts = masterProducts.push(info);
       });
 
@@ -210,19 +202,15 @@ describe('searchAll', () => {
 
   test('should return the master product matches the criteria', async () => {
     const { masterProduct: expectedMasterProduct, tags: expectedTags } = await createMasterProductInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => masterProductService.create(expectedMasterProduct))
-          .toArray(),
-      ),
-    );
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => masterProductService.create(expectedMasterProduct))
+      .toArray()));
 
     let masterProducts = List();
     const result = masterProductService.searchAll(createCriteria(expectedMasterProduct));
 
     try {
-      result.event.subscribe(info => {
+      result.event.subscribe((info) => {
         masterProducts = masterProducts.push(info);
       });
 
@@ -232,7 +220,7 @@ describe('searchAll', () => {
     }
 
     expect(masterProducts.count).toBe(results.count);
-    masterProducts.forEach(masterProduct => {
+    masterProducts.forEach((masterProduct) => {
       expect(results.find(_ => _.localeCompare(masterProduct.get('id')) === 0)).toBeDefined();
       expectMasterProduct(masterProduct, expectedMasterProduct, {
         masterProductId: masterProduct.get('id'),

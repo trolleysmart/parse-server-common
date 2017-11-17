@@ -22,7 +22,7 @@ export default class MyProductService extends ServiceBase {
     return query;
   };
 
-  static buildSearchQuery = criteria => {
+  static buildSearchQuery = (criteria) => {
     const queryWithoutIncludes = ParseWrapperService.createQuery(MyProduct, criteria);
     const query = MyProductService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
@@ -32,7 +32,7 @@ export default class MyProductService extends ServiceBase {
 
     const conditions = criteria.get('conditions');
 
-    MyProductService.fields.forEach(field => {
+    MyProductService.fields.forEach((field) => {
       ServiceBase.addExistenceQuery(conditions, query, field);
     });
     ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
