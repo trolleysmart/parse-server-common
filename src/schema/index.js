@@ -2,6 +2,7 @@
 
 export DefaultShoppingList from './DefaultShoppingList';
 export MasterProduct from './MasterProduct';
+export MyProduct from './MyProduct';
 export ProductPrice from './ProductPrice';
 export ShoppingList from './ShoppingList';
 export ShoppingListItem from './ShoppingListItem';

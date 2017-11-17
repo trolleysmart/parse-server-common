@@ -3,6 +3,7 @@
 export {
   DefaultShoppingList,
   MasterProduct,
+  MyProduct,
   ProductPrice,
   ShoppingList,
   ShoppingListItem,
@@ -18,6 +19,7 @@ export {
 export {
   DefaultShoppingListService,
   MasterProductService,
+  MyProductService,
   ProductPriceService,
   ShoppingListService,
   ShoppingListItemService,

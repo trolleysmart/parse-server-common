@@ -2,6 +2,7 @@
 
 export DefaultShoppingListService from './DefaultShoppingListService';
 export MasterProductService from './MasterProductService';
+export MyProductService from './MyProductService';
 export ProductPriceService from './ProductPriceService';
 export ShoppingListService from './ShoppingListService';
 export ShoppingListItemService from './ShoppingListItemService';
