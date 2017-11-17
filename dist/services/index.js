@@ -3,11 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StoreProductService = exports.StapleTemplateItemService = exports.StapleTemplateService = exports.StapleItemService = exports.ShoppingListItemService = exports.ShoppingListService = exports.ProductPriceService = exports.DefaultShoppingListService = undefined;
+exports.UserFeedbackService = exports.TagService = exports.StoreTagService = exports.StoreService = exports.StoreProductService = exports.StapleTemplateItemService = exports.StapleTemplateService = exports.StapleItemService = exports.ShoppingListItemService = exports.ShoppingListService = exports.ProductPriceService = exports.MasterProductService = exports.DefaultShoppingListService = undefined;
 
 var _DefaultShoppingListService2 = require('./DefaultShoppingListService');
 
 var _DefaultShoppingListService3 = _interopRequireDefault(_DefaultShoppingListService2);
+
+var _MasterProductService2 = require('./MasterProductService');
+
+var _MasterProductService3 = _interopRequireDefault(_MasterProductService2);
 
 var _ProductPriceService2 = require('./ProductPriceService');
 
@@ -56,6 +60,7 @@ var _UserFeedbackService3 = _interopRequireDefault(_UserFeedbackService2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.DefaultShoppingListService = _DefaultShoppingListService3.default;
+exports.MasterProductService = _MasterProductService3.default;
 exports.ProductPriceService = _ProductPriceService3.default;
 exports.ShoppingListService = _ShoppingListService3.default;
 exports.ShoppingListItemService = _ShoppingListItemService3.default;

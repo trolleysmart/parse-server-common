@@ -12,6 +12,12 @@ Object.defineProperty(exports, 'DefaultShoppingList', {
     return _schema.DefaultShoppingList;
   }
 });
+Object.defineProperty(exports, 'MasterProduct', {
+  enumerable: true,
+  get: function get() {
+    return _schema.MasterProduct;
+  }
+});
 Object.defineProperty(exports, 'ProductPrice', {
   enumerable: true,
   get: function get() {
@@ -85,6 +91,12 @@ Object.defineProperty(exports, 'DefaultShoppingListService', {
   enumerable: true,
   get: function get() {
     return _services.DefaultShoppingListService;
+  }
+});
+Object.defineProperty(exports, 'MasterProductService', {
+  enumerable: true,
+  get: function get() {
+    return _services.MasterProductService;
   }
 });
 Object.defineProperty(exports, 'ProductPriceService', {

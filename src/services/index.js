@@ -1,6 +1,7 @@
 // @flow
 
 export DefaultShoppingListService from './DefaultShoppingListService';
+export MasterProductService from './MasterProductService';
 export ProductPriceService from './ProductPriceService';
 export ShoppingListService from './ShoppingListService';
 export ShoppingListItemService from './ShoppingListItemService';

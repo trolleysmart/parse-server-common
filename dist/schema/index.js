@@ -3,11 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UserFeedback = exports.Tag = exports.StoreTag = exports.StoreProduct = exports.Store = exports.StapleTemplateItem = exports.StapleTemplate = exports.StapleItem = exports.ShoppingListItem = exports.ShoppingList = exports.ProductPrice = exports.DefaultShoppingList = undefined;
+exports.UserFeedback = exports.Tag = exports.StoreTag = exports.StoreProduct = exports.Store = exports.StapleTemplateItem = exports.StapleTemplate = exports.StapleItem = exports.ShoppingListItem = exports.ShoppingList = exports.ProductPrice = exports.MasterProduct = exports.DefaultShoppingList = undefined;
 
 var _DefaultShoppingList2 = require('./DefaultShoppingList');
 
 var _DefaultShoppingList3 = _interopRequireDefault(_DefaultShoppingList2);
+
+var _MasterProduct2 = require('./MasterProduct');
+
+var _MasterProduct3 = _interopRequireDefault(_MasterProduct2);
 
 var _ProductPrice2 = require('./ProductPrice');
 
@@ -56,6 +60,7 @@ var _UserFeedback3 = _interopRequireDefault(_UserFeedback2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.DefaultShoppingList = _DefaultShoppingList3.default;
+exports.MasterProduct = _MasterProduct3.default;
 exports.ProductPrice = _ProductPrice3.default;
 exports.ShoppingList = _ShoppingList3.default;
 exports.ShoppingListItem = _ShoppingListItem3.default;

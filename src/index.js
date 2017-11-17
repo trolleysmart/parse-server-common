@@ -2,6 +2,7 @@
 
 export {
   DefaultShoppingList,
+  MasterProduct,
   ProductPrice,
   ShoppingList,
   ShoppingListItem,
@@ -16,6 +17,7 @@ export {
 } from './schema';
 export {
   DefaultShoppingListService,
+  MasterProductService,
   ProductPriceService,
   ShoppingListService,
   ShoppingListItemService,

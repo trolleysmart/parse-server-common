@@ -22,7 +22,6 @@ export const createStoreProductInfo = async () => {
     imageUrl: uuid(),
     size: uuid(),
     lastCrawlDateTime: new Date(),
-    special: chance.integer({ min: 0, max: 1000 }) % 2 === 0,
     storeId: store.get('id'),
     storeTagIds: storeTags.map(storeTag => storeTag.get('id')),
     tagIds: tags.map(tag => tag.get('id')),
@@ -39,9 +38,7 @@ export const createStoreProductInfo = async () => {
 
 export const createStoreProduct = async object => StoreProduct.spawn(object || (await createStoreProductInfo()).storeProduct);
 
-export const expectStoreProduct = (object, expectedObject, {
-  storeProductId, expectedStore, expectedStoreTags, expectedTags,
-} = {}) => {
+export const expectStoreProduct = (object, expectedObject, { storeProductId, expectedStore, expectedStoreTags, expectedTags } = {}) => {
   expect(object.get('name')).toBe(expectedObject.get('name'));
   expect(object.get('description')).toBe(expectedObject.get('description'));
   expect(object.get('barcode')).toBe(expectedObject.get('barcode'));
