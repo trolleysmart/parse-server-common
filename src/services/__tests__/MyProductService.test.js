@@ -40,25 +40,21 @@ const createMyProducts = async (count, useSameInfo = false) => {
     myProduct = tempMyProduct;
   }
 
-  return Immutable.fromJS(
-    await Promise.all(
-      Range(0, count)
-        .map(async () => {
-          let finalMyProduct;
+  return Immutable.fromJS(await Promise.all(Range(0, count)
+    .map(async () => {
+      let finalMyProduct;
 
-          if (useSameInfo) {
-            finalMyProduct = myProduct;
-          } else {
-            const { myProduct: tempMyProduct } = await createMyProductInfo();
+      if (useSameInfo) {
+        finalMyProduct = myProduct;
+      } else {
+        const { myProduct: tempMyProduct } = await createMyProductInfo();
 
-            finalMyProduct = tempMyProduct;
-          }
+        finalMyProduct = tempMyProduct;
+      }
 
-          return myProductService.read(await myProductService.create(finalMyProduct), createCriteriaWthoutConditions());
-        })
-        .toArray(),
-    ),
-  );
+      return myProductService.read(await myProductService.create(finalMyProduct), createCriteriaWthoutConditions());
+    })
+    .toArray()));
 };
 
 export default createMyProducts;
@@ -91,7 +87,9 @@ describe('read', () => {
   });
 
   test('should read the existing my product', async () => {
-    const { myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags } = await createMyProductInfo();
+    const {
+      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
+    } = await createMyProductInfo();
     const myProductId = await myProductService.create(expectedMyProduct);
     const myProduct = await myProductService.read(myProductId, createCriteriaWthoutConditions());
 
@@ -129,7 +127,9 @@ describe('update', () => {
   });
 
   test('should update the existing my product', async () => {
-    const { myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags } = await createMyProductInfo();
+    const {
+      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
+    } = await createMyProductInfo();
     const myProductId = await myProductService.create((await createMyProductInfo()).myProduct);
 
     await myProductService.update(expectedMyProduct.set('id', myProductId));
@@ -176,18 +176,16 @@ describe('search', () => {
   });
 
   test('should return the my product matches the criteria', async () => {
-    const { myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags } = await createMyProductInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 1, max: 10 }))
-          .map(async () => myProductService.create(expectedMyProduct))
-          .toArray(),
-      ),
-    );
+    const {
+      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
+    } = await createMyProductInfo();
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 1, max: 10 }))
+      .map(async () => myProductService.create(expectedMyProduct))
+      .toArray()));
     const myProducts = await myProductService.search(createCriteria(expectedMyProduct));
 
     expect(myProducts.count).toBe(results.count);
-    myProducts.forEach(myProduct => {
+    myProducts.forEach((myProduct) => {
       expect(results.find(_ => _.localeCompare(myProduct.get('id')) === 0)).toBeDefined();
       expectMyProduct(myProduct, expectedMyProduct, {
         myProductId: myProduct.get('id'),
@@ -205,7 +203,7 @@ describe('searchAll', () => {
     const result = myProductService.searchAll(createCriteria());
 
     try {
-      result.event.subscribe(info => {
+      result.event.subscribe((info) => {
         myProducts = myProducts.push(info);
       });
 
@@ -218,20 +216,18 @@ describe('searchAll', () => {
   });
 
   test('should return the my product matches the criteria', async () => {
-    const { myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags } = await createMyProductInfo();
-    const results = Immutable.fromJS(
-      await Promise.all(
-        Range(0, chance.integer({ min: 2, max: 5 }))
-          .map(async () => myProductService.create(expectedMyProduct))
-          .toArray(),
-      ),
-    );
+    const {
+      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
+    } = await createMyProductInfo();
+    const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
+      .map(async () => myProductService.create(expectedMyProduct))
+      .toArray()));
 
     let myProducts = List();
     const result = myProductService.searchAll(createCriteria(expectedMyProduct));
 
     try {
-      result.event.subscribe(info => {
+      result.event.subscribe((info) => {
         myProducts = myProducts.push(info);
       });
 
@@ -241,7 +237,7 @@ describe('searchAll', () => {
     }
 
     expect(myProducts.count).toBe(results.count);
-    myProducts.forEach(myProduct => {
+    myProducts.forEach((myProduct) => {
       expect(results.find(_ => _.localeCompare(myProduct.get('id')) === 0)).toBeDefined();
       expectMyProduct(myProduct, expectedMyProduct, {
         myProductId: myProduct.get('id'),
