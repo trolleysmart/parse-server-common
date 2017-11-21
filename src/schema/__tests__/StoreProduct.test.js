@@ -26,6 +26,7 @@ export const createStoreProductInfo = async () => {
     storeTagIds: storeTags.map(storeTag => storeTag.get('id')),
     tagIds: tags.map(tag => tag.get('id')),
     createdByCrawler: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+    authorizedToDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
   });
 
   return {
@@ -52,6 +53,7 @@ export const expectStoreProduct = (object, expectedObject, {
   expect(object.get('storeTagIds')).toEqual(expectedObject.get('storeTagIds'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
   expect(object.get('createdByCrawler')).toBe(expectedObject.get('createdByCrawler'));
+  expect(object.get('authorizedToDisplay')).toBe(expectedObject.get('authorizedToDisplay'));
 
   if (storeProductId) {
     expect(object.get('id')).toBe(storeProductId);

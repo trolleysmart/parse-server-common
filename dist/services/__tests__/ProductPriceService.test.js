@@ -31,7 +31,7 @@ var productPriceService = new _2.ProductPriceService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'barcode', 'size', 'imageUrl', 'productPageUrl', 'store', 'tags', 'storeProduct', 'createdByCrawler'),
+    fields: _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'barcode', 'size', 'imageUrl', 'productPageUrl', 'store', 'tags', 'storeProduct', 'createdByCrawler', 'authorizedToDisplay'),
     include_store: true,
     include_tags: true,
     include_storeProduct: true
@@ -57,7 +57,8 @@ var createCriteria = function createCriteria(productPrice) {
       storeId: productPrice ? productPrice.get('storeId') : (0, _v2.default)(),
       tagIds: productPrice ? productPrice.get('tagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)()),
       storeProductId: productPrice ? productPrice.get('storeProductId') : (0, _v2.default)(),
-      createdByCrawler: productPrice ? productPrice.get('createdByCrawler') : chance.integer({ min: 1, max: 1000 }) % 2 === 0
+      createdByCrawler: productPrice ? productPrice.get('createdByCrawler') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+      authorizedToDisplay: productPrice ? productPrice.get('authorizedToDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0
     })
   }).merge(createCriteriaWthoutConditions());
 };

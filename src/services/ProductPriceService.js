@@ -23,6 +23,7 @@ export default class ProductPriceService extends ServiceBase {
     'tags',
     'storeProduct',
     'createdByCrawler',
+    'authorizedToDisplay',
   );
 
   constructor() {
@@ -70,6 +71,7 @@ export default class ProductPriceService extends ServiceBase {
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
     ServiceBase.addLinkQuery(conditions, query, 'storeProduct', 'storeProduct', StoreProduct);
     ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
+    ServiceBase.addEqualityQuery(conditions, query, 'authorizedToDisplay', 'authorizedToDisplay');
 
     return query;
   };

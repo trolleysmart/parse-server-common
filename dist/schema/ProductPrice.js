@@ -72,6 +72,7 @@ ProductPrice.updateInfoInternal = function (object, info) {
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'storeProduct', _StoreProduct2.default);
   object.set('createdByCrawler', info.get('createdByCrawler'));
+  object.set('authorizedToDisplay', info.get('authorizedToDisplay'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -115,7 +116,8 @@ var _initialiseProps = function _initialiseProps() {
       }) : (0, _immutable.List)(),
       storeProduct: storeProduct.getInfo(),
       storeProductId: storeProduct.getId(),
-      createdByCrawler: object.get('createdByCrawler')
+      createdByCrawler: object.get('createdByCrawler'),
+      authorizedToDisplay: object.get('authorizedToDisplay')
     });
   };
 };

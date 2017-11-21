@@ -17,6 +17,7 @@ export default class StoreProductService extends ServiceBase {
     'storeTags',
     'tags',
     'createdByCrawler',
+    'authorizedToDisplay',
   );
 
   constructor() {
@@ -60,6 +61,7 @@ export default class StoreProductService extends ServiceBase {
     ServiceBase.addLinkQuery(conditions, query, 'storeTag', 'storeTags', StoreTag);
     ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', Tag);
     ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
+    ServiceBase.addEqualityQuery(conditions, query, 'authorizedToDisplay', 'authorizedToDisplay');
 
     return query;
   };

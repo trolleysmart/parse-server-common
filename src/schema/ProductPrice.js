@@ -33,6 +33,7 @@ export default class ProductPrice extends BaseObject {
     BaseObject.createArrayPointer(object, info, 'tag', Tag);
     BaseObject.createPointer(object, info, 'storeProduct', StoreProduct);
     object.set('createdByCrawler', info.get('createdByCrawler'));
+    object.set('authorizedToDisplay', info.get('authorizedToDisplay'));
   };
 
   constructor(object) {
@@ -74,6 +75,7 @@ export default class ProductPrice extends BaseObject {
       storeProduct: storeProduct.getInfo(),
       storeProductId: storeProduct.getId(),
       createdByCrawler: object.get('createdByCrawler'),
+      authorizedToDisplay: object.get('authorizedToDisplay'),
     });
   };
 }

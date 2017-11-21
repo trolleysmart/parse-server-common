@@ -28,7 +28,7 @@ var ProductPriceService = function (_ServiceBase) {
   return ProductPriceService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
-ProductPriceService.fields = _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'barcode', 'size', 'imageUrl', 'productPageUrl', 'store', 'tags', 'storeProduct', 'createdByCrawler');
+ProductPriceService.fields = _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'barcode', 'size', 'imageUrl', 'productPageUrl', 'store', 'tags', 'storeProduct', 'createdByCrawler', 'authorizedToDisplay');
 
 ProductPriceService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -71,6 +71,7 @@ ProductPriceService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'storeProduct', 'storeProduct', _schema.StoreProduct);
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
+  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'authorizedToDisplay', 'authorizedToDisplay');
 
   return query;
 };

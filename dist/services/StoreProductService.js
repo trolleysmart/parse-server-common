@@ -28,7 +28,7 @@ var StoreProductService = function (_ServiceBase) {
   return StoreProductService;
 }(_microBusinessParseServerCommon.ServiceBase);
 
-StoreProductService.fields = _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags', 'tags', 'createdByCrawler');
+StoreProductService.fields = _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags', 'tags', 'createdByCrawler', 'authorizedToDisplay');
 
 StoreProductService.buildIncludeQuery = function (query, criteria) {
   if (!criteria) {
@@ -67,6 +67,7 @@ StoreProductService.buildSearchQuery = function (criteria) {
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'storeTag', 'storeTags', _schema.StoreTag);
   _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
   _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
+  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'authorizedToDisplay', 'authorizedToDisplay');
 
   return query;
 };

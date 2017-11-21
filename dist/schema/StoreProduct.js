@@ -66,6 +66,7 @@ StoreProduct.updateInfoInternal = function (object, info) {
   _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
   _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
   object.set('createdByCrawler', info.get('createdByCrawler'));
+  object.set('authorizedToDisplay', info.get('authorizedToDisplay'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -108,7 +109,8 @@ var _initialiseProps = function _initialiseProps() {
       tagIds: tags ? tags.map(function (tag) {
         return tag.get('id');
       }) : (0, _immutable.List)(),
-      createdByCrawler: object.get('createdByCrawler')
+      createdByCrawler: object.get('createdByCrawler'),
+      authorizedToDisplay: object.get('authorizedToDisplay')
     });
   };
 };

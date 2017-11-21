@@ -72,7 +72,8 @@ var createStoreProductInfo = exports.createStoreProductInfo = function () {
               tagIds: tags.map(function (tag) {
                 return tag.get('id');
               }),
-              createdByCrawler: chance.integer({ min: 1, max: 1000 }) % 2 === 0
+              createdByCrawler: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+              authorizedToDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0
             });
             return _context.abrupt('return', {
               storeProduct: storeProduct,
@@ -149,6 +150,7 @@ var expectStoreProduct = exports.expectStoreProduct = function expectStoreProduc
   expect(object.get('storeTagIds')).toEqual(expectedObject.get('storeTagIds'));
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
   expect(object.get('createdByCrawler')).toBe(expectedObject.get('createdByCrawler'));
+  expect(object.get('authorizedToDisplay')).toBe(expectedObject.get('authorizedToDisplay'));
 
   if (storeProductId) {
     expect(object.get('id')).toBe(storeProductId);

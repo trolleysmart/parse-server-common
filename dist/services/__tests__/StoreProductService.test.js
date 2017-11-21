@@ -31,7 +31,7 @@ var storeProductService = new _2.StoreProductService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags', 'tags', 'createdByCrawler'),
+    fields: _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'lastCrawlDateTime', 'store', 'storeTags', 'tags', 'createdByCrawler', 'authorizedToDisplay'),
     include_store: true,
     include_storeTags: true,
     include_tags: true
@@ -51,7 +51,8 @@ var createCriteria = function createCriteria(storeProduct) {
       storeId: storeProduct ? storeProduct.get('storeId') : (0, _v2.default)(),
       storeTagIds: storeProduct ? storeProduct.get('storeTagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)()),
       tagIds: storeProduct ? storeProduct.get('tagIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)()),
-      createdByCrawler: storeProduct ? storeProduct.get('createdByCrawler') : chance.integer({ min: 1, max: 1000 }) % 2 === 0
+      createdByCrawler: storeProduct ? storeProduct.get('createdByCrawler') : chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+      authorizedToDisplay: storeProduct ? storeProduct.get('authorizedToDisplay') : chance.integer({ min: 1, max: 1000 }) % 2 === 0
     })
   }).merge(createCriteriaWthoutConditions());
 };

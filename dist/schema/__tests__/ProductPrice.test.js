@@ -78,7 +78,8 @@ var createProductPriceInfo = exports.createProductPriceInfo = function () {
                 return tag.get('id');
               }),
               storeProductId: storeProduct.get('id'),
-              createdByCrawler: chance.integer({ min: 1, max: 1000 }) % 2 === 0
+              createdByCrawler: chance.integer({ min: 1, max: 1000 }) % 2 === 0,
+              authorizedToDisplay: chance.integer({ min: 1, max: 1000 }) % 2 === 0
             });
             return _context.abrupt('return', {
               productPrice: productPrice,
@@ -161,6 +162,7 @@ var expectProductPrice = exports.expectProductPrice = function expectProductPric
   expect(object.get('tagIds')).toEqual(expectedObject.get('tagIds'));
   expect(object.get('storeProductId')).toBe(expectedObject.get('storeProductId'));
   expect(object.get('createdByCrawler')).toBe(expectedObject.get('createdByCrawler'));
+  expect(object.get('authorizedToDisplay')).toBe(expectedObject.get('authorizedToDisplay'));
 
   if (productPriceId) {
     expect(object.get('id')).toBe(productPriceId);

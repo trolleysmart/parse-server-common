@@ -27,6 +27,7 @@ export default class StoreProduct extends BaseObject {
     BaseObject.createArrayPointer(object, info, 'tag', Tag);
     BaseObject.createPointer(object, info, 'store', Store);
     object.set('createdByCrawler', info.get('createdByCrawler'));
+    object.set('authorizedToDisplay', info.get('authorizedToDisplay'));
   };
 
   constructor(object) {
@@ -63,6 +64,7 @@ export default class StoreProduct extends BaseObject {
       tags,
       tagIds: tags ? tags.map(tag => tag.get('id')) : List(),
       createdByCrawler: object.get('createdByCrawler'),
+      authorizedToDisplay: object.get('authorizedToDisplay'),
     });
   };
 }
