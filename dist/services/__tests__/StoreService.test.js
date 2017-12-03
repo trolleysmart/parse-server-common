@@ -295,7 +295,9 @@ describe('read', function () {
           case 6:
             parentStoreId = _context6.sent;
             _context6.next = 9;
-            return (0, _Store.createStoreInfo)({ parentStoreId: parentStoreId });
+            return (0, _Store.createStoreInfo)({
+              parentStoreId: parentStoreId
+            });
 
           case 9:
             _ref11 = _context6.sent;
@@ -433,7 +435,9 @@ describe('update', function () {
           case 6:
             parentStoreId = _context9.sent;
             _context9.next = 9;
-            return (0, _Store.createStoreInfo)({ parentStoreId: parentStoreId });
+            return (0, _Store.createStoreInfo)({
+              parentStoreId: parentStoreId
+            });
 
           case 9:
             _ref17 = _context9.sent;
@@ -590,7 +594,9 @@ describe('search', function () {
           case 6:
             parentStoreId = _context14.sent;
             _context14.next = 9;
-            return (0, _Store.createStoreInfo)({ parentStoreId: parentStoreId });
+            return (0, _Store.createStoreInfo)({
+              parentStoreId: parentStoreId
+            });
 
           case 9:
             _ref23 = _context14.sent;
@@ -696,7 +702,9 @@ describe('searchAll', function () {
           case 6:
             parentStoreId = _context17.sent;
             _context17.next = 9;
-            return (0, _Store.createStoreInfo)({ parentStoreId: parentStoreId });
+            return (0, _Store.createStoreInfo)({
+              parentStoreId: parentStoreId
+            });
 
           case 9:
             _ref28 = _context17.sent;
