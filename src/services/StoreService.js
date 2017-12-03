@@ -5,25 +5,26 @@ import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-co
 import { Store } from '../schema';
 
 export default class StoreService extends ServiceBase {
-    static fields = List.of(
-      'key',
-      'name',
-      'imageUrl',
-      'address',
-      'phones',
-      'geoLocation',
-      'openFrom',
-      'openUntil',
-      'forDisplay',
-      'parentStore',
-      'ownedByUser',
-      'maintainedByUsers',
-      'status',
-    );
+  static fields = List.of(
+    'key',
+    'name',
+    'imageUrl',
+    'address',
+    'phones',
+    'geoLocation',
+    'openFrom',
+    'openUntil',
+    'forDisplay',
+    'parentStore',
+    'ownedByUser',
+    'maintainedByUsers',
+    'status',
+    'googleMapUrl',
+  );
 
-    constructor() {
-      super(Store, StoreService.buildSearchQuery, StoreService.buildIncludeQuery, 'store');
-    }
+  constructor() {
+    super(Store, StoreService.buildSearchQuery, StoreService.buildIncludeQuery, 'store');
+  }
 
   static buildIncludeQuery = (query, criteria) => {
     if (!criteria) {
@@ -62,6 +63,7 @@ export default class StoreService extends ServiceBase {
     ServiceBase.addUserLinkQuery(conditions, query, 'ownedByUser', 'ownedByUser');
     ServiceBase.addUserLinkQuery(conditions, query, 'maintainedByUser', 'maintainedByUsers');
     ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+    ServiceBase.addEqualityQuery(conditions, query, 'googleMapUrl', 'googleMapUrl');
 
     return query;
   };

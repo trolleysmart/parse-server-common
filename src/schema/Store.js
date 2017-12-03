@@ -34,6 +34,7 @@ export default class Store extends BaseObject {
     BaseObject.createUserPointer(object, info, 'ownedByUser');
     BaseObject.createUserArrayPointer(object, info, 'maintainedByUser');
     object.set('status', info.get('status'));
+    object.set('googleMapUrl', info.get('googleMapUrl'));
   };
 
   constructor(object) {
@@ -71,6 +72,7 @@ export default class Store extends BaseObject {
       maintainedByUsers,
       maintainedByUserIds: maintainedByUsers ? maintainedByUsers.map(maintainedByUser => maintainedByUser.id) : List(),
       status: object.get('status'),
+      googleMapUrl: object.get('googleMapUrl'),
     });
   };
 }

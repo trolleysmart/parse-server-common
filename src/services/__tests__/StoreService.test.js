@@ -14,7 +14,6 @@ const storeService = new StoreService();
 const createCriteriaWthoutConditions = () =>
   Map({
     fields: List.of(
-
       'key',
       'name',
       'imageUrl',
@@ -28,6 +27,7 @@ const createCriteriaWthoutConditions = () =>
       'ownedByUser',
       'maintainedByUsers',
       'status',
+      'googleMapUrl',
     ),
     include_parentStore: true,
     include_ownedByUser: true,
@@ -55,6 +55,7 @@ const createCriteria = store =>
       ownedByUserId: store ? store.get('ownedByUserId') : uuid(),
       maintainedByUserIds: store ? store.get('maintainedByUserIds') : List.of(uuid(), uuid()),
       status: store ? store.get('status') : uuid(),
+      googleMapUrl: store ? store.get('googleMapUrl') : uuid(),
     }),
   }).merge(createCriteriaWthoutConditions());
 
@@ -120,11 +121,9 @@ describe('read', () => {
   test('should read the existing store', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const {
-      store: expectedStore,
-      ownedByUser: expectedOwnedByUser,
-      maintainedByUsers: expectedMaintainedByUsers,
-    } = await createStoreInfo({ parentStoreId });
+    const { store: expectedStore, ownedByUser: expectedOwnedByUser, maintainedByUsers: expectedMaintainedByUsers } = await createStoreInfo({
+      parentStoreId,
+    });
     const storeId = await storeService.create(expectedStore);
     const store = await storeService.read(storeId, createCriteriaWthoutConditions());
 
@@ -156,11 +155,9 @@ describe('update', () => {
   test('should update the existing store', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const {
-      store: expectedStore,
-      ownedByUser: expectedOwnedByUser,
-      maintainedByUsers: expectedMaintainedByUsers,
-    } = await createStoreInfo({ parentStoreId });
+    const { store: expectedStore, ownedByUser: expectedOwnedByUser, maintainedByUsers: expectedMaintainedByUsers } = await createStoreInfo({
+      parentStoreId,
+    });
     const storeId = await storeService.create((await createStoreInfo()).store);
 
     await storeService.update(expectedStore.set('id', storeId));
@@ -204,11 +201,9 @@ describe('search', () => {
   test('should return the store matches the criteria', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const {
-      store: expectedStore,
-      ownedByUser: expectedOwnedByUser,
-      maintainedByUsers: expectedMaintainedByUsers,
-    } = await createStoreInfo({ parentStoreId });
+    const { store: expectedStore, ownedByUser: expectedOwnedByUser, maintainedByUsers: expectedMaintainedByUsers } = await createStoreInfo({
+      parentStoreId,
+    });
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
       .map(async () => storeService.create(expectedStore))
       .toArray()));
@@ -243,11 +238,9 @@ describe('searchAll', () => {
   test('should return the store matches the criteria', async () => {
     const { store: parentStore } = await createStoreInfo();
     const parentStoreId = await storeService.create(parentStore);
-    const {
-      store: expectedStore,
-      ownedByUser: expectedOwnedByUser,
-      maintainedByUsers: expectedMaintainedByUsers,
-    } = await createStoreInfo({ parentStoreId });
+    const { store: expectedStore, ownedByUser: expectedOwnedByUser, maintainedByUsers: expectedMaintainedByUsers } = await createStoreInfo({
+      parentStoreId,
+    });
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
       .map(async () => storeService.create(expectedStore))
       .toArray()));

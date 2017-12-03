@@ -70,7 +70,8 @@ var createStoreInfo = exports.createStoreInfo = function () {
               maintainedByUserIds: maintainedByUsers.map(function (maintainedByUser) {
                 return maintainedByUser.id;
               }),
-              status: (0, _v2.default)()
+              status: (0, _v2.default)(),
+              googleMapUrl: (0, _v2.default)()
             });
             return _context.abrupt('return', { store: store, ownedByUser: ownedByUser, maintainedByUsers: maintainedByUsers });
 
@@ -138,6 +139,7 @@ var expectStore = exports.expectStore = function expectStore(object, expectedObj
   expect(object.get('ownedByUserId')).toBe(expectedObject.get('ownedByUserId'));
   expect(object.get('maintainedByUserIds')).toEqual(expectedObject.get('maintainedByUserIds'));
   expect(object.get('status')).toBe(expectedObject.get('status'));
+  expect(object.get('googleMapUrl')).toBe(expectedObject.get('googleMapUrl'));
 };
 
 describe('constructor', function () {

@@ -64,6 +64,7 @@ Store.updateInfoInternal = function (object, info) {
   _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'ownedByUser');
   _microBusinessParseServerCommon.BaseObject.createUserArrayPointer(object, info, 'maintainedByUser');
   object.set('status', info.get('status'));
+  object.set('googleMapUrl', info.get('googleMapUrl'));
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -101,7 +102,8 @@ var _initialiseProps = function _initialiseProps() {
       maintainedByUserIds: maintainedByUsers ? maintainedByUsers.map(function (maintainedByUser) {
         return maintainedByUser.id;
       }) : (0, _immutable.List)(),
-      status: object.get('status')
+      status: object.get('status'),
+      googleMapUrl: object.get('googleMapUrl')
     });
   };
 };

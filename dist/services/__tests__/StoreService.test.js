@@ -33,7 +33,7 @@ var storeService = new _2.StoreService();
 
 var createCriteriaWthoutConditions = function createCriteriaWthoutConditions() {
   return (0, _immutable.Map)({
-    fields: _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore', 'ownedByUser', 'maintainedByUsers', 'status'),
+    fields: _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore', 'ownedByUser', 'maintainedByUsers', 'status', 'googleMapUrl'),
     include_parentStore: true,
     include_ownedByUser: true,
     include_maintainedByUsers: true
@@ -58,7 +58,8 @@ var createCriteria = function createCriteria(store) {
       parentStoreId: store && store.get('parentStoreId') ? store.get('parentStoreId') : undefined,
       ownedByUserId: store ? store.get('ownedByUserId') : (0, _v2.default)(),
       maintainedByUserIds: store ? store.get('maintainedByUserIds') : _immutable.List.of((0, _v2.default)(), (0, _v2.default)()),
-      status: store ? store.get('status') : (0, _v2.default)()
+      status: store ? store.get('status') : (0, _v2.default)(),
+      googleMapUrl: store ? store.get('googleMapUrl') : (0, _v2.default)()
     })
   }).merge(createCriteriaWthoutConditions());
 };

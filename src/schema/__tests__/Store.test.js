@@ -33,6 +33,7 @@ export const createStoreInfo = async ({ parentStoreId } = {}) => {
     ownedByUserId: ownedByUser.id,
     maintainedByUserIds: maintainedByUsers.map(maintainedByUser => maintainedByUser.id),
     status: uuid(),
+    googleMapUrl: uuid(),
   });
 
   return { store, ownedByUser, maintainedByUsers };
@@ -54,6 +55,7 @@ export const expectStore = (object, expectedObject) => {
   expect(object.get('ownedByUserId')).toBe(expectedObject.get('ownedByUserId'));
   expect(object.get('maintainedByUserIds')).toEqual(expectedObject.get('maintainedByUserIds'));
   expect(object.get('status')).toBe(expectedObject.get('status'));
+  expect(object.get('googleMapUrl')).toBe(expectedObject.get('googleMapUrl'));
 };
 
 describe('constructor', () => {
