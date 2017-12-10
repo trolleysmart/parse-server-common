@@ -87,16 +87,12 @@ describe('read', () => {
   });
 
   test('should read the existing my product', async () => {
-    const {
-      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
-    } = await createMyProductInfo();
+    const { myProduct: expectedMyProduct, tags: expectedTags } = await createMyProductInfo();
     const myProductId = await myProductService.create(expectedMyProduct);
     const myProduct = await myProductService.read(myProductId, createCriteriaWthoutConditions());
 
     expectMyProduct(myProduct, expectedMyProduct, {
       myProductId,
-      expectedStore,
-      expectedStoreTags,
       expectedTags,
     });
   });
@@ -127,9 +123,7 @@ describe('update', () => {
   });
 
   test('should update the existing my product', async () => {
-    const {
-      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
-    } = await createMyProductInfo();
+    const { myProduct: expectedMyProduct, tags: expectedTags } = await createMyProductInfo();
     const myProductId = await myProductService.create((await createMyProductInfo()).myProduct);
 
     await myProductService.update(expectedMyProduct.set('id', myProductId));
@@ -138,8 +132,6 @@ describe('update', () => {
 
     expectMyProduct(myProduct, expectedMyProduct, {
       myProductId,
-      expectedStore,
-      expectedStoreTags,
       expectedTags,
     });
   });
@@ -176,9 +168,7 @@ describe('search', () => {
   });
 
   test('should return the my product matches the criteria', async () => {
-    const {
-      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
-    } = await createMyProductInfo();
+    const { myProduct: expectedMyProduct, tags: expectedTags } = await createMyProductInfo();
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 1, max: 10 }))
       .map(async () => myProductService.create(expectedMyProduct))
       .toArray()));
@@ -189,8 +179,6 @@ describe('search', () => {
       expect(results.find(_ => _.localeCompare(myProduct.get('id')) === 0)).toBeDefined();
       expectMyProduct(myProduct, expectedMyProduct, {
         myProductId: myProduct.get('id'),
-        expectedStore,
-        expectedStoreTags,
         expectedTags,
       });
     });
@@ -216,9 +204,7 @@ describe('searchAll', () => {
   });
 
   test('should return the my product matches the criteria', async () => {
-    const {
-      myProduct: expectedMyProduct, store: expectedStore, storeTags: expectedStoreTags, tags: expectedTags,
-    } = await createMyProductInfo();
+    const { myProduct: expectedMyProduct, tags: expectedTags } = await createMyProductInfo();
     const results = Immutable.fromJS(await Promise.all(Range(0, chance.integer({ min: 2, max: 5 }))
       .map(async () => myProductService.create(expectedMyProduct))
       .toArray()));
@@ -241,8 +227,6 @@ describe('searchAll', () => {
       expect(results.find(_ => _.localeCompare(myProduct.get('id')) === 0)).toBeDefined();
       expectMyProduct(myProduct, expectedMyProduct, {
         myProductId: myProduct.get('id'),
-        expectedStore,
-        expectedStoreTags,
         expectedTags,
       });
     });
