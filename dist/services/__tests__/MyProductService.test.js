@@ -246,7 +246,7 @@ describe('read', function () {
   })));
 
   test('should read the existing my product', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
-    var _ref10, expectedMyProduct, expectedStore, expectedStoreTags, expectedTags, myProductId, myProduct;
+    var _ref10, expectedMyProduct, expectedTags, myProductId, myProduct;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
@@ -258,29 +258,25 @@ describe('read', function () {
           case 2:
             _ref10 = _context6.sent;
             expectedMyProduct = _ref10.myProduct;
-            expectedStore = _ref10.store;
-            expectedStoreTags = _ref10.storeTags;
             expectedTags = _ref10.tags;
-            _context6.next = 9;
+            _context6.next = 7;
             return myProductService.create(expectedMyProduct);
 
-          case 9:
+          case 7:
             myProductId = _context6.sent;
-            _context6.next = 12;
+            _context6.next = 10;
             return myProductService.read(myProductId, createCriteriaWthoutConditions());
 
-          case 12:
+          case 10:
             myProduct = _context6.sent;
 
 
             (0, _MyProduct.expectMyProduct)(myProduct, expectedMyProduct, {
               myProductId: myProductId,
-              expectedStore: expectedStore,
-              expectedStoreTags: expectedStoreTags,
               expectedTags: expectedTags
             });
 
-          case 14:
+          case 12:
           case 'end':
             return _context6.stop();
         }
@@ -379,7 +375,7 @@ describe('update', function () {
   })));
 
   test('should update the existing my product', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
-    var _ref15, expectedMyProduct, expectedStore, expectedStoreTags, expectedTags, myProductId, myProduct;
+    var _ref15, expectedMyProduct, expectedTags, myProductId, myProduct;
 
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
@@ -391,39 +387,35 @@ describe('update', function () {
           case 2:
             _ref15 = _context9.sent;
             expectedMyProduct = _ref15.myProduct;
-            expectedStore = _ref15.store;
-            expectedStoreTags = _ref15.storeTags;
             expectedTags = _ref15.tags;
             _context9.t0 = myProductService;
-            _context9.next = 10;
+            _context9.next = 8;
             return (0, _MyProduct.createMyProductInfo)();
 
-          case 10:
+          case 8:
             _context9.t1 = _context9.sent.myProduct;
-            _context9.next = 13;
+            _context9.next = 11;
             return _context9.t0.create.call(_context9.t0, _context9.t1);
 
-          case 13:
+          case 11:
             myProductId = _context9.sent;
-            _context9.next = 16;
+            _context9.next = 14;
             return myProductService.update(expectedMyProduct.set('id', myProductId));
 
-          case 16:
-            _context9.next = 18;
+          case 14:
+            _context9.next = 16;
             return myProductService.read(myProductId, createCriteriaWthoutConditions());
 
-          case 18:
+          case 16:
             myProduct = _context9.sent;
 
 
             (0, _MyProduct.expectMyProduct)(myProduct, expectedMyProduct, {
               myProductId: myProductId,
-              expectedStore: expectedStore,
-              expectedStoreTags: expectedStoreTags,
               expectedTags: expectedTags
             });
 
-          case 20:
+          case 18:
           case 'end':
             return _context9.stop();
         }
@@ -531,7 +523,7 @@ describe('search', function () {
   })));
 
   test('should return the my product matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee14() {
-    var _ref20, expectedMyProduct, expectedStore, expectedStoreTags, expectedTags, results, myProducts;
+    var _ref20, expectedMyProduct, expectedTags, results, myProducts;
 
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
@@ -543,11 +535,9 @@ describe('search', function () {
           case 2:
             _ref20 = _context14.sent;
             expectedMyProduct = _ref20.myProduct;
-            expectedStore = _ref20.store;
-            expectedStoreTags = _ref20.storeTags;
             expectedTags = _ref20.tags;
             _context14.t0 = _immutable2.default;
-            _context14.next = 10;
+            _context14.next = 8;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 1, max: 10 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
               return regeneratorRuntime.wrap(function _callee13$(_context13) {
                 while (1) {
@@ -563,13 +553,13 @@ describe('search', function () {
               }, _callee13, undefined);
             }))).toArray());
 
-          case 10:
+          case 8:
             _context14.t1 = _context14.sent;
             results = _context14.t0.fromJS.call(_context14.t0, _context14.t1);
-            _context14.next = 14;
+            _context14.next = 12;
             return myProductService.search(createCriteria(expectedMyProduct));
 
-          case 14:
+          case 12:
             myProducts = _context14.sent;
 
 
@@ -580,13 +570,11 @@ describe('search', function () {
               })).toBeDefined();
               (0, _MyProduct.expectMyProduct)(myProduct, expectedMyProduct, {
                 myProductId: myProduct.get('id'),
-                expectedStore: expectedStore,
-                expectedStoreTags: expectedStoreTags,
                 expectedTags: expectedTags
               });
             });
 
-          case 17:
+          case 15:
           case 'end':
             return _context14.stop();
         }
@@ -632,7 +620,7 @@ describe('searchAll', function () {
   })));
 
   test('should return the my product matches the criteria', _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
-    var _ref24, expectedMyProduct, expectedStore, expectedStoreTags, expectedTags, results, myProducts, result;
+    var _ref24, expectedMyProduct, expectedTags, results, myProducts, result;
 
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
@@ -644,11 +632,9 @@ describe('searchAll', function () {
           case 2:
             _ref24 = _context17.sent;
             expectedMyProduct = _ref24.myProduct;
-            expectedStore = _ref24.store;
-            expectedStoreTags = _ref24.storeTags;
             expectedTags = _ref24.tags;
             _context17.t0 = _immutable2.default;
-            _context17.next = 10;
+            _context17.next = 8;
             return Promise.all((0, _immutable.Range)(0, chance.integer({ min: 2, max: 5 })).map(_asyncToGenerator(regeneratorRuntime.mark(function _callee16() {
               return regeneratorRuntime.wrap(function _callee16$(_context16) {
                 while (1) {
@@ -664,27 +650,27 @@ describe('searchAll', function () {
               }, _callee16, undefined);
             }))).toArray());
 
-          case 10:
+          case 8:
             _context17.t1 = _context17.sent;
             results = _context17.t0.fromJS.call(_context17.t0, _context17.t1);
             myProducts = (0, _immutable.List)();
             result = myProductService.searchAll(createCriteria(expectedMyProduct));
-            _context17.prev = 14;
+            _context17.prev = 12;
 
             result.event.subscribe(function (info) {
               myProducts = myProducts.push(info);
             });
 
-            _context17.next = 18;
+            _context17.next = 16;
             return result.promise;
 
-          case 18:
-            _context17.prev = 18;
+          case 16:
+            _context17.prev = 16;
 
             result.event.unsubscribeAll();
-            return _context17.finish(18);
+            return _context17.finish(16);
 
-          case 21:
+          case 19:
 
             expect(myProducts.count).toBe(results.count);
             myProducts.forEach(function (myProduct) {
@@ -693,18 +679,16 @@ describe('searchAll', function () {
               })).toBeDefined();
               (0, _MyProduct.expectMyProduct)(myProduct, expectedMyProduct, {
                 myProductId: myProduct.get('id'),
-                expectedStore: expectedStore,
-                expectedStoreTags: expectedStoreTags,
                 expectedTags: expectedTags
               });
             });
 
-          case 23:
+          case 21:
           case 'end':
             return _context17.stop();
         }
       }
-    }, _callee17, undefined, [[14,, 18, 21]]);
+    }, _callee17, undefined, [[12,, 16, 19]]);
   })));
 });
 
