@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _ShoppingList = require('./ShoppingList');
 
@@ -34,7 +34,7 @@ var DefaultShoppingList = function (_BaseObject) {
   }
 
   return DefaultShoppingList;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 DefaultShoppingList.spawn = function (info) {
   var object = new DefaultShoppingList();
@@ -45,8 +45,8 @@ DefaultShoppingList.spawn = function (info) {
 };
 
 DefaultShoppingList.updateInfoInternal = function (object, info) {
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'shoppingList', _ShoppingList2.default);
+  _parseServerCommon.BaseObject.createUserPointer(object, info, 'user');
+  _parseServerCommon.BaseObject.createPointer(object, info, 'shoppingList', _ShoppingList2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

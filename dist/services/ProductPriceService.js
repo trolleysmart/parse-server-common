@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var ProductPriceService = function (_ServiceBase) {
   }
 
   return ProductPriceService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 ProductPriceService.fields = _immutable.List.of('name', 'description', 'priceDetails', 'priceToDisplay', 'saving', 'savingPercentage', 'offerEndDate', 'status', 'special', 'barcode', 'size', 'imageUrl', 'productPageUrl', 'store', 'tags', 'storeProduct', 'createdByCrawler', 'authorizedToDisplay');
 
@@ -35,15 +35,15 @@ ProductPriceService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'storeProduct');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'storeProduct');
 
   return query;
 };
 
 ProductPriceService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ProductPrice, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.ProductPrice, criteria);
   var query = ProductPriceService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -53,25 +53,25 @@ ProductPriceService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   ProductPriceService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'saving', 'saving');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');
-  _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'productPageUrl', 'productPageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'storeProduct', 'storeProduct', _schema.StoreProduct);
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'authorizedToDisplay', 'authorizedToDisplay');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
+  _parseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'priceToDisplay', 'priceToDisplay');
+  _parseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'saving', 'saving');
+  _parseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'savingPercentage', 'savingPercentage');
+  _parseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'offerEndDate', 'offerEndDate');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'special', 'special');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'productPageUrl', 'productPageUrl');
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'storeProduct', 'storeProduct', _schema.StoreProduct);
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'createdByCrawler', 'createdByCrawler');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'authorizedToDisplay', 'authorizedToDisplay');
 
   return query;
 };

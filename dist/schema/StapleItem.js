@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _StapleTemplateItem = require('./StapleTemplateItem');
 
@@ -40,7 +40,7 @@ var StapleItem = function (_BaseObject) {
   }
 
   return StapleItem;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 StapleItem.spawn = function (info) {
   var object = new StapleItem();
@@ -51,13 +51,13 @@ StapleItem.spawn = function (info) {
 };
 
 StapleItem.updateInfoInternal = function (object, info) {
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('imageUrl', info.get('imageUrl'));
   object.set('popular', info.get('popular'));
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'stapleTemplateItem', _StapleTemplateItem2.default);
-  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
+  _parseServerCommon.BaseObject.createUserPointer(object, info, 'user');
+  _parseServerCommon.BaseObject.createPointer(object, info, 'stapleTemplateItem', _StapleTemplateItem2.default);
+  _parseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

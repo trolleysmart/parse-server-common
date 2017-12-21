@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,7 +32,7 @@ var ShoppingList = function (_BaseObject) {
   }
 
   return ShoppingList;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 ShoppingList.spawn = function (info) {
   var object = new ShoppingList();
@@ -43,9 +43,9 @@ ShoppingList.spawn = function (info) {
 };
 
 ShoppingList.updateInfoInternal = function (object, info) {
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
-  _microBusinessParseServerCommon.BaseObject.createUserArrayPointer(object, info, 'sharedWithUser');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _parseServerCommon.BaseObject.createUserPointer(object, info, 'user');
+  _parseServerCommon.BaseObject.createUserArrayPointer(object, info, 'sharedWithUser');
   object.set('status', info.get('status'));
 };
 

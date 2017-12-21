@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _Store = require('./Store');
 
@@ -44,7 +44,7 @@ var ProductPrice = function (_BaseObject) {
   }
 
   return ProductPrice;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 ProductPrice.spawn = function (info) {
   var object = new ProductPrice();
@@ -55,8 +55,8 @@ ProductPrice.spawn = function (info) {
 };
 
 ProductPrice.updateInfoInternal = function (object, info) {
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('priceDetails', info.get('priceDetails').toJS());
   object.set('priceToDisplay', info.get('priceToDisplay'));
   object.set('saving', info.get('saving'));
@@ -68,9 +68,9 @@ ProductPrice.updateInfoInternal = function (object, info) {
   object.set('size', info.get('size'));
   object.set('imageUrl', info.get('imageUrl'));
   object.set('productPageUrl', info.get('productPageUrl'));
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
-  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'storeProduct', _StoreProduct2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
+  _parseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'storeProduct', _StoreProduct2.default);
   object.set('createdByCrawler', info.get('createdByCrawler'));
   object.set('authorizedToDisplay', info.get('authorizedToDisplay'));
 };

@@ -1,7 +1,7 @@
 // @flow
 
 import { Map } from 'immutable';
-import { BaseObject } from 'micro-business-parse-server-common';
+import { BaseObject } from '@microbusiness/parse-server-common';
 import ShoppingList from './ShoppingList';
 
 export default class DefaultShoppingList extends BaseObject {

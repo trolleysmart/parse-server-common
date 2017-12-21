@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,7 +32,7 @@ var UserFeedback = function (_BaseObject) {
   }
 
   return UserFeedback;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 UserFeedback.spawn = function (info) {
   var object = new UserFeedback();
@@ -44,7 +44,7 @@ UserFeedback.spawn = function (info) {
 
 UserFeedback.updateInfoInternal = function (object, info) {
   object.set('feedback', info.get('feedback').toJS());
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'user');
+  _parseServerCommon.BaseObject.createUserPointer(object, info, 'user');
 };
 
 var _initialiseProps = function _initialiseProps() {

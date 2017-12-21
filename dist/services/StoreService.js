@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var StoreService = function (_ServiceBase) {
   }
 
   return StoreService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 StoreService.fields = _immutable.List.of('key', 'name', 'imageUrl', 'address', 'phones', 'geoLocation', 'openFrom', 'openUntil', 'forDisplay', 'parentStore', 'ownedByUser', 'maintainedByUsers', 'status', 'googleMapUrl');
 
@@ -35,15 +35,15 @@ StoreService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentStore');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'ownedByUser');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'maintainedByUsers');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentStore');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'ownedByUser');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'maintainedByUsers');
 
   return query;
 };
 
 StoreService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.Store, criteria);
   var query = StoreService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -53,21 +53,21 @@ StoreService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   StoreService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'address', 'address');
-  _microBusinessParseServerCommon.ServiceBase.addGeoLocationQuery(conditions, query, 'geoLocation', 'geoLocation');
-  _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'openFrom', 'openFrom');
-  _microBusinessParseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'openUntil', 'openUntil');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'forDisplay', 'forDisplay');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'parentStore', 'parentStore', _schema.Store);
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'ownedByUser', 'ownedByUser');
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'maintainedByUser', 'maintainedByUsers');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'googleMapUrl', 'googleMapUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'address', 'address');
+  _parseServerCommon.ServiceBase.addGeoLocationQuery(conditions, query, 'geoLocation', 'geoLocation');
+  _parseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'openFrom', 'openFrom');
+  _parseServerCommon.ServiceBase.addDateTimeQuery(conditions, query, 'openUntil', 'openUntil');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'forDisplay', 'forDisplay');
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'parentStore', 'parentStore', _schema.Store);
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'ownedByUser', 'ownedByUser');
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'maintainedByUser', 'maintainedByUsers');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'googleMapUrl', 'googleMapUrl');
 
   return query;
 };

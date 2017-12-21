@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var UserFeedbackService = function (_ServiceBase) {
   }
 
   return UserFeedbackService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 UserFeedbackService.fields = _immutable.List.of('feedback', 'user');
 
@@ -35,13 +35,13 @@ UserFeedbackService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
 
   return query;
 };
 
 UserFeedbackService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.UserFeedback, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.UserFeedback, criteria);
   var query = UserFeedbackService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -51,9 +51,9 @@ UserFeedbackService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   UserFeedbackService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
 
   return query;
 };

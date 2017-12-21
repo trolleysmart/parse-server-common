@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var MyProductService = function (_ServiceBase) {
   }
 
   return MyProductService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 MyProductService.fields = _immutable.List.of('name', 'description', 'barcode', 'productPageUrl', 'imageUrl', 'size', 'tags', 'ownedByUser');
 
@@ -35,14 +35,14 @@ MyProductService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'ownedByUser');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'ownedByUser');
 
   return query;
 };
 
 MyProductService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.MyProduct, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.MyProduct, criteria);
   var query = MyProductService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -52,17 +52,17 @@ MyProductService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   MyProductService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'productPageUrl', 'productPageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'productPageUrl', 'productPageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'ownedByUser', 'ownedByUser');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'barcode', 'barcode');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'productPageUrl', 'productPageUrl');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'productPageUrl', 'productPageUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'size', 'size');
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'ownedByUser', 'ownedByUser');
 
   return query;
 };

@@ -1,7 +1,7 @@
 // @flow
 
 import { Map } from 'immutable';
-import { BaseObject } from 'micro-business-parse-server-common';
+import { BaseObject } from '@microbusiness/parse-server-common';
 import Store from './Store';
 import Tag from './Tag';
 

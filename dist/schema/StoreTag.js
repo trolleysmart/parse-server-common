@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _Store = require('./Store');
 
@@ -38,7 +38,7 @@ var StoreTag = function (_BaseObject) {
   }
 
   return StoreTag;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 StoreTag.spawn = function (info) {
   var object = new StoreTag();
@@ -50,14 +50,14 @@ StoreTag.spawn = function (info) {
 
 StoreTag.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('imageUrl', info.get('imageUrl'));
   object.set('url', info.get('url'));
   object.set('level', info.get('level'));
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'parentStoreTag', StoreTag);
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'tag', _Tag2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'parentStoreTag', StoreTag);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'tag', _Tag2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

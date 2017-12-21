@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -41,7 +41,7 @@ var StapleTemplateItemService = function (_ServiceBase) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                acl = _microBusinessParseServerCommon.ParseWrapperService.createACL(user);
+                acl = _parseServerCommon.ParseWrapperService.createACL(user);
                 _context.next = 3;
                 return _this.search((0, _immutable.Map)({ limit: 1000 }));
 
@@ -70,7 +70,7 @@ var StapleTemplateItemService = function (_ServiceBase) {
   }
 
   return StapleTemplateItemService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 StapleTemplateItemService.fields = _immutable.List.of('name', 'description', 'imageUrl', 'popular', 'stapleTemplates', 'tags');
 
@@ -79,14 +79,14 @@ StapleTemplateItemService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleTemplates');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleTemplates');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
   return query;
 };
 
 StapleTemplateItemService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateItem, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.StapleTemplateItem, criteria);
   var query = StapleTemplateItemService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -96,14 +96,14 @@ StapleTemplateItemService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   StapleTemplateItemService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'popular', 'popular');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'stapleTemplate', 'stapleTemplates', _schema.StapleTemplate);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'popular', 'popular');
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'stapleTemplate', 'stapleTemplates', _schema.StapleTemplate);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
 
   return query;
 };

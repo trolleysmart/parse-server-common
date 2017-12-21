@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _ProductPrice = require('./ProductPrice');
 
@@ -52,7 +52,7 @@ var ShoppingListItem = function (_BaseObject) {
   }
 
   return ShoppingListItem;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 ShoppingListItem.spawn = function (info) {
   var object = new ShoppingListItem();
@@ -63,17 +63,17 @@ ShoppingListItem.spawn = function (info) {
 };
 
 ShoppingListItem.updateInfoInternal = function (object, info) {
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('imageUrl', info.get('imageUrl'));
   object.set('isPurchased', info.get('isPurchased'));
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'addedByUser');
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'removedByUser');
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'shoppingList', _ShoppingList2.default);
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'productPrice', _ProductPrice2.default);
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'stapleItem', _StapleItem2.default);
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
-  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
+  _parseServerCommon.BaseObject.createUserPointer(object, info, 'addedByUser');
+  _parseServerCommon.BaseObject.createUserPointer(object, info, 'removedByUser');
+  _parseServerCommon.BaseObject.createPointer(object, info, 'shoppingList', _ShoppingList2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'productPrice', _ProductPrice2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'stapleItem', _StapleItem2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
+  _parseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
 };
 
 var _initialiseProps = function _initialiseProps() {

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var DefaultShoppingListService = function (_ServiceBase) {
   }
 
   return DefaultShoppingListService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 DefaultShoppingListService.fields = _immutable.List.of('user', 'shoppingList');
 
@@ -35,14 +35,14 @@ DefaultShoppingListService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
 
   return query;
 };
 
 DefaultShoppingListService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.DefaultShoppingList, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.DefaultShoppingList, criteria);
   var query = DefaultShoppingListService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -52,10 +52,10 @@ DefaultShoppingListService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   DefaultShoppingListService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'shoppingList', 'shoppingList', _schema.ShoppingList);
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'shoppingList', 'shoppingList', _schema.ShoppingList);
 
   return query;
 };

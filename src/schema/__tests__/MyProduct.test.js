@@ -2,7 +2,7 @@
 
 import Chance from 'chance';
 import { Map } from 'immutable';
-import { ParseWrapperService } from 'micro-business-parse-server-common';
+import { ParseWrapperService } from '@microbusiness/parse-server-common';
 import uuid from 'uuid/v4';
 import { MyProduct } from '../';
 import createTags from '../../services/__tests__/TagService.test';

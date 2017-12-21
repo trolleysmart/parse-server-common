@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,7 +32,7 @@ var Store = function (_BaseObject) {
   }
 
   return Store;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 Store.spawn = function (info) {
   var object = new Store();
@@ -44,7 +44,7 @@ Store.spawn = function (info) {
 
 Store.updateInfoInternal = function (object, info) {
   object.set('key', info.get('key'));
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'name');
   object.set('imageUrl', info.get('imageUrl'));
   object.set('address', info.get('address'));
 
@@ -60,9 +60,9 @@ Store.updateInfoInternal = function (object, info) {
   object.set('openFrom', info.get('openFrom'));
   object.set('openUntil', info.get('openUntil'));
   object.set('forDisplay', info.get('forDisplay'));
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'parentStore', Store);
-  _microBusinessParseServerCommon.BaseObject.createUserPointer(object, info, 'ownedByUser');
-  _microBusinessParseServerCommon.BaseObject.createUserArrayPointer(object, info, 'maintainedByUser');
+  _parseServerCommon.BaseObject.createPointer(object, info, 'parentStore', Store);
+  _parseServerCommon.BaseObject.createUserPointer(object, info, 'ownedByUser');
+  _parseServerCommon.BaseObject.createUserArrayPointer(object, info, 'maintainedByUser');
   object.set('status', info.get('status'));
   object.set('googleMapUrl', info.get('googleMapUrl'));
 };

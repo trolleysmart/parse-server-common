@@ -1,7 +1,7 @@
 // @flow
 
 import { Map } from 'immutable';
-import { BaseObject } from 'micro-business-parse-server-common';
+import { BaseObject } from '@microbusiness/parse-server-common';
 
 export default class StapleTemplate extends BaseObject {
   static spawn = (info) => {

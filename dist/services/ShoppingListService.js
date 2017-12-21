@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var ShoppingListService = function (_ServiceBase) {
   }
 
   return ShoppingListService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 ShoppingListService.fields = _immutable.List.of('name', 'user', 'sharedWithUsers', 'status');
 
@@ -35,14 +35,14 @@ ShoppingListService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'sharedWithUsers');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'user');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'sharedWithUsers');
 
   return query;
 };
 
 ShoppingListService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingList, criteria);
   var query = ShoppingListService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -52,12 +52,12 @@ ShoppingListService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   ShoppingListService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'sharedWithUser', 'sharedWithUsers');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'user', 'user');
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'sharedWithUser', 'sharedWithUsers');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'status', 'status');
 
   return query;
 };

@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _Store = require('./Store');
 
@@ -44,7 +44,7 @@ var StoreProduct = function (_BaseObject) {
   }
 
   return StoreProduct;
-}(_microBusinessParseServerCommon.BaseObject);
+}(_parseServerCommon.BaseObject);
 
 StoreProduct.spawn = function (info) {
   var object = new StoreProduct();
@@ -55,16 +55,16 @@ StoreProduct.spawn = function (info) {
 };
 
 StoreProduct.updateInfoInternal = function (object, info) {
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'name');
-  _microBusinessParseServerCommon.BaseObject.createStringColumn(object, info, 'description');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'name');
+  _parseServerCommon.BaseObject.createStringColumn(object, info, 'description');
   object.set('barcode', info.get('barcode'));
   object.set('productPageUrl', info.get('productPageUrl'));
   object.set('imageUrl', info.get('imageUrl'));
   object.set('size', info.get('size'));
   object.set('lastCrawlDateTime', info.get('lastCrawlDateTime'));
-  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'storeTag', _StoreTag2.default);
-  _microBusinessParseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
-  _microBusinessParseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
+  _parseServerCommon.BaseObject.createArrayPointer(object, info, 'storeTag', _StoreTag2.default);
+  _parseServerCommon.BaseObject.createArrayPointer(object, info, 'tag', _Tag2.default);
+  _parseServerCommon.BaseObject.createPointer(object, info, 'store', _Store2.default);
   object.set('createdByCrawler', info.get('createdByCrawler'));
   object.set('authorizedToDisplay', info.get('authorizedToDisplay'));
 };

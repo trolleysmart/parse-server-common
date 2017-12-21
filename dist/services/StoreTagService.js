@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var StoreTagService = function (_ServiceBase) {
   }
 
   return StoreTagService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 StoreTagService.fields = _immutable.List.of('key', 'name', 'description', 'imageUrl', 'url', 'level', 'parentStoreTag', 'store', 'tag');
 
@@ -35,15 +35,15 @@ StoreTagService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentStoreTag');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tag');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'parentStoreTag');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tag');
 
   return query;
 };
 
 StoreTagService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.StoreTag, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.StoreTag, criteria);
   var query = StoreTagService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -53,17 +53,17 @@ StoreTagService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   StoreTagService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'url', 'url');
-  _microBusinessParseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'level', 'level');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'parentStoreTag', 'parentStoreTag', _schema.StoreTag);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tag', _schema.Tag);
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'key', 'key');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'url', 'url');
+  _parseServerCommon.ServiceBase.addNumberQuery(conditions, query, 'level', 'level');
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'parentStoreTag', 'parentStoreTag', _schema.StoreTag);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tag', _schema.Tag);
 
   return query;
 };

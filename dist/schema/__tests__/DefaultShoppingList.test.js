@@ -7,7 +7,7 @@ exports.expectDefaultShoppingList = exports.createDefaultShoppingList = exports.
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _v = require('uuid/v4');
 
@@ -33,7 +33,7 @@ var createDefaultShoppingListInfo = exports.createDefaultShoppingListInfo = func
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _microBusinessParseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
+            return _parseServerCommon.ParseWrapperService.createNewUser({ username: (0, _v2.default)() + '@email.com', password: '123456' }).signUp();
 
           case 2:
             user = _context.sent;

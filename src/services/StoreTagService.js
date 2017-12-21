@@ -1,7 +1,7 @@
 // @flow
 
 import { List } from 'immutable';
-import { ParseWrapperService, ServiceBase } from 'micro-business-parse-server-common';
+import { ParseWrapperService, ServiceBase } from '@microbusiness/parse-server-common';
 import { StoreTag, Store, Tag } from '../schema';
 
 export default class StoreTagService extends ServiceBase {

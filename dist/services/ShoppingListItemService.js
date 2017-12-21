@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _microBusinessParseServerCommon = require('micro-business-parse-server-common');
+var _parseServerCommon = require('@microbusiness/parse-server-common');
 
 var _schema = require('../schema');
 
@@ -26,7 +26,7 @@ var ShoppingListItemService = function (_ServiceBase) {
   }
 
   return ShoppingListItemService;
-}(_microBusinessParseServerCommon.ServiceBase);
+}(_parseServerCommon.ServiceBase);
 
 ShoppingListItemService.fields = _immutable.List.of('name', 'description', 'imageUrl', 'isPurchased', 'addedByUser', 'removedByUser', 'shoppingList', 'productPrice', 'stapleItem', 'store', 'tags');
 
@@ -35,19 +35,19 @@ ShoppingListItemService.buildIncludeQuery = function (query, criteria) {
     return query;
   }
 
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'addedByUser');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'removedByUser');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'productPrice');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleItem');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
-  _microBusinessParseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'addedByUser');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'removedByUser');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'shoppingList');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'productPrice');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'stapleItem');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'store');
+  _parseServerCommon.ServiceBase.addIncludeQuery(criteria, query, 'tags');
 
   return query;
 };
 
 ShoppingListItemService.buildSearchQuery = function (criteria) {
-  var queryWithoutIncludes = _microBusinessParseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingListItem, criteria);
+  var queryWithoutIncludes = _parseServerCommon.ParseWrapperService.createQuery(_schema.ShoppingListItem, criteria);
   var query = ShoppingListItemService.buildIncludeQuery(queryWithoutIncludes, criteria);
 
   if (!criteria.has('conditions')) {
@@ -57,19 +57,19 @@ ShoppingListItemService.buildSearchQuery = function (criteria) {
   var conditions = criteria.get('conditions');
 
   ShoppingListItemService.fields.forEach(function (field) {
-    _microBusinessParseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
+    _parseServerCommon.ServiceBase.addExistenceQuery(conditions, query, field);
   });
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
-  _microBusinessParseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'isPurchased', 'isPurchased');
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'addedByUser', 'addedByUser');
-  _microBusinessParseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'removedByUser', 'removedByUser');
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'shoppingList', 'shoppingList', _schema.ShoppingList);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'productPrice', 'productPrice', _schema.ProductPrice);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'stapleItem', 'stapleItem', _schema.StapleItem);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
-  _microBusinessParseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'name', 'nameLowerCase');
+  _parseServerCommon.ServiceBase.addStringQuery(conditions, query, 'description', 'descriptionLowerCase');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'imageUrl', 'imageUrl');
+  _parseServerCommon.ServiceBase.addEqualityQuery(conditions, query, 'isPurchased', 'isPurchased');
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'addedByUser', 'addedByUser');
+  _parseServerCommon.ServiceBase.addUserLinkQuery(conditions, query, 'removedByUser', 'removedByUser');
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'shoppingList', 'shoppingList', _schema.ShoppingList);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'productPrice', 'productPrice', _schema.ProductPrice);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'stapleItem', 'stapleItem', _schema.StapleItem);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'store', 'store', _schema.Store);
+  _parseServerCommon.ServiceBase.addLinkQuery(conditions, query, 'tag', 'tags', _schema.Tag);
 
   return query;
 };
